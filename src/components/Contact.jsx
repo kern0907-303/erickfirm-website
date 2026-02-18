@@ -62,7 +62,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#121212] relative border-t border-[#333]">
+    <section id="contact" className="py-24 bg-slate-50 relative border-t border-[#333]">
       <div className="container mx-auto px-6 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -74,7 +74,7 @@ const Contact = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-[#D4AF37] mb-4 tracking-wide">
             預約深度諮詢
           </h2>
-          <p className="text-[#E0E0E0] text-lg">
+          <p className="text-slate-800 text-lg">
             數據只是起點，整合才是關鍵。<br/>
             此通道專為<span className="text-[#00F0FF] font-bold">「頻率調頻」</span>與<span className="text-[#00F0FF] font-bold">「全維度戰略」</span>設立。
           </p>
@@ -94,7 +94,7 @@ const Contact = () => {
                   name="name"
                   value={formData.name}
                   required
-                  className="w-full bg-[#121212] border border-[#333] text-white p-4 rounded-sm focus:border-[#D4AF37] focus:outline-none transition-colors"
+                  className="w-full bg-slate-50 border border-[#333] text-slate-900 p-4 rounded-sm focus:border-[#D4AF37] focus:outline-none transition-colors"
                   placeholder="Erick Wang"
                   onChange={handleChange}
                 />
@@ -109,7 +109,7 @@ const Contact = () => {
                   name="email"
                   value={formData.email}
                   required
-                  className="w-full bg-[#121212] border border-[#333] text-white p-4 rounded-sm focus:border-[#D4AF37] focus:outline-none transition-colors"
+                  className="w-full bg-slate-50 border border-[#333] text-slate-900 p-4 rounded-sm focus:border-[#D4AF37] focus:outline-none transition-colors"
                   placeholder="contact@erickfirm.com"
                   onChange={handleChange}
                 />
@@ -126,7 +126,7 @@ const Contact = () => {
                   name="birthdate"
                   value={formData.birthdate}
                   required
-                  className="w-full bg-[#121212] border border-[#333] text-gray-400 p-4 rounded-sm focus:border-[#D4AF37] focus:outline-none transition-colors scheme-dark"
+                  className="w-full bg-slate-50 border border-[#333] text-slate-600 p-4 rounded-sm focus:border-[#D4AF37] focus:outline-none transition-colors scheme-dark"
                   onChange={handleChange}
                 />
                 <p className="text-[10px] text-[#666]">*諮詢前置作業所需參數</p>
@@ -139,7 +139,7 @@ const Contact = () => {
                 <select
                   name="inquiryType"
                   value={formData.inquiryType}
-                  className="w-full bg-[#121212] border border-[#333] text-white p-4 rounded-sm focus:border-[#D4AF37] focus:outline-none transition-colors"
+                  className="w-full bg-slate-50 border border-[#333] text-slate-900 p-4 rounded-sm focus:border-[#D4AF37] focus:outline-none transition-colors"
                   onChange={handleChange}
                 >
                   {/* 修改點：選項簡化，對齊戰略 */}
@@ -156,7 +156,7 @@ const Contact = () => {
                 name="message"
                 value={formData.message}
                 rows="4"
-                className="w-full bg-[#121212] border border-[#333] text-white p-4 rounded-sm focus:border-[#D4AF37] focus:outline-none transition-colors"
+                className="w-full bg-slate-50 border border-[#333] text-slate-900 p-4 rounded-sm focus:border-[#D4AF37] focus:outline-none transition-colors"
                 placeholder="請簡述您希望透過諮詢解決的具體問題..."
                 onChange={handleChange}
               ></textarea>
