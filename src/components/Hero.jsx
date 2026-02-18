@@ -44,7 +44,7 @@ const Hero = () => {
             </div>
 
             {/* H1: 破題 —— 關係的錯位 */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight font-sans text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight font-sans text-slate-900">
               人生所有的卡點，
               <br />
               都是<span className="text-[#D4AF37]">「關係」</span>的錯位。
@@ -55,7 +55,7 @@ const Hero = () => {
               <p className="text-[#00F0FF] text-xl md:text-2xl font-medium mb-4 tracking-wide">
                 不是情緒問題，是結構問題。
               </p>
-              <p className="text-gray-400 text-base md:text-lg leading-relaxed text-justify max-w-lg">
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed text-justify max-w-lg">
                 雞湯給你安慰，地圖給你路徑。<br />
                 我們不提供短暫的撫慰，而是運用『交易成本』與『信息場分析』，為你重新設計商業與人生的治理結構。
               </p>
