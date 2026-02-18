@@ -51,12 +51,12 @@ const About = () => {
             <h2 className="text-[#D4AF37] text-sm font-bold tracking-[0.3em] uppercase mb-4">
               WHO IS ERICK
             </h2>
-            <h3 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+            <h3 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
               我不看你的運氣<br />
               我看你的<span className="text-[#00F0FF]">結構參數</span>
             </h3>
             
-            <p className="text-gray-400 text-lg leading-relaxed mb-8 text-justify">
+            <p className="text-slate-600 text-lg leading-relaxed mb-8 text-justify">
               大多數的痛苦，不是因為你不夠努力，而是因為你試圖用錯誤的結構，去運作原本完美的能量。
               <br/><br/>
               作為一名關係結構工程師，我結合了 <b>NAS 生命數字</b> 的原廠設定分析，與 <b>Initial8</b> 的商業邏輯診斷。
@@ -70,9 +70,9 @@ const About = () => {
                 { icon: Cpu, title: "結構重組", desc: "優化底層邏輯" },
                 { icon: GitMerge, title: "頻率對齊", desc: "消除背景雜訊" }
               ].map((item, index) => (
-                <div key={index} className="flex flex-col gap-2 p-4 bg-[#121212] border border-[#222] rounded-sm hover:border-[#D4AF37]/30 transition-colors">
+                <div key={index} className="flex flex-col gap-2 p-4 bg-slate-50 border border-[#222] rounded-sm hover:border-[#D4AF37]/30 transition-colors">
                   <item.icon className="text-[#00F0FF] w-6 h-6 mb-1" />
-                  <h4 className="text-white font-bold text-sm">{item.title}</h4>
+                  <h4 className="text-slate-900 font-bold text-sm">{item.title}</h4>
                   <p className="text-[#666] text-xs">{item.desc}</p>
                 </div>
               ))}
