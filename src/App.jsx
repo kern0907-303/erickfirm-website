@@ -8,6 +8,7 @@ import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import { Toaster } from '@/components/ui/toaster';
 
+// Updated at: 2026-02-18 FORCE WHITE THEME
 function App() {
   return (
     <>
@@ -16,8 +17,11 @@ function App() {
         <meta name="description" content="Erick Life Firm - TimeWaver Frequency & Life Strategy" />
       </Helmet>
       
-      {/* 強制亮色背景 bg-slate-50 */}
-      <div className="min-h-screen bg-slate-50 text-slate-800 font-sans overflow-hidden">
+      {/* ⚠️ 強制設定白色背景 bg-white，文字深色 text-slate-900 */}
+      <div 
+        className="min-h-screen bg-white text-slate-900 font-sans overflow-hidden"
+        style={{ backgroundColor: '#ffffff', color: '#0f172a' }}
+      >
         <Header />
         <Hero />
         <Services />
