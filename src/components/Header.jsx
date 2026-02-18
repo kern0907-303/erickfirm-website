@@ -42,13 +42,13 @@ const Header = () => {
         <div className="hidden md:flex items-center gap-8">
           <button
             onClick={() => scrollToSection('services')}
-            className="text-gray-300 hover:text-[#00F0FF] transition-colors duration-300 font-medium"
+            className="text-slate-700 hover:text-[#00F0FF] transition-colors duration-300 font-medium"
           >
             Services
           </button>
           <button
             onClick={() => scrollToSection('about')}
-            className="text-gray-300 hover:text-[#00F0FF] transition-colors duration-300 font-medium"
+            className="text-slate-700 hover:text-[#00F0FF] transition-colors duration-300 font-medium"
           >
             About
           </button>
@@ -78,13 +78,13 @@ const Header = () => {
           <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
             <button
               onClick={() => scrollToSection('services')}
-              className="text-left text-gray-300 hover:text-[#00F0FF] transition-colors duration-300 font-medium py-2"
+              className="text-left text-slate-700 hover:text-[#00F0FF] transition-colors duration-300 font-medium py-2"
             >
               Services
             </button>
             <button
               onClick={() => scrollToSection('about')}
-              className="text-left text-gray-300 hover:text-[#00F0FF] transition-colors duration-300 font-medium py-2"
+              className="text-left text-slate-700 hover:text-[#00F0FF] transition-colors duration-300 font-medium py-2"
             >
               About
             </button>
