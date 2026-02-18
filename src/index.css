@@ -2,35 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    @apply scroll-smooth;
-  }
-  body {
-    @apply bg-white text-slate-800 font-sans antialiased;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display text-primary font-bold;
-  }
+/* 強制覆蓋所有背景設定 - NUCLEAR OPTION */
+body, #root, .min-h-screen {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
 }
 
-@layer components {
-  /* Elegant Button Styles */
-  .btn-gold-outline {
-    @apply border border-accent text-accent bg-transparent hover:bg-accent hover:text-white transition-all duration-300 rounded-md px-6 py-2 uppercase tracking-wider text-sm font-semibold;
-  }
-  
-  .btn-gold-solid {
-    @apply bg-accent text-white hover:bg-yellow-600 transition-all duration-300 rounded-md px-6 py-2 uppercase tracking-wider text-sm font-semibold shadow-soft;
-  }
-
-  /* Medical Tech Card Style */
-  .card-medical {
-    @apply bg-white rounded-xl border border-slate-100 shadow-soft hover:shadow-lg transition-all duration-300 p-6;
-  }
-  
-  /* Section Backgrounds */
-  .section-alt {
-    @apply bg-surface;
+/* Ensure no dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  body, #root, .min-h-screen {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
   }
 }
