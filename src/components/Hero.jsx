@@ -37,7 +37,7 @@ const Hero = () => {
           duration: 0.8
         }} className="text-left">
             {/* Tag: 定義我們是做工程的，不是做療癒的 */}
-            <div className="inline-block mb-8 px-4 py-2 border-l-2 border-[#D4AF37] bg-[#D4AF37]/5">
+            <div className="inline-block mb-8 px-4 py-2 border-l-2 border-[#D4AF37] bg-gradient-to-b from-slate-50 to-white/5">
               <span className="text-[#D4AF37] text-xs md:text-sm font-bold tracking-[0.3em] uppercase">
                 RELATIONSHIP ENGINEERING
               </span>
@@ -62,7 +62,7 @@ const Hero = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-5">
-              <button onClick={scrollToServices} className="px-8 py-4 bg-[#D4AF37] text-[#0A0A0A] rounded-sm font-bold text-lg hover:bg-[#C09B28] transition-all duration-300 tracking-widest">
+              <button onClick={scrollToServices} className="px-8 py-4 bg-gradient-to-b from-slate-50 to-white text-[#0A0A0A] rounded-sm font-bold text-lg hover:bg-gradient-to-b from-slate-50 to-white transition-all duration-300 tracking-widest">
                 查看修復協議
               </button>
             </div>
