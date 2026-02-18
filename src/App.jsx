@@ -20,7 +20,7 @@ function App() {
       </Helmet>
       
       {/* 3. 視覺修正：背景色改 #121212，文字改 #E0E0E0，防止視覺疲勞 */}
-      <div className="min-h-screen bg-white text-slate-800 font-sans overflow-hidden">
+      <div className="min-h-screen bg-slate-50 text-slate-800 font-sans overflow-hidden">
         <Header />
         <Hero />
         <Services />
