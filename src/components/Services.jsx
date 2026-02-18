@@ -40,18 +40,18 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-32 bg-[#121212] relative overflow-hidden">
+    <section id="services" className="py-32 bg-slate-50 relative overflow-hidden">
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="mb-20 max-w-3xl">
           <h2 className="text-sm font-bold text-[#D4AF37] tracking-[0.3em] uppercase mb-4">
             THE PROTOCOL
           </h2>
-          <h3 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+          <h3 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
             一套修復關係的<br/>
             <span className="text-[#00F0FF]">系統工程</span>
           </h3>
-          <p className="text-gray-400 text-lg leading-relaxed">
+          <p className="text-slate-600 text-lg leading-relaxed">
             我們不解決表面的症狀，我們修復底層的連結。<br/>
             從內在原廠設定，到外在商業契約，按順序重建你的生活秩序。
           </p>
@@ -77,7 +77,7 @@ const Services = () => {
 
               <div className="relative z-10 flex-grow">
                 {/* Icon */}
-                <div className="w-12 h-12 bg-[#121212] border border-[#D4AF37]/30 flex items-center justify-center mb-8 group-hover:border-[#00F0FF]/50 transition-colors">
+                <div className="w-12 h-12 bg-slate-50 border border-[#D4AF37]/30 flex items-center justify-center mb-8 group-hover:border-[#00F0FF]/50 transition-colors">
                   <item.icon className="text-[#D4AF37] w-6 h-6 group-hover:text-[#00F0FF] transition-colors" />
                 </div>
 
@@ -87,12 +87,12 @@ const Services = () => {
                 </div>
 
                 {/* 品牌名 */}
-                <h4 className="text-2xl font-bold text-white mb-1">
+                <h4 className="text-2xl font-bold text-slate-900 mb-1">
                   {item.name}
                 </h4>
 
                 {/* 描述 */}
-                <p className="text-gray-400 text-sm leading-7 text-justify mt-4">
+                <p className="text-slate-600 text-sm leading-7 text-justify mt-4">
                   {item.desc}
                 </p>
               </div>
