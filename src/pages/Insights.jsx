@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const TABS = ['全部', '企業醫生', '能量氣象站', '個人頻率校準', '生命數字'];
 
@@ -65,11 +66,14 @@ const Insights = () => {
                     <span className="text-xs font-bold px-3 py-1 bg-slate-50 text-slate-600 rounded-sm">{project}</span>
                     <span className="text-xs text-slate-400">{date}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-[#D4AF37] transition-colors">{title}</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-8 flex-grow">{excerpt}</p>
+                  <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-[#D4AF37] transition-colors line-clamp-2">{title}</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-8 flex-grow line-clamp-3">{excerpt}</p>
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-50">
                     <span className="text-sm font-bold text-[#D4AF37]">{format}</span>
-                    <button className="text-slate-900 font-bold text-sm tracking-wider hover:text-[#D4AF37]">READ MORE →</button>
+                    {/* 改為使用 Link 連結到動態路徑 */}
+                    <Link to={`/insights/${article.id}`} className="text-slate-900 font-bold text-sm tracking-wider hover:text-[#D4AF37] transition-all">
+                      READ MORE →
+                    </Link>
                   </div>
                 </div>
               );
