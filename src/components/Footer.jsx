@@ -11,13 +11,14 @@ const Footer = () => {
           </div>
           
           <div className="flex flex-wrap justify-center gap-8 text-sm font-medium">
-            <a href="#services" className="text-slate-400 hover:text-white transition-colors">服務項目</a>
-            <a href="#about" className="text-slate-400 hover:text-white transition-colors">關於我們</a>
-            <a href="#contact" className="text-slate-400 hover:text-white transition-colors">預約諮詢</a>
+            {/* 連結調亮為 slate-300 */}
+            <a href="#services" className="text-slate-300 hover:text-white transition-colors">服務項目</a>
+            <a href="#about" className="text-slate-300 hover:text-white transition-colors">關於我們</a>
+            <a href="#contact" className="text-slate-300 hover:text-white transition-colors">預約諮詢</a>
           </div>
         </div>
         
-        <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 tracking-wide">
+        <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400 tracking-wide">
           <p>© {new Date().getFullYear()} Erick Firm. All rights reserved.</p>
           <p className="mt-4 md:mt-0">運用信息場技術，重塑治理結構。</p>
         </div>
