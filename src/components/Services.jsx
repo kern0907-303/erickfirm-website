@@ -23,30 +23,25 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-24 bg-white">
+    <section id="services" className="py-24 bg-[#F8FAFC]">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center mb-16">
-          <h2 className="text-sm text-[#D4AF37] font-bold tracking-[0.3em] uppercase mb-3">Core Protocols</h2>
+          <h2 className="text-sm text-[#D4AF37] font-bold tracking-[0.3em] uppercase mb-4">Core Protocols</h2>
           <h3 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 font-display">核心修復協議</h3>
-          <div className="w-24 h-1 bg-[#D4AF37] mx-auto"></div>
+          <p className="text-slate-500 max-w-2xl mx-auto">精準定位問題根源，提供結構性的修復方案</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {services.map((srv) => (
-            <div key={srv.id} className="group bg-white rounded-2xl p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 hover:-translate-y-2 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 relative overflow-hidden">
-              {/* 背景大數字浮水印 (極淺灰) */}
-              <div className="absolute -right-4 -top-8 text-8xl font-black text-slate-50 pointer-events-none group-hover:text-[#D4AF37]/5 transition-colors">
-                {srv.id}
-              </div>
-              
-              <div className="text-4xl mb-6 bg-slate-50 w-16 h-16 rounded-xl flex items-center justify-center border border-slate-100 text-[#D4AF37]">
+            <div key={srv.id} className="bg-white rounded-xl p-10 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border-t-4 border-[#D4AF37] hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+              <div className="text-3xl mb-8 w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center text-[#D4AF37]">
                 {srv.icon}
               </div>
               
-              <h4 className="text-2xl font-bold text-slate-900 mb-4">{srv.title}</h4>
-              <p className="text-slate-600 leading-relaxed mb-8 text-justify">{srv.desc}</p>
+              <h4 className="text-xl font-bold text-slate-900 mb-4">{srv.title}</h4>
+              <p className="text-slate-500 leading-relaxed mb-8 text-sm md:text-base text-justify">{srv.desc}</p>
               
-              <button className="text-[#D4AF37] font-bold tracking-wider hover:text-slate-900 transition-colors flex items-center gap-2 text-sm uppercase">
+              <button className="text-slate-900 font-bold tracking-wider hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm uppercase">
                 了解更多 <span className="text-lg">→</span>
               </button>
             </div>
