@@ -1,45 +1,45 @@
 exports.handler = async function(event, context) {
+  const { postId } = event.queryStringParameters;
+  const NOTION_KEY = process.env.NOTION_API_KEY;
+  const DB_ID = process.env.NOTION_DATABASE_ID.replace(/-/g, '').trim();
+
   try {
-    // 自動清理 ID 格式，確保沒有空格或特殊符號
-    const databaseId = process.env.NOTION_DATABASE_ID.replace(/-/g, '').trim();
-    
-    const response = await fetch(`https://api.notion.com/v1/databases/${databaseId}/query`, {
+    // 如果有 postId，則獲取單篇內文
+    if (postId) {
+      const pageRes = await fetch(`https://api.notion.com/v1/pages/${postId}`, {
+        headers: { 'Authorization': `Bearer ${NOTION_KEY}`, 'Notion-Version': '2022-06-28' }
+      });
+      const blockRes = await fetch(`https://api.notion.com/v1/blocks/${postId}/children`, {
+        headers: { 'Authorization': `Bearer ${NOTION_KEY}`, 'Notion-Version': '2022-06-28' }
+      });
+      
+      const page = await pageRes.json();
+      const blocks = await blockRes.json();
+      
+      return {
+        statusCode: 200,
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ page, blocks: blocks.results })
+      };
+    }
+
+    // 否則獲取文章列表
+    const response = await fetch(`https://api.notion.com/v1/databases/${DB_ID}/query`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.NOTION_API_KEY.trim()}`,
+        'Authorization': `Bearer ${NOTION_KEY}`,
         'Notion-Version': '2022-06-28',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        page_size: 100
-      })
+      body: JSON.stringify({ page_size: 100 })
     });
-    
     const data = await response.json();
-    
-    // 如果 Notion 回傳錯誤，我們會在這裡看到原因
-    if (data.object === 'error') {
-      console.error("Notion API Error:", data.message);
-      return {
-        statusCode: 400,
-        headers: { 'Access-Control-Allow-Origin': '*' },
-        body: JSON.stringify({ error: data.message })
-      };
-    }
-    
     return {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Access-Control-Allow-Origin': '*' },
       body: JSON.stringify(data)
     };
   } catch (error) {
-    return {
-      statusCode: 500,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: 'Server Error' })
-    };
+    return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
   }
 };
