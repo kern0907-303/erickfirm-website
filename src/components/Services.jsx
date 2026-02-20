@@ -28,18 +28,20 @@ const Services = () => {
         <div className="text-center mb-16">
           <h2 className="text-sm text-[#D4AF37] font-bold tracking-[0.3em] uppercase mb-4">Core Protocols</h2>
           <h3 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 font-display">核心修復協議</h3>
-          <p className="text-slate-500 max-w-2xl mx-auto">精準定位問題根源，提供結構性的修復方案</p>
+          {/* 這裡加深為 slate-600 */}
+          <p className="text-slate-600 max-w-2xl mx-auto font-medium">精準定位問題根源，提供結構性的修復方案</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {services.map((srv) => (
-            <div key={srv.id} className="bg-white rounded-xl p-10 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border-t-4 border-[#D4AF37] hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
-              <div className="text-3xl mb-8 w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center text-[#D4AF37]">
+            <div key={srv.id} className="bg-white rounded-xl p-10 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] border-t-4 border-[#D4AF37] hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+              <div className="text-3xl mb-8 w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center text-[#D4AF37] border border-slate-100">
                 {srv.icon}
               </div>
               
               <h4 className="text-xl font-bold text-slate-900 mb-4">{srv.title}</h4>
-              <p className="text-slate-500 leading-relaxed mb-8 text-sm md:text-base text-justify">{srv.desc}</p>
+              {/* 這裡加深為 slate-700，保證好讀 */}
+              <p className="text-slate-700 leading-relaxed mb-8 text-sm md:text-base text-justify font-medium">{srv.desc}</p>
               
               <button className="text-slate-900 font-bold tracking-wider hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm uppercase">
                 了解更多 <span className="text-lg">→</span>
