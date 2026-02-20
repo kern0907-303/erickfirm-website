@@ -15,3 +15,12 @@ body, #root, .min-h-screen {
     color: #1e293b !important;
   }
 }
+
+/* FORCE LIGHT THEME OVERRIDE */
+:root {
+  color-scheme: light !important;
+}
+body {
+  color: #0f172a !important; /* Slate 900 */
+  background-color: #ffffff !important;
+}
