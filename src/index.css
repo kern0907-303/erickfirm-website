@@ -2,35 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 強制覆蓋所有背景設定 - NUCLEAR OPTION */
-body, #root, .min-h-screen {
-  background-color: #ffffff !important;
-  color: #1e293b !important;
-}
+/* =========================================
+   TimeWaver 醫療科技風 (強制亮色覆寫)
+   ========================================= */
 
-/* Ensure no dark mode overrides */
-@media (prefers-color-scheme: dark) {
-  body, #root, .min-h-screen {
-    background-color: #ffffff !important;
-    color: #1e293b !important;
-  }
-}
-
-/* FORCE LIGHT THEME OVERRIDE */
+/* 1. 強制系統與網頁基底為亮色 */
 :root {
   color-scheme: light !important;
 }
-body {
-  color: #0f172a !important; /* Slate 900 */
+
+body, #root, .min-h-screen {
   background-color: #ffffff !important;
+  color: #0f172a !important;
 }
 
-/* 終極保底：強制所有 section 與 main 為亮色 */
+/* 2. 終極保底：強制所有主要區塊為透明或白底，避免黑塊殘留 */
 section, main, header {
   background-color: transparent !important;
   color: #0f172a !important;
 }
-/* 強制標題與段落字體為深色 */
-h1, h2, h3, h4, p {
+
+/* 3. 強制所有標題與內文為深海軍藍 (確保白底上絕對可見) */
+h1, h2, h3, h4, h5, h6, p {
   color: #0f172a !important;
+}
+
+/* 4. 針對可能殘留的深色卡片背景做強制覆寫 */
+.bg-\[\#121212\], .bg-\[\#1E1E1E\], .bg-gray-900, .bg-black {
+  background-color: #f8fafc !important; /* 轉為極淺灰 */
+}
+
+/* 5. 針對寫死的白字做強制覆寫 */
+.text-white, .text-gray-300, .text-gray-400, .text-\[\#E0E0E0\] {
+  color: #475569 !important; /* 轉為舒適的深灰色 */
 }
