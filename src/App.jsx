@@ -1,18 +1,27 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import Insights from './pages/Insights'; // 這是我們剛新建的檔案
+import Insights from './pages/Insights';
+import PostDetail from './pages/PostDetail'; // 新增
 
-// 【首頁封裝】把原本 App 裡的內容全部包在這裡
+// 換頁時自動捲動到頂部
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 const Home = () => (
   <>
     <Hero />
     <Services />
-    {/* 如果你有 About 元件，請在這裡補上 <About /> */}
     <Contact />
   </>
 );
@@ -20,19 +29,21 @@ const Home = () => (
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-white">
-        {/* Header 放在 Routes 外，保證全站可見 */}
+      <ScrollToTop />
+      <Helmet>
+        <title>Erick Life Firm | 艾瑞克人生事務所</title>
+        <meta name="description" content="Erick Life Firm - TimeWaver Frequency & Life Strategy" />
+      </Helmet>
+
+      <div className="min-h-screen bg-white text-slate-900 font-sans">
         <Header />
         
         <Routes>
-          {/* 當網址是 / 時顯示首頁內容 */}
           <Route path="/" element={<Home />} />
-          
-          {/* 當網址是 /insights 時顯示文章列表 */}
           <Route path="/insights" element={<Insights />} />
+          <Route path="/insights/:id" element={<PostDetail />} />
         </Routes>
 
-        {/* Footer 放在 Routes 外，保證全站可見 */}
         <Footer />
       </div>
     </Router>
