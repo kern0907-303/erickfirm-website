@@ -24,3 +24,13 @@ body {
   color: #0f172a !important; /* Slate 900 */
   background-color: #ffffff !important;
 }
+
+/* 終極保底：強制所有 section 與 main 為亮色 */
+section, main, header {
+  background-color: transparent !important;
+  color: #0f172a !important;
+}
+/* 強制標題與段落字體為深色 */
+h1, h2, h3, h4, p {
+  color: #0f172a !important;
+}
