@@ -1,0 +1,117 @@
+{
+  "posts": [
+    {
+      "id": "fb-ent-cashflow",
+      "service": "enterprise-doctor",
+      "slug": "cashflow-healthcheck",
+      "title": {
+        "zh-TW": "企業醫生：現金流體質三層檢查表",
+        "en": "Enterprise Doctor: A 3-Layer Cashflow Health Check"
+      },
+      "excerpt": {
+        "zh-TW": "用 30 分鐘盤點收入穩定度、成本彈性與風險曝險，先止血再優化。",
+        "en": "Audit revenue stability, cost elasticity, and risk exposure in 30 minutes."
+      },
+      "publishDate": "2026-02-20",
+      "format": "Article",
+      "blocks": [
+        { "id": "fb-ent-cashflow-1", "type": "heading_2", "text": "先看能不能活，再談成長" },
+        { "id": "fb-ent-cashflow-2", "type": "paragraph", "text": "先把每月固定支出與可變支出分開，確認最差情境能撐幾個月。" },
+        { "id": "fb-ent-cashflow-3", "type": "bulleted_list_item", "text": "建立 90 天現金流預測表" }
+      ]
+    },
+    {
+      "id": "fb-ent-dashboard",
+      "service": "enterprise-doctor",
+      "slug": "minimum-kpi-dashboard",
+      "title": {
+        "zh-TW": "企業醫生：低成本建立內部儀表板",
+        "en": "Enterprise Doctor: Build a Lean Internal Dashboard"
+      },
+      "excerpt": {
+        "zh-TW": "先聚焦三個指標：獲客效率、交付效率、回款效率。",
+        "en": "Start with three KPIs: acquisition, delivery, and collection efficiency."
+      },
+      "publishDate": "2026-02-08",
+      "format": "Article",
+      "blocks": [
+        { "id": "fb-ent-dashboard-1", "type": "heading_2", "text": "儀表板不是越多越好" },
+        { "id": "fb-ent-dashboard-2", "type": "paragraph", "text": "先用最小指標集支撐管理節奏，避免團隊被報表綁架。" }
+      ]
+    },
+    {
+      "id": "fb-life-patterns",
+      "service": "life-number",
+      "slug": "pattern-to-strategy",
+      "title": {
+        "zh-TW": "生命數字：從模式辨識到策略調整",
+        "en": "Numerology: From Pattern Recognition to Strategy Shift"
+      },
+      "excerpt": {
+        "zh-TW": "數字不是標籤，而是決策偏好的提示，重點在行動修正。",
+        "en": "Numbers are not labels. They are cues to adjust your decision patterns."
+      },
+      "publishDate": "2026-02-12",
+      "format": "Article",
+      "blocks": [
+        { "id": "fb-life-patterns-1", "type": "heading_2", "text": "先理解慣性，再設計反制" },
+        { "id": "fb-life-patterns-2", "type": "paragraph", "text": "觀察自己在壓力情境下的重複行為，建立替代反應腳本。" }
+      ]
+    },
+    {
+      "id": "fb-life-context",
+      "service": "life-number",
+      "slug": "context-decision-alignment",
+      "title": {
+        "zh-TW": "生命數字：情境與決策對位指南",
+        "en": "Numerology: Context-to-Decision Alignment Guide"
+      },
+      "excerpt": {
+        "zh-TW": "以情境為主軸，找到最不耗損的溝通與行動策略。",
+        "en": "Use context-first analysis to pick lower-friction communication strategies."
+      },
+      "publishDate": "2026-01-30",
+      "format": "Article",
+      "blocks": [
+        { "id": "fb-life-context-1", "type": "paragraph", "text": "同一個數字特質，在不同角色下會有不同決策表現。" }
+      ]
+    },
+    {
+      "id": "fb-growth-boundary",
+      "service": "personal-growth",
+      "slug": "boundary-for-high-output",
+      "title": {
+        "zh-TW": "個人成長：高產出不透支的邊界設計",
+        "en": "Personal Growth: Boundary Design for Sustainable Output"
+      },
+      "excerpt": {
+        "zh-TW": "把時間、精力、注意力分開管理，避免承諾透支。",
+        "en": "Manage time, energy, and attention separately to avoid overcommitment."
+      },
+      "publishDate": "2026-02-15",
+      "format": "Article",
+      "blocks": [
+        { "id": "fb-growth-boundary-1", "type": "heading_2", "text": "承諾前先看資源池" },
+        { "id": "fb-growth-boundary-2", "type": "bulleted_list_item", "text": "同時最多三個重點專案" }
+      ]
+    },
+    {
+      "id": "fb-growth-rhythm",
+      "service": "personal-growth",
+      "slug": "weekly-rhythm-reset",
+      "title": {
+        "zh-TW": "個人成長：每週節奏重置法",
+        "en": "Personal Growth: Weekly Rhythm Reset"
+      },
+      "excerpt": {
+        "zh-TW": "用固定節奏回顧，讓目標推進而非被任務淹沒。",
+        "en": "A fixed weekly reset keeps you goal-driven instead of task-driven."
+      },
+      "publishDate": "2026-01-25",
+      "format": "Article",
+      "blocks": [
+        { "id": "fb-growth-rhythm-1", "type": "paragraph", "text": "每週固定一小時，盤點完成、延遲、取消三類事項。" }
+      ]
+    }
+  ]
+}
