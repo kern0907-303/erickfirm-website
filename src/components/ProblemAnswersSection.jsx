@@ -21,7 +21,7 @@ const copy = {
       },
       {
         q: '我不知道該做什麼，誰可以幫我分析？',
-        a: '先做生命數字的決策偏好與角色對位分析，釐清你現在該先做哪一件事、該先放下哪一件事。',
+        a: '先做個人藍圖規劃的決策偏好與角色對位分析，釐清你現在該先做哪一件事、該先放下哪一件事。',
         to: '/insights/life-number',
         cta: '看方向分析入口',
       },
@@ -45,7 +45,7 @@ const copy = {
       },
       {
         q: 'I feel stuck. Who can help me analyze my direction?',
-        a: 'Start with Numerology to map decision preference and role alignment, then define what to do first and what to pause.',
+        a: 'Start with Personal Blueprint Planning to map decision preference and role alignment, then define what to do first and what to pause.',
         to: '/insights/life-number',
         cta: 'See Direction Analysis',
       },

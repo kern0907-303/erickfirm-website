@@ -7,7 +7,7 @@ const copy = {
     desc: '陌生訪客最在意的不是理念，而是流程是否可信、結果是否可預期。',
     steps: [
       { title: '問題定義', desc: '先把問題從「感覺」變成可觀察的結構與指標。' },
-      { title: '服務對位', desc: '依照你的情境，對應企業醫生、生命數字或個人成長路徑。' },
+      { title: '服務對位', desc: '依照你的情境，對應企業醫生、個人藍圖規劃或個人成長路徑。' },
       { title: '執行優化', desc: '用週期檢核機制持續調整，而不是一次性建議。' },
       { title: '成果追蹤', desc: '以決策品質、內耗程度、輸出穩定度回看成效。' },
     ],
@@ -22,7 +22,7 @@ const copy = {
     desc: 'New visitors care about one thing: is the process credible and are outcomes predictable?',
     steps: [
       { title: 'Define the Problem', desc: 'Turn vague pressure into observable structure and indicators.' },
-      { title: 'Match the Service', desc: 'Map your scenario to Enterprise Doctor, Numerology, or Personal Growth.' },
+      { title: 'Match the Service', desc: 'Map your scenario to Enterprise Doctor, Personal Blueprint Planning, or Personal Growth.' },
       { title: 'Optimize Execution', desc: 'Use cycle-based checkpoints, not one-off recommendations.' },
       { title: 'Track Outcomes', desc: 'Review decision quality, internal friction, and output stability.' },
     ],
