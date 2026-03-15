@@ -43,7 +43,7 @@ export const i18n = {
     services: {
       all: '全部',
       'enterprise-doctor': '企業醫生',
-      'life-number': '個人藍圖規劃',
+      'life-number': '生命藍圖規劃',
       'personal-growth': '個人成長',
     },
     fallbackHint: '目前使用備援內容',
@@ -63,7 +63,7 @@ export const i18n = {
     services: {
       all: 'All',
       'enterprise-doctor': 'Enterprise Doctor',
-      'life-number': 'Personal Blueprint Planning',
+      'life-number': 'Life Blueprint Planning',
       'personal-growth': 'Personal Growth',
     },
     fallbackHint: 'Using fallback content',

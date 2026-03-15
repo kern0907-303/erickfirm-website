@@ -24,11 +24,11 @@ const copy = {
       },
       {
         id: '02',
-        title: '個人藍圖規劃',
+        title: '生命藍圖規劃',
         problem: '解決決策混亂與角色錯位',
         outcome: '釐清角色分工與決策邏輯，避免反覆內耗',
         to: '/insights/life-number',
-        cta: '看個人藍圖規劃分析',
+        cta: '看生命藍圖規劃分析',
       },
       {
         id: '03',
@@ -59,11 +59,11 @@ const copy = {
       },
       {
         id: '02',
-        title: 'Personal Blueprint Planning',
+        title: 'Life Blueprint Planning',
         problem: 'Fix decision confusion and role mismatch',
         outcome: 'Clarify decision logic and team roles to reduce repeated friction',
         to: '/insights/life-number',
-        cta: 'Explore Personal Blueprint Planning',
+        cta: 'Explore Life Blueprint Planning',
       },
       {
         id: '03',

@@ -12,7 +12,7 @@ const copy = {
     stats: ['核心服務分艙', '標準執行步驟', '客製化診斷與建議', '首頁可直接回答常見疑問'],
     services: [
       { id: '01', title: '企業醫生', audience: '創辦人、管理層、成長瓶頸中的團隊', solve: '營收停滯、內耗升高、決策節奏混亂', method: '體質盤點 → 風險診斷 → 結構重整 → KPI回看', outcome: '降低交易成本，提升決策效率與現金流穩定度', timeline: '通常 1-4 週可看到管理節奏改善', path: '/insights/enterprise-doctor' },
-      { id: '02', title: '個人藍圖規劃', audience: '方向混亂、角色多重、常在關鍵時刻卡住決策的人', solve: '決策反覆、角色錯位、溝通誤解與合作磨耗', method: '決策偏好盤點 → 角色對位分析 → 情境策略建議 → 週期校正', outcome: '看清自己的決策模式，讓選擇更快更穩，合作更順暢', timeline: '通常 1-3 週可看到決策清晰度與溝通效率改善', path: '/insights/life-number' },
+      { id: '02', title: '生命藍圖規劃', audience: '方向混亂、角色多重、常在關鍵時刻卡住決策的人', solve: '決策反覆、角色錯位、溝通誤解與合作磨耗', method: '決策偏好盤點 → 角色對位分析 → 情境策略建議 → 週期校正', outcome: '看清自己的決策模式，讓選擇更快更穩，合作更順暢', timeline: '通常 1-3 週可看到決策清晰度與溝通效率改善', path: '/insights/life-number' },
       { id: '03', title: '個人成長', audience: '需要提升行動力與決策力的決策者', solve: '執行拖延、決策遲疑、節奏失衡', method: 'TimeWaver 分析 → 核心問題定位 → 個人化支持建議 → 週期回看', outcome: '看見真正卡點，重建穩定節奏與決策清晰度', timeline: '通常 2-6 週可看到行動與決策表現改善', path: '/insights/personal-growth' },
     ],
   },
@@ -25,7 +25,7 @@ const copy = {
     stats: ['Distinct service tracks', 'Standard execution steps', 'Tailored diagnostic support', 'Questions answered on homepage'],
     services: [
       { id: '01', title: 'Enterprise Doctor', audience: 'Founders and leaders facing growth bottlenecks', solve: 'Stalled revenue, internal friction, and unstable decision cadence', method: 'Health audit → Risk diagnosis → Structure redesign → KPI review', outcome: 'Lower transaction cost and stronger decision speed', timeline: 'Visible improvement in 1-4 weeks', path: '/insights/enterprise-doctor' },
-      { id: '02', title: 'Personal Blueprint Planning', audience: 'People with role complexity and recurring decision conflicts', solve: 'Decision loops, role mismatch, and communication friction', method: 'Decision preference mapping → Role alignment → Scenario strategy → Cycle reset', outcome: 'Clearer choices and smoother collaboration', timeline: 'Visible clarity in 1-3 weeks', path: '/insights/life-number' },
+      { id: '02', title: 'Life Blueprint Planning', audience: 'People with role complexity and recurring decision conflicts', solve: 'Decision loops, role mismatch, and communication friction', method: 'Decision preference mapping → Role alignment → Scenario strategy → Cycle reset', outcome: 'Clearer choices and smoother collaboration', timeline: 'Visible clarity in 1-3 weeks', path: '/insights/life-number' },
       { id: '03', title: 'Personal Growth', audience: 'Decision-makers improving execution and decision quality', solve: 'Execution delay, decision hesitation, and unstable rhythm', method: 'TimeWaver analysis → Core issue mapping → Personalized support plan → Cycle review', outcome: 'Higher execution consistency and better decision quality', timeline: 'Visible improvement in 2-6 weeks', path: '/insights/personal-growth' },
     ],
   },

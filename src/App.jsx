@@ -45,8 +45,8 @@ const buildHomeStructuredData = (locale) => ({
       name: 'Erick Firm',
       url: 'https://erickfirm.com',
       description: locale === 'en'
-        ? 'Three service tracks: Enterprise Doctor, Personal Blueprint Planning, and Personal Growth.'
-        : '提供企業醫生、個人藍圖規劃、個人成長三大核心服務，協助決策者建立可持續成長系統。',
+        ? 'Three service tracks: Enterprise Doctor, Life Blueprint Planning, and Personal Growth.'
+        : '提供企業醫生、生命藍圖規劃、個人成長三大核心服務，協助決策者建立可持續成長系統。',
     },
     { '@type': 'WebSite', name: 'Erick Firm', url: 'https://erickfirm.com' },
     {
@@ -60,7 +60,7 @@ const buildHomeStructuredData = (locale) => ({
     },
     {
       '@type': 'Service',
-      name: locale === 'en' ? 'Personal Blueprint Planning' : '個人藍圖規劃',
+      name: locale === 'en' ? 'Life Blueprint Planning' : '生命藍圖規劃',
       provider: { '@type': 'Organization', name: 'Erick Firm' },
       serviceType: 'Decision Pattern & Role Alignment',
       description: locale === 'en'
@@ -96,9 +96,9 @@ function App() {
     <Router>
       <ScrollToTop />
       <Helmet>
-        <title>{locale === 'en' ? 'Erick Firm | Enterprise Doctor, Personal Blueprint Planning, Personal Growth' : 'Erick Firm | 企業醫生・個人藍圖規劃・個人成長顧問'}</title>
-        <meta name="description" content={locale === 'en' ? 'Find your best next step with Enterprise Doctor, Personal Blueprint Planning, and Personal Growth. Built for practical execution and better decisions.' : '首次來訪也能快速判斷：企業醫生、個人藍圖規劃、個人成長該先看哪一個。30 秒自評、方法流程、可收藏指南一次完整提供。'} />
-        <meta name="keywords" content={locale === 'en' ? 'business growth, decision making, execution, leadership advisory, timewaver' : '企業醫生,個人藍圖規劃,個人成長,決策優化,組織治理,成長顧問'} />
+        <title>{locale === 'en' ? 'Erick Firm | Enterprise Doctor, Life Blueprint Planning, Personal Growth' : 'Erick Firm | 企業醫生・生命藍圖規劃・個人成長顧問'}</title>
+        <meta name="description" content={locale === 'en' ? 'Find your best next step with Enterprise Doctor, Life Blueprint Planning, and Personal Growth. Built for practical execution and better decisions.' : '首次來訪也能快速判斷：企業醫生、生命藍圖規劃、個人成長該先看哪一個。30 秒自評、方法流程、可收藏指南一次完整提供。'} />
+        <meta name="keywords" content={locale === 'en' ? 'business growth, decision making, execution, leadership advisory, timewaver' : '企業醫生,生命藍圖規劃,個人成長,決策優化,組織治理,成長顧問'} />
         <script type="application/ld+json">{JSON.stringify(homeStructuredData)}</script>
       </Helmet>
 

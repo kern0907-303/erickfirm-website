@@ -12,7 +12,7 @@ const copy = {
     directBook: '直接預約',
     serviceLabel: {
       'enterprise-doctor': '企業醫生',
-      'life-number': '個人藍圖規劃',
+      'life-number': '生命藍圖規劃',
       'personal-growth': '個人成長',
     },
     questions: [
@@ -54,7 +54,7 @@ const copy = {
     directBook: 'Book Directly',
     serviceLabel: {
       'enterprise-doctor': 'Enterprise Doctor',
-      'life-number': 'Personal Blueprint Planning',
+      'life-number': 'Life Blueprint Planning',
       'personal-growth': 'Personal Growth',
     },
     questions: [

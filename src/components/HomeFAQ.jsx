@@ -13,7 +13,7 @@ const FAQ_DATA = {
     },
     {
       q: '我對自己方向很混亂，這裡可以幫我分析嗎？',
-      a: '可以，個人藍圖規劃會先做決策偏好與角色對位分析，幫你把「現在先做什麼」具體化。',
+      a: '可以，生命藍圖規劃會先做決策偏好與角色對位分析，幫你把「現在先做什麼」具體化。',
     },
     {
       q: '如果我只有 15 分鐘，先看哪裡最有價值？',
@@ -31,7 +31,7 @@ const FAQ_DATA = {
     },
     {
       q: 'My direction feels unclear. Can this site help me analyze it?',
-      a: 'Yes. Personal Blueprint Planning starts with decision preference and role alignment to make your next move concrete.',
+      a: 'Yes. Life Blueprint Planning starts with decision preference and role alignment to make your next move concrete.',
     },
     {
       q: 'I only have 15 minutes. What should I read first?',

@@ -7,7 +7,7 @@ const copy = {
     desc: '這區是給第一次認識你的朋友。即使今天不預約，也能先帶走可用框架，讓網站具備收藏價值。',
     cards: [
       ['企業醫生起手清單', '用 10 分鐘檢查營運內耗、決策瓶頸與現金流風險。', '/insights/enterprise-doctor', '打開清單 →'],
-      ['個人藍圖規劃決策地圖', '快速判斷你在壓力情境下的決策偏差與溝通盲點。', '/insights/life-number', '查看地圖 →'],
+      ['生命藍圖規劃決策地圖', '快速判斷你在壓力情境下的決策偏差與溝通盲點。', '/insights/life-number', '查看地圖 →'],
       ['個人成長節奏模板', '建立一個不靠意志力、可持續執行的每週成長節奏。', '/insights/personal-growth', '套用模板 →'],
     ],
   },
@@ -16,7 +16,7 @@ const copy = {
     desc: 'Built for first-time visitors. Even without booking today, you can leave with practical frameworks.',
     cards: [
       ['Enterprise Doctor Checklist', 'Review operational friction, decision bottlenecks, and cashflow risk in 10 minutes.', '/insights/enterprise-doctor', 'Open Checklist →'],
-      ['Personal Blueprint Planning Decision Map', 'Spot decision bias and communication blind spots under pressure.', '/insights/life-number', 'Open Map →'],
+      ['Life Blueprint Planning Decision Map', 'Spot decision bias and communication blind spots under pressure.', '/insights/life-number', 'Open Map →'],
       ['Personal Growth Rhythm Template', 'Build a weekly rhythm system that does not rely on willpower.', '/insights/personal-growth', 'Use Template →'],
     ],
   },
