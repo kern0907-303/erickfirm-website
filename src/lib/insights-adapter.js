@@ -15,6 +15,11 @@ const SERVICE_MAP = {
   'enterprise-doctor': 'enterprise-doctor',
   'life-number': 'life-number',
   'personal-growth': 'personal-growth',
+  '專欄': 'erick-column',
+  'erick 專欄': 'erick-column',
+  'erick專欄': 'erick-column',
+  'erick column': 'erick-column',
+  'erick-column': 'erick-column',
 };
 
 function slugify(input) {
@@ -55,11 +60,13 @@ export function normalizePost(raw, locale = 'zh-TW') {
       'enterprise-doctor': '企業醫生',
       'life-number': '生命藍圖',
       'personal-growth': '個人成長',
+      'erick-column': '專欄',
     },
     'en': {
       'enterprise-doctor': 'Enterprise Doctor',
       'life-number': 'Life Blueprint',
       'personal-growth': 'Personal Growth',
+      'erick-column': 'Column',
     }
   };
   const projectTag = projectTagMap[locale]?.[service] || projectTagMap['zh-TW']?.[service];

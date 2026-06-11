@@ -39,6 +39,9 @@ function generateExcerpt(content = "", length = 150) {
 function getServiceFromContent(content = "", title = "") {
   const text = (title + " " + content).toLowerCase();
   
+  if (text.includes("erick 專欄") || text.includes("erick專欄") || text.includes("專欄") || text.includes("erick-column")) {
+    return "erick-column";
+  }
   if (text.includes("企業醫生") || text.includes("營運") || text.includes("流程優化") || text.includes("企業診斷") || text.includes("團隊執行力") || text.includes("enterprise-doctor") || text.includes("i8") || text.includes("i8企業")) {
     return "enterprise-doctor";
   }

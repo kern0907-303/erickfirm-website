@@ -5,19 +5,21 @@ import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
 
-const SERVICES = ['enterprise-doctor', 'life-number', 'personal-growth'];
+const SERVICES = ['enterprise-doctor', 'life-number', 'personal-growth', 'erick-column'];
 const SERVICE_SUBTITLE = {
   'zh-TW': {
     all: '依服務分艙閱讀，快速找到最相關的實戰文章',
     'enterprise-doctor': '聚焦營運增長、流程優化與團隊執行力，提供可落地的企業診斷與策略。',
     'life-number': '聚焦決策偏好與角色對位，協助你在關鍵情境下做出更一致且有效的選擇。',
     'personal-growth': '聚焦行動力與決策力提升，透過 TimeWaver 分析找出核心卡點與優化方向。',
+    'erick-column': 'Erick 營運長的個人專欄，分享商業思維、決策邏輯與生活實踐。',
   },
   en: {
-    all: 'Browse by service track to find the most relevant execution playbooks.',
+    all: 'Browse by service track to find the most relevant playbooks.',
     'enterprise-doctor': 'Practical insights to improve revenue performance, operating structure, and team execution.',
     'life-number': 'Business-focused guidance on decision patterns and role alignment for clearer, faster choices.',
     'personal-growth': 'Execution and decision-performance insights powered by TimeWaver-based core issue analysis.',
+    'erick-column': "Erick's personal column sharing business mindset, decision logic, and life practices.",
   },
 };
 

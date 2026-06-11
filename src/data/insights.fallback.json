@@ -112,6 +112,25 @@
       "blocks": [
         { "id": "fb-growth-rhythm-1", "type": "paragraph", "text": "每週固定一小時，盤點完成、延遲、取消三類事項。" }
       ]
+    },
+    {
+      "id": "fb-erick-midlife",
+      "service": "erick-column",
+      "slug": "midlife-crisis-35",
+      "title": {
+        "zh-TW": "【Erick 專欄】35 歲後的「中年危機」還...",
+        "en": "[Erick's Column] Facing the 'Midlife Crisis' after 35..."
+      },
+      "excerpt": {
+        "zh-TW": "探討 35 歲後的職涯與人生卡點，如何用第一性原理與系統性思考重組自我定位與商業抉擇。",
+        "en": "Exploring career and life bottlenecks after 35, and how to restructure self-positioning and business choices using first principles."
+      },
+      "publishDate": "2026-06-11",
+      "format": "Article",
+      "blocks": [
+        { "id": "fb-erick-midlife-1", "type": "heading_2", "text": "35 歲之後的卡點，本質上是系統的重置" },
+        { "id": "fb-erick-midlife-2", "type": "paragraph", "text": "中年危機不是一個問題，而是一個提醒你更新內部系統的信號。" }
+      ]
     }
   ]
 }
