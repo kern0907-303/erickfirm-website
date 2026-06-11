@@ -40,28 +40,28 @@ const ProofSection = () => {
   const section = copy[locale];
 
   return (
-    <section className="py-24 bg-[#F8FAFC]">
+    <section className="py-24 bg-surface">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center mb-14">
-          <h2 className="text-sm text-[#D4AF37] font-bold tracking-[0.3em] uppercase mb-4">Proof & Process</h2>
+          <h2 className="text-sm text-accent font-bold tracking-[0.3em] uppercase mb-4 font-sans">Proof & Process</h2>
           <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 font-display">{section.heading}</h3>
-          <p className="text-slate-600 font-medium">{section.desc}</p>
+          <p className="text-slate-600 font-medium font-sans">{section.desc}</p>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-4 gap-6 font-sans">
           {section.steps.map((step, idx) => (
-            <article key={step.title} className="bg-white border border-slate-200 rounded-xl p-6">
-              <p className="text-xs font-bold text-[#D4AF37] tracking-[0.2em] mb-3">STEP {idx + 1}</p>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">{step.title}</h4>
+            <article key={step.title} className="bg-white border border-slate-200 rounded-lg p-6">
+              <p className="text-xs font-bold text-accent tracking-[0.2em] mb-3">STEP {idx + 1}</p>
+              <h4 className="text-lg font-bold text-slate-900 mb-3 font-display">{step.title}</h4>
               <p className="text-slate-700 text-sm leading-relaxed">{step.desc}</p>
             </article>
           ))}
         </div>
 
-        <div className="mt-10 grid md:grid-cols-3 gap-6">
+        <div className="mt-10 grid md:grid-cols-3 gap-6 font-sans">
           {section.points.map(([time, text]) => (
-            <div key={time} className="bg-white border border-slate-200 rounded-xl p-6">
-              <p className="text-3xl font-bold text-[#D4AF37]">{time}</p>
+            <div key={time} className="bg-white border border-slate-200 rounded-lg p-6">
+              <p className="text-3xl font-bold text-accent font-display">{time}</p>
               <p className="text-slate-700 mt-2">{text}</p>
             </div>
           ))}

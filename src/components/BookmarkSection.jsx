@@ -30,21 +30,21 @@ const BookmarkSection = () => {
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-6 max-w-6xl">
-        <div className="bg-slate-900 text-white rounded-2xl p-8 md:p-12">
+        <div className="bg-primary text-white rounded-lg p-8 md:p-12 shadow-xl">
           <div className="max-w-3xl">
-            <h2 className="text-sm text-[#D4AF37] font-bold tracking-[0.3em] uppercase mb-4">Worth Bookmarking</h2>
-            <h3 className="text-3xl md:text-4xl font-bold mb-6">{section.heading}</h3>
-            <p className="text-slate-200 leading-relaxed mb-8">
+            <h2 className="text-sm text-accent font-bold tracking-[0.3em] uppercase mb-4 font-sans">Worth Bookmarking</h2>
+            <h3 className="text-3xl md:text-4xl font-bold mb-6 font-display">{section.heading}</h3>
+            <p className="text-slate-200 leading-relaxed mb-8 font-sans">
               {section.desc}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid md:grid-cols-3 gap-5 font-sans">
             {section.cards.map(([title, desc, href, cta]) => (
-              <article key={title} className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-                <h4 className="font-bold text-[#D4AF37] mb-3">{title}</h4>
+              <article key={title} className="bg-white/5 rounded-lg p-6 border border-white/10 hover:border-accent/40 transition-all duration-300">
+                <h4 className="font-bold text-accent mb-3 font-display">{title}</h4>
                 <p className="text-sm text-slate-200 mb-4">{desc}</p>
-                <a href={href} className="text-sm font-bold text-white hover:text-[#D4AF37]">{cta}</a>
+                <a href={href} className="text-sm font-bold text-white hover:text-accent transition-colors">{cta}</a>
               </article>
             ))}
           </div>

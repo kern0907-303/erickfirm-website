@@ -49,15 +49,15 @@ const HomeFAQ = () => {
     <section className="py-24 bg-white">
       <div className="container mx-auto px-6 max-w-5xl">
         <div className="text-center mb-14">
-          <h2 className="text-sm text-[#D4AF37] font-bold tracking-[0.3em] uppercase mb-4">FAQ</h2>
+          <h2 className="text-sm text-accent font-bold tracking-[0.3em] uppercase mb-4 font-sans">FAQ</h2>
           <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 font-display">{locale === 'en' ? 'Quick Answers for First-Time Visitors' : '首頁快速問答'}</h3>
-          <p className="text-slate-600 font-medium">{locale === 'en' ? 'Get the key answers first, then choose your service path.' : '先回答你最常問的問題，再決定從哪個服務切入。'}</p>
+          <p className="text-slate-600 font-medium font-sans">{locale === 'en' ? 'Get the key answers first, then choose your service path.' : '先回答你最常問的問題，再決定從哪個服務切入。'}</p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 font-sans">
           {FAQS.map((item) => (
-            <article key={item.q} className="bg-slate-50 border border-slate-200 rounded-xl p-6">
-              <h4 className="text-lg font-bold text-slate-900 mb-3">{item.q}</h4>
+            <article key={item.q} className="bg-slate-50 border border-slate-200 rounded-lg p-6">
+              <h4 className="text-lg font-bold text-slate-900 mb-3 font-display">{item.q}</h4>
               <p className="text-slate-700 leading-relaxed">{item.a}</p>
             </article>
           ))}

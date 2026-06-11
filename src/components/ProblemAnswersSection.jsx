@@ -59,20 +59,20 @@ const ProblemAnswersSection = () => {
   const section = copy[locale];
 
   return (
-    <section className="py-24 bg-[#F8FAFC]">
+    <section className="py-24 bg-surface">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center mb-14">
-          <h2 className="text-sm text-[#D4AF37] font-bold tracking-[0.3em] uppercase mb-4">People Also Ask</h2>
+          <h2 className="text-sm text-accent font-bold tracking-[0.3em] uppercase mb-4 font-sans">People Also Ask</h2>
           <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 font-display">{section.heading}</h3>
-          <p className="text-slate-600 font-medium">{section.desc}</p>
+          <p className="text-slate-600 font-medium font-sans">{section.desc}</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6 font-sans">
           {section.items.map((item) => (
-            <article key={item.q} className="bg-white border border-slate-200 rounded-xl p-7">
-              <h4 className="text-xl font-bold text-slate-900 mb-4">{item.q}</h4>
+            <article key={item.q} className="bg-white border border-slate-200 rounded-lg p-7">
+              <h4 className="text-lg font-bold text-slate-900 mb-4 font-display">{item.q}</h4>
               <p className="text-slate-700 leading-relaxed mb-6">{item.a}</p>
-              <Link to={item.to} className="text-sm font-bold text-slate-900 hover:text-[#D4AF37] tracking-wide">
+              <Link to={item.to} className="text-sm font-bold text-slate-900 hover:text-accent tracking-wide transition-colors">
                 {item.cta} →
               </Link>
             </article>

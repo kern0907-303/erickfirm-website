@@ -91,26 +91,26 @@ const Contact = () => {
     <section id="contact" className="py-24 bg-white">
       <div className="container mx-auto px-6 max-w-4xl">
         
-        <div className="bg-[#F8FAFC] rounded-2xl p-8 md:p-14 border border-slate-200">
+        <div className="bg-surface rounded-lg p-8 md:p-14 border border-slate-200 shadow-sm">
           <div className="text-center mb-12">
-            <h2 className="text-[#D4AF37] font-bold tracking-[0.3em] uppercase mb-3 text-sm">Book Consultation</h2>
+            <h2 className="text-accent font-bold tracking-[0.3em] uppercase mb-3 text-sm font-sans">Book Consultation</h2>
             <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">{dict.title}</h3>
-            <p className="text-slate-600 font-medium">{dict.desc}</p>
+            <p className="text-slate-600 font-medium font-sans">{dict.desc}</p>
           </div>
 
           {successMsg && (
-            <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-sm text-sm font-semibold text-center">
+            <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-sm text-sm font-semibold text-center font-sans">
               {successMsg}
             </div>
           )}
 
           {errorMsg && (
-            <div className="mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-sm text-sm font-semibold text-center">
+            <div className="mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-sm text-sm font-semibold text-center font-sans">
               {errorMsg}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6 font-sans">
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-800 tracking-wider uppercase">{dict.name}</label>
@@ -119,7 +119,7 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange('name')}
                   disabled={isSubmitting}
-                  className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all placeholder-slate-400 shadow-sm disabled:opacity-50"
+                  className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all placeholder-slate-400 shadow-sm disabled:opacity-50"
                   placeholder={dict.namePlaceholder}
                   required
                 />
@@ -131,7 +131,7 @@ const Contact = () => {
                   value={formData.contact}
                   onChange={handleChange('contact')}
                   disabled={isSubmitting}
-                  className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all placeholder-slate-400 shadow-sm disabled:opacity-50"
+                  className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all placeholder-slate-400 shadow-sm disabled:opacity-50"
                   placeholder={dict.contactPlaceholder}
                   required
                 />
@@ -145,7 +145,7 @@ const Contact = () => {
                 value={formData.status}
                 onChange={handleChange('status')}
                 disabled={isSubmitting}
-                className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all placeholder-slate-400 resize-none shadow-sm disabled:opacity-50"
+                className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all placeholder-slate-400 resize-none shadow-sm disabled:opacity-50"
                 placeholder={dict.statusPlaceholder}
                 required
               ></textarea>
@@ -155,7 +155,7 @@ const Contact = () => {
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-slate-900 text-white font-bold tracking-widest text-base py-4 rounded-sm hover:bg-[#D4AF37] transition-all duration-300 uppercase shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-primary text-white font-bold tracking-widest text-base py-4 rounded-sm hover:bg-accent hover:text-slate-900 transition-all duration-300 uppercase shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? dict.submitting : dict.submit}
               </button>

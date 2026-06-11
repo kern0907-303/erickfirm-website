@@ -19,7 +19,7 @@ const renderFormattedText = (text) => {
     }
     if (part.startsWith('`') && part.endsWith('`')) {
       return (
-        <code key={index} className="px-1.5 py-0.5 bg-slate-100 rounded text-sm font-mono text-[#D4AF37] font-semibold">
+        <code key={index} className="px-1.5 py-0.5 bg-slate-100 rounded text-sm font-mono text-accent font-semibold">
           {part.slice(1, -1)}
         </code>
       );
@@ -102,12 +102,12 @@ const PostDetail = () => {
     };
   }, [post, service]);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center animate-pulse text-slate-400">{dict.loadingPost}</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center animate-pulse text-slate-400 font-sans">{dict.loadingPost}</div>;
   if (!normalizedPost) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 font-sans">
         <p>{dict.postNotFound}</p>
-        <Link to="/insights" className="text-slate-700 font-bold hover:text-[#D4AF37]">
+        <Link to="/insights" className="text-slate-700 font-bold hover:text-accent">
           {dict.backToInsights}
         </Link>
       </div>
@@ -118,21 +118,21 @@ const PostDetail = () => {
   const pageTitle = `${normalizedPost.title} | ${dict.insights} | Erick Firm`;
 
   return (
-    <div className="min-h-screen bg-white pt-32 pb-24">
+    <div className="min-h-screen bg-white pt-32 pb-24 font-sans">
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="description" content={post?.excerpt || normalizedPost.title} />
       </Helmet>
       <article className="container mx-auto px-6 max-w-3xl">
-        <Link to={backPath} className="text-slate-400 hover:text-[#D4AF37] transition-colors mb-8 inline-block font-bold text-sm tracking-widest">
+        <Link to={backPath} className="text-slate-400 hover:text-accent transition-colors mb-8 inline-block font-bold text-sm tracking-widest">
           ← {dict.backToInsights}
         </Link>
 
         <header className="mb-12">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">{normalizedPost.title}</h1>
+          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight font-display">{normalizedPost.title}</h1>
           {isUsingFallback && <p className="text-sm text-slate-500 mb-4">{dict.fallbackHint}</p>}
           <div className="flex items-center gap-4 text-sm text-slate-400 mb-4">
-            <span className="bg-slate-50 px-3 py-1 rounded text-slate-600 font-bold italic">
+            <span className="bg-slate-50 px-3 py-1 rounded text-slate-600 font-bold font-sans">
               {getServiceNameFromSlug(normalizedPost.service, locale, i18n)}
             </span>
             <span>{normalizedPost.publishDate}</span>
@@ -156,11 +156,11 @@ const PostDetail = () => {
 
             switch (type) {
               case 'heading_1':
-                return <h1 key={block.id} className="text-3xl font-bold mt-12 mb-6 text-slate-900">{renderFormattedText(content)}</h1>;
+                return <h1 key={block.id} className="text-3xl font-bold mt-12 mb-6 text-slate-900 font-display">{renderFormattedText(content)}</h1>;
               case 'heading_2':
-                return <h2 key={block.id} className="text-2xl font-bold mt-10 mb-4 text-slate-900 border-l-4 border-[#D4AF37] pl-4">{renderFormattedText(content)}</h2>;
+                return <h2 key={block.id} className="text-2xl font-bold mt-10 mb-4 text-slate-900 border-l-4 border-accent pl-4 font-display">{renderFormattedText(content)}</h2>;
               case 'heading_3':
-                return <h3 key={block.id} className="text-xl font-bold mt-8 mb-4 text-slate-900">{renderFormattedText(content)}</h3>;
+                return <h3 key={block.id} className="text-xl font-bold mt-8 mb-4 text-slate-900 font-display">{renderFormattedText(content)}</h3>;
               case 'bulleted_list_item':
                 return <li key={block.id} className="ml-4 mb-2 list-disc">{renderFormattedText(content)}</li>;
               default:

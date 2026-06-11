@@ -128,7 +128,7 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen overflow-hidden pt-24 pb-20 bg-white">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(212,175,55,0.12),transparent_35%),radial-gradient(circle_at_80%_10%,rgba(15,23,42,0.09),transparent_30%),linear-gradient(180deg,#ffffff_0%,#f8fafc_48%,#ffffff_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,194,194,0.12),transparent_35%),radial-gradient(circle_at_80%_10%,rgba(15,23,42,0.09),transparent_30%),linear-gradient(180deg,#ffffff_0%,#f8fafc_48%,#ffffff_100%)]" />
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 xl:gap-14 items-start">
@@ -138,30 +138,30 @@ const Hero = () => {
             transition={{ duration: 0.7 }}
           >
             <div className="inline-flex items-center gap-2 mb-7 px-4 py-2 rounded-full border border-slate-200 bg-white/80">
-              <span className="h-2 w-2 rounded-full bg-[#D4AF37]" />
+              <span className="h-2 w-2 rounded-full bg-accent" />
               <span className="text-[11px] md:text-xs font-bold tracking-[0.18em] text-slate-700">{hero.badge}</span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl xl:text-6xl font-black leading-[1.12] text-slate-900 mb-6">
+            <h1 className="text-4xl md:text-5xl xl:text-6xl font-black leading-[1.12] text-slate-900 mb-6 font-display">
               {hero.title1}
               <br />
-              {hero.title2}<span className="text-[#D4AF37]">{hero.titleAccent}</span>
+              {hero.title2}<span className="text-accent">{hero.titleAccent}</span>
             </h1>
 
-            <p className="text-slate-700 text-base md:text-lg leading-relaxed max-w-xl mb-8">
+            <p className="text-slate-700 text-base md:text-lg leading-relaxed max-w-xl mb-8 font-sans">
               {hero.desc}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={scrollToAssessment}
-                className="px-7 py-4 rounded-sm bg-slate-900 text-white font-bold tracking-wide hover:bg-[#D4AF37] transition-colors"
+                className="px-7 py-4 rounded-sm bg-slate-900 text-white font-bold tracking-wide hover:bg-accent hover:text-slate-900 transition-colors font-sans"
               >
                 {hero.findAnswer}
               </button>
               <a
                 href="/#contact"
-                className="px-7 py-4 rounded-sm border border-slate-300 text-slate-900 font-bold tracking-wide hover:border-[#D4AF37] transition-colors text-center"
+                className="px-7 py-4 rounded-sm border border-slate-300 text-slate-900 font-bold tracking-wide hover:border-accent hover:text-accent transition-colors text-center font-sans"
               >
                 {hero.bookNow || dict.consult}
               </a>
@@ -193,18 +193,18 @@ const Hero = () => {
                   >
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <div>
-                        <p className="text-[11px] tracking-[0.22em] font-bold text-[#D4AF37] mb-2">SERVICE {card.id}</p>
-                        <h2 className="text-xl md:text-2xl font-black text-slate-900">{card.title}</h2>
+                        <p className="text-[11px] tracking-[0.22em] font-bold text-accent mb-2 font-sans">SERVICE {card.id}</p>
+                        <h2 className="text-xl md:text-2xl font-black text-slate-900 font-display">{card.title}</h2>
                       </div>
-                      <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">#{index + 1}</span>
+                      <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 font-sans">#{index + 1}</span>
                     </div>
 
-                    <p className="text-[15px] font-semibold text-slate-800 mb-2">・{card.problem}</p>
-                    <p className="text-sm text-slate-600 leading-relaxed mb-4">{card.outcome}</p>
+                    <p className="text-[15px] font-semibold text-slate-800 mb-2 font-sans">・{card.problem}</p>
+                    <p className="text-sm text-slate-600 leading-relaxed mb-4 font-sans">{card.outcome}</p>
 
                     <Link
                       to={card.to}
-                      className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-[#D4AF37] transition-colors"
+                      className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-accent transition-colors font-sans"
                     >
                       {card.cta}
                       <ArrowUpRight size={16} />
@@ -220,7 +220,7 @@ const Hero = () => {
                   type="button"
                   aria-label={`Go to card ${index + 1}`}
                   onClick={() => setActiveCard(index)}
-                  className={`h-1.5 rounded-full transition-all ${activeCard === index ? 'w-8 bg-[#D4AF37]' : 'w-4 bg-slate-300 hover:bg-slate-400'}`}
+                  className={`h-1.5 rounded-full transition-all ${activeCard === index ? 'w-8 bg-accent' : 'w-4 bg-slate-300 hover:bg-slate-400'}`}
                 />
               ))}
             </div>
@@ -232,7 +232,7 @@ const Hero = () => {
         onClick={scrollToAssessment}
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 1.8, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-400 hover:text-[#D4AF37] transition-colors"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-400 hover:text-accent transition-colors"
       >
         <ChevronDown size={28} />
       </motion.button>

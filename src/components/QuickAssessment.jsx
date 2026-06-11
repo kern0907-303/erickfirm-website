@@ -109,17 +109,17 @@ const QuickAssessment = () => {
     <section id="assessment" className="py-24 bg-white">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="text-center mb-12">
-          <h2 className="text-sm text-[#D4AF37] font-bold tracking-[0.3em] uppercase mb-4">START HERE</h2>
+          <h2 className="text-sm text-accent font-bold tracking-[0.3em] uppercase mb-4 font-sans">START HERE</h2>
           <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 font-display">{dict.heading}</h3>
-          <p className="text-slate-600 font-medium">{dict.desc}</p>
+          <p className="text-slate-600 font-medium font-sans">{dict.desc}</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
           {dict.questions.map((question, index) => (
-            <article key={question.id} className="bg-slate-50 rounded-xl border border-slate-200 p-6">
-              <p className="text-xs text-[#D4AF37] font-bold tracking-[0.2em] mb-3">Q{index + 1}</p>
-              <h4 className="font-bold text-slate-900 mb-4">{question.title}</h4>
-              <div className="space-y-3">
+            <article key={question.id} className="bg-slate-50 rounded-lg border border-slate-200 p-6">
+              <p className="text-xs text-accent font-bold tracking-[0.2em] mb-3 font-sans">Q{index + 1}</p>
+              <h4 className="font-bold text-slate-900 mb-4 font-sans">{question.title}</h4>
+              <div className="space-y-3 font-sans">
                 {question.options.map((option) => {
                   const active = answers[question.id] === option.service;
                   return (
@@ -127,7 +127,7 @@ const QuickAssessment = () => {
                       key={option.label}
                       onClick={() => setAnswers((prev) => ({ ...prev, [question.id]: option.service }))}
                       className={`w-full text-left px-4 py-3 rounded-sm border text-sm transition-all ${
-                        active ? 'border-[#D4AF37] bg-white text-slate-900 font-bold' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                        active ? 'border-accent bg-surface text-slate-900 font-bold' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
                       }`}
                     >
                       {option.label}
@@ -139,18 +139,18 @@ const QuickAssessment = () => {
           ))}
         </div>
 
-        <div className="mt-10 bg-slate-900 text-white rounded-xl p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="mt-10 bg-primary text-white rounded-lg p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-sans">
           <div>
             <p className="text-sm text-slate-300">{dict.recommendationLabel}</p>
-            <p className="text-2xl font-bold text-[#D4AF37]">{recommendation ? dict.serviceLabel[recommendation] : dict.recommendationFallback}</p>
+            <p className="text-2xl font-bold text-accent font-display">{recommendation ? dict.serviceLabel[recommendation] : dict.recommendationFallback}</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             {recommendation && (
-              <Link to={`/insights/${recommendation}`} className="px-6 py-3 bg-[#D4AF37] text-slate-900 font-bold rounded-sm text-center">
+              <Link to={`/insights/${recommendation}`} className="px-6 py-3 bg-accent text-slate-900 font-bold rounded-sm text-center hover:bg-white hover:text-primary transition-colors duration-200">
                 {dict.goRecommended}
               </Link>
             )}
-            <a href="/#contact" className="px-6 py-3 border border-slate-500 text-white font-bold rounded-sm text-center">
+            <a href="/#contact" className="px-6 py-3 border border-slate-500 text-white font-bold rounded-sm text-center hover:bg-white hover:text-primary hover:border-white transition-colors duration-200">
               {dict.directBook}
             </a>
           </div>
