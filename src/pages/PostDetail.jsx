@@ -151,6 +151,23 @@ const PostDetail = () => {
         <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed text-lg">
           {blocks.map((block) => {
             const type = block.type;
+            if (type === 'image') {
+              return (
+                <figure key={block.id} className="my-10 flex flex-col items-center">
+                  <img
+                    src={block.image?.url}
+                    alt={block.image?.alt}
+                    className="rounded-lg shadow-md max-w-full h-auto border border-slate-100 hover:shadow-lg transition-shadow duration-300"
+                  />
+                  {block.image?.alt && (
+                    <figcaption className="text-sm text-slate-400 mt-3 font-sans italic text-center">
+                      {block.image.alt}
+                    </figcaption>
+                  )}
+                </figure>
+              );
+            }
+
             const content = block?.[type]?.rich_text?.[0]?.plain_text || block.text;
             if (!content) return null;
 

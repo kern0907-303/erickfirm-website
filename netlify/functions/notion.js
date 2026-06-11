@@ -106,6 +106,18 @@ function parseMarkdownToBlocks(markdown = "") {
         bulleted_list_item: { rich_text: [{ plain_text: contentText.trim() }] }
       });
     }
+    // Image Markdown: ![alt](url)
+    else if (/^!\[(.*?)\]\((.*?)\)$/.test(trimmed)) {
+      const match = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+      blocks.push({
+        id: Math.random().toString(36).substr(2, 9),
+        type: "image",
+        image: {
+          alt: match[1] || "",
+          url: match[2] || ""
+        }
+      });
+    }
     // Paragraph
     else {
       blocks.push({

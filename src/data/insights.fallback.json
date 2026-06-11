@@ -129,7 +129,8 @@
       "format": "Article",
       "blocks": [
         { "id": "fb-erick-midlife-1", "type": "heading_2", "text": "35 歲之後的卡點，本質上是系統的重置" },
-        { "id": "fb-erick-midlife-2", "type": "paragraph", "text": "中年危機不是一個問題，而是一個提醒你更新內部系統的信號。" }
+        { "id": "fb-erick-midlife-2", "type": "paragraph", "text": "中年危機不是一個問題，而是一個提醒你更新內部系統的信號。" },
+        { "id": "fb-erick-midlife-3", "type": "image", "image": { "alt": "35 歲內部系統自我更新框架（示例抽象光影圖）", "url": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" } }
       ]
     }
   ]
