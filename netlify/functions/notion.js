@@ -149,7 +149,7 @@ function mapSupabaseArticleToPost(article, locale = DEFAULT_LOCALE) {
 }
 
 async function listPosts(locale = DEFAULT_LOCALE) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/insights_articles?brand_id=eq.erick&status=eq.published&order=created_at.desc`, {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/insights_articles?brand_id=in.(erick,i8,nas,abl)&status=eq.published&order=created_at.desc`, {
     headers: {
       "apikey": SUPABASE_KEY,
       "Authorization": `Bearer ${SUPABASE_KEY}`
