@@ -127,66 +127,66 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen overflow-hidden pt-32 pb-20 bg-[#000E1C]">
-      {/* BCG-inspired ambient flowing light and shadow effects */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
-        {/* Glow orb 1: Tiffany Blue (Highly vibrant, moves across center-left) */}
+    <section className="relative min-h-screen overflow-hidden pt-32 pb-20 bg-white">
+      {/* BCG-inspired fast-flowing ambient light and shadow effects on light background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0 bg-gradient-to-b from-white via-[#F4F9FA]/50 to-white">
+        {/* Glow orb 1: Tiffany Blue (Fast, energetic movement) */}
         <motion.div
           animate={{
-            x: [-120, 80, -60, -120],
-            y: [-60, 120, -80, -60],
-            scale: [1, 1.25, 0.9, 1],
+            x: [-80, 80, -40, -80],
+            y: [-40, 90, -60, -40],
+            scale: [1, 1.2, 0.95, 1],
           }}
           transition={{
-            duration: 16,
+            duration: 6,
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute -top-10 -left-10 w-[550px] h-[550px] rounded-full bg-accent/25 blur-[120px] mix-blend-screen"
+          className="absolute -top-10 -left-10 w-[500px] h-[500px] rounded-full bg-accent/25 blur-[90px]"
         />
         
-        {/* Glow orb 2: Deep Consulting Blue (Massive background fill) */}
+        {/* Glow orb 2: Consulting Blue */}
         <motion.div
           animate={{
-            x: [80, -80, 40, 80],
-            y: [120, -40, 100, 120],
-            scale: [1.15, 0.95, 1.05, 1.15],
+            x: [60, -60, 30, 60],
+            y: [90, -30, 80, 90],
+            scale: [1.1, 0.9, 1.05, 1.1],
           }}
           transition={{
-            duration: 20,
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute -bottom-20 -right-20 w-[650px] h-[650px] rounded-full bg-secondary/35 blur-[140px] mix-blend-screen"
+          className="absolute -bottom-20 -right-20 w-[600px] h-[600px] rounded-full bg-secondary/18 blur-[110px]"
         />
         
-        {/* Glow orb 3: Vibrant Teal/Cyan */}
+        {/* Glow orb 3: Vibrant Teal/Emerald */}
         <motion.div
           animate={{
-            x: [60, -60, 80, 60],
-            y: [-120, 80, -40, -120],
-            scale: [0.95, 1.15, 0.95, 0.95],
+            x: [40, -40, 60, 40],
+            y: [-90, 60, -30, -90],
+            scale: [0.95, 1.1, 0.95, 0.95],
           }}
           transition={{
-            duration: 18,
+            duration: 7,
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute top-10 right-20 w-[450px] h-[450px] rounded-full bg-teal-400/20 blur-[110px] mix-blend-screen"
+          className="absolute top-10 right-20 w-[400px] h-[400px] rounded-full bg-teal-300/20 blur-[85px]"
         />
 
-        {/* Glow orb 4: Bright White Core (For intense central light focus) */}
+        {/* Glow orb 4: Bright highlight core */}
         <motion.div
           animate={{
-            x: [-40, 60, -60, -40],
-            y: [40, -40, 40, 40],
+            x: [-30, 45, -45, -30],
+            y: [30, -30, 30, 30],
           }}
           transition={{
-            duration: 14,
+            duration: 5,
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute top-1/4 left-1/3 w-[250px] h-[250px] rounded-full bg-white/10 blur-[85px] mix-blend-screen"
+          className="absolute top-1/4 left-1/3 w-[200px] h-[200px] rounded-full bg-accent/15 blur-[70px]"
         />
       </div>
 
@@ -197,31 +197,31 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="inline-flex items-center gap-2 mb-7 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm shadow-sm">
+            <div className="inline-flex items-center gap-2 mb-7 px-4 py-2 rounded-full border border-slate-200 bg-white/80 backdrop-blur-sm shadow-sm">
               <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-              <span className="text-[11px] md:text-xs font-bold tracking-[0.18em] text-slate-300">{hero.badge}</span>
+              <span className="text-[11px] md:text-xs font-bold tracking-[0.18em] text-slate-700">{hero.badge}</span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl xl:text-6xl font-black leading-[1.12] text-white mb-6 font-display">
+            <h1 className="text-4xl md:text-5xl xl:text-6xl font-black leading-[1.12] text-slate-900 mb-6 font-display">
               {hero.title1}
               <br />
               {hero.title2}<span className="text-accent">{hero.titleAccent}</span>
             </h1>
 
-            <p className="text-slate-300 text-base md:text-lg leading-relaxed max-w-xl mb-8 font-sans">
+            <p className="text-slate-700 text-base md:text-lg leading-relaxed max-w-xl mb-8 font-sans">
               {hero.desc}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={scrollToAssessment}
-                className="px-7 py-4 rounded-sm bg-accent text-slate-900 font-bold tracking-wide hover:bg-white hover:text-primary transition-all duration-300 font-sans shadow-[0_0_20px_rgba(0,194,194,0.3)] hover:shadow-none"
+                className="px-7 py-4 rounded-sm bg-slate-900 text-white font-bold tracking-wide hover:bg-accent hover:text-slate-900 transition-all duration-300 font-sans shadow-md"
               >
                 {hero.findAnswer}
               </button>
               <a
                 href="/#contact"
-                className="px-7 py-4 rounded-sm border border-white/20 text-white font-bold tracking-wide hover:border-accent hover:text-accent transition-all duration-300 text-center font-sans"
+                className="px-7 py-4 rounded-sm border border-slate-300 text-slate-900 font-bold tracking-wide hover:border-accent hover:text-accent transition-all duration-300 text-center font-sans"
               >
                 {hero.bookNow || dict.consult}
               </a>
@@ -249,22 +249,22 @@ const Hero = () => {
                 {hero.cards.map((card, index) => (
                   <article
                     key={card.id}
-                    className="group w-full shrink-0 rounded-lg border border-white/10 bg-[#001730]/75 backdrop-blur-md p-5 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_0_35px_rgba(0,194,194,0.25)] hover:border-accent/40 transition-all duration-500"
+                    className="group w-full shrink-0 rounded-lg border border-slate-200/90 bg-white/80 backdrop-blur-md p-5 md:p-6 shadow-[0_8px_30px_rgba(0,42,84,0.04)] hover:shadow-[0_14px_45px_rgba(0,194,194,0.15)] hover:border-accent/40 transition-all duration-500"
                   >
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <div>
                         <p className="text-[11px] tracking-[0.22em] font-bold text-accent mb-2 font-sans">SERVICE {card.id}</p>
-                        <h2 className="text-xl md:text-2xl font-black text-white font-display">{card.title}</h2>
+                        <h2 className="text-xl md:text-2xl font-black text-slate-900 font-display">{card.title}</h2>
                       </div>
-                      <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-white/10 text-slate-300 font-sans">#{index + 1}</span>
+                      <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100/80 text-slate-600 font-sans">#{index + 1}</span>
                     </div>
 
-                    <p className="text-[15px] font-semibold text-slate-200 mb-2 font-sans">・{card.problem}</p>
-                    <p className="text-sm text-slate-400 leading-relaxed mb-4 font-sans">{card.outcome}</p>
+                    <p className="text-[15px] font-semibold text-slate-800 mb-2 font-sans">・{card.problem}</p>
+                    <p className="text-sm text-slate-600 leading-relaxed mb-4 font-sans">{card.outcome}</p>
 
                     <Link
                       to={card.to}
-                      className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-accent transition-colors font-sans"
+                      className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-accent transition-colors font-sans"
                     >
                       {card.cta}
                       <ArrowUpRight size={16} />
@@ -280,7 +280,7 @@ const Hero = () => {
                   type="button"
                   aria-label={`Go to card ${index + 1}`}
                   onClick={() => setActiveCard(index)}
-                  className={`h-1.5 rounded-full transition-all ${activeCard === index ? 'w-8 bg-accent shadow-[0_0_8px_rgba(0,194,194,0.5)]' : 'w-4 bg-white/20 hover:bg-white/40'}`}
+                  className={`h-1.5 rounded-full transition-all ${activeCard === index ? 'w-8 bg-accent shadow-[0_0_8px_rgba(0,194,194,0.4)]' : 'w-4 bg-slate-300 hover:bg-slate-400'}`}
                 />
               ))}
             </div>
@@ -292,7 +292,7 @@ const Hero = () => {
         onClick={scrollToAssessment}
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 1.8, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/40 hover:text-accent transition-colors"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-400 hover:text-accent transition-colors"
       >
         <ChevronDown size={28} />
       </motion.button>
