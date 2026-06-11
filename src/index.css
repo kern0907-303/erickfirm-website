@@ -2,18 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 1. 最基礎的白底黑字保底 */
-body, #root {
-  background-color: #ffffff !important;
-  color: #0f172a !important;
-}
-
-/* 2. 強制所有區塊背景為白色 */
-section, main, header, article {
-  background-color: #ffffff !important;
-}
-
-/* 3. 強制所有標題和段落文字為深色 */
-h1, h2, h3, h4, h5, h6, p {
-  color: #0f172a !important;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white text-slate-800 font-sans antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-primary font-bold;
+  }
 }

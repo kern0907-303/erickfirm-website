@@ -12,6 +12,10 @@ const copy = {
     contactPlaceholder: 'Email 或 手機號碼',
     statusPlaceholder: '請簡述您企業或個人目前遇到的瓶頸...',
     submit: '送出預約申請',
+    submitting: '提交中...',
+    success: '已收到您的預約！我們將盡快安排專人聯繫。',
+    error: '提交失敗，請稍後再試。',
+    validationError: '請填寫所有欄位。',
   },
   en: {
     title: 'Book a Private Assessment',
@@ -23,6 +27,10 @@ const copy = {
     contactPlaceholder: 'Email or phone number',
     statusPlaceholder: 'Briefly describe your current business or personal challenge...',
     submit: 'Submit Request',
+    submitting: 'Submitting...',
+    success: 'Booking request received! We will be in touch shortly.',
+    error: 'Failed to submit. Please try again later.',
+    validationError: 'Please fill out all fields.',
   },
 };
 
@@ -30,6 +38,54 @@ const Contact = () => {
   const [locale, setLocale] = React.useState(getPreferredLocale());
   React.useEffect(() => onLocaleChange(setLocale), []);
   const dict = copy[locale];
+
+  const [formData, setFormData] = React.useState({ name: '', contact: '', status: '' });
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [successMsg, setSuccessMsg] = React.useState('');
+  const [errorMsg, setErrorMsg] = React.useState('');
+
+  const handleChange = (field) => (e) => {
+    setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSuccessMsg('');
+    setErrorMsg('');
+
+    if (!formData.name.trim() || !formData.contact.trim() || !formData.status.trim()) {
+      setErrorMsg(dict.validationError);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/.netlify/functions/notion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.contact,
+          message: formData.status,
+          inquiry_type: 'consultation',
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Form submission failed');
+      }
+
+      setSuccessMsg(dict.success);
+      setFormData({ name: '', contact: '', status: '' });
+    } catch (err) {
+      console.error('Submission error:', err);
+      setErrorMsg(dict.error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-24 bg-white">
@@ -42,23 +98,42 @@ const Contact = () => {
             <p className="text-slate-600 font-medium">{dict.desc}</p>
           </div>
 
-          <form className="space-y-6">
+          {successMsg && (
+            <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-sm text-sm font-semibold text-center">
+              {successMsg}
+            </div>
+          )}
+
+          {errorMsg && (
+            <div className="mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-sm text-sm font-semibold text-center">
+              {errorMsg}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                {/* 標籤加深為 slate-800 */}
                 <label className="text-xs font-bold text-slate-800 tracking-wider uppercase">{dict.name}</label>
                 <input 
                   type="text" 
-                  className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all placeholder-slate-400 shadow-sm"
+                  value={formData.name}
+                  onChange={handleChange('name')}
+                  disabled={isSubmitting}
+                  className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all placeholder-slate-400 shadow-sm disabled:opacity-50"
                   placeholder={dict.namePlaceholder}
+                  required
                 />
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-800 tracking-wider uppercase">{dict.contact}</label>
                 <input 
                   type="text" 
-                  className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all placeholder-slate-400 shadow-sm"
+                  value={formData.contact}
+                  onChange={handleChange('contact')}
+                  disabled={isSubmitting}
+                  className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all placeholder-slate-400 shadow-sm disabled:opacity-50"
                   placeholder={dict.contactPlaceholder}
+                  required
                 />
               </div>
             </div>
@@ -67,17 +142,22 @@ const Contact = () => {
               <label className="text-xs font-bold text-slate-800 tracking-wider uppercase">{dict.status}</label>
               <textarea 
                 rows="4"
-                className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all placeholder-slate-400 resize-none shadow-sm"
+                value={formData.status}
+                onChange={handleChange('status')}
+                disabled={isSubmitting}
+                className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all placeholder-slate-400 resize-none shadow-sm disabled:opacity-50"
                 placeholder={dict.statusPlaceholder}
+                required
               ></textarea>
             </div>
 
             <div className="pt-4">
               <button 
-                type="button"
-                className="w-full bg-slate-900 text-white font-bold tracking-widest text-base py-4 rounded-sm hover:bg-[#D4AF37] transition-all duration-300 uppercase shadow-md"
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-slate-900 text-white font-bold tracking-widest text-base py-4 rounded-sm hover:bg-[#D4AF37] transition-all duration-300 uppercase shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {dict.submit}
+                {isSubmitting ? dict.submitting : dict.submit}
               </button>
             </div>
           </form>

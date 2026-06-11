@@ -196,7 +196,6 @@ async function getPostDetail(postId, locale = DEFAULT_LOCALE) {
 export async function handler(event) {
   try {
     if (event.httpMethod === "OPTIONS") return resp(204, {});
-    if (event.httpMethod !== "GET") return resp(405, { error: "Method Not Allowed" });
 
     if (!SUPABASE_KEY) {
       return resp(500, {
@@ -204,6 +203,48 @@ export async function handler(event) {
         hint: "請在 Netlify 系統設定中新增環境變數 SUPABASE_KEY，值為您的 Supabase Anon Key 或 Service Role Key。"
       });
     }
+
+    if (event.httpMethod === "POST") {
+      let body;
+      try {
+        body = JSON.parse(event.body || "{}");
+      } catch (e) {
+        return resp(400, { error: "Invalid JSON body" });
+      }
+
+      const { name, email, message, inquiry_type } = body;
+      if (!name || !email || !message) {
+        return resp(400, { error: "Name, email, and message are required fields." });
+      }
+
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent("Erick Firm 表格")}`, {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          inquiry_type: inquiry_type || "consultation",
+          status: "new"
+        })
+      });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("Supabase insert error:", errText);
+        return resp(res.status || 500, { error: `Failed to save submission: ${errText}` });
+      }
+
+      const insertedData = await res.json();
+      return resp(200, { success: true, data: insertedData });
+    }
+
+    if (event.httpMethod !== "GET") return resp(405, { error: "Method Not Allowed" });
 
     const qs = event.queryStringParameters || {};
     const locale = qs.lang || DEFAULT_LOCALE;

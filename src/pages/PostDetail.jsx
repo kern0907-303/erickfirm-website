@@ -6,6 +6,28 @@ import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { findPostByRoute, getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
 
+const renderFormattedText = (text) => {
+  if (typeof text !== 'string') return text;
+  const regex = /(\*\*.*?\*\*|\*.*?\*|`.*?`)/g;
+  const parts = text.split(regex);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
+    }
+    if ((part.startsWith('*') && part.endsWith('*')) || (part.startsWith('_') && part.endsWith('_'))) {
+      return <em key={index} className="italic text-slate-800">{part.slice(1, -1)}</em>;
+    }
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return (
+        <code key={index} className="px-1.5 py-0.5 bg-slate-100 rounded text-sm font-mono text-[#D4AF37] font-semibold">
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    return part;
+  });
+};
+
 const PostDetail = () => {
   const { service, slug, id } = useParams();
   const navigate = useNavigate();
@@ -125,15 +147,15 @@ const PostDetail = () => {
 
             switch (type) {
               case 'heading_1':
-                return <h1 key={block.id} className="text-3xl font-bold mt-12 mb-6 text-slate-900">{content}</h1>;
+                return <h1 key={block.id} className="text-3xl font-bold mt-12 mb-6 text-slate-900">{renderFormattedText(content)}</h1>;
               case 'heading_2':
-                return <h2 key={block.id} className="text-2xl font-bold mt-10 mb-4 text-slate-900 border-l-4 border-[#D4AF37] pl-4">{content}</h2>;
+                return <h2 key={block.id} className="text-2xl font-bold mt-10 mb-4 text-slate-900 border-l-4 border-[#D4AF37] pl-4">{renderFormattedText(content)}</h2>;
               case 'heading_3':
-                return <h3 key={block.id} className="text-xl font-bold mt-8 mb-4 text-slate-900">{content}</h3>;
+                return <h3 key={block.id} className="text-xl font-bold mt-8 mb-4 text-slate-900">{renderFormattedText(content)}</h3>;
               case 'bulleted_list_item':
-                return <li key={block.id} className="ml-4 mb-2 list-disc">{content}</li>;
+                return <li key={block.id} className="ml-4 mb-2 list-disc">{renderFormattedText(content)}</li>;
               default:
-                return <p key={block.id} className="mb-6">{content}</p>;
+                return <p key={block.id} className="mb-6">{renderFormattedText(content)}</p>;
             }
           })}
         </div>
