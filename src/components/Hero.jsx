@@ -235,7 +235,7 @@ const Hero = () => {
             className="space-y-3"
           >
             <div
-              className="relative overflow-hidden rounded-lg max-w-[480px]"
+              className="relative overflow-hidden rounded-2xl max-w-[480px]"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onTouchStart={handleTouchStart}
@@ -249,14 +249,10 @@ const Hero = () => {
                 {hero.cards.map((card, index) => (
                   <article
                     key={card.id}
-                    className="group w-full shrink-0 rounded-lg border border-slate-200/90 bg-white/80 backdrop-blur-md p-5 md:p-6 shadow-[0_8px_30px_rgba(0,42,84,0.04)] hover:shadow-[0_14px_45px_rgba(0,194,194,0.15)] hover:border-accent/40 transition-all duration-500"
+                    className="group w-full shrink-0 rounded-2xl border border-slate-200/90 bg-white/80 backdrop-blur-md p-5 md:p-6 shadow-[0_8px_30px_rgba(0,42,84,0.04)] hover:shadow-[0_14px_45px_rgba(0,194,194,0.15)] hover:border-accent/40 transition-all duration-500"
                   >
-                    <div className="flex items-start justify-between gap-4 mb-4">
-                      <div>
-                        <p className="text-[11px] tracking-[0.22em] font-bold text-accent mb-2 font-sans">SERVICE {card.id}</p>
-                        <h2 className="text-xl md:text-2xl font-black text-slate-900 font-display">{card.title}</h2>
-                      </div>
-                      <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100/80 text-slate-600 font-sans">#{index + 1}</span>
+                    <div className="mb-4">
+                      <h2 className="text-xl md:text-2xl font-black text-slate-900 font-display">{card.title}</h2>
                     </div>
 
                     <p className="text-[15px] font-semibold text-slate-800 mb-2 font-sans">・{card.problem}</p>
