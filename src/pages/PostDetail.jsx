@@ -131,12 +131,21 @@ const PostDetail = () => {
         <header className="mb-12">
           <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">{normalizedPost.title}</h1>
           {isUsingFallback && <p className="text-sm text-slate-500 mb-4">{dict.fallbackHint}</p>}
-          <div className="flex items-center gap-4 text-sm text-slate-400">
+          <div className="flex items-center gap-4 text-sm text-slate-400 mb-4">
             <span className="bg-slate-50 px-3 py-1 rounded text-slate-600 font-bold italic">
               {getServiceNameFromSlug(normalizedPost.service, locale, i18n)}
             </span>
             <span>{normalizedPost.publishDate}</span>
           </div>
+          {Array.isArray(post?.tags) && post.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 pt-2">
+              {post.tags.map((tag) => (
+                <span key={tag} className="px-2.5 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
         </header>
 
         <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed text-lg">

@@ -5,15 +5,15 @@ const FAQ_DATA = {
   'zh-TW': [
     {
       q: '我想增長業績，但不知道先改哪一塊，怎麼辦？',
-      a: '先從企業醫生的三段檢查開始：獲客、交付、回款。只要先找出一個最大阻塞點，業績就會開始回升。',
+      a: '先從Ｉ８企業（企業醫生專案）的三段檢查開始：獲客、交付、回款。只要先找出一個最大阻塞點，業績就會開始回升。',
     },
     {
       q: '我想提升行動力與決策力，這裡有可行方向嗎？',
-      a: '有。先看個人成長中的 TimeWaver 分析與節奏重建內容，先找核心卡點，再設計執行節奏。',
+      a: '有。先看ＡＢＬ量子調頻（個人成長專案）中的 TimeWaver 分析與節奏重建內容，先找核心卡點，再設計執行節奏。',
     },
     {
       q: '我對自己方向很混亂，這裡可以幫我分析嗎？',
-      a: '可以，生命藍圖規劃會先做決策偏好與角色對位分析，幫你把「現在先做什麼」具體化。',
+      a: '可以，ＮＡＳ生命數字（生命藍圖專案）會先做決策偏好與角色對位分析，幫你把「現在先做什麼」具體化。',
     },
     {
       q: '如果我只有 15 分鐘，先看哪裡最有價值？',
@@ -23,15 +23,15 @@ const FAQ_DATA = {
   en: [
     {
       q: 'I need revenue growth, but where should I start?',
-      a: 'Start with the Enterprise Doctor checkpoints: acquisition, delivery, and collection. Fix one major blocker first.',
+      a: 'Start with the I8 Enterprise (Enterprise Doctor project) checkpoints: acquisition, delivery, and collection. Fix one major blocker first.',
     },
     {
       q: 'I want stronger execution and decision quality. Is there a practical path?',
-      a: 'Yes. Start with Personal Growth content on TimeWaver analysis and rhythm reset, then build a stable execution cycle.',
+      a: 'Yes. Start with ABL Quantum Frequency (Personal Growth project) content on TimeWaver analysis and rhythm reset, then build a stable execution cycle.',
     },
     {
       q: 'My direction feels unclear. Can this site help me analyze it?',
-      a: 'Yes. Life Blueprint Planning starts with decision preference and role alignment to make your next move concrete.',
+      a: 'Yes. NAS Life Numerology (Life Blueprint project) starts with decision preference and role alignment to make your next move concrete.',
     },
     {
       q: 'I only have 15 minutes. What should I read first?',

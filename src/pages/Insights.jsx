@@ -61,11 +61,34 @@ const Insights = () => {
     loadPosts();
   }, [locale]);
 
+  const [selectedTag, setSelectedTag] = useState(null);
   const activeService = SERVICES.includes(routeService) ? routeService : 'all';
+
+  // Reset tag selection when service category changes
+  useEffect(() => {
+    setSelectedTag(null);
+  }, [activeService]);
+
+  const availableTags = useMemo(() => {
+    const servicePosts = activeService === 'all' ? posts : posts.filter(p => p.service === activeService);
+    const tagsSet = new Set();
+    servicePosts.forEach(post => {
+      if (Array.isArray(post.tags)) {
+        post.tags.forEach(tag => tagsSet.add(tag));
+      }
+    });
+    return Array.from(tagsSet);
+  }, [posts, activeService]);
+
   const filteredPosts = useMemo(
-    () => posts.filter((post) => (activeService === 'all' ? true : post.service === activeService)),
-    [posts, activeService]
+    () => posts.filter((post) => {
+      const matchesService = activeService === 'all' ? true : post.service === activeService;
+      const matchesTag = !selectedTag ? true : (Array.isArray(post.tags) && post.tags.includes(selectedTag));
+      return matchesService && matchesTag;
+    }),
+    [posts, activeService, selectedTag]
   );
+
   const sortedPosts = useMemo(
     () =>
       [...filteredPosts].sort((a, b) => {
@@ -97,7 +120,7 @@ const Insights = () => {
           {isUsingFallback && <p className="text-sm text-slate-500 mt-4">{dict.fallbackHint}</p>}
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-16">
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
           <button
             onClick={() => handleServiceChange('all')}
             className={`px-6 py-2 rounded-full text-sm font-bold tracking-wider transition-all duration-300 ${
@@ -119,6 +142,39 @@ const Insights = () => {
           ))}
         </div>
 
+        {/* Tags filter list */}
+        {availableTags.length > 0 && (
+          <div className="flex flex-wrap justify-center items-center gap-2 mb-16 max-w-3xl mx-auto border-t border-slate-200/60 pt-6">
+            <span className="text-xs font-bold text-slate-400 mr-2 tracking-wider uppercase">
+              {locale === 'en' ? 'Filter by Tag:' : '標籤篩選：'}
+            </span>
+            {availableTags.map((tag) => {
+              const active = selectedTag === tag;
+              return (
+                <button
+                  key={tag}
+                  onClick={() => setSelectedTag(active ? null : tag)}
+                  className={`px-3 py-1 rounded text-xs font-semibold border transition-all duration-200 ${
+                    active
+                      ? 'bg-[#D4AF37] border-[#D4AF37] text-slate-900 shadow-sm font-bold'
+                      : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
+                  }`}
+                >
+                  #{tag}
+                </button>
+              );
+            })}
+            {selectedTag && (
+              <button
+                onClick={() => setSelectedTag(null)}
+                className="text-xs font-bold text-slate-400 hover:text-slate-600 ml-2"
+              >
+                {locale === 'en' ? 'Clear' : '清除'}
+              </button>
+            )}
+          </div>
+        )}
+
         {loading ? (
           <div className="text-center text-slate-400 py-20 animate-pulse">{dict.loadingInsights}</div>
         ) : (
@@ -133,7 +189,31 @@ const Insights = () => {
                   <span className="text-xs text-slate-400">{post.publishDate}</span>
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-[#D4AF37] transition-colors line-clamp-2">{post.title}</h3>
-                <p className="text-slate-600 text-sm leading-relaxed mb-8 flex-grow line-clamp-3">{post.excerpt}</p>
+                <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-grow line-clamp-3">{post.excerpt}</p>
+                
+                {/* Clickable tags in card */}
+                {Array.isArray(post.tags) && post.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {post.tags.map((tag) => (
+                      <button
+                        key={tag}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setSelectedTag(selectedTag === tag ? null : tag);
+                        }}
+                        className={`px-2 py-0.5 rounded text-[10px] font-medium transition-all ${
+                          selectedTag === tag
+                            ? 'bg-[#D4AF37] text-slate-900 font-bold'
+                            : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                        }`}
+                      >
+                        #{tag}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-50">
                   <span className="text-sm font-bold text-[#D4AF37]">{post.format}</span>
                   <Link to={`/insights/${post.service}/${post.slug}`} className="text-slate-900 font-bold text-sm tracking-wider hover:text-[#D4AF37] transition-all">

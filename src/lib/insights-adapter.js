@@ -12,6 +12,9 @@ const SERVICE_MAP = {
   'personal blueprint planning': 'life-number',
   'life number': 'life-number',
   'personal growth': 'personal-growth',
+  'enterprise-doctor': 'enterprise-doctor',
+  'life-number': 'life-number',
+  'personal-growth': 'personal-growth',
 };
 
 function slugify(input) {
@@ -47,10 +50,30 @@ export function normalizePost(raw, locale = 'zh-TW') {
   const id = raw.id || `fallback-${slugify(slugBase)}`;
   const slug = slugify(slugBase) || slugify(title) || id;
 
+  const projectTagMap = {
+    'zh-TW': {
+      'enterprise-doctor': '企業醫生',
+      'life-number': '生命藍圖',
+      'personal-growth': '個人成長',
+    },
+    'en': {
+      'enterprise-doctor': 'Enterprise Doctor',
+      'life-number': 'Life Blueprint',
+      'personal-growth': 'Personal Growth',
+    }
+  };
+  const projectTag = projectTagMap[locale]?.[service] || projectTagMap['zh-TW']?.[service];
+  const rawTags = Array.isArray(raw.tags) ? raw.tags : [];
+  const tags = [...rawTags];
+  if (projectTag && !tags.includes(projectTag)) {
+    tags.unshift(projectTag);
+  }
+
   return {
     id,
     slug,
     service,
+    tags,
     locale: raw.locale || locale,
     canonicalKey: raw.canonicalKey || id,
     alternateLocales: Array.isArray(raw.alternateLocales) ? raw.alternateLocales : [],

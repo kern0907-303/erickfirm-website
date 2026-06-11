@@ -11,9 +11,9 @@ const copy = {
     goRecommended: '先看推薦服務',
     directBook: '直接預約',
     serviceLabel: {
-      'enterprise-doctor': '企業醫生',
-      'life-number': '生命藍圖規劃',
-      'personal-growth': '個人成長',
+      'enterprise-doctor': 'Ｉ８企業（企業醫生專案）',
+      'life-number': 'ＮＡＳ生命數字（生命藍圖專案）',
+      'personal-growth': 'ＡＢＬ量子調頻（個人成長專案）',
     },
     questions: [
       {
@@ -53,9 +53,9 @@ const copy = {
     goRecommended: 'Go to Recommended Service',
     directBook: 'Book Directly',
     serviceLabel: {
-      'enterprise-doctor': 'Enterprise Doctor',
-      'life-number': 'Life Blueprint Planning',
-      'personal-growth': 'Personal Growth',
+      'enterprise-doctor': 'I8 Enterprise (Enterprise Doctor)',
+      'life-number': 'NAS Life Numerology (Life Blueprint)',
+      'personal-growth': 'ABL Quantum Frequency (Personal Growth)',
     },
     questions: [
       {

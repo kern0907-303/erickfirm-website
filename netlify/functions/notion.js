@@ -39,13 +39,13 @@ function generateExcerpt(content = "", length = 150) {
 function getServiceFromContent(content = "", title = "") {
   const text = (title + " " + content).toLowerCase();
   
-  if (text.includes("企業醫生") || text.includes("營運") || text.includes("流程優化") || text.includes("企業診斷") || text.includes("團隊執行力") || text.includes("enterprise-doctor")) {
+  if (text.includes("企業醫生") || text.includes("營運") || text.includes("流程優化") || text.includes("企業診斷") || text.includes("團隊執行力") || text.includes("enterprise-doctor") || text.includes("i8") || text.includes("i8企業")) {
     return "enterprise-doctor";
   }
-  if (text.includes("生命數字") || text.includes("生命藍圖") || text.includes("個人藍圖") || text.includes("決策偏好") || text.includes("life-number")) {
+  if (text.includes("生命數字") || text.includes("生命藍圖") || text.includes("個人藍圖") || text.includes("決策偏好") || text.includes("life-number") || text.includes("nas") || text.includes("nas生命數字")) {
     return "life-number";
   }
-  if (text.includes("個人成長") || text.includes("自我成長") || text.includes("timewaver") || text.includes("個人品牌") || text.includes("能量") || text.includes("personal-growth") || text.includes("二次覺醒")) {
+  if (text.includes("個人成長") || text.includes("自我成長") || text.includes("timewaver") || text.includes("個人品牌") || text.includes("能量") || text.includes("personal-growth") || text.includes("二次覺醒") || text.includes("abl") || text.includes("abl量子調頻")) {
     return "personal-growth";
   }
   
