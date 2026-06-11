@@ -42,9 +42,9 @@ export const i18n = {
     insightsDesc: '依服務分艙閱讀，快速找到最相關的實戰文章',
     services: {
       all: '全部',
-      'enterprise-doctor': 'Ｉ８企業',
-      'life-number': 'ＮＡＳ生命數字',
-      'personal-growth': 'ＡＢＬ量子調頻',
+      'enterprise-doctor': '初八企業信息顧問Ｉ８',
+      'life-number': '平衡空間 ＮＡＳ',
+      'personal-growth': '艾伯林量子調頻ＡＢＬ',
     },
     fallbackHint: '目前使用備援內容',
     loadingInsights: '正在載入最新洞察...',
@@ -62,8 +62,8 @@ export const i18n = {
     insightsDesc: 'Read by service silos to find the most relevant playbooks fast',
     services: {
       all: 'All',
-      'enterprise-doctor': 'I8 Enterprise',
-      'life-number': 'NAS Life Numerology',
+      'enterprise-doctor': 'I8 Enterprise Consulting',
+      'life-number': 'NAS Balanced Space',
       'personal-growth': 'ABL Quantum Frequency',
     },
     fallbackHint: 'Using fallback content',

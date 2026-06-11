@@ -3,21 +3,21 @@ import { getPreferredLocale, onLocaleChange } from '../lib/i18n';
 
 const copy = {
   'zh-TW': {
-    heading: '值得收藏的三份起手指南',
-    desc: '這區是給第一次認識你的朋友。即使今天不預約，也能先帶走可用框架，讓網站具備收藏價值。',
+    heading: '值得收藏的三份結構對位指南',
+    desc: '這是為初次造訪 Erick Firm 的決策者設計的。即使今天不預約評估，也建議先帶走可用之結構框架，讓您快速自我檢視。',
     cards: [
-      ['企業醫生起手清單', '用 10 分鐘檢查營運內耗、決策瓶頸與現金流風險。', '/insights/enterprise-doctor', '打開清單 →'],
-      ['生命藍圖規劃決策地圖', '快速判斷你在壓力情境下的決策偏差與溝通盲點。', '/insights/life-number', '查看地圖 →'],
-      ['個人成長節奏模板', '建立一個不靠意志力、可持續執行的每週成長節奏。', '/insights/personal-growth', '套用模板 →'],
+      ['Ｉ８企業醫生起手清單', '用 10 分鐘排查營運內耗、商業漏斗阻塞與現金流信號斷裂。', '/insights/enterprise-doctor', '打開清單 →'],
+      ['ＮＡＳ決策對位地圖', '快速判斷您或合夥團隊在壓力情境下的角色錯位與決策盲區。', '/insights/life-number', '查看地圖 →'],
+      ['ＡＢＬ個人能效節奏模板', '建立一個不靠意志力強撐、可持續流暢運行的能效回看系統。', '/insights/personal-growth', '套用模板 →'],
     ],
   },
   en: {
-    heading: 'Three Resources Worth Bookmarking',
-    desc: 'Built for first-time visitors. Even without booking today, you can leave with practical frameworks.',
+    heading: 'Three Alignment Resources Worth Bookmarking',
+    desc: 'Designed for first-time visitors. Even without booking an assessment today, you can leverage these foundational frameworks.',
     cards: [
-      ['Enterprise Doctor Checklist', 'Review operational friction, decision bottlenecks, and cashflow risk in 10 minutes.', '/insights/enterprise-doctor', 'Open Checklist →'],
-      ['Life Blueprint Planning Decision Map', 'Spot decision bias and communication blind spots under pressure.', '/insights/life-number', 'Open Map →'],
-      ['Personal Growth Rhythm Template', 'Build a weekly rhythm system that does not rely on willpower.', '/insights/personal-growth', 'Use Template →'],
+      ['I8 Enterprise Doctor Checklist', 'Review operational leaks, funnel blockages, and cashflow signals in 10 minutes.', '/insights/enterprise-doctor', 'Open Checklist →'],
+      ['NAS Decision Seat Alignment Map', 'Identify decision biases and role authority conflicts under pressure.', '/insights/life-number', 'Open Map →'],
+      ['ABL Performance Rhythm Template', 'Build a weekly performance tracking template that replaces raw willpower.', '/insights/personal-growth', 'Use Template →'],
     ],
   },
 };

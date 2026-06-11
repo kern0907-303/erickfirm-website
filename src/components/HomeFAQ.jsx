@@ -4,38 +4,38 @@ import { getPreferredLocale, onLocaleChange } from '../lib/i18n';
 const FAQ_DATA = {
   'zh-TW': [
     {
-      q: '我想增長業績，但不知道先改哪一塊，怎麼辦？',
-      a: '先從Ｉ８企業（企業醫生專案）的三段檢查開始：獲客、交付、回款。只要先找出一個最大阻塞點，業績就會開始回升。',
+      q: '我想打破企業營收停滯，但不知道該先梳理哪一塊？',
+      a: '先從初八企業信息顧問Ｉ８（企業醫生專案）的「獲客、交付、回款」三段結構開始排查。找到主要漏斗阻塞點，優先投入資源排除，即可看到營運效率與利潤回升。',
     },
     {
-      q: '我想提升行動力與決策力，這裡有可行方向嗎？',
-      a: '有。先看ＡＢＬ量子調頻（個人成長專案）中的 TimeWaver 分析與節奏重建內容，先找核心卡點，再設計執行節奏。',
+      q: '如何解決莫名的執行拖延、突破個人成長瓶頸？',
+      a: '這通常源於信息場與潛意識層面的糾纏阻力。艾伯林量子調頻ＡＢＬ（能量對位專案）使用 TimeWaver 信息場科技定位底層抗拒源並進行調頻修復，重新找回流暢高效的日常節奏。',
     },
     {
-      q: '我對自己方向很混亂，這裡可以幫我分析嗎？',
-      a: '可以，ＮＡＳ生命數字（生命藍圖專案）會先做決策偏好與角色對位分析，幫你把「現在先做什麼」具體化。',
+      q: '合夥人溝通內耗高、或對個人核心方向感到混亂時，該如何理清？',
+      a: '合作高摩擦是角色權利錯位與決策盲區所致。平衡空間 ＮＡＳ（關係對位專案）專注於決策偏好與生命藍圖規劃，將對的職責安放在對的軌道上，將信任摩擦降至最低。',
     },
     {
       q: '如果我只有 15 分鐘，先看哪裡最有價值？',
-      a: '先看首頁「你可能正在搜尋的問題」與「值得收藏指南」，能最快定位問題與得到可用框架。',
+      a: '建議先看首頁的「第一性原理思維對照」與「值得收藏指南」，能以最短時間獲得定位問題的底層模型。',
     },
   ],
   en: [
     {
-      q: 'I need revenue growth, but where should I start?',
-      a: 'Start with the I8 Enterprise (Enterprise Doctor project) checkpoints: acquisition, delivery, and collection. Fix one major blocker first.',
+      q: 'How do I identify which business bottleneck to fix first?',
+      a: 'We begin with I8 Enterprise Consulting (Enterprise Doctor project) to audit your "Acquisition, Delivery, and Collection" funnel. Resolving the single major funnel leak will yield immediate cashflow improvement.',
     },
     {
-      q: 'I want stronger execution and decision quality. Is there a practical path?',
-      a: 'Yes. Start with ABL Quantum Frequency (Personal Growth project) content on TimeWaver analysis and rhythm reset, then build a stable execution cycle.',
+      q: 'How can I overcome execution blocks and sustain growth momentum?',
+      a: 'Willpower depletion points to subconscious field blocks. ABL Quantum Frequency uses TimeWaver technology to map and tune core energetic blocks, replacing raw effort with stable execution flow.',
     },
     {
-      q: 'My direction feels unclear. Can this site help me analyze it?',
-      a: 'Yes. NAS Life Numerology (Life Blueprint project) starts with decision preference and role alignment to make your next move concrete.',
+      q: 'How do we resolve partner friction or lack of personal direction?',
+      a: 'Friction is a symptom of role mismatch and decision bias. NAS Balanced Space (Relation Alignment project) maps decision preferences to place stakeholders in the correct seats, lowering communication costs.',
     },
     {
       q: 'I only have 15 minutes. What should I read first?',
-      a: 'Start with “Questions People Ask” and “Worth Bookmarking” on the homepage for quick clarity and practical frameworks.',
+      a: 'Start with the "First Principles Framework" and "Worth Bookmarking" sections on our homepage to get a clear conceptual diagnosis and actionable models.',
     },
   ],
 };

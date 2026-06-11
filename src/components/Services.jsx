@@ -4,29 +4,29 @@ import { getPreferredLocale, onLocaleChange } from '../lib/i18n';
 
 const copy = {
   'zh-TW': {
-    heading: '三服務軌道首頁',
-    desc: '每個服務軌道都清楚回答：主打專案、適合誰、解決什麼、怎麼做、能得到什麼',
+    heading: '三大結構對位服務',
+    desc: '以第一性原理為核心，從系統治理、角色互補到能量場修復，為決策者重塑高效能運行網絡。',
     labels: { project: '主打專案：', audience: '適合誰：', solve: '解決什麼：', method: '如何進行：', outcome: '預期結果：', timeline: '時間預期：' },
     read: '看此軌道洞察 →',
     consult: '立即諮詢',
     stats: ['核心軌道分艙', '標準執行步驟', '客製化診斷與建議', '首頁可直接回答常見疑問'],
     services: [
-      { id: '01', title: 'Ｉ８企業', project: '企業醫生', audience: '創辦人、管理層、成長瓶頸中的團隊', solve: '營收停滯、內耗升高、決策節奏混亂', method: '體質盤點 → 風險診斷 → 結構重整 → KPI回看', outcome: '降低交易成本，提升決策效率與現金流穩定度', timeline: '通常 1-4 週可看到管理節奏改善', path: '/insights/enterprise-doctor' },
-      { id: '02', title: 'ＮＡＳ生命數字', project: '生命藍圖規劃', audience: '方向混亂、角色多重、常在關鍵時刻卡住決策的人', solve: '決策反覆、角色錯位、溝通誤解與合作磨耗', method: '決策偏好盤點 → 角色對位分析 → 情境策略建議 → 週期校正', outcome: '看清自己的決策模式，讓選擇更快更穩，合作更順暢', timeline: '通常 1-3 週可看到決策清晰度與溝通效率改善', path: '/insights/life-number' },
-      { id: '03', title: 'ＡＢＬ量子調頻', project: '個人成長', audience: '需要提升行動力與決策力的決策者', solve: '執行拖延、決策遲疑、節奏失衡', method: 'TimeWaver 分析 → 核心問題定位 → 個人化支持建議 → 週期回看', outcome: '看見真正卡點，重建穩定節奏與決策清晰度', timeline: '通常 2-6 週可看到行動與決策表現改善', path: '/insights/personal-growth' },
+      { id: '01', title: '初八企業信息顧問Ｉ８', project: '企業醫生專案', audience: '面臨增長瓶頸、營運內耗與營收停滯的創辦人及核心團隊', solve: '獲客流量阻塞、交付效率低落、現金流回看失真與內部交易成本過高', method: '商業體質盤點 → 漏斗風險診斷 → 交易結構重整 → 週會KPI回看', outcome: '打通關鍵漏斗阻塞，降低內部協作摩擦，使商業系統恢復可預測之利潤增長', timeline: '1-4 週內定位關鍵阻塞，並優化基本治理常識', path: '/insights/enterprise-doctor' },
+      { id: '02', title: '平衡空間 ＮＡＳ', project: '生命藍圖規劃與關係對位', audience: '常在關鍵時刻卡住決策、合夥團隊溝通高摩擦、多重身份角色錯位的領導者', solve: '重大決策反覆遲疑、核心合夥人角色權力錯位、高管團隊溝通內耗', method: '決策偏好分析 → 核心角色對位 → 壓力情境策略建議 → 關係成本校正', outcome: '透視個體深層決策邏輯，精準角色定位，將關係維護與溝通成本降至最低', timeline: '1-3 週內釐清決策核心盲區，並完成決策地圖', path: '/insights/life-number' },
+      { id: '03', title: '艾伯林量子調頻ＡＢＬ', project: '個人成長與信息場調頻', audience: '遭遇莫名執行阻力、自律與意志力耗盡、需突破決策天花板的高管與創業者', solve: '莫名拖延遲疑、意志力強撐導致精力崩潰、潛意識隱形抗拒、環境磁場失衡', method: 'TimeWaver 信息場掃描 → 潛意識卡點定位 → 個人及環境調頻支持 → 週期能效回看', outcome: '定位並清理看不見的干擾阻力，重建流暢執行節奏，修復關鍵決策張力', timeline: '2-6 週內釋放核心卡點，並重整日常能效表現', path: '/insights/personal-growth' },
     ],
   },
   en: {
-    heading: 'Three Service Tracks',
-    desc: 'Each service track answers: core project, who it is for, what it solves, how it works, and what outcomes to expect.',
+    heading: 'Three Structural Alignment Services',
+    desc: 'Based on first principles, we optimize governance systems, key relationships, and information fields to rebuild growth capability.',
     labels: { project: 'Core Project:', audience: 'Who it’s for:', solve: 'What it solves:', method: 'How it works:', outcome: 'Expected outcome:', timeline: 'Typical timeline:' },
     read: 'Read track insights →',
     consult: 'Book Consultation',
     stats: ['Distinct service tracks', 'Standard execution steps', 'Tailored diagnostic support', 'Questions answered on homepage'],
     services: [
-      { id: '01', title: 'I8 Enterprise', project: 'Enterprise Doctor', audience: 'Founders and leaders facing growth bottlenecks', solve: 'Stalled revenue, internal friction, and unstable decision cadence', method: 'Health audit → Risk diagnosis → Structure redesign → KPI review', outcome: 'Lower transaction cost and stronger decision speed', timeline: 'Visible improvement in 1-4 weeks', path: '/insights/enterprise-doctor' },
-      { id: '02', title: 'NAS Life Numerology', project: 'Life Blueprint Planning', audience: 'People with role complexity and recurring decision conflicts', solve: 'Decision loops, role mismatch, and communication friction', method: 'Decision preference mapping → Role alignment → Scenario strategy → Cycle reset', outcome: 'Clearer choices and smoother collaboration', timeline: 'Visible clarity in 1-3 weeks', path: '/insights/life-number' },
-      { id: '03', title: 'ABL Quantum Frequency', project: 'Personal Growth', audience: 'Decision-makers improving execution and decision quality', solve: 'Execution delay, decision hesitation, and unstable rhythm', method: 'TimeWaver analysis → Core issue mapping → Personalized support plan → Cycle review', outcome: 'Higher execution consistency and better decision quality', timeline: 'Visible improvement in 2-6 weeks', path: '/insights/personal-growth' },
+      { id: '01', title: 'I8 Enterprise Consulting', project: 'Enterprise Doctor Project', audience: 'Founders and leadership teams facing stagnation, internal friction, and bottlenecks', solve: 'Funnel blockage, poor delivery efficiency, cashflow misalignment, and high internal transaction cost', method: 'Health audit ➜ Risk diagnosis ➜ Structure redesign ➜ Weekly KPI review', outcome: 'Dramatically reduce operational friction, unblock funnel, and restore predictable growth', timeline: 'Locate core blockages within 1-4 weeks', path: '/insights/enterprise-doctor' },
+      { id: '02', title: 'NAS Balanced Space', project: 'Life Blueprint & Relation Alignment', audience: 'Leaders stuck in decision loops, facing high relation friction, or experiencing role confusion', solve: 'Decision loops, role authority mismatch, and communication conflicts in partner relations', method: 'Decision preference mapping ➜ Role seat alignment ➜ Scenario guidance ➜ Relation reset', outcome: 'Map individual decision dynamics and seat alignment to minimize friction cost', timeline: 'Map core decision biases and design blueprint in 1-3 weeks', path: '/insights/life-number' },
+      { id: '03', title: 'ABL Quantum Frequency', project: 'Personal Growth & Field Tuning', audience: 'Entrepreneurs and executives facing unexplained stagnation or willpower depletion', solve: 'Procrastination, emotional exhaustion, subconscious resistance, and environmental field imbalances', method: 'TimeWaver information scan ➜ Subconscious block mapping ➜ Frequency resonance support ➜ Energy review', outcome: 'Detect and clear invisible blocks, rebuild execution flow, and restore key decision energy', timeline: 'Release core blocks and restore performance rhythm in 2-6 weeks', path: '/insights/personal-growth' },
     ],
   },
 };

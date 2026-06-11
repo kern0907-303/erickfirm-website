@@ -11,6 +11,7 @@ import QuickAssessment from './components/QuickAssessment';
 import ProofSection from './components/ProofSection';
 import BookmarkSection from './components/BookmarkSection';
 import ProblemAnswersSection from './components/ProblemAnswersSection';
+import PeakSection from './components/PeakSection';
 import Insights from './pages/Insights';
 import PostDetail from './pages/PostDetail'; // 新增
 import { getPreferredLocale, onLocaleChange } from './lib/i18n';
@@ -28,6 +29,7 @@ const Home = () => (
   <>
     <Hero />
     <ProblemAnswersSection />
+    <PeakSection />
     <QuickAssessment />
     <Services />
     <ProofSection />
