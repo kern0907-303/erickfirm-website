@@ -128,7 +128,53 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen overflow-hidden pt-24 pb-20 bg-white">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,194,194,0.12),transparent_35%),radial-gradient(circle_at_80%_10%,rgba(15,23,42,0.09),transparent_30%),linear-gradient(180deg,#ffffff_0%,#f8fafc_48%,#ffffff_100%)]" />
+      {/* BCG-inspired ambient flowing light and shadow effects */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden bg-gradient-to-b from-white via-[#F4F9FA]/60 to-white">
+        {/* Glow orb 1: Tiffany Blue */}
+        <motion.div
+          animate={{
+            x: [0, 40, -20, 0],
+            y: [0, -40, 30, 0],
+            scale: [1, 1.15, 0.9, 1],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -top-20 -left-20 w-[400px] h-[400px] rounded-full bg-accent/10 blur-[100px]"
+        />
+        
+        {/* Glow orb 2: Consulting Blue */}
+        <motion.div
+          animate={{
+            x: [0, -50, 30, 0],
+            y: [0, 30, -50, 0],
+            scale: [1, 0.85, 1.15, 1],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute top-1/4 -right-20 w-[450px] h-[450px] rounded-full bg-secondary/8 blur-[120px]"
+        />
+        
+        {/* Glow orb 3: Navy Blue */}
+        <motion.div
+          animate={{
+            x: [0, 30, -40, 0],
+            y: [0, 40, 20, 0],
+            scale: [1, 1.1, 0.95, 1],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -bottom-20 left-1/3 w-[500px] h-[500px] rounded-full bg-primary/5 blur-[130px]"
+        />
+      </div>
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 xl:gap-14 items-start">
@@ -137,8 +183,8 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="inline-flex items-center gap-2 mb-7 px-4 py-2 rounded-full border border-slate-200 bg-white/80">
-              <span className="h-2 w-2 rounded-full bg-accent" />
+            <div className="inline-flex items-center gap-2 mb-7 px-4 py-2 rounded-full border border-slate-200 bg-white/80 backdrop-blur-sm shadow-sm">
+              <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
               <span className="text-[11px] md:text-xs font-bold tracking-[0.18em] text-slate-700">{hero.badge}</span>
             </div>
 
@@ -155,13 +201,13 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={scrollToAssessment}
-                className="px-7 py-4 rounded-sm bg-slate-900 text-white font-bold tracking-wide hover:bg-accent hover:text-slate-900 transition-colors font-sans"
+                className="px-7 py-4 rounded-sm bg-slate-900 text-white font-bold tracking-wide hover:bg-accent hover:text-slate-900 transition-all duration-300 font-sans shadow-md"
               >
                 {hero.findAnswer}
               </button>
               <a
                 href="/#contact"
-                className="px-7 py-4 rounded-sm border border-slate-300 text-slate-900 font-bold tracking-wide hover:border-accent hover:text-accent transition-colors text-center font-sans"
+                className="px-7 py-4 rounded-sm border border-slate-300 text-slate-900 font-bold tracking-wide hover:border-accent hover:text-accent transition-all duration-300 text-center font-sans"
               >
                 {hero.bookNow || dict.consult}
               </a>
@@ -175,7 +221,7 @@ const Hero = () => {
             className="space-y-3"
           >
             <div
-              className="relative overflow-hidden rounded-2xl max-w-[480px]"
+              className="relative overflow-hidden rounded-lg max-w-[480px]"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onTouchStart={handleTouchStart}
@@ -189,14 +235,14 @@ const Hero = () => {
                 {hero.cards.map((card, index) => (
                   <article
                     key={card.id}
-                    className="group w-full shrink-0 rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-sm p-5 md:p-6 shadow-[0_8px_30px_rgba(15,23,42,0.06)] hover:shadow-[0_14px_40px_rgba(15,23,42,0.12)] transition-all duration-300"
+                    className="group w-full shrink-0 rounded-lg border border-slate-200/90 bg-white/80 backdrop-blur-md p-5 md:p-6 shadow-[0_8px_30px_rgba(0,42,84,0.04)] hover:shadow-[0_14px_45px_rgba(0,194,194,0.12)] hover:border-accent/30 transition-all duration-500"
                   >
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <div>
                         <p className="text-[11px] tracking-[0.22em] font-bold text-accent mb-2 font-sans">SERVICE {card.id}</p>
                         <h2 className="text-xl md:text-2xl font-black text-slate-900 font-display">{card.title}</h2>
                       </div>
-                      <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 font-sans">#{index + 1}</span>
+                      <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100/80 text-slate-600 font-sans">#{index + 1}</span>
                     </div>
 
                     <p className="text-[15px] font-semibold text-slate-800 mb-2 font-sans">・{card.problem}</p>
