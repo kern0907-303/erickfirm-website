@@ -58,9 +58,66 @@ function getServiceFromContent(content = "", title = "") {
 function parseMarkdownToBlocks(markdown = "") {
   const lines = markdown.split(/\r?\n/);
   const blocks = [];
+  let inCodeBlock = false;
+  let codeContent = [];
+  let codeLanguage = "";
   
-  for (const line of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
     const trimmed = line.trim();
+    
+    // Code block detection
+    if (trimmed.startsWith("```")) {
+      if (inCodeBlock) {
+        // End of code block
+        inCodeBlock = false;
+        const codeText = codeContent.join("\n");
+        
+        if (codeLanguage === "mermaid") {
+          // It's a Mermaid diagram! Convert to a dynamic mermaid.ink image block!
+          const base64 = Buffer.from(codeText).toString("base64");
+          const imageUrl = `https://mermaid.ink/img/${base64}`;
+          
+          // Let's check if the previous block was a placeholder image.
+          const lastBlock = blocks[blocks.length - 1];
+          if (lastBlock && lastBlock.type === "image" && lastBlock.image.url.includes("your-id")) {
+            lastBlock.image.url = imageUrl;
+          } else if (lastBlock && lastBlock.type === "image") {
+            // If the user has a custom image, keep it and do not insert duplicate
+          } else {
+            // Otherwise, append a new image block for the diagram
+            blocks.push({
+              id: Math.random().toString(36).substr(2, 9),
+              type: "image",
+              image: {
+                alt: "概念模型架構圖",
+                url: imageUrl
+              }
+            });
+          }
+        } else {
+          // Normal code block
+          blocks.push({
+            id: Math.random().toString(36).substr(2, 9),
+            type: "paragraph",
+            paragraph: { rich_text: [{ plain_text: codeText }] }
+          });
+        }
+        codeContent = [];
+        codeLanguage = "";
+      } else {
+        // Start of code block
+        inCodeBlock = true;
+        codeLanguage = trimmed.slice(3).trim().toLowerCase();
+      }
+      continue;
+    }
+    
+    if (inCodeBlock) {
+      codeContent.push(line);
+      continue;
+    }
+    
     if (!trimmed) {
       continue;
     }
