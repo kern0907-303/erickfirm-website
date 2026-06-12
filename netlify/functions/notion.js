@@ -75,7 +75,7 @@ function parseMarkdownToBlocks(markdown = "") {
         
         if (codeLanguage === "mermaid") {
           // It's a Mermaid diagram! Convert to a dynamic mermaid.ink image block!
-          const base64 = Buffer.from(codeText).toString("base64");
+          const base64 = Buffer.from(codeText).toString("base64url");
           const imageUrl = `https://mermaid.ink/img/${base64}`;
           
           // Let's check if the previous block was a placeholder image.
