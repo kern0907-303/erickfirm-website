@@ -55,6 +55,38 @@ function getServiceFromContent(content = "", title = "") {
   return "personal-growth";
 }
 
+function formatMermaidCode(rawCode) {
+  let code = rawCode.trim();
+  // 1. 移除任何既有的 %%{init: ... }%% 區塊，以防格式衝突
+  code = code.replace(/%%\{init:[\s\S]*?\}%%\s*/g, "");
+  
+  // 2. 將標準 A[text] 節點升級為膠囊形狀 A([text])，避免破壞特殊節點形狀如決策 A{text} 或資料庫 A[(text)]
+  code = code.replace(/([a-zA-Z0-9_-]+)\s*\[(.*?)\]/g, (match, nodeId, label) => {
+    if (label.startsWith("(") || label.startsWith("[") || label.endsWith(")") || label.endsWith("]")) {
+      return match;
+    }
+    return `${nodeId}([${label}])`;
+  });
+  
+  // 3. 注入麥肯錫/BCG 高階企管顧問風格之專業配色主題 (海軍藍、蒂芙尼綠、極簡白)
+  const themeConfig = `%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'fontFamily': 'Arial, sans-serif',
+    'primaryColor': '#002A54',
+    'primaryTextColor': '#FFFFFF',
+    'primaryBorderColor': '#00C2C2',
+    'lineColor': '#00509D',
+    'secondaryColor': '#00C2C2',
+    'secondaryTextColor': '#FFFFFF',
+    'tertiaryColor': '#F4F9FA',
+    'tertiaryTextColor': '#1A202C'
+  }
+}}%%`;
+
+  return themeConfig + "\n" + code;
+}
+
 function parseMarkdownToBlocks(markdown = "") {
   const lines = markdown.split(/\r?\n/);
   const blocks = [];
@@ -75,7 +107,8 @@ function parseMarkdownToBlocks(markdown = "") {
         
         if (codeLanguage === "mermaid") {
           // It's a Mermaid diagram! Convert to a dynamic mermaid.ink image block!
-          const base64 = Buffer.from(codeText).toString("base64url");
+          const formattedCode = formatMermaidCode(codeText);
+          const base64 = Buffer.from(formattedCode).toString("base64url");
           const imageUrl = `https://mermaid.ink/img/${base64}`;
           
           // Let's check if the previous block was a placeholder image.
