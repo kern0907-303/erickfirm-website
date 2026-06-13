@@ -234,8 +234,15 @@ function mapSupabaseArticleToPost(article, locale = DEFAULT_LOCALE) {
     publishDate = article.created_at.split("T")[0];
   }
   
-  const tagsMatches = content.match(/#\S+/g);
-  const tags = tagsMatches ? tagsMatches.map(t => t.slice(1)) : [];
+  // 排除程式碼區塊（如 Mermaid 樣式定義），避免將裡面的十六進位顏色代碼誤判為標籤
+  const contentWithoutCode = content.replace(/```[\s\S]*?```/g, "");
+  const tagsMatches = contentWithoutCode.match(/#\S+/g);
+  let tags = [];
+  if (tagsMatches) {
+    tags = tagsMatches
+      .map(t => t.slice(1).replace(/['",.;:!?()\[\]{}]/g, "").trim())
+      .filter(t => t && !/^[0-9a-fA-F]{3}$|^[0-9a-fA-F]{6}$/.test(t));
+  }
   
   return {
     id,
