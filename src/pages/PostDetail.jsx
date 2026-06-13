@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { HelpCircle, ChevronDown } from 'lucide-react';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { findPostByRoute, getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
@@ -34,6 +35,8 @@ const PostDetail = () => {
   const [locale, setLocale] = useState(getPreferredLocale());
   const [post, setPost] = useState(null);
   const [blocks, setBlocks] = useState([]);
+  const [faqBlocks, setFaqBlocks] = useState([]);
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isUsingFallback, setIsUsingFallback] = useState(false);
   const canonicalKeyRef = useRef('');
@@ -73,6 +76,7 @@ const PostDetail = () => {
 
         setPost(remotePost);
         setBlocks(Array.isArray(data.blocks) ? data.blocks : []);
+        setFaqBlocks(Array.isArray(data.faqBlocks) ? data.faqBlocks : []);
         setIsUsingFallback(false);
         if (!id && remotePost.service && remotePost.slug && (remotePost.service !== service || remotePost.slug !== slug)) {
           navigate(`/insights/${remotePost.service}/${remotePost.slug}`, { replace: true });
@@ -83,6 +87,7 @@ const PostDetail = () => {
         const fallbackPost = findPostByRoute(fallbackPosts, { service, slug, id });
         setPost(fallbackPost);
         setBlocks(Array.isArray(fallbackPost?.blocks) ? fallbackPost.blocks : []);
+        setFaqBlocks([]);
         setIsUsingFallback(!!fallbackPost);
       } finally {
         setLoading(false);
@@ -101,6 +106,39 @@ const PostDetail = () => {
       publishDate: post.publishDate || '',
     };
   }, [post, service]);
+
+  const aeoJsonString = useMemo(() => {
+    if (!post?.aeoSchema) return null;
+    const match = post.aeoSchema.match(/<script[^>]*>([\s\S]*?)<\/script>/i);
+    return match ? match[1].trim() : post.aeoSchema.trim();
+  }, [post]);
+
+  const faqGroups = useMemo(() => {
+    const groups = [];
+    let currentGroup = null;
+    
+    faqBlocks.forEach(block => {
+      const type = block.type;
+      const content = block?.[type]?.rich_text?.[0]?.plain_text || block.text || "";
+      
+      if (type === 'heading_3' && (content.startsWith('Q:') || content.includes('Q:'))) {
+        if (currentGroup) {
+          groups.push(currentGroup);
+        }
+        currentGroup = {
+          question: content.replace(/^Q:\s*/i, '').trim(),
+          blocks: []
+        };
+      } else if (currentGroup) {
+        currentGroup.blocks.push(block);
+      }
+    });
+    
+    if (currentGroup) {
+      groups.push(currentGroup);
+    }
+    return groups;
+  }, [faqBlocks]);
 
   if (loading) return <div className="min-h-screen flex items-center justify-center animate-pulse text-slate-400 font-sans">{dict.loadingPost}</div>;
   if (!normalizedPost) {
@@ -122,6 +160,11 @@ const PostDetail = () => {
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="description" content={post?.excerpt || normalizedPost.title} />
+        {aeoJsonString && (
+          <script type="application/ld+json">
+            {aeoJsonString}
+          </script>
+        )}
       </Helmet>
       <article className="container mx-auto px-6 max-w-3xl">
         <Link to={backPath} className="text-slate-400 hover:text-accent transition-colors mb-8 inline-block font-bold text-sm tracking-widest">
@@ -185,6 +228,73 @@ const PostDetail = () => {
             }
           })}
         </div>
+
+        {faqGroups.length > 0 && (
+          <div className="mt-16 pt-12 border-t border-slate-100 font-sans">
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 font-display flex items-center gap-3">
+              <span className="p-1.5 bg-accent/10 text-accent rounded-lg">
+                <HelpCircle className="w-5 h-5" />
+              </span>
+              常見問題 (FAQ)
+            </h2>
+            <div className="space-y-4">
+              {faqGroups.map((group, index) => {
+                const isOpen = openFaqIndex === index;
+                return (
+                  <div 
+                    key={index} 
+                    className="border border-slate-100 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <button
+                      onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                      className="w-full flex justify-between items-center p-5 text-left text-slate-900 font-bold hover:bg-slate-50/50 transition-colors"
+                    >
+                      <span className="text-base md:text-lg pr-4 font-display flex items-start gap-3">
+                        <span className="text-accent font-semibold font-mono">Q.</span>
+                        {group.question}
+                      </span>
+                      <ChevronDown 
+                        className={`w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0 ${
+                          isOpen ? 'rotate-180 text-accent' : ''
+                        }`} 
+                      />
+                    </button>
+                    <div 
+                      className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                        isOpen ? 'max-h-[1000px] border-t border-slate-50' : 'max-h-0'
+                      }`}
+                    >
+                      <div className="p-5 bg-slate-50/30 prose prose-slate max-w-none text-slate-600 leading-relaxed text-sm md:text-base">
+                        {group.blocks.map((block) => {
+                          const type = block.type;
+                          const content = block?.[type]?.rich_text?.[0]?.plain_text || block.text;
+                          if (!content) return null;
+                          
+                          const cleanContent = (type === 'paragraph' && content.startsWith('A:')) 
+                            ? content.replace(/^A:\s*/i, '') 
+                            : content;
+
+                          switch (type) {
+                            case 'heading_1':
+                              return <h1 key={block.id} className="text-2xl font-bold mt-6 mb-4 text-slate-900 font-display">{renderFormattedText(cleanContent)}</h1>;
+                            case 'heading_2':
+                              return <h2 key={block.id} className="text-xl font-bold mt-5 mb-3 text-slate-900 border-l-4 border-accent pl-3 font-display">{renderFormattedText(cleanContent)}</h2>;
+                            case 'heading_3':
+                              return <h3 key={block.id} className="text-lg font-bold mt-4 mb-2 text-slate-900 font-display">{renderFormattedText(cleanContent)}</h3>;
+                            case 'bulleted_list_item':
+                              return <li key={block.id} className="ml-4 mb-1.5 list-disc">{renderFormattedText(cleanContent)}</li>;
+                            default:
+                              return <p key={block.id} className="mb-4">{renderFormattedText(cleanContent)}</p>;
+                          }
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </article>
     </div>
   );

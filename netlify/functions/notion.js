@@ -55,6 +55,18 @@ function getServiceFromContent(content = "", title = "") {
   return "personal-growth";
 }
 
+function getServiceFromBrand(brandId = "", content = "", title = "") {
+  const brand = String(brandId || "").toLowerCase().trim();
+  if (brand === "i8") return "enterprise-doctor";
+  if (brand === "nas") return "life-number";
+  if (brand === "abl") return "personal-growth";
+  if (brand === "erick") return "erick-column";
+  
+  // Fallback to heuristic text analysis for legacy data without brand_id
+  return getServiceFromContent(content, title);
+}
+
+
 function formatMermaidCode(rawCode) {
   let code = rawCode.trim();
   // 1. 移除任何既有的 %%{init: ... }%% 區塊，以防格式衝突
@@ -226,7 +238,7 @@ function mapSupabaseArticleToPost(article, locale = DEFAULT_LOCALE) {
   const content = article.content || "";
   
   const excerpt = generateExcerpt(content, 150);
-  const service = getServiceFromContent(content, title);
+  const service = getServiceFromBrand(article.brand_id, content, title);
   const slug = slugify(title) || id;
   
   let publishDate = "";
@@ -256,7 +268,9 @@ function mapSupabaseArticleToPost(article, locale = DEFAULT_LOCALE) {
     locale,
     canonicalKey: id,
     alternateLocales: [],
-    format: "Article"
+    format: "Article",
+    aeoSchema: article.aeo_schema || "",
+    aeoFaq: article.aeo_faq || ""
   };
 }
 
@@ -298,10 +312,12 @@ async function getPostDetail(postId, locale = DEFAULT_LOCALE) {
   const article = data[0];
   const page = mapSupabaseArticleToPost(article, locale);
   const blocks = parseMarkdownToBlocks(article.content || "");
+  const faqBlocks = article.aeo_faq ? parseMarkdownToBlocks(article.aeo_faq) : [];
   
   return {
     page,
-    blocks
+    blocks,
+    faqBlocks
   };
 }
 
