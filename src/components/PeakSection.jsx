@@ -100,7 +100,7 @@ const PeakSection = () => {
         {/* Header */}
         <div className="max-w-3xl mb-20">
           <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-4 block font-sans">First Principles</span>
-          <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight font-display">{dict.title}</h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight font-display text-white">{dict.title}</h2>
           <p className="text-xl text-accent font-semibold mb-6 font-sans">{dict.subtitle}</p>
           <p className="text-slate-300 leading-relaxed font-sans">{dict.desc}</p>
         </div>
@@ -154,11 +154,11 @@ const PeakSection = () => {
 
         <div className="grid md:grid-cols-3 gap-8 mb-20 font-sans">
           {dict.triads.map((triad, idx) => {
-            const Icon = triad.icon;
+            const logoSrc = idx === 0 ? '/logo-i8.jpg' : idx === 1 ? '/logo-nas.png' : '/logo-abl.png';
             return (
               <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-accent/40 hover:bg-white/[0.08] hover:translate-y-[-4px] transition-all duration-300 transform flex flex-col h-full">
-                <div className="h-12 w-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-6">
-                  <Icon size={24} />
+                <div className="h-12 w-12 rounded-xl overflow-hidden bg-white border border-white/20 p-0.5 flex items-center justify-center mb-6 shadow-sm shrink-0">
+                  <img src={logoSrc} alt={triad.name} className="w-full h-full object-contain" />
                 </div>
                 <h4 className="text-lg font-bold text-slate-300 mb-2">{triad.name}</h4>
                 <p className="text-accent text-xs font-bold uppercase tracking-widest mb-4">{triad.focus}</p>

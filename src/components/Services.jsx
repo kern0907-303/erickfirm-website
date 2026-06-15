@@ -49,8 +49,17 @@ const Services = () => {
           {section.services.map((srv) => (
             <div key={srv.id} className="bg-white rounded-2xl p-8 md:p-10 shadow-[0_4px_25px_rgba(0,42,84,0.04)] border-t-4 border-accent border-x border-b border-slate-100 hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(0,42,84,0.08)] hover:border-accent/40 transition-all duration-300 transform flex flex-col justify-between">
               <div>
-                <div className="text-xs font-bold text-accent tracking-[0.3em] mb-4 font-sans">{srv.id}</div>
-                <h4 className="text-2xl font-bold text-slate-900 mb-6 font-display">{srv.title}</h4>
+                <div className="text-xs font-bold text-accent tracking-[0.3em] mb-3 font-sans">{srv.id}</div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-white border border-slate-200/60 p-0.5 shadow-sm shrink-0">
+                    <img
+                      src={srv.id === '01' ? '/logo-i8.jpg' : srv.id === '02' ? '/logo-nas.png' : '/logo-abl.png'}
+                      alt={`${srv.title} Logo`}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <h4 className="text-2xl font-bold text-slate-900 font-display leading-tight">{srv.title}</h4>
+                </div>
                 <div className="space-y-4 text-sm text-slate-700 font-sans">
                   <p><span className="font-bold text-slate-900">{section.labels.project}</span>{srv.project}</p>
                   <p><span className="font-bold text-slate-900">{section.labels.audience}</span>{srv.audience}</p>
