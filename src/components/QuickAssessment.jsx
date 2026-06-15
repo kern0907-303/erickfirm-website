@@ -116,7 +116,7 @@ const QuickAssessment = () => {
 
         <div className="grid md:grid-cols-3 gap-6">
           {dict.questions.map((question, index) => (
-            <article key={question.id} className="bg-slate-50 rounded-lg border border-slate-200 p-6">
+            <article key={question.id} className="bg-slate-50/70 rounded-2xl border border-slate-200/60 p-6 md:p-8 hover:border-accent/40 hover:bg-white transition-all duration-300">
               <p className="text-xs text-accent font-bold tracking-[0.2em] mb-3 font-sans">Q{index + 1}</p>
               <h4 className="font-bold text-slate-900 mb-4 font-sans">{question.title}</h4>
               <div className="space-y-3 font-sans">
@@ -126,8 +126,8 @@ const QuickAssessment = () => {
                     <button
                       key={option.label}
                       onClick={() => setAnswers((prev) => ({ ...prev, [question.id]: option.service }))}
-                      className={`w-full text-left px-4 py-3 rounded-sm border text-sm transition-all ${
-                        active ? 'border-accent bg-surface text-slate-900 font-bold' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                      className={`w-full text-left px-4 py-3 rounded-lg border text-sm transition-all duration-200 transform hover:translate-y-[-1px] cursor-pointer ${
+                        active ? 'border-accent bg-surface text-slate-900 font-bold shadow-sm' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:shadow-sm'
                       }`}
                     >
                       {option.label}
@@ -139,18 +139,18 @@ const QuickAssessment = () => {
           ))}
         </div>
 
-        <div className="mt-10 bg-primary text-white rounded-lg p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-sans">
+        <div className="mt-10 bg-primary text-white rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-sans shadow-lg border border-slate-700/30">
           <div>
             <p className="text-sm text-slate-300">{dict.recommendationLabel}</p>
             <p className="text-2xl font-bold text-accent font-display">{recommendation ? dict.serviceLabel[recommendation] : dict.recommendationFallback}</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             {recommendation && (
-              <Link to={`/insights/${recommendation}`} className="px-6 py-3 bg-accent text-slate-900 font-bold rounded-sm text-center hover:bg-white hover:text-primary transition-colors duration-200">
+              <Link to={`/insights/${recommendation}`} className="px-6 py-3 bg-accent text-slate-900 font-bold rounded-lg text-center hover:bg-white hover:text-primary hover:translate-y-[-1px] transition-all duration-200 cursor-pointer">
                 {dict.goRecommended}
               </Link>
             )}
-            <a href="/#contact" className="px-6 py-3 border border-slate-500 text-white font-bold rounded-sm text-center hover:bg-white hover:text-primary hover:border-white transition-colors duration-200">
+            <a href="/#contact" className="px-6 py-3 border border-slate-500 text-white font-bold rounded-lg text-center hover:bg-white hover:text-primary hover:border-white hover:translate-y-[-1px] transition-all duration-200 cursor-pointer">
               {dict.directBook}
             </a>
           </div>

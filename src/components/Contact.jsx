@@ -91,7 +91,7 @@ const Contact = () => {
     <section id="contact" className="py-24 bg-white">
       <div className="container mx-auto px-6 max-w-4xl">
         
-        <div className="bg-surface rounded-lg p-8 md:p-14 border border-slate-200 shadow-sm">
+        <div className="bg-surface rounded-2xl p-8 md:p-14 border border-slate-200/80 shadow-[0_8px_30px_rgba(0,42,84,0.02)]">
           <div className="text-center mb-12">
             <h2 className="text-accent font-bold tracking-[0.3em] uppercase mb-3 text-sm font-sans">Book Consultation</h2>
             <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">{dict.title}</h3>
@@ -99,13 +99,13 @@ const Contact = () => {
           </div>
 
           {successMsg && (
-            <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-sm text-sm font-semibold text-center font-sans">
+            <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-sm font-semibold text-center font-sans">
               {successMsg}
             </div>
           )}
 
           {errorMsg && (
-            <div className="mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-sm text-sm font-semibold text-center font-sans">
+            <div className="mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-lg text-sm font-semibold text-center font-sans">
               {errorMsg}
             </div>
           )}
@@ -119,7 +119,7 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange('name')}
                   disabled={isSubmitting}
-                  className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all placeholder-slate-400 shadow-sm disabled:opacity-50"
+                  className="w-full bg-white border border-slate-200 text-slate-900 rounded-lg p-4 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all placeholder-slate-400/80 shadow-sm disabled:opacity-50"
                   placeholder={dict.namePlaceholder}
                   required
                 />
@@ -131,7 +131,7 @@ const Contact = () => {
                   value={formData.contact}
                   onChange={handleChange('contact')}
                   disabled={isSubmitting}
-                  className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all placeholder-slate-400 shadow-sm disabled:opacity-50"
+                  className="w-full bg-white border border-slate-200 text-slate-900 rounded-lg p-4 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all placeholder-slate-400/80 shadow-sm disabled:opacity-50"
                   placeholder={dict.contactPlaceholder}
                   required
                 />
@@ -145,7 +145,7 @@ const Contact = () => {
                 value={formData.status}
                 onChange={handleChange('status')}
                 disabled={isSubmitting}
-                className="w-full bg-white border border-slate-300 text-slate-900 rounded-sm p-4 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all placeholder-slate-400 resize-none shadow-sm disabled:opacity-50"
+                className="w-full bg-white border border-slate-200 text-slate-900 rounded-lg p-4 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all placeholder-slate-400/80 resize-none shadow-sm disabled:opacity-50"
                 placeholder={dict.statusPlaceholder}
                 required
               ></textarea>
@@ -155,7 +155,7 @@ const Contact = () => {
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-primary text-white font-bold tracking-widest text-base py-4 rounded-sm hover:bg-accent hover:text-slate-900 transition-all duration-300 uppercase shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-primary text-white font-bold tracking-widest text-base py-4 rounded-lg hover:bg-accent hover:text-slate-900 hover:translate-y-[-1px] active:translate-y-[1px] hover:shadow-lg transition-all duration-300 uppercase shadow-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {isSubmitting ? dict.submitting : dict.submit}
               </button>

@@ -69,10 +69,12 @@ const ProblemAnswersSection = () => {
 
         <div className="grid md:grid-cols-3 gap-6 font-sans">
           {section.items.map((item) => (
-            <article key={item.q} className="bg-white border border-slate-200 rounded-lg p-7">
-              <h4 className="text-lg font-bold text-slate-900 mb-4 font-display">{item.q}</h4>
-              <p className="text-slate-700 leading-relaxed mb-6">{item.a}</p>
-              <Link to={item.to} className="text-sm font-bold text-slate-900 hover:text-accent tracking-wide transition-colors">
+            <article key={item.q} className="bg-white border border-slate-200/60 rounded-2xl p-7 shadow-[0_4px_25px_rgba(0,42,84,0.03)] hover:shadow-[0_20px_50px_rgba(0,42,84,0.08)] hover:border-accent/40 hover:translate-y-[-4px] transition-all duration-300 transform flex flex-col justify-between">
+              <div>
+                <h4 className="text-lg font-bold text-slate-900 mb-4 font-display">{item.q}</h4>
+                <p className="text-slate-700 leading-relaxed mb-6">{item.a}</p>
+              </div>
+              <Link to={item.to} className="text-sm font-bold text-slate-900 hover:text-accent tracking-wide transition-colors mt-2">
                 {item.cta} →
               </Link>
             </article>

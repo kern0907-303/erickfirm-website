@@ -39,14 +39,9 @@ const PostDetail = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isUsingFallback, setIsUsingFallback] = useState(false);
-  const canonicalKeyRef = useRef('');
   const dict = i18n[locale];
 
   useEffect(() => onLocaleChange(setLocale), []);
-
-  useEffect(() => {
-    canonicalKeyRef.current = post?.canonicalKey || '';
-  }, [post]);
 
   useEffect(() => {
     async function loadPost() {
@@ -58,9 +53,6 @@ const PostDetail = () => {
         } else {
           query.set('service', service || '');
           query.set('slug', slug || '');
-          if (canonicalKeyRef.current) {
-            query.set('canonicalKey', canonicalKeyRef.current);
-          }
         }
 
         const res = await fetch(`/.netlify/functions/notion?${query.toString()}`);

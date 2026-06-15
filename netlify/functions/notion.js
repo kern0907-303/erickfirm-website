@@ -2,15 +2,15 @@ const SUPABASE_URL = process.env.SUPABASE_URL || "https://wbbnjasjyfuatkvnoogi.s
 const SUPABASE_KEY = process.env.SUPABASE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const DEFAULT_LOCALE = "zh-TW";
 
-function resp(statusCode, body) {
+function resp(statusCode, body, cacheControl = "no-store") {
   return {
     statusCode,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Cache-Control": "no-store",
+      "Access-Control-Allow-Methods": "GET, OPTIONS, POST",
+      "Cache-Control": cacheControl,
     },
     body: JSON.stringify(body),
   };
@@ -381,7 +381,7 @@ export async function handler(event) {
     // If query has postId, return detail
     if (qs.postId) {
       const detail = await getPostDetail(qs.postId, locale);
-      return resp(200, detail);
+      return resp(200, detail, "public, max-age=60, s-maxage=60, stale-while-revalidate=30");
     }
 
     // If query has slug, find by slug
@@ -392,7 +392,7 @@ export async function handler(event) {
         return resp(404, { error: "Post not found" });
       }
       const detail = await getPostDetail(match.id, locale);
-      return resp(200, detail);
+      return resp(200, detail, "public, max-age=60, s-maxage=60, stale-while-revalidate=30");
     }
 
     // Default: list posts
@@ -401,7 +401,7 @@ export async function handler(event) {
       posts = posts.filter(post => post.service === service);
     }
 
-    return resp(200, { posts, results: posts });
+    return resp(200, { posts, results: posts }, "public, max-age=60, s-maxage=60, stale-while-revalidate=30");
   } catch (err) {
     console.error("Netlify function error:", err);
     return resp(500, {

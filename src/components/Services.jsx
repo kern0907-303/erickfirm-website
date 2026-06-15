@@ -47,22 +47,24 @@ const Services = () => {
 
         <div className="grid md:grid-cols-3 gap-8">
           {section.services.map((srv) => (
-            <div key={srv.id} className="bg-white rounded-lg p-10 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] border-t-4 border-accent hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
-              <div className="text-xs font-bold text-accent tracking-[0.3em] mb-4 font-sans">{srv.id}</div>
-              <h4 className="text-2xl font-bold text-slate-900 mb-6 font-display">{srv.title}</h4>
-              <div className="space-y-4 text-sm text-slate-700 font-sans">
-                <p><span className="font-bold text-slate-900">{section.labels.project}</span>{srv.project}</p>
-                <p><span className="font-bold text-slate-900">{section.labels.audience}</span>{srv.audience}</p>
-                <p><span className="font-bold text-slate-900">{section.labels.solve}</span>{srv.solve}</p>
-                <p><span className="font-bold text-slate-900">{section.labels.method}</span>{srv.method}</p>
-                <p><span className="font-bold text-slate-900">{section.labels.outcome}</span>{srv.outcome}</p>
-                <p><span className="font-bold text-slate-900">{section.labels.timeline}</span>{srv.timeline}</p>
+            <div key={srv.id} className="bg-white rounded-2xl p-8 md:p-10 shadow-[0_4px_25px_rgba(0,42,84,0.04)] border-t-4 border-accent border-x border-b border-slate-100 hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(0,42,84,0.08)] hover:border-accent/40 transition-all duration-300 transform flex flex-col justify-between">
+              <div>
+                <div className="text-xs font-bold text-accent tracking-[0.3em] mb-4 font-sans">{srv.id}</div>
+                <h4 className="text-2xl font-bold text-slate-900 mb-6 font-display">{srv.title}</h4>
+                <div className="space-y-4 text-sm text-slate-700 font-sans">
+                  <p><span className="font-bold text-slate-900">{section.labels.project}</span>{srv.project}</p>
+                  <p><span className="font-bold text-slate-900">{section.labels.audience}</span>{srv.audience}</p>
+                  <p><span className="font-bold text-slate-900">{section.labels.solve}</span>{srv.solve}</p>
+                  <p><span className="font-bold text-slate-900">{section.labels.method}</span>{srv.method}</p>
+                  <p><span className="font-bold text-slate-900">{section.labels.outcome}</span>{srv.outcome}</p>
+                  <p><span className="font-bold text-slate-900">{section.labels.timeline}</span>{srv.timeline}</p>
+                </div>
               </div>
-              <div className="mt-8 flex gap-4 font-sans">
-                <Link to={srv.path} className="text-slate-900 font-bold tracking-wider hover:text-accent transition-colors text-sm uppercase">
+              <div className="mt-8 pt-4 border-t border-slate-100 flex gap-6 font-sans">
+                <Link to={srv.path} className="text-slate-900 font-bold tracking-wider hover:text-accent transition-colors text-sm flex items-center gap-1 cursor-pointer">
                   {section.read}
                 </Link>
-                <a href="/#contact" className="text-slate-500 font-bold tracking-wider hover:text-slate-900 transition-colors text-sm uppercase">
+                <a href="/#contact" className="text-slate-500 font-bold tracking-wider hover:text-slate-900 transition-colors text-sm cursor-pointer">
                   {section.consult}
                 </a>
               </div>
@@ -70,22 +72,22 @@ const Services = () => {
           ))}
         </div>
 
-        <div className="mt-16 bg-primary text-white rounded-lg p-8 md:p-10 grid md:grid-cols-4 gap-6 font-sans">
+        <div className="mt-16 bg-primary/95 backdrop-blur-sm border border-slate-700/30 text-white rounded-2xl p-8 md:p-10 grid md:grid-cols-4 gap-6 font-sans shadow-lg">
           <div>
             <p className="text-3xl font-bold text-accent font-display">3</p>
-            <p className="text-sm mt-2">{section.stats[0]}</p>
+            <p className="text-sm mt-2 font-medium">{section.stats[0]}</p>
           </div>
           <div>
             <p className="text-3xl font-bold text-accent font-display">4</p>
-            <p className="text-sm mt-2">{section.stats[1]}</p>
+            <p className="text-sm mt-2 font-medium">{section.stats[1]}</p>
           </div>
           <div>
             <p className="text-3xl font-bold text-accent font-display">1:1</p>
-            <p className="text-sm mt-2">{section.stats[2]}</p>
+            <p className="text-sm mt-2 font-medium">{section.stats[2]}</p>
           </div>
           <div>
             <p className="text-3xl font-bold text-accent font-display">FAQ</p>
-            <p className="text-sm mt-2">{section.stats[3]}</p>
+            <p className="text-sm mt-2 font-medium">{section.stats[3]}</p>
           </div>
         </div>
       </div>

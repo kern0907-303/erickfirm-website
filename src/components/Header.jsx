@@ -22,8 +22,13 @@ const Header = () => {
     <header className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="text-xl font-bold tracking-[0.2em] text-slate-900 !text-slate-900 font-display">
-          ERICK <span className="text-accent">FIRM</span>
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-lg overflow-hidden bg-white border border-slate-200/60 p-0.5 shadow-sm transition-transform duration-300 group-hover:scale-105">
+            <img src="/logo.png" alt="Erickfirm Logo" className="w-full h-full object-contain" />
+          </div>
+          <span className="text-lg font-extrabold tracking-[0.15em] text-slate-900 font-display transition-colors group-hover:text-accent">
+            ERICK <span className="text-accent">FIRM</span>
+          </span>
         </Link>
 
         {/* Desktop Menu */}
@@ -31,17 +36,17 @@ const Header = () => {
           <Link to="/" className="text-sm font-bold text-slate-700 hover:text-accent transition-colors">{dict.home}</Link>
           <Link to="/insights" className="text-sm font-bold text-slate-700 hover:text-accent transition-colors">{dict.insights}</Link>
           <a href="/#services" className="text-sm font-bold text-slate-700 hover:text-accent transition-colors">{dict.servicesMenu}</a>
-          <a href="/#contact" className="px-6 py-2 bg-primary text-white text-sm font-bold rounded-sm hover:bg-accent hover:text-slate-900 transition-all duration-300">
+          <a href="/#contact" className="px-6 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-accent hover:text-slate-900 hover:translate-y-[-1px] active:translate-y-0 hover:shadow-md transition-all duration-300">
             {dict.consult}
           </a>
           <div className="flex items-center text-xs border border-slate-200 rounded-full overflow-hidden">
-            <button onClick={() => handleLocaleChange('zh-TW')} className={`px-3 py-1 transition-colors ${locale === 'zh-TW' ? 'bg-primary text-white font-bold' : 'bg-white text-slate-600'}`}>中</button>
-            <button onClick={() => handleLocaleChange('en')} className={`px-3 py-1 transition-colors ${locale === 'en' ? 'bg-primary text-white font-bold' : 'bg-white text-slate-600'}`}>EN</button>
+            <button onClick={() => handleLocaleChange('zh-TW')} className={`px-3 py-1 transition-colors cursor-pointer ${locale === 'zh-TW' ? 'bg-primary text-white font-bold' : 'bg-white text-slate-600'}`}>中</button>
+            <button onClick={() => handleLocaleChange('en')} className={`px-3 py-1 transition-colors cursor-pointer ${locale === 'en' ? 'bg-primary text-white font-bold' : 'bg-white text-slate-600'}`}>EN</button>
           </div>
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-slate-900" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button className="md:hidden text-slate-900 p-2 text-xl" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? '✕' : '☰'}
         </button>
       </nav>
@@ -52,7 +57,7 @@ const Header = () => {
           <button onClick={() => handleNav('/')} className="text-left font-bold text-slate-700 hover:text-accent">{dict.home}</button>
           <button onClick={() => handleNav('/insights')} className="text-left font-bold text-slate-700 hover:text-accent">{dict.insights}</button>
           <a href="/#services" onClick={() => setIsMenuOpen(false)} className="font-bold text-slate-700 hover:text-accent">{dict.servicesMenu}</a>
-          <a href="/#contact" onClick={() => setIsMenuOpen(false)} className="bg-primary text-white text-center py-3 font-bold rounded-sm active:bg-accent active:text-slate-900 transition-colors">{dict.consult}</a>
+          <a href="/#contact" onClick={() => setIsMenuOpen(false)} className="bg-primary text-white text-center py-3 font-bold rounded-lg active:bg-accent active:text-slate-900 transition-colors">{dict.consult}</a>
           <div className="flex items-center text-xs border border-slate-200 rounded-full overflow-hidden w-fit">
             <button onClick={() => handleLocaleChange('zh-TW')} className={`px-3 py-1 transition-colors ${locale === 'zh-TW' ? 'bg-primary text-white font-bold' : 'bg-white text-slate-600'}`}>中</button>
             <button onClick={() => handleLocaleChange('en')} className={`px-3 py-1 transition-colors ${locale === 'en' ? 'bg-primary text-white font-bold' : 'bg-white text-slate-600'}`}>EN</button>

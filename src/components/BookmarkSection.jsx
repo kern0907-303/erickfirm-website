@@ -30,7 +30,7 @@ const BookmarkSection = () => {
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-6 max-w-6xl">
-        <div className="bg-primary text-white rounded-lg p-8 md:p-12 shadow-xl">
+        <div className="bg-primary text-white rounded-2xl p-8 md:p-12 shadow-[0_12px_40px_rgba(0,42,84,0.15)] border border-slate-700/25">
           <div className="max-w-3xl">
             <h2 className="text-sm text-accent font-bold tracking-[0.3em] uppercase mb-4 font-sans">Worth Bookmarking</h2>
             <h3 className="text-3xl md:text-4xl font-bold mb-6 font-display">{section.heading}</h3>
@@ -41,7 +41,7 @@ const BookmarkSection = () => {
 
           <div className="grid md:grid-cols-3 gap-5 font-sans">
             {section.cards.map(([title, desc, href, cta]) => (
-              <article key={title} className="bg-white/5 rounded-lg p-6 border border-white/10 hover:border-accent/40 transition-all duration-300">
+              <article key={title} className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-accent/40 hover:bg-white/[0.08] hover:translate-y-[-4px] transition-all duration-300 transform">
                 <h4 className="font-bold text-accent mb-3 font-display">{title}</h4>
                 <p className="text-sm text-slate-200 mb-4">{desc}</p>
                 <a href={href} className="text-sm font-bold text-white hover:text-accent transition-colors">{cta}</a>

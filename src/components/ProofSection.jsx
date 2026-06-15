@@ -50,7 +50,7 @@ const ProofSection = () => {
 
         <div className="grid md:grid-cols-4 gap-6 font-sans">
           {section.steps.map((step, idx) => (
-            <article key={step.title} className="bg-white border border-slate-200 rounded-lg p-6">
+            <article key={step.title} className="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,42,84,0.02)] hover:shadow-[0_15px_40px_rgba(0,42,84,0.06)] hover:border-accent/40 hover:translate-y-[-4px] transition-all duration-300 transform">
               <p className="text-xs font-bold text-accent tracking-[0.2em] mb-3">STEP {idx + 1}</p>
               <h4 className="text-lg font-bold text-slate-900 mb-3 font-display">{step.title}</h4>
               <p className="text-slate-700 text-sm leading-relaxed">{step.desc}</p>
@@ -60,9 +60,9 @@ const ProofSection = () => {
 
         <div className="mt-10 grid md:grid-cols-3 gap-6 font-sans">
           {section.points.map(([time, text]) => (
-            <div key={time} className="bg-white border border-slate-200 rounded-lg p-6">
+            <div key={time} className="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,42,84,0.02)] hover:shadow-[0_15px_40px_rgba(0,42,84,0.06)] hover:border-accent/40 hover:translate-y-[-4px] transition-all duration-300 transform">
               <p className="text-3xl font-bold text-accent font-display">{time}</p>
-              <p className="text-slate-700 mt-2">{text}</p>
+              <p className="text-slate-700 mt-2 font-medium">{text}</p>
             </div>
           ))}
         </div>

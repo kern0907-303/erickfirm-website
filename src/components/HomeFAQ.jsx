@@ -56,7 +56,7 @@ const HomeFAQ = () => {
 
         <div className="space-y-4 font-sans">
           {FAQS.map((item) => (
-            <article key={item.q} className="bg-slate-50 border border-slate-200 rounded-lg p-6">
+            <article key={item.q} className="bg-slate-50/70 border border-slate-200/60 rounded-2xl p-6 md:p-8 hover:border-accent/30 hover:bg-white hover:translate-y-[-2px] hover:shadow-[0_10px_35px_rgba(0,42,84,0.03)] transition-all duration-300 transform">
               <h4 className="text-lg font-bold text-slate-900 mb-3 font-display">{item.q}</h4>
               <p className="text-slate-700 leading-relaxed">{item.a}</p>
             </article>

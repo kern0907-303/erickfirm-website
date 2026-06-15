@@ -199,10 +199,10 @@ const Hero = () => {
           >
             <div className="inline-flex items-center gap-2 mb-7 px-4 py-2 rounded-full border border-slate-200 bg-white/80 backdrop-blur-sm shadow-sm">
               <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-              <span className="text-[11px] md:text-xs font-bold tracking-[0.18em] text-slate-700">{hero.badge}</span>
+              <span className="text-[11px] md:text-xs font-bold tracking-[0.18em] text-slate-700 font-display">{hero.badge}</span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl xl:text-6xl font-black leading-[1.12] text-slate-900 mb-6 font-display">
+            <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold leading-[1.15] text-slate-900 mb-6 font-display tracking-tight">
               {hero.title1}
               <br />
               {hero.title2}<span className="text-accent">{hero.titleAccent}</span>
@@ -215,13 +215,13 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={scrollToAssessment}
-                className="px-7 py-4 rounded-sm bg-slate-900 text-white font-bold tracking-wide hover:bg-accent hover:text-slate-900 transition-all duration-300 font-sans shadow-md"
+                className="px-7 py-4 rounded-sm bg-slate-900 text-white font-bold tracking-wide hover:bg-accent hover:text-slate-900 transition-all duration-350 font-sans shadow-md cursor-pointer hover:shadow-lg hover:translate-y-[-1px]"
               >
                 {hero.findAnswer}
               </button>
               <a
                 href="/#contact"
-                className="px-7 py-4 rounded-sm border border-slate-300 text-slate-900 font-bold tracking-wide hover:border-accent hover:text-accent transition-all duration-300 text-center font-sans"
+                className="px-7 py-4 rounded-sm border border-slate-300 text-slate-900 font-bold tracking-wide hover:border-accent hover:text-accent transition-all duration-350 text-center font-sans cursor-pointer hover:translate-y-[-1px]"
               >
                 {hero.bookNow || dict.consult}
               </a>
@@ -232,7 +232,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.1 }}
-            className="space-y-3"
+            className="space-y-4"
           >
             <div
               className="relative overflow-hidden rounded-2xl max-w-[480px]"
@@ -249,14 +249,14 @@ const Hero = () => {
                 {hero.cards.map((card, index) => (
                   <article
                     key={card.id}
-                    className="group w-full shrink-0 rounded-2xl border border-slate-200/90 bg-white/80 backdrop-blur-md p-5 md:p-6 shadow-[0_8px_30px_rgba(0,42,84,0.04)] hover:shadow-[0_14px_45px_rgba(0,194,194,0.15)] hover:border-accent/40 transition-all duration-500"
+                    className="group w-full shrink-0 rounded-2xl border border-slate-250/70 bg-white p-6 md:p-8 shadow-[0_4px_20px_rgba(0,42,84,0.03)] hover:shadow-[0_20px_50px_rgba(0,42,84,0.08)] hover:border-accent/40 transition-all duration-300 transform hover:translate-y-[-4px]"
                   >
                     <div className="mb-4">
-                      <h2 className="text-xl md:text-2xl font-black text-slate-900 font-display">{card.title}</h2>
+                      <h2 className="text-xl md:text-2xl font-bold text-slate-900 font-display tracking-tight">{card.title}</h2>
                     </div>
 
-                    <p className="text-[15px] font-semibold text-slate-800 mb-2 font-sans">・{card.problem}</p>
-                    <p className="text-sm text-slate-600 leading-relaxed mb-4 font-sans">{card.outcome}</p>
+                    <p className="text-[15px] font-bold text-slate-800 mb-2.5 font-sans mt-4">・{card.problem}</p>
+                    <p className="text-sm text-slate-550 leading-relaxed mb-6 font-sans">{card.outcome}</p>
 
                     <Link
                       to={card.to}

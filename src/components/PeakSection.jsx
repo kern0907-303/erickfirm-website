@@ -107,7 +107,7 @@ const PeakSection = () => {
 
         {/* Comparison grid: Critical Thinking */}
         <div className="grid lg:grid-cols-2 gap-10 mb-24 font-sans">
-          <div className="bg-white/5 border border-white/10 rounded-lg p-8 md:p-10">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-10">
             <h3 className="text-lg font-bold text-slate-400 mb-6 uppercase tracking-wider">{dict.traditional.title}</h3>
             <ul className="space-y-6 text-sm text-slate-300">
               <li className="flex items-start gap-3">
@@ -125,8 +125,8 @@ const PeakSection = () => {
             </ul>
           </div>
 
-          <div className="bg-white/10 border-2 border-accent/30 rounded-lg p-8 md:p-10 relative shadow-[0_0_30px_rgba(0,194,194,0.1)]">
-            <div className="absolute -top-3.5 right-6 bg-accent text-slate-900 text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-widest">
+          <div className="bg-white/10 border-2 border-accent/30 rounded-2xl p-8 md:p-10 relative shadow-[0_0_30px_rgba(0,194,194,0.1)]">
+            <div className="absolute -top-3.5 right-6 bg-accent text-slate-900 text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-widest">
               Critical Corrective
             </div>
             <h3 className="text-lg font-bold text-accent mb-6 uppercase tracking-wider">{dict.firstPrinciples.title}</h3>
@@ -156,8 +156,8 @@ const PeakSection = () => {
           {dict.triads.map((triad, idx) => {
             const Icon = triad.icon;
             return (
-              <div key={idx} className="bg-white/5 border border-white/10 rounded-lg p-8 hover:border-accent/30 hover:bg-white/[0.07] transition-all duration-300 flex flex-col h-full">
-                <div className="h-12 w-12 rounded-sm bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-6">
+              <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-accent/40 hover:bg-white/[0.08] hover:translate-y-[-4px] transition-all duration-300 transform flex flex-col h-full">
+                <div className="h-12 w-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-6">
                   <Icon size={24} />
                 </div>
                 <h4 className="text-lg font-bold text-slate-300 mb-2">{triad.name}</h4>
