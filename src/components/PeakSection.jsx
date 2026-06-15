@@ -156,13 +156,13 @@ const PeakSection = () => {
           {dict.triads.map((triad, idx) => {
             const logoSrc = idx === 0 ? '/logo-i8.png' : idx === 1 ? '/logo-nas.png' : '/logo-abl.jpg';
             return (
-              <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-accent/40 hover:bg-white/[0.08] hover:translate-y-[-4px] transition-all duration-300 transform flex flex-col h-full">
-                <div className="h-12 w-12 rounded-xl overflow-hidden bg-white border border-white/20 p-0.5 flex items-center justify-center mb-6 shadow-sm shrink-0">
+              <div key={idx} className="bg-white border border-slate-100 rounded-2xl p-8 hover:border-accent/40 hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(0,42,84,0.15)] transition-all duration-300 transform flex flex-col h-full shadow-md">
+                <div className="h-12 w-12 rounded-xl overflow-hidden bg-white border border-slate-200/60 p-0.5 flex items-center justify-center mb-6 shadow-sm shrink-0">
                   <img src={logoSrc} alt={triad.name} className="w-full h-full object-contain" />
                 </div>
-                <h4 className="text-lg font-bold text-slate-300 mb-2">{triad.name}</h4>
-                <p className="text-accent text-xs font-bold uppercase tracking-widest mb-4">{triad.focus}</p>
-                <p className="text-slate-300 text-sm leading-relaxed flex-grow">{triad.desc}</p>
+                <h4 className="text-lg font-bold text-slate-900 mb-2 font-display">{triad.name}</h4>
+                <p className="text-accent text-xs font-extrabold uppercase tracking-widest mb-4">{triad.focus}</p>
+                <p className="text-slate-600 text-sm leading-relaxed flex-grow">{triad.desc}</p>
               </div>
             );
           })}
