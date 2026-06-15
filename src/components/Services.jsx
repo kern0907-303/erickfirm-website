@@ -53,7 +53,7 @@ const Services = () => {
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 rounded-xl overflow-hidden bg-white border border-slate-200/60 p-0.5 shadow-sm shrink-0">
                     <img
-                      src={srv.id === '01' ? '/logo-i8.jpg' : srv.id === '02' ? '/logo-nas.png' : '/logo-abl.png'}
+                      src={srv.id === '01' ? '/logo-i8.png' : srv.id === '02' ? '/logo-nas.png' : '/logo-abl.jpg'}
                       alt={`${srv.title} Logo`}
                       className="w-full h-full object-contain"
                     />

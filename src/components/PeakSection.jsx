@@ -154,7 +154,7 @@ const PeakSection = () => {
 
         <div className="grid md:grid-cols-3 gap-8 mb-20 font-sans">
           {dict.triads.map((triad, idx) => {
-            const logoSrc = idx === 0 ? '/logo-i8.jpg' : idx === 1 ? '/logo-nas.png' : '/logo-abl.png';
+            const logoSrc = idx === 0 ? '/logo-i8.png' : idx === 1 ? '/logo-nas.png' : '/logo-abl.jpg';
             return (
               <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-accent/40 hover:bg-white/[0.08] hover:translate-y-[-4px] transition-all duration-300 transform flex flex-col h-full">
                 <div className="h-12 w-12 rounded-xl overflow-hidden bg-white border border-white/20 p-0.5 flex items-center justify-center mb-6 shadow-sm shrink-0">
