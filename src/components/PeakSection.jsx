@@ -5,7 +5,7 @@ import { getPreferredLocale, onLocaleChange } from '../lib/i18n';
 
 const copy = {
   'zh-TW': {
-    title: '第一性原理治理：解構系統的底層邏輯',
+    title: '第一性原理：解構系統的底層邏輯',
     subtitle: '所有的卡關與瓶頸，本質上都是結構的錯位。',
     desc: '傳統諮詢教你「加強管理」或「提升意志力」，但這只是在修補症狀。Erick Firm 從第一性原理出發，透過信息場、治理結構與生命數字教學，直接重組阻礙成長的底層結構。',
     vsTitle: '思維對照：症狀修補 vs. 結構重整',
@@ -45,7 +45,7 @@ const copy = {
     peakSlogan: '「結構不對，努力白費；對位清晰，增長自然發生。」',
   },
   en: {
-    title: 'First Principles Governance: Deconstructing System Dynamics',
+    title: 'First Principles: Deconstructing System Dynamics',
     subtitle: 'Every bottleneck is, at its core, a structural mismatch.',
     desc: 'Traditional advice urges you to "work harder" or "increase willpower." Erick Firm targets the underlying structure of growth via information field tuning, life numerology dashboards, and governance systems.',
     vsTitle: 'Framework Comparison: Symptom Patching vs. Structural Redesign',
