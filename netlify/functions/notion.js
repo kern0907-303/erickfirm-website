@@ -369,6 +369,39 @@ export async function handler(event) {
       }
 
       const insertedData = await res.json();
+
+      // Telegram Notification Integration
+      const tgToken = process.env.TELEGRAM_BOT_TOKEN;
+      const tgChatId = process.env.TELEGRAM_CHAT_ID;
+      
+      if (tgToken && tgChatId) {
+        try {
+          const typeLabel = (inquiry_type || body.inquiry_type) === "consultation" ? "專屬診斷預約" : "一般諮詢";
+          const tgText = `🔔 <b>收到新表單預約申請！</b>\n\n` +
+            `👤 <b>姓名</b>：${name}\n` +
+            `📞 <b>聯絡方式</b>：${email}\n` +
+            `🏷️ <b>類型</b>：${typeLabel}\n` +
+            `📝 <b>目前面臨的卡點</b>：\n${message}`;
+
+          await fetch(`https://api.telegram.org/bot${tgToken}/sendMessage`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              chat_id: tgChatId,
+              text: tgText,
+              parse_mode: "HTML"
+            })
+          });
+          console.log("Telegram notification sent successfully.");
+        } catch (tgErr) {
+          console.error("Failed to send Telegram notification:", tgErr);
+        }
+      } else {
+        console.log("Telegram notification skipped: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not configured.");
+      }
+
       return resp(200, { success: true, data: insertedData });
     }
 
