@@ -100,7 +100,7 @@ const PeakSection = () => {
         {/* Header */}
         <div className="max-w-3xl mb-20">
           <span className="text-accent text-xs font-bold tracking-[0.3em] uppercase mb-4 block font-sans">First Principles</span>
-          <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight font-display text-white">{dict.title}</h2>
+          <h2 className="text-xl sm:text-3xl md:text-5xl font-black mb-6 leading-tight font-display text-white whitespace-nowrap">{dict.title}</h2>
           <p className="text-xl text-accent font-semibold mb-6 font-sans">{dict.subtitle}</p>
           <p className="text-slate-300 leading-relaxed font-sans">{dict.desc}</p>
         </div>
