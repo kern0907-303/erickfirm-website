@@ -1,80 +1,56 @@
 import React from 'react';
-import { LINE_CONFIG } from '../lib/constants';
 
 const AboutErickSection = () => {
   return (
-    <section className="py-24 bg-white font-sans">
+    <section id="about" className="py-24 bg-white font-sans border-b border-slate-200/60">
       <div className="container mx-auto px-6 max-w-7xl">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* 左側形象簡介卡片 */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* 左欄：直式圓角人物照片預留位置 */}
           <div className="lg:col-span-5">
-            <div className="relative rounded-2xl bg-surface p-8 md:p-10 border border-slate-200/80 shadow-md">
-              <div className="w-20 h-20 rounded-2xl overflow-hidden bg-primary/10 mb-6 border border-accent/30 p-1">
-                <img
-                  src="/logo.png"
-                  alt="Erick 奧斯學長"
-                  className="w-full h-full object-contain rounded-xl bg-white"
-                />
+            <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-surface border border-slate-200/80 shadow-md flex flex-col items-center justify-center p-8 text-center group hover:border-accent/40 transition-all duration-300">
+              <div className="w-20 h-20 rounded-full bg-slate-200/70 flex items-center justify-center mb-4 text-slate-400 text-3xl">
+                👤
               </div>
-
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-wider mb-4 font-display">
-                FOUNDER & PRINCIPAL CONSULTANT
-              </div>
-
-              <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-2 font-display">
-                Erick 營運長 <span className="text-sm font-normal text-slate-500 font-sans">（奧斯學長）</span>
-              </h3>
-              <p className="text-accent font-bold text-xs tracking-widest uppercase mb-6 font-display">
-                Erick Firm 創辦人
+              <p className="text-slate-500 font-bold text-sm mb-1 font-sans">
+                請上傳 Erick 個人照
               </p>
-
-              <div className="space-y-3 text-sm text-slate-600 font-light border-t border-slate-200/80 pt-6">
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span>初八企業信息顧問 (I8) 主理人</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span>平衡空間 (NAS) 生命數字創辦導師</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span>艾伯林量子調頻 (ABL) 信息場分析顧問</span>
-                </div>
-              </div>
+              <p className="text-slate-400 text-xs font-mono">
+                (預留直式比例相片位置 3:4)
+              </p>
             </div>
           </div>
 
-          {/* 右側信念與對位內容 */}
+          {/* 右欄：文字內容 */}
           <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full border border-slate-200 bg-surface text-xs font-bold tracking-widest text-slate-600 font-display">
+            {/* 小標 */}
+            <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full border border-slate-200 bg-surface text-xs font-bold tracking-[0.2em] text-slate-600 font-display shadow-sm">
               <span className="h-2 w-2 rounded-full bg-accent" />
-              ABOUT ERICK
+              ABOUT
             </div>
 
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 font-display leading-tight tracking-tight">
-              「我不相信治標不治本的硬撐。
-              <br />
-              商業與人生所有的卡點，答案都在<span className="text-accent">底層結構</span>裡。」
+            {/* 主標題 */}
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 mb-8 font-display tracking-tight leading-tight">
+              我不是來給你答案的人
             </h2>
 
-            <p className="text-slate-700 text-base md:text-lg leading-relaxed mb-6 font-light">
-              你好，我是 Erick（奧斯學長）。在多年的企業顧問諮詢與個人陪伴經驗中，我發現大部分人在面對瓶頸時，習慣用「加倍努力」、「提高意志力」或「急著換策略」來應對。但如果底層的運作結構本來就錯位，努力只會加速耗損。
-            </p>
+            {/* 內文三段 */}
+            <div className="space-y-6 text-slate-700 text-base md:text-lg leading-relaxed font-light">
+              <p>
+                我做這件事二十年了。前十年在企業裡看營運，後十年開始看人——看那些明明很努力、方法也對，卻始終跑不動的人身上到底發生了什麼。
+              </p>
+              <p>
+                我發現一件事：多數卡住的狀況，問題都不在被討論的那個層次。公司說是行銷不夠，其實是交付卡住；一個人說自己不夠自律，其實是他的節奏從來沒有被真正安排過。
+              </p>
+              <p>
+                所以我不太急著給建議。我會先陪你把結構看清楚，因為結構一旦對了，很多你以為要用力才能做到的事，會自己開始動。
+              </p>
+            </div>
 
-            <p className="text-slate-700 text-base md:text-lg leading-relaxed mb-8 font-light">
-              Erick Firm 的創立，就是為了提供一套基於第一性原理的「結構對位系統」。我們結合企業營運診斷、生命數字天賦解析與 TimeWaver 信息場頻率調和，陪你看清並重組屬於你最不費力的高效能運行軌道。
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 pt-2">
-              <a
-                href={LINE_CONFIG.LINE_MESSAGE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-accent hover:text-slate-900 transition-all duration-300 text-center text-base cursor-pointer shadow-md hover:shadow-lg font-sans"
-              >
-                加 LINE 與 Erick 團隊聯繫 ➔
-              </a>
+            {/* 署名 */}
+            <div className="mt-10 pt-6 border-t border-slate-100">
+              <p className="text-slate-900 font-extrabold text-lg md:text-xl font-display">
+                Erick｜<span className="text-slate-600 font-medium">Erick Firm 創辦人</span>
+              </p>
             </div>
           </div>
         </div>

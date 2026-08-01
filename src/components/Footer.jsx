@@ -5,11 +5,13 @@ import { LINE_CONFIG } from '../lib/constants';
 const copy = {
   'zh-TW': {
     services: '服務項目',
+    about: '關於我們',
     consult: '預約諮詢',
     slogan: '運用信息場技術，重塑治理結構。',
   },
   en: {
     services: 'Services',
+    about: 'About',
     consult: 'Book Consultation',
     slogan: 'Rebuild decision structure with information-field insights.',
   },
@@ -31,6 +33,7 @@ const Footer = () => {
           
           <div className="flex flex-wrap justify-center gap-8 text-sm font-medium font-sans">
             <a href="/#services" className="!text-slate-300 hover:!text-accent transition-colors">{dict.services}</a>
+            <a href="/#about" className="!text-slate-300 hover:!text-accent transition-colors">{dict.about}</a>
             <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className="!text-slate-300 hover:!text-accent transition-colors">{dict.consult}</a>
           </div>
         </div>
