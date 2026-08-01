@@ -1,32 +1,93 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getPreferredLocale, onLocaleChange } from '../lib/i18n';
+import { LINE_CONFIG } from '../lib/constants';
 
 const copy = {
   'zh-TW': {
     heading: '三大結構對位服務',
-    desc: '以第一性原理為核心，從系統治理、角色互補到能量場修復，為決策者重塑高效能運行網絡。',
+    desc: '以第一性原理為核心，從系統治理、角色對位到狀態調和，為決策者重塑高效能運行軌道。',
     labels: { project: '主打專案：', audience: '適合誰：', solve: '解決什麼：', method: '如何進行：', outcome: '預期結果：', timeline: '時間預期：' },
     read: '看此軌道洞察 →',
-    consult: '立即諮詢',
-    stats: ['核心軌道分艙', '標準執行步驟', '客製化診斷與建議', '首頁可直接回答常見疑問'],
+    consult: '立即諮詢 ↗',
+    stats: ['核心軌道分艙', '標準執行步驟', '客製化診斷與建議', '可收藏之結構化實戰指南'],
     services: [
-      { id: '01', title: '初八企業信息顧問Ｉ８', project: '企業醫生專案', audience: '面臨增長瓶頸、營運內耗與營收停滯的創辦人及核心團隊', solve: '獲客流量阻塞、交付效率低落、現金流回看失真與內部交易成本過高', method: '商業體質盤點 → 漏斗風險診斷 → 交易結構重整 → 週會KPI回看', outcome: '打通關鍵漏斗阻塞，降低內部協作摩擦，使商業系統恢復可預測之利潤增長', timeline: '1-4 週內定位關鍵阻塞，並優化基本治理常識', path: '/insights/enterprise-doctor' },
-      { id: '02', title: '平衡空間 ＮＡＳ', project: '生命數字教學', audience: '希望看清個人天賦盲區、繪製生命儀表板並釐清合夥關係的個體與創業者', solve: '重大決策反覆遲疑、看不清天賦盲點、人際與合夥溝通高摩擦內耗', method: '生命數字解析 → 天賦能量盤點 → 繪製生命儀表板 → 盲點對位教學', outcome: '看懂自己的生命儀表板，掌握決策與關係的主動權，讓角色合作更流暢', timeline: '1-3 週內繪製專屬生命儀表板並完成核心教學', path: '/insights/life-number' },
-      { id: '03', title: '艾伯林量子調頻ＡＢＬ', project: '個人信息場調和與頻率支持', audience: '面臨意志力過度強撐身心耗盡、焦慮內耗，渴望重塑穩定能量的高管與創業者', solve: '明明想做卻動彈不得的拖延無力感、夜間失眠焦慮、莫名執行阻力與專注失調', method: 'TimeWaver 信息場掃描 → 潛意識阻力定位 → 個人信息場調和 → 週期頻率支持', outcome: '清理深層無形干擾，重塑穩定的決策張力，獲得高效能頻率支持', timeline: '2-6 週內完成底層調和，並建立週期頻率支持', path: '/insights/personal-growth' },
+      {
+        id: '01',
+        title: '初八企業顧問 I8',
+        project: '企業醫生專案',
+        audience: '面臨增長瓶頸、營運內耗與營收停滯的創辦人及核心團隊',
+        solve: '獲客流量阻塞、交付效率低落、現金流回看失真與內部交易成本過高',
+        method: '商業體質盤點 → 漏斗風險診斷 → 交易結構重整 → 週會KPI回看',
+        outcome: '打通關鍵漏斗阻塞，降低內部協作摩擦，使商業系統恢復可預測之利潤增長',
+        timeline: '1-4 週內定位關鍵阻塞，並優化基本治理常識',
+        path: '/insights/enterprise-doctor',
+      },
+      {
+        id: '02',
+        title: '平衡空間 NAS',
+        project: '生命數字教學',
+        audience: '希望看清個人天賦盲區、繪製生命儀表板並釐清合夥關係的個體與創業者',
+        solve: '重大決策反覆遲疑、看不清天賦盲點、人際與合夥溝通高摩擦內耗',
+        method: '生命數字解析 → 天賦資源盤點 → 繪製生命儀表板 → 盲點對位教學',
+        outcome: '看懂自己的生命儀表板，掌握決策與關係的主動權，讓角色合作更流暢',
+        timeline: '1-3 週內繪製專屬生命儀表板並完成核心教學',
+        path: '/insights/life-number',
+      },
+      {
+        id: '03',
+        title: '艾伯林 ABL',
+        project: '個人狀態調和與週期支持',
+        audience: '面臨意志力過度強撐身心耗盡、焦慮內耗，渴望重塑穩定狀態的高管與創業者',
+        solve: '明明想做卻動彈不得的拖延無力感、夜間失眠焦慮、莫名執行阻力與專注失調',
+        method: '狀態掃描 → 阻力定位 → 個人狀態調和 → 週期支持',
+        outcome: '釐清隱性卡點，重塑穩定的決策張力，獲得高效能狀態支持',
+        timeline: '2-6 週內完成底層對位與週期支持',
+        path: '/insights/personal-growth',
+      },
     ],
   },
   en: {
     heading: 'Three Structural Alignment Services',
-    desc: 'Based on first principles, we optimize governance systems, key relationships, and information fields to rebuild growth capability.',
+    desc: 'Based on first principles, we optimize governance systems, key relationships, and decision performance to rebuild growth capability.',
     labels: { project: 'Core Project:', audience: 'Who it’s for:', solve: 'What it solves:', method: 'How it works:', outcome: 'Expected outcome:', timeline: 'Typical timeline:' },
     read: 'Read track insights →',
-    consult: 'Book Consultation',
-    stats: ['Distinct service tracks', 'Standard execution steps', 'Tailored diagnostic support', 'Questions answered on homepage'],
+    consult: 'Book Consultation ↗',
+    stats: ['Distinct service tracks', 'Standard execution steps', 'Tailored diagnostic support', 'Actionable guides'],
     services: [
-      { id: '01', title: 'I8 Enterprise Consulting', project: 'Enterprise Doctor Project', audience: 'Founders and leadership teams facing stagnation, internal friction, and bottlenecks', solve: 'Funnel blockage, poor delivery efficiency, cashflow misalignment, and high internal transaction cost', method: 'Health audit ➜ Risk diagnosis ➜ Structure redesign ➜ Weekly KPI review', outcome: 'Dramatically reduce operational friction, unblock funnel, and restore predictable growth', timeline: 'Locate core blockages within 1-4 weeks', path: '/insights/enterprise-doctor' },
-      { id: '02', title: 'NAS Balanced Space', project: 'Life Numerology Teaching', audience: 'Individuals and partnership teams seeking to discover natural talents and map their decision dashboard', solve: 'Difficulty recognizing talents, decision loops, and communication friction in partnerships', method: 'Numerology analysis ➜ Gift assessment ➜ Life dashboard mapping ➜ Core training', outcome: 'Understand your personal life dashboard, clarify roles, and optimize relationship boundaries', timeline: 'Map personal life dashboard and complete core training in 1-3 weeks', path: '/insights/life-number' },
-      { id: '03', title: 'ABL Quantum Frequency', project: 'Personal Information Field Harmonization', audience: 'Executives and entrepreneurs seeking to clear subconscious resistance and receive energy alignment', solve: 'Burnout from raw willpower force, unexplained execution blockages, and energetic imbalances', method: 'TimeWaver field scan ➜ Block mapping ➜ Personal field harmonization ➜ Frequency support', outcome: 'Clear invisible field blockages, rebuild decision performance, and sustain high-energy focus', timeline: 'Align core energy and set up frequency support loops in 2-6 weeks', path: '/insights/personal-growth' },
+      {
+        id: '01',
+        title: 'I8 Enterprise Consulting',
+        project: 'Enterprise Doctor Project',
+        audience: 'Founders and leadership teams facing stagnation, internal friction, and bottlenecks',
+        solve: 'Funnel blockage, poor delivery efficiency, cashflow misalignment, and high internal transaction cost',
+        method: 'Health audit ➜ Risk diagnosis ➜ Structure redesign ➜ Weekly KPI review',
+        outcome: 'Dramatically reduce operational friction, unblock funnel, and restore predictable growth',
+        timeline: 'Locate core blockages within 1-4 weeks',
+        path: '/insights/enterprise-doctor',
+      },
+      {
+        id: '02',
+        title: 'NAS Balanced Space',
+        project: 'Life Numerology Teaching',
+        audience: 'Individuals and partnership teams seeking to discover natural talents and map their decision dashboard',
+        solve: 'Difficulty recognizing talents, decision loops, and communication friction in partnerships',
+        method: 'Numerology analysis ➜ Gift assessment ➜ Life dashboard mapping ➜ Core training',
+        outcome: 'Understand your personal life dashboard, clarify roles, and optimize relationship boundaries',
+        timeline: 'Map personal life dashboard and complete core training in 1-3 weeks',
+        path: '/insights/life-number',
+      },
+      {
+        id: '03',
+        title: 'ABL Personal Alignment',
+        project: 'Personal State Harmonization & Cycle Support',
+        audience: 'Executives and entrepreneurs seeking to clear internal resistance and receive state alignment',
+        solve: 'Burnout from raw willpower force, unexplained execution blockages, and fatigue',
+        method: 'State scan ➜ Resistance mapping ➜ State harmonization ➜ Cycle support',
+        outcome: 'Clear invisible blockages, rebuild decision performance, and sustain focus',
+        timeline: 'Align core state and set up support loops in 2-6 weeks',
+        path: '/insights/personal-growth',
+      },
     ],
   },
 };
@@ -69,11 +130,11 @@ const Services = () => {
                   <p><span className="font-bold text-slate-900">{section.labels.timeline}</span>{srv.timeline}</p>
                 </div>
               </div>
-              <div className="mt-8 pt-4 border-t border-slate-100 flex gap-6 font-sans">
+              <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between font-sans">
                 <Link to={srv.path} className="text-slate-900 font-bold tracking-wider hover:text-accent transition-colors text-sm flex items-center gap-1 cursor-pointer">
                   {section.read}
                 </Link>
-                <a href="/#contact" className="text-slate-500 font-bold tracking-wider hover:text-slate-900 transition-colors text-sm cursor-pointer">
+                <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className="text-emerald-600 font-bold tracking-wider hover:text-emerald-700 transition-colors text-sm cursor-pointer">
                   {section.consult}
                 </a>
               </div>
@@ -95,7 +156,7 @@ const Services = () => {
             <p className="text-sm mt-2 font-medium">{section.stats[2]}</p>
           </div>
           <div>
-            <p className="text-3xl font-bold text-accent font-display">FAQ</p>
+            <p className="text-3xl font-bold text-accent font-display">20+</p>
             <p className="text-sm mt-2 font-medium">{section.stats[3]}</p>
           </div>
         </div>

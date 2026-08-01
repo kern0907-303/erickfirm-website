@@ -7,13 +7,13 @@ const copy = {
     services: '服務項目',
     about: '關於我們',
     consult: '預約諮詢',
-    slogan: '運用信息場技術，重塑治理結構。',
+    slogan: '從第一性原理出發，重塑高效能運行軌道。',
   },
   en: {
     services: 'Services',
     about: 'About',
     consult: 'Book Consultation',
-    slogan: 'Rebuild decision structure with information-field insights.',
+    slogan: 'Rebuild decision performance with first principles.',
   },
 };
 

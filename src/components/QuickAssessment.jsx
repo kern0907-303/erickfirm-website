@@ -12,9 +12,9 @@ const copy = {
     goRecommended: '看推薦服務細節',
     directBook: '加 LINE 領取專屬報告 🎁',
     serviceLabel: {
-      'enterprise-doctor': '初八企業信息顧問Ｉ８（企業醫生專案）',
-      'life-number': '平衡空間 ＮＡＳ（關係對位專案）',
-      'personal-growth': '艾伯林量子調頻ＡＢＬ（能量對位專案）',
+      'enterprise-doctor': '初八企業顧問 I8（企業醫生專案）',
+      'life-number': '平衡空間 NAS（關係對位專案）',
+      'personal-growth': '艾伯林 ABL（個人狀態對位專案）',
     },
     questions: [
       {
@@ -56,7 +56,7 @@ const copy = {
     serviceLabel: {
       'enterprise-doctor': 'I8 Enterprise Consulting (Enterprise Doctor)',
       'life-number': 'NAS Balanced Space (Relation Alignment)',
-      'personal-growth': 'ABL Quantum Frequency (Field Tuning)',
+      'personal-growth': 'ABL Personal Alignment (State Alignment)',
     },
     questions: [
       {
@@ -112,7 +112,7 @@ const QuickAssessment = () => {
         <div className="text-center mb-12">
           <h2 className="text-sm text-accent font-bold tracking-[0.3em] uppercase mb-4 font-sans">START HERE</h2>
           <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 font-display">{dict.heading}</h3>
-          <p className="text-slate-600 font-medium font-sans">{dict.desc}</p>
+          <p className="text-slate-600 font-medium font-sans font-light max-w-xl mx-auto">{dict.desc}</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
@@ -145,7 +145,7 @@ const QuickAssessment = () => {
             <p className="text-sm text-slate-300">{dict.recommendationLabel}</p>
             <p className="text-2xl font-bold text-accent font-display">{recommendation ? dict.serviceLabel[recommendation] : dict.recommendationFallback}</p>
             {recommendation && (
-              <p className="text-xs text-slate-400 mt-1 font-medium">💡 加官方 LINE 輸入暗號【168】即可免費獲取專屬解讀報告</p>
+              <p className="text-xs text-slate-400 mt-1 font-medium font-sans">💡 加官方 LINE 輸入暗號【168】即可免費獲取專屬解讀報告</p>
             )}
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
