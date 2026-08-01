@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import QuickAssessment from './components/QuickAssessment';
@@ -14,27 +13,38 @@ import Footer from './components/Footer';
 import Insights from './pages/Insights';
 import PostDetail from './pages/PostDetail';
 import MobileStickyBar from './components/MobileStickyBar';
-import { getPreferredLocale, onLocaleChange } from './lib/i18n';
+import SEOHead, { updateMetaTags } from './components/SEOHead';
 
-// 換頁時自動捲動到頂部
+// 換頁時自動捲動到頂部並確保全站 Meta
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (pathname === '/') {
+      updateMetaTags({
+        title: 'Erick Firm | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL',
+        description: '奧斯學長（Erick）擁有 20 年以上企業營運與個人狀態對位經驗，提供初八企業顧問 I8、平衡空間 NAS 與艾伯林 ABL 服務，協助創辦人與高管釐清商業與生命卡點。',
+        url: 'https://erickfirm.com/'
+      });
+    }
   }, [pathname]);
   return null;
 };
 
-// 重構後的 8 個首頁 Section 順序
+// 8 個首頁 Section 順序
 const Home = () => (
   <>
+    <SEOHead
+      title="Erick Firm | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL"
+      description="奧斯學長（Erick）擁有 20 年以上企業營運與個人狀態對位經驗，提供初八企業顧問 I8、平衡空間 NAS 與艾伯林 ABL 服務，協助創辦人與高管釐清商業與生命卡點。"
+    />
     {/* 1. Hero */}
     <Hero />
     {/* 2. START HERE 三題自評 (id=assessment) */}
     <QuickAssessment />
-    {/* 3. 洞察智庫精選 (新增) */}
+    {/* 3. 洞察智庫精選 */}
     <HomeInsightsSection />
-    {/* 4. 關於 Erick (新增) */}
+    {/* 4. 關於 Erick */}
     <AboutErickSection />
     {/* 5. FIRST PRINCIPLES 第一性原理 */}
     <ProblemAnswersSection />
@@ -47,62 +57,58 @@ const Home = () => (
   </>
 );
 
-const buildHomeStructuredData = (locale) => ({
+const buildHomeStructuredData = () => ({
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Organization',
       name: 'Erick Firm',
       url: 'https://erickfirm.com',
-      description: locale === 'en'
-        ? 'Three service tracks: Enterprise Doctor, Life Blueprint Planning, and Personal Growth.'
-        : '提供企業醫生、生命藍圖規劃、個人成長三大核心服務，協助決策者建立可持續成長系統。',
+      description: '提供初八企業顧問 I8（企業醫生專案）、平衡空間 NAS、艾伯林 ABL 三大核心服務，協助決策者建立可持續成長系統。',
     },
     { '@type': 'WebSite', name: 'Erick Firm', url: 'https://erickfirm.com' },
     {
       '@type': 'Service',
-      name: locale === 'en' ? 'Enterprise Doctor' : '企業醫生',
+      name: '初八企業顧問 I8（企業醫生專案）',
       provider: { '@type': 'Organization', name: 'Erick Firm' },
       serviceType: 'Business Structure Optimization',
-      description: locale === 'en'
-        ? 'Diagnose growth bottlenecks and reduce internal friction with structured execution.'
-        : '針對企業內耗、決策效率與成長瓶頸進行結構化診斷與優化。',
+      description: '針對企業內耗、決策效率與成長瓶頸進行結構化診斷與優化。',
     },
     {
       '@type': 'Service',
-      name: locale === 'en' ? 'Life Blueprint Planning' : '生命藍圖規劃',
+      name: '平衡空間 NAS',
       provider: { '@type': 'Organization', name: 'Erick Firm' },
       serviceType: 'Decision Pattern & Role Alignment',
-      description: locale === 'en'
-        ? 'Map decision patterns and role alignment to improve clarity and collaboration.'
-        : '透過決策偏好盤點與角色對位分析，協助釐清方向、提升決策品質與合作效率。',
+      description: '透過決策偏好盤點與角色對位分析，協助釐清方向、提升決策品質與合作效率。',
     },
     {
       '@type': 'Service',
-      name: locale === 'en' ? 'Personal Growth' : '個人成長',
+      name: '艾伯林 ABL',
       provider: { '@type': 'Organization', name: 'Erick Firm' },
-      serviceType: 'Execution & Decision Performance',
-      description: locale === 'en'
-        ? 'Use TimeWaver analysis to find core blockers and improve execution and decision quality.'
-        : '以 TimeWaver 分析定位核心問題，提升行動力與決策力。',
+      serviceType: 'Execution & State Harmonization',
+      description: '提供個人狀態調和與週期支持，協助創辦人與高管釐清身心與狀態瓶頸。',
     },
   ],
 });
 
 function App() {
-  const [locale, setLocale] = React.useState(getPreferredLocale());
-  React.useEffect(() => onLocaleChange(setLocale), []);
-  const homeStructuredData = buildHomeStructuredData(locale);
+  const homeStructuredData = buildHomeStructuredData();
+
+  useEffect(() => {
+    // 注入全站通用的 JSON-LD 結構化資料
+    let script = document.querySelector('#structured-data-jsonld');
+    if (!script) {
+      script = document.createElement('script');
+      script.id = 'structured-data-jsonld';
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(homeStructuredData);
+  }, []);
 
   return (
     <Router>
       <ScrollToTop />
-      <Helmet>
-        <title>{locale === 'en' ? 'Erick Firm | Enterprise Doctor, Life Blueprint Planning, Personal Growth' : 'Erick Firm | 企業醫生・生命藍圖規劃・個人成長顧問'}</title>
-        <meta name="description" content={locale === 'en' ? 'Find your best next step with Enterprise Doctor, Life Blueprint Planning, and Personal Growth. Built for practical execution and better decisions.' : '首次來訪也能快速判斷：企業醫生、生命藍圖規劃、個人成長該先看哪一個。30 秒自評、方法流程、可收藏指南一次完整提供。'} />
-        <meta name="keywords" content={locale === 'en' ? 'business growth, decision making, execution, leadership advisory, timewaver' : '企業醫生,生命藍圖規劃,個人成長,決策優化,組織治理,成長顧問'} />
-        <script type="application/ld+json">{JSON.stringify(homeStructuredData)}</script>
-      </Helmet>
 
       <div className="min-h-screen bg-white text-slate-900 font-sans relative">
         <Header />

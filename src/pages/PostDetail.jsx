@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import { HelpCircle, ChevronDown } from 'lucide-react';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { findPostByRoute, getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
+import SEOHead, { updateMetaTags } from '../components/SEOHead';
 
 // 四大服務分類所對應的專屬 CTA 引流文案與按鈕配置
 const CATEGORY_CTA_CONFIG = {
@@ -108,6 +108,20 @@ const PostDetail = () => {
         setFaqBlocks(Array.isArray(data.faqBlocks) ? data.faqBlocks : []);
         setIsUsingFallback(false);
 
+        // 實時更新真實 DOM Head 標籤
+        const postTitle = remotePost.title || '洞察文章';
+        const postExcerpt = remotePost.excerpt || postTitle;
+        const currentService = remotePost.service || service || 'personal-growth';
+        const currentSlug = remotePost.slug || slug || id;
+        const postUrl = `https://erickfirm.com/insights/${currentService}/${currentSlug}`;
+        
+        updateMetaTags({
+          title: postTitle,
+          description: postExcerpt,
+          url: postUrl,
+          type: 'article'
+        });
+
         if (!id && remotePost.service && remotePost.slug && (remotePost.service !== service || remotePost.slug !== slug)) {
           navigate(`/insights/${remotePost.service}/${remotePost.slug}`, { replace: true });
         }
@@ -128,6 +142,19 @@ const PostDetail = () => {
         setBlocks(Array.isArray(fallbackPost?.blocks) ? fallbackPost.blocks : []);
         setFaqBlocks([]);
         setIsUsingFallback(!!fallbackPost);
+
+        if (fallbackPost) {
+          const postTitle = fallbackPost.title || '洞察文章';
+          const postExcerpt = fallbackPost.excerpt || postTitle;
+          const currentService = fallbackPost.service || service || 'personal-growth';
+          const currentSlug = fallbackPost.slug || slug || id;
+          updateMetaTags({
+            title: postTitle,
+            description: postExcerpt,
+            url: `https://erickfirm.com/insights/${currentService}/${currentSlug}`,
+            type: 'article'
+          });
+        }
       } finally {
         setLoading(false);
       }
@@ -153,7 +180,7 @@ const PostDetail = () => {
     return CATEGORY_CTA_CONFIG[s] || CATEGORY_CTA_CONFIG['personal-growth'];
   }, [normalizedPost]);
 
-  // 計算「你可能也會想看」的 3 篇文章（優先同分類，不足則由其他最新文章補充）
+  // 計算「你可能也會想看」的 3 篇文章
   const relatedPosts = useMemo(() => {
     if (!normalizedPost || !allPosts.length) return [];
 
@@ -173,12 +200,6 @@ const PostDetail = () => {
 
     return selected;
   }, [normalizedPost, allPosts]);
-
-  const aeoJsonString = useMemo(() => {
-    if (!post?.aeoSchema) return null;
-    const match = post.aeoSchema.match(/<script[^>]*>([\s\S]*?)<\/script>/i);
-    return match ? match[1].trim() : post.aeoSchema.trim();
-  }, [post]);
 
   const faqGroups = useMemo(() => {
     const groups = [];
@@ -220,19 +241,14 @@ const PostDetail = () => {
   }
 
   const backPath = normalizedPost.service ? `/insights/${normalizedPost.service}` : '/insights';
-  const pageTitle = `${normalizedPost.title} | ${dict.insights} | Erick Firm`;
 
   return (
     <div className="min-h-screen bg-white pt-32 pb-24 font-sans">
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={post?.excerpt || normalizedPost.title} />
-        {aeoJsonString && (
-          <script type="application/ld+json">
-            {aeoJsonString}
-          </script>
-        )}
-      </Helmet>
+      <SEOHead
+        title={normalizedPost.title}
+        description={post?.excerpt || normalizedPost.title}
+        type="article"
+      />
       <article className="container mx-auto px-6 max-w-3xl">
         <Link to={backPath} className="text-slate-400 hover:text-accent transition-colors mb-8 inline-block font-bold text-sm tracking-widest">
           ← {dict.backToInsights}

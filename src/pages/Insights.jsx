@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
+import SEOHead, { updateMetaTags } from '../components/SEOHead';
 
 const SERVICES = ['enterprise-doctor', 'life-number', 'personal-growth', 'erick-column'];
 const SERVICE_SUBTITLE = {
@@ -11,14 +11,14 @@ const SERVICE_SUBTITLE = {
     all: '依服務分艙閱讀，快速找到最相關的實戰文章',
     'enterprise-doctor': '聚焦營運增長、流程優化與團隊執行力，提供可落地的企業診斷與策略。',
     'life-number': '聚焦決策偏好與角色對位，協助你在關鍵情境下做出更一致且有效的選擇。',
-    'personal-growth': '聚焦行動力與決策力提升，透過 TimeWaver 分析找出核心卡點與優化方向。',
-    'erick-column': 'Erick 營運長的個人專欄，分享商業思維、決策邏輯與生活實踐。',
+    'personal-growth': '聚焦行動力與決策力提升，協助創辦人與高管釐清身心與狀態瓶頸。',
+    'erick-column': 'Erick 創辦人的個人專欄，分享商業思維、決策邏輯與生活實踐。',
   },
   en: {
     all: 'Browse by service track to find the most relevant playbooks.',
     'enterprise-doctor': 'Practical insights to improve revenue performance, operating structure, and team execution.',
     'life-number': 'Business-focused guidance on decision patterns and role alignment for clearer, faster choices.',
-    'personal-growth': 'Execution and decision-performance insights powered by TimeWaver-based core issue analysis.',
+    'personal-growth': 'Execution and decision-performance insights for leaders and executives.',
     'erick-column': "Erick's personal column sharing business mindset, decision logic, and life practices.",
   },
 };
@@ -71,6 +71,20 @@ const Insights = () => {
     setSelectedTag(null);
   }, [activeService]);
 
+  const activeServiceName = activeService === 'all' ? dict.services.all : getServiceNameFromSlug(activeService, locale, i18n);
+  const subtitle = SERVICE_SUBTITLE[locale]?.[activeService] || dict.insightsDesc;
+  const pageTitle = `${activeServiceName} | ${dict.insights}`;
+  const pageUrl = `https://erickfirm.com/insights${activeService === 'all' ? '' : '/' + activeService}`;
+
+  useEffect(() => {
+    updateMetaTags({
+      title: pageTitle,
+      description: subtitle,
+      url: pageUrl,
+      type: 'website'
+    });
+  }, [pageTitle, subtitle, pageUrl]);
+
   const availableTags = useMemo(() => {
     const servicePosts = activeService === 'all' ? posts : posts.filter(p => p.service === activeService);
     const tagsSet = new Set();
@@ -105,20 +119,13 @@ const Insights = () => {
     navigate(service === 'all' ? '/insights' : `/insights/${service}`);
   };
 
-  const activeServiceName = activeService === 'all' ? dict.services.all : getServiceNameFromSlug(activeService, locale, i18n);
-  const subtitle = SERVICE_SUBTITLE[locale]?.[activeService] || dict.insightsDesc;
-  const pageTitle = `${activeServiceName} | ${dict.insights} | Erick Firm`;
-
   return (
     <div className="min-h-screen bg-surface pt-32 pb-24 font-sans">
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={subtitle} />
-      </Helmet>
+      <SEOHead title={pageTitle} description={subtitle} />
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 font-display">{dict.insights}</h1>
-          <p className="text-slate-600 max-w-2xl mx-auto font-medium">{subtitle}</p>
+          <p className="text-slate-600 max-w-2xl mx-auto font-medium font-light">{subtitle}</p>
           {isUsingFallback && <p className="text-sm text-slate-500 mt-4">{dict.fallbackHint}</p>}
         </div>
 
@@ -148,7 +155,7 @@ const Insights = () => {
         {availableTags.length > 0 && (
           <div className="flex flex-wrap justify-center items-center gap-2 mb-16 max-w-3xl mx-auto border-t border-slate-200/60 pt-6">
             <span className="text-xs font-bold text-slate-400 mr-2 tracking-wider uppercase">
-              {locale === 'en' ? 'Filter by Tag:' : '標籤篩選：'}
+              標籤篩選：
             </span>
             {availableTags.map((tag) => {
               const active = selectedTag === tag;
@@ -171,7 +178,7 @@ const Insights = () => {
                 onClick={() => setSelectedTag(null)}
                 className="text-xs font-bold text-slate-400 hover:text-slate-600 ml-2"
               >
-                {locale === 'en' ? 'Clear' : '清除'}
+                清除
               </button>
             )}
           </div>
@@ -191,7 +198,7 @@ const Insights = () => {
                   <span className="text-xs text-slate-400">{post.publishDate}</span>
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-accent transition-colors line-clamp-2 font-display">{post.title}</h3>
-                <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-grow line-clamp-3">{post.excerpt}</p>
+                <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-grow line-clamp-3 font-light">{post.excerpt}</p>
                 
                 {/* Clickable tags in card */}
                 {Array.isArray(post.tags) && post.tags.length > 0 && (
