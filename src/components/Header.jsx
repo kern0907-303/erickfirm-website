@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getPreferredLocale, i18n, setPreferredLocale } from '../lib/i18n';
+import { LINE_CONFIG } from '../lib/constants';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,7 +37,12 @@ const Header = () => {
           <Link to="/" className="text-sm font-bold text-slate-700 hover:text-accent transition-colors">{dict.home}</Link>
           <Link to="/insights" className="text-sm font-bold text-slate-700 hover:text-accent transition-colors">{dict.insights}</Link>
           <a href="/#services" className="text-sm font-bold text-slate-700 hover:text-accent transition-colors">{dict.servicesMenu}</a>
-          <a href="/#contact" className="px-6 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-accent hover:text-slate-900 hover:translate-y-[-1px] active:translate-y-0 hover:shadow-md transition-all duration-300">
+          <a
+            href={LINE_CONFIG.LINE_MESSAGE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-accent hover:text-slate-900 hover:translate-y-[-1px] active:translate-y-0 hover:shadow-md transition-all duration-300 cursor-pointer"
+          >
             {dict.consult}
           </a>
           <div className="flex items-center text-xs border border-slate-200 rounded-full overflow-hidden">
@@ -57,7 +63,15 @@ const Header = () => {
           <button onClick={() => handleNav('/')} className="text-left font-bold text-slate-700 hover:text-accent">{dict.home}</button>
           <button onClick={() => handleNav('/insights')} className="text-left font-bold text-slate-700 hover:text-accent">{dict.insights}</button>
           <a href="/#services" onClick={() => setIsMenuOpen(false)} className="font-bold text-slate-700 hover:text-accent">{dict.servicesMenu}</a>
-          <a href="/#contact" onClick={() => setIsMenuOpen(false)} className="bg-primary text-white text-center py-3 font-bold rounded-lg active:bg-accent active:text-slate-900 transition-colors">{dict.consult}</a>
+          <a
+            href={LINE_CONFIG.LINE_MESSAGE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setIsMenuOpen(false)}
+            className="bg-primary text-white text-center py-3 font-bold rounded-lg active:bg-accent active:text-slate-900 transition-colors cursor-pointer"
+          >
+            {dict.consult}
+          </a>
           <div className="flex items-center text-xs border border-slate-200 rounded-full overflow-hidden w-fit">
             <button onClick={() => handleLocaleChange('zh-TW')} className={`px-3 py-1 transition-colors ${locale === 'zh-TW' ? 'bg-primary text-white font-bold' : 'bg-white text-slate-600'}`}>中</button>
             <button onClick={() => handleLocaleChange('en')} className={`px-3 py-1 transition-colors ${locale === 'en' ? 'bg-primary text-white font-bold' : 'bg-white text-slate-600'}`}>EN</button>

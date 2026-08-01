@@ -13,7 +13,8 @@ import BookmarkSection from './components/BookmarkSection';
 import ProblemAnswersSection from './components/ProblemAnswersSection';
 import PeakSection from './components/PeakSection';
 import Insights from './pages/Insights';
-import PostDetail from './pages/PostDetail'; // 新增
+import PostDetail from './pages/PostDetail';
+import MobileStickyBar from './components/MobileStickyBar';
 import { getPreferredLocale, onLocaleChange } from './lib/i18n';
 
 // 換頁時自動捲動到頂部
@@ -104,7 +105,7 @@ function App() {
         <script type="application/ld+json">{JSON.stringify(homeStructuredData)}</script>
       </Helmet>
 
-      <div className="min-h-screen bg-white text-slate-900 font-sans">
+      <div className="min-h-screen bg-white text-slate-900 font-sans relative">
         <Header />
         
         <Routes>
@@ -116,6 +117,7 @@ function App() {
         </Routes>
 
         <Footer />
+        <MobileStickyBar />
       </div>
     </Router>
   );
