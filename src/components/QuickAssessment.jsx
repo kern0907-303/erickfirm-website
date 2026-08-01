@@ -5,11 +5,11 @@ import { getPreferredLocale, onLocaleChange } from '../lib/i18n';
 const copy = {
   'zh-TW': {
     heading: '不知道從哪開始？先回答 3 題',
-    desc: '不用專業背景，也能快速找到你現在最該先做的方向。',
+    desc: '不用專業背景，30 秒快速定位你現在最該先解決的核心阻塞。',
     recommendationLabel: '你的優先建議服務',
     recommendationFallback: '請先完成 3 題自評',
-    goRecommended: '先看推薦服務',
-    directBook: '直接預約',
+    goRecommended: '看推薦服務細節',
+    directBook: '加 LINE 領取專屬報告 🎁',
     serviceLabel: {
       'enterprise-doctor': '初八企業信息顧問Ｉ８（企業醫生專案）',
       'life-number': '平衡空間 ＮＡＳ（關係對位專案）',
@@ -143,14 +143,17 @@ const QuickAssessment = () => {
           <div>
             <p className="text-sm text-slate-300">{dict.recommendationLabel}</p>
             <p className="text-2xl font-bold text-accent font-display">{recommendation ? dict.serviceLabel[recommendation] : dict.recommendationFallback}</p>
+            {recommendation && (
+              <p className="text-xs text-slate-400 mt-1 font-medium">💡 加官方 LINE 輸入暗號【168】即可免費獲取專屬解讀報告</p>
+            )}
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             {recommendation && (
-              <Link to={`/insights/${recommendation}`} className="px-6 py-3 bg-accent text-slate-900 font-bold rounded-lg text-center hover:bg-white hover:text-primary hover:translate-y-[-1px] transition-all duration-200 cursor-pointer">
+              <Link to={`/insights/${recommendation}`} className="px-6 py-3 border border-slate-500 text-white font-bold rounded-lg text-center hover:bg-white hover:text-primary hover:translate-y-[-1px] transition-all duration-200 cursor-pointer">
                 {dict.goRecommended}
               </Link>
             )}
-            <a href="/#contact" className="px-6 py-3 border border-slate-500 text-white font-bold rounded-lg text-center hover:bg-white hover:text-primary hover:border-white hover:translate-y-[-1px] transition-all duration-200 cursor-pointer">
+            <a href="/#contact" className="px-6 py-3 bg-accent text-slate-900 font-bold rounded-lg text-center hover:bg-white hover:text-primary hover:translate-y-[-1px] transition-all duration-200 cursor-pointer shadow-md">
               {dict.directBook}
             </a>
           </div>

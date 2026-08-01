@@ -93,9 +93,23 @@ const Contact = () => {
         
         <div className="bg-surface rounded-2xl p-8 md:p-14 border border-slate-200/80 shadow-[0_8px_30px_rgba(0,42,84,0.02)]">
           <div className="text-center mb-12">
-            <h2 className="text-accent font-bold tracking-[0.3em] uppercase mb-3 text-sm font-sans">Book Consultation</h2>
+            <h2 className="text-accent font-bold tracking-[0.3em] uppercase mb-3 text-sm font-sans">LINE & Contact</h2>
             <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">{dict.title}</h3>
-            <p className="text-slate-600 font-medium font-sans">{dict.desc}</p>
+            <p className="text-slate-600 font-medium font-sans mb-6">{dict.desc}</p>
+
+            {/* 官方 LINE 快速通道 */}
+            <div className="bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-5 max-w-md mx-auto font-sans shadow-sm">
+              <p className="text-sm font-bold text-emerald-950 mb-1">💬 想要更快速、低摩擦的溝通方式？</p>
+              <p className="text-xs text-emerald-800 mb-4">加官方 LINE 輸入暗號【168】，即可直接領取專屬解讀報告與私訊諮詢。</p>
+              <a
+                href="https://line.me/R/ti/p/@erickfirm"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-[#06C755] text-white font-bold text-sm px-6 py-3 rounded-lg hover:bg-[#05b34c] hover:shadow-md transition-all cursor-pointer"
+              >
+                一鍵加官方 LINE 諮詢 ➔
+              </a>
+            </div>
           </div>
 
           {successMsg && (
