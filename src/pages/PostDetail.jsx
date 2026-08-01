@@ -5,6 +5,7 @@ import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { findPostByRoute, getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
 import SEOHead, { updateMetaTags } from '../components/SEOHead';
+import { fetchSupabasePost, fetchSupabasePosts, isSupabaseInsightsConfigured } from '../lib/supabase-insights';
 
 // 四大服務分類所對應的專屬 CTA 引流文案與按鈕配置
 const CATEGORY_CTA_CONFIG = {
@@ -92,12 +93,13 @@ const PostDetail = () => {
           query.set('slug', slug || '');
         }
 
-        const res = await fetch(`/.netlify/functions/notion?${query.toString()}`);
-        if (!res.ok) {
-          throw new Error(`Notion function failed with status ${res.status}`);
-        }
-
-        const data = await res.json();
+        const data = isSupabaseInsightsConfigured()
+          ? await fetchSupabasePost({ id: id && !slug ? id : '', service, slug }, locale)
+          : await (async () => {
+            const res = await fetch(`/.netlify/functions/notion?${query.toString()}`);
+            if (!res.ok) throw new Error(`Notion function failed with status ${res.status}`);
+            return res.json();
+          })();
         const remotePost = data.page;
         if (!remotePost) {
           throw new Error('Invalid post payload');
@@ -122,16 +124,19 @@ const PostDetail = () => {
           type: 'article'
         });
 
-        if (!id && remotePost.service && remotePost.slug && (remotePost.service !== service || remotePost.slug !== slug)) {
+        if (remotePost.service && remotePost.slug && (id || remotePost.service !== service || remotePost.slug !== slug)) {
           navigate(`/insights/${remotePost.service}/${remotePost.slug}`, { replace: true });
         }
 
         // 2. 載入全站文章清單供「你可能也會想看」計算
-        const listRes = await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`);
-        if (listRes.ok) {
-          const listData = await listRes.json();
-          const normalized = normalizePosts(listData.posts || listData.results || [], locale);
-          setAllPosts(normalized);
+        if (isSupabaseInsightsConfigured()) {
+          setAllPosts(await fetchSupabasePosts(locale));
+        } else {
+          const listRes = await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`);
+          if (listRes.ok) {
+            const listData = await listRes.json();
+            setAllPosts(normalizePosts(listData.posts || listData.results || [], locale));
+          }
         }
       } catch (error) {
         console.error('Post detail fetch error:', error);

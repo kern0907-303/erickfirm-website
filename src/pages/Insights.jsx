@@ -4,6 +4,7 @@ import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
 import SEOHead, { updateMetaTags } from '../components/SEOHead';
+import { fetchSupabasePosts, isSupabaseInsightsConfigured } from '../lib/supabase-insights';
 
 const SERVICES = ['enterprise-doctor', 'life-number', 'personal-growth', 'erick-column'];
 const SERVICE_SUBTITLE = {
@@ -38,13 +39,9 @@ const Insights = () => {
     async function loadPosts() {
       setLoading(true);
       try {
-        const res = await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`);
-        if (!res.ok) {
-          throw new Error(`Notion function failed with status ${res.status}`);
-        }
-
-        const data = await res.json();
-        const remotePosts = normalizePosts(data.posts || data.results || [], locale);
+        const remotePosts = isSupabaseInsightsConfigured()
+          ? await fetchSupabasePosts(locale)
+          : normalizePosts((await (await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`)).json()).posts || [], locale);
         if (!remotePosts.length) {
           throw new Error('Empty Notion posts');
         }

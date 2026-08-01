@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
+import { fetchSupabasePosts, isSupabaseInsightsConfigured } from '../lib/supabase-insights';
 
 // Erick 指定的 6 篇精選文章標題（嚴格依序）
 const TARGET_TITLES = [
@@ -26,10 +27,9 @@ const HomeInsightsSection = () => {
     async function loadTargetPosts() {
       setLoading(true);
       try {
-        const res = await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`);
-        if (!res.ok) throw new Error('Failed to fetch posts');
-        const data = await res.json();
-        const allNormalized = normalizePosts(data.posts || data.results || [], locale);
+        const allNormalized = isSupabaseInsightsConfigured()
+          ? await fetchSupabasePosts(locale)
+          : normalizePosts((await (await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`)).json()).posts || [], locale);
 
         // 依據 TARGET_TITLES 順序比對與排序 6 篇文章
         const matched = [];

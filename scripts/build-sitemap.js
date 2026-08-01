@@ -5,8 +5,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const SUPABASE_URL = "https://wbbnjasjyfuatkvnoogi.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndiYm5qYXNqeWZ1YXRrdm5vb2dpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NzQ0MjY2MiwiZXhwIjoyMDgzMDE4NjYyfQ.rmyavlJf2s0nVGqWiKFfBV7uBBt90s_mgiMSaWml9Cw";
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY;
+// This compatibility source keeps builds safe until the browser anon-key migration is verified.
+const INSIGHTS_API_URL = process.env.INSIGHTS_API_URL || 'https://erickfirm.com/.netlify/functions/notion?lang=zh-TW';
 
 const DOMAIN = "https://erickfirm.com";
 
@@ -19,19 +21,18 @@ const brandToService = {
 
 async function fetchArticles() {
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/insights_articles?brand_id=in.(erick,i8,nas,abl)&status=eq.published&order=created_at.desc`, {
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`
-      }
-    });
+    const res = SUPABASE_URL && SUPABASE_KEY
+      ? await fetch(`${SUPABASE_URL}/rest/v1/insights_articles?brand_id=in.(erick,i8,nas,abl)&status=eq.published&order=created_at.desc`, {
+        headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
+      })
+      : await fetch(INSIGHTS_API_URL);
     if (res.ok) {
-      return await res.json();
+      const data = await res.json();
+      return Array.isArray(data) ? data : data.posts || data.results || [];
     }
   } catch (err) {
-    console.warn("Failed to fetch from Supabase, using fallback for sitemap:", err);
+    throw new Error(`Failed to fetch published articles from Supabase: ${err.message}`);
   }
-  return [];
 }
 
 async function generateSitemap() {
@@ -50,30 +51,22 @@ async function generateSitemap() {
   const articleUrls = [];
 
   articles.forEach((art) => {
-    const service = brandToService[art.brand_id] || "erick-column";
-    const dateStr = art.created_at ? new Date(art.created_at).toISOString().split('T')[0] : today;
-    
-    // 如果有 slug 則注入 slug URL，同時注入 ID URL 確保雙重相容
-    if (art.slug) {
-      articleUrls.push({
-        url: `${DOMAIN}/insights/${service}/${encodeURIComponent(art.slug)}`,
-        lastmod: dateStr,
-        changefreq: 'monthly',
-        priority: '0.7'
-      });
-    }
+    const service = art.service || brandToService[art.brand_id] || "erick-column";
+    const slug = art.slug || String(art.title || '').trim().toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, '-').replace(/^-+|-+$/g, '');
+    if (!slug || art.status !== 'published') return;
+    const dateStr = (art.publishDate || art.publish_date || art.created_at || today).slice(0, 10);
     articleUrls.push({
-      url: `${DOMAIN}/insights/${service}/${art.id}`,
+      url: `${DOMAIN}/insights/${service}/${encodeURIComponent(slug)}`,
       lastmod: dateStr,
       changefreq: 'monthly',
-      priority: '0.6'
+      priority: '0.7'
     });
   });
 
   const allUrls = [...staticUrls, ...articleUrls];
 
   const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${allUrls.map(item => `  <url>
     <loc>${item.url}</loc>
     <lastmod>${item.lastmod}</lastmod>
