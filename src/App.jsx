@@ -3,15 +3,14 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { Helmet } from 'react-helmet';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import QuickAssessment from './components/QuickAssessment';
+import HomeInsightsSection from './components/HomeInsightsSection';
+import AboutErickSection from './components/AboutErickSection';
+import ProblemAnswersSection from './components/ProblemAnswersSection';
 import Services from './components/Services';
+import ProofSection from './components/ProofSection';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import HomeFAQ, { FAQS } from './components/HomeFAQ';
-import QuickAssessment from './components/QuickAssessment';
-import ProofSection from './components/ProofSection';
-import BookmarkSection from './components/BookmarkSection';
-import ProblemAnswersSection from './components/ProblemAnswersSection';
-import PeakSection from './components/PeakSection';
 import Insights from './pages/Insights';
 import PostDetail from './pages/PostDetail';
 import MobileStickyBar from './components/MobileStickyBar';
@@ -26,16 +25,24 @@ const ScrollToTop = () => {
   return null;
 };
 
+// 重構後的 8 個首頁 Section 順序
 const Home = () => (
   <>
+    {/* 1. Hero */}
     <Hero />
-    <ProblemAnswersSection />
-    <PeakSection />
+    {/* 2. START HERE 三題自評 (id=assessment) */}
     <QuickAssessment />
+    {/* 3. 洞察智庫精選 (新增) */}
+    <HomeInsightsSection />
+    {/* 4. 關於 Erick (新增) */}
+    <AboutErickSection />
+    {/* 5. FIRST PRINCIPLES 第一性原理 */}
+    <ProblemAnswersSection />
+    {/* 6. THREE CORE SERVICES 三大服務 */}
     <Services />
+    {/* 7. PROOF & PROCESS 四步流程 */}
     <ProofSection />
-    <BookmarkSection />
-    <HomeFAQ />
+    {/* 8. LINE & CONTACT 聯絡 */}
     <Contact />
   </>
 );
@@ -78,14 +85,6 @@ const buildHomeStructuredData = (locale) => ({
       description: locale === 'en'
         ? 'Use TimeWaver analysis to find core blockers and improve execution and decision quality.'
         : '以 TimeWaver 分析定位核心問題，提升行動力與決策力。',
-    },
-    {
-      '@type': 'FAQPage',
-      mainEntity: (FAQS[locale] || []).map((item) => ({
-        '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: { '@type': 'Answer', text: item.a },
-      })),
     },
   ],
 });
