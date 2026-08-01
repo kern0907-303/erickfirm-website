@@ -1,11 +1,46 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { HelpCircle, ChevronDown } from 'lucide-react';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { findPostByRoute, getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
+
+// 四大服務分類所對應的專屬 CTA 引流文案與按鈕配置
+const CATEGORY_CTA_CONFIG = {
+  'personal-growth': {
+    title: '如果這篇讓你想到自己',
+    desc: '狀態的事，通常不是再撐一下就會過去。與其繼續猜，不如先看清楚自己現在卡在哪一層。',
+    btn1Text: '做 30 秒自評',
+    btn1Url: 'https://erickfirm.com/#assessment',
+    btn2Text: '加 LINE 輸入【168】',
+    btn2Url: 'https://line.me/R/oaMessage/U4744aca9737a23e3b6c3ef5a038cdf4e/?168',
+  },
+  'life-number': {
+    title: '你自己的那一套，是怎麼運作的？',
+    desc: '每個人的節奏、判斷方式與卡點位置本來就不同。硬套別人的方法會累，先看懂自己這一套比較快。',
+    btn1Text: '做 30 秒自評',
+    btn1Url: 'https://erickfirm.com/#assessment',
+    btn2Text: '加 LINE 輸入【168】',
+    btn2Url: 'https://line.me/R/oaMessage/U4744aca9737a23e3b6c3ef5a038cdf4e/?168',
+  },
+  'enterprise-doctor': {
+    title: '如果你的公司也卡在同一個地方',
+    desc: '多數瓶頸不是策略不夠好，而是結構裡有一段一直沒被看見。先確認該從哪一段查起，比急著改策略有用。',
+    btn1Text: '做 30 秒盤點',
+    btn1Url: 'https://erickfirm.com/#assessment',
+    btn2Text: '預約聯繫',
+    btn2Url: 'https://line.me/R/oaMessage/U4744aca9737a23e3b6c3ef5a038cdf4e/?168',
+  },
+  'erick-column': {
+    title: '想知道你現在該先解哪一題？',
+    desc: '問題通常不只一個，但真正該先動的永遠只有一個。',
+    btn1Text: '做 30 秒自評',
+    btn1Url: 'https://erickfirm.com/#assessment',
+    btn2Text: '加 LINE 輸入【168】',
+    btn2Url: 'https://line.me/R/oaMessage/U4744aca9737a23e3b6c3ef5a038cdf4e/?168',
+  },
+};
 
 const renderFormattedText = (text) => {
   if (typeof text !== 'string') return text;
@@ -34,6 +69,7 @@ const PostDetail = () => {
   const navigate = useNavigate();
   const [locale, setLocale] = useState(getPreferredLocale());
   const [post, setPost] = useState(null);
+  const [allPosts, setAllPosts] = useState([]);
   const [blocks, setBlocks] = useState([]);
   const [faqBlocks, setFaqBlocks] = useState([]);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
@@ -44,9 +80,10 @@ const PostDetail = () => {
   useEffect(() => onLocaleChange(setLocale), []);
 
   useEffect(() => {
-    async function loadPost() {
+    async function loadPostAndList() {
       setLoading(true);
       try {
+        // 1. 載入當前文章詳情
         const query = new URLSearchParams({ lang: locale });
         if (id && !slug) {
           query.set('postId', id);
@@ -70,14 +107,24 @@ const PostDetail = () => {
         setBlocks(Array.isArray(data.blocks) ? data.blocks : []);
         setFaqBlocks(Array.isArray(data.faqBlocks) ? data.faqBlocks : []);
         setIsUsingFallback(false);
+
         if (!id && remotePost.service && remotePost.slug && (remotePost.service !== service || remotePost.slug !== slug)) {
           navigate(`/insights/${remotePost.service}/${remotePost.slug}`, { replace: true });
+        }
+
+        // 2. 載入全站文章清單供「你可能也會想看」計算
+        const listRes = await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`);
+        if (listRes.ok) {
+          const listData = await listRes.json();
+          const normalized = normalizePosts(listData.posts || listData.results || [], locale);
+          setAllPosts(normalized);
         }
       } catch (error) {
         console.error('Post detail fetch error:', error);
         const fallbackPosts = normalizePosts(fallbackData.posts || [], locale);
         const fallbackPost = findPostByRoute(fallbackPosts, { service, slug, id });
         setPost(fallbackPost);
+        setAllPosts(fallbackPosts);
         setBlocks(Array.isArray(fallbackPost?.blocks) ? fallbackPost.blocks : []);
         setFaqBlocks([]);
         setIsUsingFallback(!!fallbackPost);
@@ -86,7 +133,7 @@ const PostDetail = () => {
       }
     }
 
-    loadPost();
+    loadPostAndList();
   }, [service, slug, id, locale, navigate]);
 
   const normalizedPost = useMemo(() => {
@@ -96,8 +143,36 @@ const PostDetail = () => {
       title: post.title || 'Untitled',
       service: post.service || service || 'personal-growth',
       publishDate: post.publishDate || '',
+      slug: post.slug || slug || '',
     };
-  }, [post, service]);
+  }, [post, service, slug]);
+
+  // 取得當前分類對應的 CTA 引流卡片配置
+  const ctaConfig = useMemo(() => {
+    const s = normalizedPost?.service || 'personal-growth';
+    return CATEGORY_CTA_CONFIG[s] || CATEGORY_CTA_CONFIG['personal-growth'];
+  }, [normalizedPost]);
+
+  // 計算「你可能也會想看」的 3 篇文章（優先同分類，不足則由其他最新文章補充）
+  const relatedPosts = useMemo(() => {
+    if (!normalizedPost || !allPosts.length) return [];
+
+    const otherPosts = allPosts.filter(
+      (p) => p.id !== normalizedPost.id && p.slug !== normalizedPost.slug
+    );
+
+    const sameCategoryPosts = otherPosts.filter((p) => p.service === normalizedPost.service);
+
+    let selected = sameCategoryPosts.slice(0, 3);
+    if (selected.length < 3) {
+      const needed = 3 - selected.length;
+      const selectedIds = new Set(selected.map((p) => p.id || p.slug));
+      const fillPosts = otherPosts.filter((p) => !selectedIds.has(p.id || p.slug)).slice(0, needed);
+      selected = [...selected, ...fillPosts];
+    }
+
+    return selected;
+  }, [normalizedPost, allPosts]);
 
   const aeoJsonString = useMemo(() => {
     if (!post?.aeoSchema) return null;
@@ -183,6 +258,7 @@ const PostDetail = () => {
           )}
         </header>
 
+        {/* 文章正文區塊 */}
         <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed text-lg">
           {blocks.map((block) => {
             const type = block.type;
@@ -221,6 +297,7 @@ const PostDetail = () => {
           })}
         </div>
 
+        {/* 常見問題 FAQ (若有) */}
         {faqGroups.length > 0 && (
           <div className="mt-16 pt-12 border-t border-slate-100 font-sans">
             <h2 className="text-2xl font-bold text-slate-900 mb-8 font-display flex items-center gap-3">
@@ -286,6 +363,66 @@ const PostDetail = () => {
               })}
             </div>
           </div>
+        )}
+
+        {/* 相關文章區塊：「你可能也會想看」 */}
+        {relatedPosts.length > 0 && (
+          <section className="mt-16 pt-10 border-t border-slate-200/80 font-sans">
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-6 font-display flex items-center gap-2">
+              <span className="text-accent">💡</span> 你可能也會想看
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              {relatedPosts.map((rPost) => (
+                <Link
+                  key={rPost.id || rPost.slug}
+                  to={`/insights/${rPost.service}/${rPost.slug}`}
+                  className="group bg-surface hover:bg-white p-5 rounded-xl border border-slate-200/60 hover:border-accent hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full"
+                >
+                  <div>
+                    <span className="text-[11px] font-bold px-2.5 py-0.5 bg-slate-200/60 text-slate-700 rounded-sm mb-3 inline-block">
+                      {getServiceNameFromSlug(rPost.service, locale, i18n)}
+                    </span>
+                    <h4 className="text-base font-bold text-slate-900 group-hover:text-accent transition-colors line-clamp-2 leading-snug mb-3 font-display">
+                      {rPost.title}
+                    </h4>
+                  </div>
+                  <span className="text-xs text-slate-400 font-sans pt-2 border-t border-slate-100">
+                    {rPost.publishDate}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 統一的頁尾 CTA 引流區塊 */}
+        {ctaConfig && (
+          <section className="mt-12 pt-8 border-t border-slate-200 font-sans">
+            <div className="bg-surface rounded-2xl p-8 md:p-10 border border-slate-200/70 shadow-sm text-left">
+              <h4 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3 font-display">
+                {ctaConfig.title}
+              </h4>
+              <p className="text-slate-600 text-base md:text-lg mb-8 leading-relaxed max-w-2xl font-light">
+                {ctaConfig.desc}
+              </p>
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <a
+                  href={ctaConfig.btn1Url}
+                  className="w-full sm:w-auto px-7 py-3.5 bg-primary text-white font-bold rounded-lg hover:bg-secondary hover:shadow-md transition-all duration-200 text-center text-base cursor-pointer"
+                >
+                  {ctaConfig.btn1Text} ➔
+                </a>
+                <a
+                  href={ctaConfig.btn2Url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-7 py-3.5 bg-white text-slate-900 font-bold border border-slate-300 rounded-lg hover:border-accent hover:text-accent hover:shadow-sm transition-all duration-200 text-center text-base cursor-pointer"
+                >
+                  {ctaConfig.btn2Text} ↗
+                </a>
+              </div>
+            </div>
+          </section>
         )}
       </article>
     </div>
