@@ -1,0 +1,26 @@
+# 允許主要的 AI 搜尋與生成引擎爬蟲
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# 允許一般搜尋引擎
+User-agent: *
+Allow: /
+Sitemap: https://erickfirm.com/sitemap.xml
