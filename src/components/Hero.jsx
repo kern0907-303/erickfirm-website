@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
+import { LINE_CONFIG } from '../lib/constants';
 
 const copy = {
   'zh-TW': {
@@ -220,7 +221,9 @@ const Hero = () => {
                 {hero.findAnswer}
               </button>
               <a
-                href="/#contact"
+                href={LINE_CONFIG.LINE_MESSAGE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-7 py-4 rounded-sm border border-slate-300 text-slate-900 font-bold tracking-wide hover:border-accent hover:text-accent transition-all duration-350 text-center font-sans cursor-pointer hover:translate-y-[-1px]"
               >
                 {hero.bookNow || dict.consult}

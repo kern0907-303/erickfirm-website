@@ -7,10 +7,11 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-white text-slate-800 font-sans antialiased;
-    line-height: 1.75;
+    @apply bg-white text-slate-800 font-sans font-light antialiased;
+    line-height: 1.85;
+    font-weight: 300;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display text-primary font-bold;
+    @apply font-display text-primary font-medium;
   }
 }

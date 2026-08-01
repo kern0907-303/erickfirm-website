@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getPreferredLocale, onLocaleChange } from '../lib/i18n';
+import { LINE_CONFIG } from '../lib/constants';
 
 const copy = {
   'zh-TW': {
@@ -153,7 +154,7 @@ const QuickAssessment = () => {
                 {dict.goRecommended}
               </Link>
             )}
-            <a href="/#contact" className="px-6 py-3 bg-accent text-slate-900 font-bold rounded-lg text-center hover:bg-white hover:text-primary hover:translate-y-[-1px] transition-all duration-200 cursor-pointer shadow-md">
+            <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-accent text-slate-900 font-bold rounded-lg text-center hover:bg-white hover:text-primary hover:translate-y-[-1px] transition-all duration-200 cursor-pointer shadow-md">
               {dict.directBook}
             </a>
           </div>

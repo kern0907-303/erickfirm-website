@@ -1,5 +1,6 @@
 import React from 'react';
 import { getPreferredLocale, onLocaleChange } from '../lib/i18n';
+import { LINE_CONFIG } from '../lib/constants';
 
 const copy = {
   'zh-TW': {
@@ -102,7 +103,7 @@ const Contact = () => {
               <p className="text-sm font-bold text-emerald-950 mb-1">💬 想要更快速、低摩擦的溝通方式？</p>
               <p className="text-xs text-emerald-800 mb-4">加官方 LINE 輸入暗號【168】，即可直接領取專屬解讀報告與私訊諮詢。</p>
               <a
-                href="https://line.me/R/ti/p/@erickfirm"
+                href={LINE_CONFIG.LINE_MESSAGE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-[#06C755] text-white font-bold text-sm px-6 py-3 rounded-lg hover:bg-[#05b34c] hover:shadow-md transition-all cursor-pointer"
