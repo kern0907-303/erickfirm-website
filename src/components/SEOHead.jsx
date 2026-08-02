@@ -13,9 +13,9 @@ export const updateMetaTags = ({
   url,
   type = 'website'
 }) => {
-  const metaTitle = title ? `${title} | Erick Firm` : DEFAULT_TITLE;
+  const metaTitle = !title ? DEFAULT_TITLE : title.includes('Erick Firm') ? title : `${title} | Erick Firm`;
   const metaDesc = description || DEFAULT_DESC;
-  const metaImage = image || DEFAULT_IMAGE;
+  const metaImage = image?.startsWith('http') ? image : image ? `${DOMAIN}${image.startsWith('/') ? image : `/${image}`}` : DEFAULT_IMAGE;
   const metaUrl = url || (typeof window !== 'undefined' ? window.location.href : DOMAIN);
 
   // 1. Title

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getPostPath } from '../lib/insights-adapter';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
@@ -93,7 +94,7 @@ const HomeInsightsSection = () => {
             {posts.map((post) => (
               <Link
                 key={post.id || post.slug}
-                to={`/insights/${post.service}/${post.slug}`}
+                to={getPostPath(post)}
                 className="group bg-white rounded-2xl p-7 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between h-full transform hover:-translate-y-1"
               >
                 <div>

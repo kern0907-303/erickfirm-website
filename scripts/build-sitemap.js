@@ -1,43 +1,33 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { getPostUrl } from '../src/lib/insights-adapter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const SUPABASE_URL = "https://wbbnjasjyfuatkvnoogi.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndiYm5qYXNqeWZ1YXRrdm5vb2dpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NzQ0MjY2MiwiZXhwIjoyMDgzMDE4NjYyfQ.rmyavlJf2s0nVGqWiKFfBV7uBBt90s_mgiMSaWml9Cw";
-
-const DOMAIN = "https://erickfirm.com";
-
-const brandToService = {
-  i8: "enterprise-doctor",
-  nas: "life-number",
-  abl: "personal-growth",
-  erick: "erick-column"
-};
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY;
+const INSIGHTS_API_URL = process.env.INSIGHTS_API_URL || 'https://erickfirm.com/.netlify/functions/notion?lang=zh-TW';
+const DOMAIN = 'https://erickfirm.com';
 
 async function fetchArticles() {
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/insights_articles?brand_id=in.(erick,i8,nas,abl)&status=eq.published&order=created_at.desc`, {
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`
-      }
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    console.warn("Failed to fetch from Supabase, using fallback for sitemap:", err);
+    const response = SUPABASE_URL && SUPABASE_KEY
+      ? await fetch(`${SUPABASE_URL}/rest/v1/insights_articles?brand_id=in.(erick,i8,nas,abl)&status=eq.published&order=created_at.desc`, {
+        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
+      })
+      : await fetch(INSIGHTS_API_URL);
+    if (!response.ok) throw new Error(`content source returned ${response.status}`);
+    const data = await response.json();
+    return Array.isArray(data) ? data : data.posts || data.results || [];
+  } catch (error) {
+    throw new Error(`Failed to fetch published articles: ${error.message}`);
   }
-  return [];
 }
 
 async function generateSitemap() {
   const articles = await fetchArticles();
-  const today = new Date().toISOString().split('T')[0];
-
+  const today = new Date().toISOString().slice(0, 10);
   const staticUrls = [
     { url: `${DOMAIN}/`, lastmod: today, changefreq: 'daily', priority: '1.0' },
     { url: `${DOMAIN}/insights`, lastmod: today, changefreq: 'daily', priority: '0.9' },
@@ -46,45 +36,17 @@ async function generateSitemap() {
     { url: `${DOMAIN}/insights/personal-growth`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
     { url: `${DOMAIN}/insights/erick-column`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
   ];
-
-  const articleUrls = [];
-
-  articles.forEach((art) => {
-    const service = brandToService[art.brand_id] || "erick-column";
-    const dateStr = art.created_at ? new Date(art.created_at).toISOString().split('T')[0] : today;
-    
-    // 如果有 slug 則注入 slug URL，同時注入 ID URL 確保雙重相容
-    if (art.slug) {
-      articleUrls.push({
-        url: `${DOMAIN}/insights/${service}/${encodeURIComponent(art.slug)}`,
-        lastmod: dateStr,
-        changefreq: 'monthly',
-        priority: '0.7'
-      });
-    }
-    articleUrls.push({
-      url: `${DOMAIN}/insights/${service}/${art.id}`,
-      lastmod: dateStr,
+  const articleUrls = articles
+    .filter((article) => article.status === 'published' && getPostUrl(article) !== `${DOMAIN}/insights/personal-growth`)
+    .map((article) => ({
+      url: getPostUrl(article),
+      lastmod: (article.publishDate || article.publish_date || article.created_at || today).slice(0, 10),
       changefreq: 'monthly',
-      priority: '0.6'
-    });
-  });
-
-  const allUrls = [...staticUrls, ...articleUrls];
-
-  const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">
-${allUrls.map(item => `  <url>
-    <loc>${item.url}</loc>
-    <lastmod>${item.lastmod}</lastmod>
-    <changefreq>${item.changefreq}</changefreq>
-    <priority>${item.priority}</priority>
-  </url>`).join('\n')}
-</urlset>`;
-
-  const targetPath = path.resolve(__dirname, '../public/sitemap.xml');
-  fs.writeFileSync(targetPath, xmlContent, 'utf-8');
-  console.log(`✅ Successfully generated sitemap.xml with ${allUrls.length} URLs at ${targetPath}`);
+      priority: '0.7',
+    }));
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[...staticUrls, ...articleUrls].map((item) => `  <url>\n    <loc>${item.url}</loc>\n    <lastmod>${item.lastmod}</lastmod>\n    <changefreq>${item.changefreq}</changefreq>\n    <priority>${item.priority}</priority>\n  </url>`).join('\n')}\n</urlset>`;
+  fs.writeFileSync(path.resolve(__dirname, '../public/sitemap.xml'), xml, 'utf8');
+  console.log(`Generated sitemap.xml with ${staticUrls.length + articleUrls.length} URLs.`);
 }
 
-generateSitemap().catch(console.error);
+generateSitemap().catch((error) => { console.error(error); process.exitCode = 1; });
