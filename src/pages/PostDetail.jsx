@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { HelpCircle, ChevronDown } from 'lucide-react';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
-import { findPostByRoute, getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
+import { findPostByRoute, getPostImage, getPostPath, getPostUrl, getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
 import SEOHead, { updateMetaTags } from '../components/SEOHead';
 import { fetchSupabasePost, fetchSupabasePosts, isSupabaseInsightsConfigured } from '../lib/supabase-insights';
 
@@ -113,19 +113,18 @@ const PostDetail = () => {
         // 實時更新真實 DOM Head 標籤
         const postTitle = remotePost.title || '洞察文章';
         const postExcerpt = remotePost.excerpt || postTitle;
-        const currentService = remotePost.service || service || 'personal-growth';
-        const currentSlug = remotePost.slug || slug || id;
-        const postUrl = `https://erickfirm.com/insights/${currentService}/${currentSlug}`;
+        const postUrl = getPostUrl(remotePost);
         
         updateMetaTags({
           title: postTitle,
           description: postExcerpt,
+          image: getPostImage(remotePost),
           url: postUrl,
           type: 'article'
         });
 
         if (remotePost.service && remotePost.slug && (id || remotePost.service !== service || remotePost.slug !== slug)) {
-          navigate(`/insights/${remotePost.service}/${remotePost.slug}`, { replace: true });
+          navigate(getPostPath(remotePost), { replace: true });
         }
 
         // 2. 載入全站文章清單供「你可能也會想看」計算
@@ -151,12 +150,11 @@ const PostDetail = () => {
         if (fallbackPost) {
           const postTitle = fallbackPost.title || '洞察文章';
           const postExcerpt = fallbackPost.excerpt || postTitle;
-          const currentService = fallbackPost.service || service || 'personal-growth';
-          const currentSlug = fallbackPost.slug || slug || id;
           updateMetaTags({
             title: postTitle,
             description: postExcerpt,
-            url: `https://erickfirm.com/insights/${currentService}/${currentSlug}`,
+            image: getPostImage(fallbackPost),
+            url: getPostUrl(fallbackPost),
             type: 'article'
           });
         }
@@ -396,7 +394,7 @@ const PostDetail = () => {
               {relatedPosts.map((rPost) => (
                 <Link
                   key={rPost.id || rPost.slug}
-                  to={`/insights/${rPost.service}/${rPost.slug}`}
+                  to={getPostPath(rPost)}
                   className="group bg-surface hover:bg-white p-5 rounded-xl border border-slate-200/60 hover:border-accent hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full"
                 >
                   <div>

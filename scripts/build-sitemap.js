@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { getPostUrl } from '../src/lib/insights-adapter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,13 +12,6 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY;
 const INSIGHTS_API_URL = process.env.INSIGHTS_API_URL || 'https://erickfirm.com/.netlify/functions/notion?lang=zh-TW';
 
 const DOMAIN = "https://erickfirm.com";
-
-const brandToService = {
-  i8: "enterprise-doctor",
-  nas: "life-number",
-  abl: "personal-growth",
-  erick: "erick-column"
-};
 
 async function fetchArticles() {
   try {
@@ -51,12 +45,12 @@ async function generateSitemap() {
   const articleUrls = [];
 
   articles.forEach((art) => {
-    const service = art.service || brandToService[art.brand_id] || "erick-column";
-    const slug = art.slug || String(art.title || '').trim().toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, '-').replace(/^-+|-+$/g, '');
-    if (!slug || art.status !== 'published') return;
+    if (art.status !== 'published') return;
+    const url = getPostUrl(art);
+    if (url.endsWith('/insights/personal-growth')) return;
     const dateStr = (art.publishDate || art.publish_date || art.created_at || today).slice(0, 10);
     articleUrls.push({
-      url: `${DOMAIN}/insights/${service}/${encodeURIComponent(slug)}`,
+      url,
       lastmod: dateStr,
       changefreq: 'monthly',
       priority: '0.7'

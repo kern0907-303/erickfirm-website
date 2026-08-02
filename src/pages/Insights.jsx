@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
-import { getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
+import { getPostPath, getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
 import SEOHead, { updateMetaTags } from '../components/SEOHead';
 import { fetchSupabasePosts, isSupabaseInsightsConfigured } from '../lib/supabase-insights';
 
@@ -222,7 +222,7 @@ const Insights = () => {
 
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-50">
                   <span className="text-sm font-bold text-accent">{post.format}</span>
-                  <Link to={`/insights/${post.service}/${post.slug}`} className="text-slate-900 font-bold text-sm tracking-wider hover:text-accent transition-all">
+                  <Link to={getPostPath(post)} className="text-slate-900 font-bold text-sm tracking-wider hover:text-accent transition-all">
                     {dict.readMore} →
                   </Link>
                 </div>
