@@ -416,6 +416,10 @@ async function handleNotionFunction(request, env) {
 export async function onRequest(context) {
   const url = new URL(context.request.url);
 
+  if (url.hostname === "www.erickfirm.com") {
+    return Response.redirect(`https://erickfirm.com${url.pathname}${url.search}`, 301);
+  }
+
   if (url.pathname === "/.netlify/functions/notion") {
     try {
       return await handleNotionFunction(context.request, context.env);
