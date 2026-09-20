@@ -326,7 +326,7 @@ const NASDashboard = () => {
           <p className="text-sm text-[#6E6885] mb-1">年訂閱</p>
           <p className="text-3xl font-bold tabular-nums mb-1">NT$2,880</p>
           <p className="text-sm font-semibold text-[#A8883F] mb-1">一天不到 8 元</p>
-          <p className="text-sm text-[#6E6885] mb-6">每年 · 等於每月 240</p>
+          <p className="text-sm text-[#6E6885] mb-6">每年</p>
           <p className="text-sm text-[#55506B] leading-relaxed">
             天氣要看過一整年，才知道自己的四季長什麼樣子。
           </p>
