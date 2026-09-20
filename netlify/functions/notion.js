@@ -248,7 +248,8 @@ function mapSupabaseArticleToPost(article, locale = DEFAULT_LOCALE) {
   
   // 排除程式碼區塊（如 Mermaid 樣式定義），避免將裡面的十六進位顏色代碼誤判為標籤
   const contentWithoutCode = content.replace(/```[\s\S]*?```/g, "");
-  const tagsMatches = contentWithoutCode.match(/#\S+/g);
+  // 第二個字元不能是 #，否則 Markdown 的「## 標題」會被當成一個叫「#」的標籤。
+  const tagsMatches = contentWithoutCode.match(/#[^\s#][^\s]*/g);
   let tags = [];
   if (tagsMatches) {
     tags = tagsMatches

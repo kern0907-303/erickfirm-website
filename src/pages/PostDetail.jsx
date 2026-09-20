@@ -42,11 +42,26 @@ const CATEGORY_CTA_CONFIG = {
   },
 };
 
+// 連結樣式：站內用 Link（不重新載入整頁），站外用 a 並開新分頁。
+const InlineLink = ({ href, children }) => {
+  const external = /^(https?:)?\/\//i.test(href) || href.startsWith('mailto:') || href.startsWith('tel:');
+  const cls = 'text-accent font-bold underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition';
+  if (external) {
+    return <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>{children}</a>;
+  }
+  return <Link to={href} className={cls}>{children}</Link>;
+};
+
 const renderFormattedText = (text) => {
   if (typeof text !== 'string') return text;
-  const regex = /(\*\*.*?\*\*|\*.*?\*|`.*?`)/g;
+  // 順序有意義：連結要排在粗體之前，否則網址裡的符號會先被吃掉。
+  const regex = /(\[[^\]]+\]\([^)\s]+\)|\*\*.*?\*\*|\*.*?\*|`.*?`)/g;
   const parts = text.split(regex);
   return parts.map((part, index) => {
+    const link = typeof part === 'string' ? part.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/) : null;
+    if (link) {
+      return <InlineLink key={index} href={link[2]}>{link[1]}</InlineLink>;
+    }
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={index} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
     }

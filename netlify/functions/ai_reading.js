@@ -373,32 +373,68 @@ function parseDateStr(s) {
   if (raw.length < 8) return null;
   return { y: parseInt(raw.slice(0,4), 10), m: parseInt(raw.slice(4,6), 10), d: parseInt(raw.slice(6,8), 10) };
 }
+// ===================================================================
+// 能量氣象：主命數 × 流日／流月／流年 的「關係」計分
+// 判定邏輯沿用 n8n「365每日能量推播」的 determineFortune()，
+// 那套是已驗證過的，這裡只負責把六種關係映射成五級天氣。
+// 關鍵：分數跟「她是誰」有關——同一天不同主命數會拿到不同天氣。
+// ===================================================================
+
+// 路徑字串取最末一位：'+30/3' → 3；含 '?' 視為無效
+function digitOf(s) {
+  if (!s) return null;
+  const parts = String(s).replace(/^[+-]/, "").split("/").filter(Boolean);
+  if (!parts.length || parts.some((x) => x.includes("?"))) return null;
+  const n = parseInt(parts[parts.length - 1].replace(/\D/g, ""), 10);
+  return (n >= 1 && n <= 9) ? n : null;
+}
+
+// 沖煞組合（雙向）。必須在「磨練」之前判斷，否則永遠觸發不到。
+const CONFLICT_PAIRS = [[1,5],[5,1],[2,7],[7,2],[3,8],[8,3],[4,9],[9,4]];
+
+// 六種關係 → 分數。對外只露天氣，不露關係名稱。
+function relationScore(main, flow) {
+  if (main === null || flow === null) return null;
+  if (flow === main) return 92;                                            // 共振
+  if (Math.abs(flow - main) === 1 ||
+      (main === 1 && flow === 9) || (main === 9 && flow === 1)) return 82; // 順流
+  if (flow + main === 10) return 72;                                       // 助力
+  // 沖煞給 12 分（不是 25）：陽陰兩盤取平均會把極端值洗掉，
+  // 25 分會讓「兩盤同時沖煞」也只掉到 25，一年跑不出 2 天颱風。
+  // 12 分之後，雙盤沖煞＝颱風、單盤沖煞＝下雨，一年約 7 天颱風。
+  if (CONFLICT_PAIRS.some((pr) => pr[0] === main && pr[1] === flow)) return 12; // 沖煞
+  const diff = Math.abs(flow - main);
+  if (diff >= 4 && diff <= 5) return 38;                                   // 磨練
+  return 58;                                                               // 平穩
+}
+
 function computeOverallPercent(parsed){
-  const day = avgScore(scoreFromPath(parsed.solarDay), scoreFromPath(parsed.lunarDay));
-  const month = avgScore(scoreFromPath(parsed.solarMonth), scoreFromPath(parsed.lunarMonth));
-  const year = avgScore(scoreFromPath(parsed.solarYear), scoreFromPath(parsed.lunarYear));
+  const solarMain = digitOf(parsed.solarMain);
+  const lunarMain = digitOf(parsed.lunarMain);
+
+  // 同一軸的陽曆／陰曆各自跟自己的主命數比，再平均
+  const axis = (solarPath, lunarPath) => avgScore(
+    relationScore(solarMain, digitOf(solarPath)),
+    relationScore(lunarMain, digitOf(lunarPath))
+  );
+
+  const day   = axis(parsed.solarDay,   parsed.lunarDay);
+  const month = axis(parsed.solarMonth, parsed.lunarMonth);
+  const year  = axis(parsed.solarYear,  parsed.lunarYear);
+
+  // 這一頁賣的是「今天」，所以流日佔大頭。
   const parts = [];
-  if (day !== null) parts.push({ v: day, w: 0.40 });
-  if (month !== null) parts.push({ v: month, w: 0.35 });
-  if (year !== null) parts.push({ v: year, w: 0.25 });
+  if (day   !== null) parts.push({ v: day,   w: 0.60 });
+  if (month !== null) parts.push({ v: month, w: 0.25 });
+  if (year  !== null) parts.push({ v: year,  w: 0.15 });
   if (!parts.length) return { percent: null, emoji: "⛅️", label: "（等待更新）" };
+
   const wsum = parts.reduce((a,x)=>a+x.w, 0);
   const pct = Math.round(parts.reduce((a,x)=>a+x.v*x.w, 0) / wsum);
   const band = weatherBand(pct);
   return { percent: pct, emoji: band.emoji, label: band.label };
 }
-function scoreFromPath(s) {
-  if(!s) return null;
-  const parts = s.split('/');
-  return baseScore(parseInt(parts[parts.length - 1].replace(/\D/g, ""), 10));
-}
-function baseScore(n){
-  if ([1,4,6].includes(n)) return 82;
-  if ([2,3,5].includes(n)) return 62;
-  if ([7,9].includes(n)) return 48;
-  if ([8,11,22].includes(n)) return 68;
-  return 60;
-}
+
 function weatherBand(p){
   if (p >= 80) return { emoji:"☀️", label:"晴朗" };
   if (p >= 65) return { emoji:"⛅️", label:"多雲" };
