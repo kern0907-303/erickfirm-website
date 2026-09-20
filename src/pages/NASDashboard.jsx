@@ -311,6 +311,35 @@ const NASDashboard = () => {
       </div>
     </section>
 
+    {/* 訂閱包含什麼 —— 必須排在定價之前：先說明買到什麼，再報價 */}
+    <section className="pb-16 px-6">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-xl md:text-2xl font-bold mb-8">訂閱包含兩件事</h2>
+
+        <h3 className="font-bold text-[#1F1A2E] mb-3">一、完整的生命數字計算</h3>
+        <p className="text-[#55506B] leading-loose mb-3">
+          免費版只算主命數和雙盤對照。訂閱之後，整張盤打開：
+        </p>
+        <ul className="text-[#55506B] leading-loose space-y-1 mb-3 list-disc pl-5">
+          <li>先天數、後天數、強數與缺數</li>
+          <li>靈魂等級</li>
+          <li>流年、流月、流日</li>
+          <li>加入家人、伴侶、同事的生日，把兩個人的盤放在一起看</li>
+        </ul>
+        <p className="text-[#55506B] leading-loose mb-8">
+          算一次，之後隨時回來看，不用重算。
+        </p>
+
+        <h3 className="font-bold text-[#1F1A2E] mb-3">二、每天的流日推播</h3>
+        <p className="text-[#55506B] leading-loose mb-3">
+          <strong className="text-[#1F1A2E]">前一天晚上，明天的流日直接用 LINE 推給你。</strong>
+        </p>
+        <p className="text-[#55506B] leading-loose">
+          不用打開網頁、不用自己記——而且推的是「明天的」，你有一整個晚上可以重新安排。
+        </p>
+      </div>
+    </section>
+
     {/* 定價 */}
     <section className="py-16 px-6 bg-[#F7F5FC]">
       <div className="max-w-3xl mx-auto grid sm:grid-cols-2 gap-4">
@@ -331,23 +360,6 @@ const NASDashboard = () => {
             天氣要看過一整年，才知道自己的四季長什麼樣子。
           </p>
         </div>
-      </div>
-    </section>
-
-    {/* 最黏的功能單獨講 */}
-    <section className="py-16 px-6">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-xl md:text-2xl font-bold mb-5">把身邊的人也放進來</h2>
-        <p className="text-[#55506B] leading-loose mb-4">
-          訂閱之後可以加入家人、伴侶、同事的盤。
-        </p>
-        <p className="text-[#55506B] leading-loose mb-4">
-          很多人是為了自己來的，最後停留最久的卻是<strong>關係</strong>那一頁——
-          因為「我為什麼跟他處不來」這個問題，比「我是誰」更急。
-        </p>
-        <p className="text-[#55506B] leading-loose">
-          兩個人的數字放在一起，你會看到一些平常感覺得到、但講不出來的東西。
-        </p>
       </div>
     </section>
 
