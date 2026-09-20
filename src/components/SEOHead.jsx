@@ -13,7 +13,8 @@ export const updateMetaTags = ({
   url,
   type = 'website'
 }) => {
-  const metaTitle = !title ? DEFAULT_TITLE : title.includes('Erick Firm') ? title : `${title} | Erick Firm`;
+  const hasBrandSuffix = title?.includes('Erick Firm') || title?.includes('Erick Frim');
+  const metaTitle = !title ? DEFAULT_TITLE : hasBrandSuffix ? title : `${title} | Erick Firm`;
   const metaDesc = description || DEFAULT_DESC;
   const metaImage = image?.startsWith('http') ? image : image ? `${DOMAIN}${image.startsWith('/') ? image : `/${image}`}` : DEFAULT_IMAGE;
   const metaUrl = url || (typeof window !== 'undefined' ? window.location.href : DOMAIN);

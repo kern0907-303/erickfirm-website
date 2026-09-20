@@ -33,6 +33,7 @@ const copy = {
         outcome: '看懂自己的生命儀表板，掌握決策與關係的主動權，讓角色合作更流暢',
         timeline: '1-3 週內繪製專屬生命儀表板並完成核心教學',
         path: '/insights/life-number',
+        landingPath: '/nas',
       },
       {
         id: '03',
@@ -44,6 +45,7 @@ const copy = {
         outcome: '釐清隱性卡點，重塑穩定的決策張力，獲得高效能狀態支持',
         timeline: '2-6 週內完成底層對位與週期支持',
         path: '/insights/personal-growth',
+        landingPath: '/abl',
       },
     ],
   },
@@ -76,6 +78,7 @@ const copy = {
         outcome: 'Understand your personal life dashboard, clarify roles, and optimize relationship boundaries',
         timeline: 'Map personal life dashboard and complete core training in 1-3 weeks',
         path: '/insights/life-number',
+        landingPath: '/nas',
       },
       {
         id: '03',
@@ -87,6 +90,7 @@ const copy = {
         outcome: 'Clear invisible blockages, rebuild decision performance, and sustain focus',
         timeline: 'Align core state and set up support loops in 2-6 weeks',
         path: '/insights/personal-growth',
+        landingPath: '/abl',
       },
     ],
   },
@@ -119,7 +123,16 @@ const Services = () => {
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <h4 className="text-2xl font-bold text-slate-900 font-display leading-tight">{srv.title}</h4>
+                  <h4 className="text-2xl font-bold text-slate-900 font-display leading-tight">
+                    {srv.landingPath ? (
+                      <Link
+                        to={srv.landingPath}
+                        className="hover:text-accent underline-offset-4 hover:underline transition-colors"
+                      >
+                        {srv.title}
+                      </Link>
+                    ) : srv.title}
+                  </h4>
                 </div>
                 <div className="space-y-4 text-sm text-slate-700 font-sans">
                   <p><span className="font-bold text-slate-900">{section.labels.project}</span>{srv.project}</p>
