@@ -12,6 +12,40 @@ const chainOf = (raw) => {
   return (!c.length || c.some((x) => x.includes('?'))) ? null : c.join('／');
 };
 
+// 路徑取末位數字：'+22/4' → 4
+const digitOf = (raw) => {
+  const c = String(raw || '').replace(/^[+-]/, '').split('/').filter(Boolean);
+  if (!c.length || c.some((x) => x.includes('?'))) return null;
+  const n = parseInt(c[c.length - 1].replace(/\D/g, ''), 10);
+  return (n >= 1 && n <= 9) ? n : null;
+};
+
+// 主命數 × 流日 的六種關係。判定邏輯與能量氣象台（n8n）同一套，
+// 對沖組合必須排在「差 4～5」之前，否則永遠觸發不到。
+const CONFLICT_PAIRS = [[1,5],[5,1],[2,7],[7,2],[3,8],[8,3],[4,9],[9,4]];
+
+const relationOf = (main, flow) => {
+  if (main === null || flow === null) return null;
+  if (flow === main) return 'resonance';
+  if (Math.abs(flow - main) === 1 || (main === 1 && flow === 9) || (main === 9 && flow === 1)) return 'flow';
+  if (flow + main === 10) return 'help';
+  if (CONFLICT_PAIRS.some((pr) => pr[0] === main && pr[1] === flow)) return 'clash';
+  const d = Math.abs(flow - main);
+  if (d >= 4 && d <= 5) return 'trial';
+  return 'calm';
+};
+
+// 第一層語言：只講她今天會遇到什麼，不講數字之間怎麼算出來的。
+// 計算方式、六種關係的名稱都屬於課程內容，不放在公開頁面。
+const RELATION = {
+  resonance: '這種日子一年沒幾天，你做起事來會特別順手——適合把拖很久的決定做掉。',
+  flow:      '你的強項今天比較容易被看見，適合做你本來就擅長的事。',
+  help:      '這種日子容易遇到願意幫你的人——但你得先開口。',
+  calm:      '普通的一天，按原本的節奏走就好。',
+  trial:     '今天走起來會有點卡。降低期待，把小事處理掉就算及格。',
+  clash:     '話少說、事緩辦，重要的決定挪到明天。',
+};
+
 // 19750909 → 1975/09/09（只用於顯示，送去計算的仍是原字串）
 const prettyDate = (raw) => {
   const d = String(raw || '').replace(/\D/g, '');
@@ -28,7 +62,7 @@ const FEATURES = [
   { name: '關係對照與互動判讀', free: false, paid: true },
   { name: '歷史紀錄與回顧', free: false, paid: true },
   { name: '每月狀態提醒', free: false, paid: true },
-  { name: '每天早上 LINE 推播今天的流日', free: false, paid: true },
+  { name: '前一天晚上 LINE 推播明天的流日', free: false, paid: true },
 ];
 
 const NASDashboard = () => {
@@ -79,6 +113,8 @@ const NASDashboard = () => {
         percent: typeof json.overall_percent === 'number' ? json.overall_percent : null,
         solarDay: chainOf(json.parsed?.solarDay),
         lunarDay: chainOf(json.parsed?.lunarDay),
+        solarRel: relationOf(digitOf(json.parsed?.solarMain), digitOf(json.parsed?.solarDay)),
+        lunarRel: relationOf(digitOf(json.parsed?.lunarMain), digitOf(json.parsed?.lunarDay)),
       });
       setState('done');
     } catch (err) {
@@ -185,26 +221,61 @@ const NASDashboard = () => {
                 這個數字是你的生日跟今天的流日對出來的，所以每天都不一樣。
                 天氣沒有好壞——下雨不是壞日子，只是今天適合做的事不一樣。
               </p>
-              <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm mb-6">
+              {/* 兩組數字要分得開，否則 26／8 24／6 會被讀成一串 268246 */}
+              <p className="text-xs text-[#918BA6] mb-2">今天流日</p>
+              <div className="flex flex-wrap gap-x-10 gap-y-3 mb-5">
                 {today.solarDay && (
-                  <span className="text-[#6E6885]">
-                    今天流日　陽曆<strong className="text-[#1F1A2E] tabular-nums ml-2">{today.solarDay}</strong>
+                  <span>
+                    <span className="block text-xs text-[#918BA6] mb-0.5">陽曆</span>
+                    <strong className="text-2xl font-bold text-[#1F1A2E] tabular-nums">{today.solarDay}</strong>
                   </span>
                 )}
                 {today.lunarDay && (
-                  <span className="text-[#6E6885]">
-                    陰曆<strong className="text-[#1F1A2E] tabular-nums ml-2">{today.lunarDay}</strong>
+                  <span>
+                    <span className="block text-xs text-[#918BA6] mb-0.5">陰曆</span>
+                    <strong className="text-2xl font-bold text-[#1F1A2E] tabular-nums">{today.lunarDay}</strong>
                   </span>
                 )}
               </div>
+
+              {/* 只講她今天會遇到什麼。兩軌判斷相同就講一次，不同就分開講。 */}
+              {(today.solarRel || today.lunarRel) && (
+                <div className="mb-6 text-[#55506B] leading-loose">
+                  {today.solarRel && today.solarRel === today.lunarRel ? (
+                    <p>{RELATION[today.solarRel]}</p>
+                  ) : (
+                    <>
+                      {today.solarRel && (
+                        <p className="mb-2">
+                          <strong className="text-[#1F1A2E]">對外這一軌</strong>
+                          ：{RELATION[today.solarRel]}
+                        </p>
+                      )}
+                      {today.lunarRel && (
+                        <p>
+                          <strong className="text-[#1F1A2E]">內在這一軌</strong>
+                          ：{RELATION[today.lunarRel]}
+                        </p>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
               <div className="p-5 rounded-xl border-l-2 border-[#D4B86A] bg-[#FBF7EE]/70">
-                <p className="text-[#55506B] leading-loose mb-2">
-                  <strong className="text-[#1F1A2E]">這是今天。明天這個數字會變。</strong>
+                <p className="text-[#55506B] leading-loose mb-3">
+                  <strong className="text-[#1F1A2E]">這是今天。明天的數字已經不一樣了。</strong>
+                </p>
+                <p className="text-[#55506B] leading-loose mb-3">
+                  免費版只給你今天。問題是——等你察覺今天特別不順，這一天也已經過完了。
+                </p>
+                <p className="text-[#55506B] leading-loose mb-3">
+                  訂閱之後，<strong className="text-[#1F1A2E]">前一天晚上就收到明天的</strong>。
+                  差別在這裡：你多了一個晚上可以重新安排。那場難談的會要不要挪開、
+                  那通電話今天打還是明天打、哪一天適合把心裡的話講出來——
+                  這些事，事前知道跟事後才懂，差很多。
                 </p>
                 <p className="text-[#55506B] leading-loose">
-                  你可以每天回來這裡按一次——也可以訂閱，
-                  <strong className="text-[#1F1A2E]">每天早上 LINE 直接推給你</strong>，
-                  連打開網站都不用。
+                  一天不到 10 元。一個月裡只要少排錯一件重要的事，就值回來了。
                 </p>
               </div>
             </div>
