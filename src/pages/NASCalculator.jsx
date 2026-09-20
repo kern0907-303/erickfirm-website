@@ -277,18 +277,20 @@ const NASCalculator = () => {
               而你每天真正在消耗力氣的地方，是這兩軌互相拉扯的中間。
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
+              {/* 按鈕的文字就是承諾，落點必須兌現它。
+                  slug 由文章標題產生，所以 Supabase 上那篇的標題不能改，改了這個連結就斷。 */}
               <Link
-                to="/insights/life-number"
+                to={`/insights/life-number/${encodeURIComponent('為什麼算出來不像我')}`}
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition"
               >
                 為什麼算出來不像我
                 <ArrowRight size={16} />
               </Link>
               <Link
-                to="/nas"
+                to="/nas/meili"
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full border border-[#D4B86A] text-[#A8883F] hover:border-[#A8883F] hover:bg-[#FBF7EE] transition"
               >
-                看完整的生命數字內容
+                今天的數字呢？
               </Link>
             </div>
           </div>
