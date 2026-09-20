@@ -7,16 +7,12 @@ const AboutErickSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* 左欄：直式圓角人物照片預留位置 */}
           <div className="lg:col-span-5">
-            <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-surface border border-slate-200/80 shadow-md flex flex-col items-center justify-center p-8 text-center group hover:border-accent/40 transition-all duration-300">
-              <div className="w-20 h-20 rounded-full bg-slate-200/70 flex items-center justify-center mb-4 text-slate-400 text-3xl">
-                👤
-              </div>
-              <p className="text-slate-500 font-bold text-sm mb-1 font-sans">
-                請上傳 Erick 個人照
-              </p>
-              <p className="text-slate-400 text-xs font-mono">
-                (預留直式比例相片位置 3:4)
-              </p>
+            <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-surface border border-slate-200/80 shadow-md group hover:border-accent/40 transition-all duration-300">
+              <img
+                src="/erick-portrait-purple.png"
+                alt="Erick Firm 創辦人 Erick"
+                className="w-full h-full object-cover object-center"
+              />
             </div>
           </div>
 
