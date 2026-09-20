@@ -5,12 +5,12 @@ import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 
 const copy = {
   'zh-TW': {
-    badge: 'DECISION SUPPORT STUDIO',
-    title1: '歡迎你來，',
-    title2: '我們先陪你看清結構，',
-    titleAccent: '再精準對位軌道',
-    desc: '不論卡在商業營運、合夥溝通還是個人執行力，所有的瓶頸本質上都是「底層結構的錯位」。我們從系統結構出發，陪你重組高效能運行軌道。',
-    findAnswer: '30 秒，先找出你現在該解的那一題',
+    badge: 'ERICK FIRM',
+    title1: '事情卡住，',
+    title2: '通常不是因為你不夠努力。',
+    titleAccent: '是還沒看見那個關鍵因素',
+    desc: '二十年來我在三個很不一樣的場域做同一件事——幫人看見那個一直在影響結果、但一直沒被看見的因素。有時候它在一個人對自己的理解裡，有時候在他的狀態裡，有時候在一間公司的決策結構裡。方法不同，要找的東西是同一個。',
+    findAnswer: '三十秒，先找出你現在該解的那一題',
   },
   en: {
     badge: 'DECISION SUPPORT STUDIO',

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const DEFAULT_TITLE = 'Erick Firm | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL';
-const DEFAULT_DESC = '奧斯學長（Erick）擁有 20 年以上企業營運與個人狀態對位經驗，提供初八企業顧問 I8、平衡空間 NAS 與艾伯林 ABL 服務，協助創辦人與高管釐清商業與生命卡點。';
+const DEFAULT_TITLE = 'Erick Firm｜艾瑞克 - 事情卡住，通常不是因為不夠努力';
+const DEFAULT_DESC = '卡住的真正原因，往往是還沒看見那個一直在影響結果的關鍵因素。艾瑞克以二十年跨領域實務，從生命數字的自我理解、個人狀態調和到企業決策校準，陪你把那個因素找出來。';
 const DEFAULT_IMAGE = 'https://erickfirm.com/og-default.png';
 const DOMAIN = 'https://erickfirm.com';
 
@@ -13,7 +13,8 @@ export const updateMetaTags = ({
   url,
   type = 'website'
 }) => {
-  const metaTitle = !title ? DEFAULT_TITLE : title.includes('Erick Firm') ? title : `${title} | Erick Firm`;
+  const hasBrandSuffix = title?.includes('Erick Firm') || title?.includes('Erick Frim');
+  const metaTitle = !title ? DEFAULT_TITLE : hasBrandSuffix ? title : `${title} | Erick Firm`;
   const metaDesc = description || DEFAULT_DESC;
   const metaImage = image?.startsWith('http') ? image : image ? `${DOMAIN}${image.startsWith('/') ? image : `/${image}`}` : DEFAULT_IMAGE;
   const metaUrl = url || (typeof window !== 'undefined' ? window.location.href : DOMAIN);

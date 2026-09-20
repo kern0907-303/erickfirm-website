@@ -12,6 +12,11 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Insights from './pages/Insights';
 import PostDetail from './pages/PostDetail';
+import NAS from './pages/NAS';
+import NASCalculator from './pages/NASCalculator';
+import NASCourse from './pages/NASCourse';
+import NASDashboard from './pages/NASDashboard';
+import AblPage from './pages/AblPage';
 import MobileStickyBar from './components/MobileStickyBar';
 import SEOHead, { updateMetaTags } from './components/SEOHead';
 
@@ -22,8 +27,8 @@ const ScrollToTop = () => {
     window.scrollTo(0, 0);
     if (pathname === '/') {
       updateMetaTags({
-        title: 'Erick Firm | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL',
-        description: '奧斯學長（Erick）擁有 20 年以上企業營運與個人狀態對位經驗，提供初八企業顧問 I8、平衡空間 NAS 與艾伯林 ABL 服務，協助創辦人與高管釐清商業與生命卡點。',
+        title: 'Erick Firm｜艾瑞克 - 事情卡住，通常不是因為不夠努力',
+        description: '卡住的真正原因，往往是還沒看見那個一直在影響結果的關鍵因素。艾瑞克以二十年跨領域實務，從生命數字的自我理解、個人狀態調和到企業決策校準，陪你把那個因素找出來。',
         url: 'https://erickfirm.com/'
       });
     }
@@ -35,8 +40,8 @@ const ScrollToTop = () => {
 const Home = () => (
   <>
     <SEOHead
-      title="Erick Firm | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL"
-      description="奧斯學長（Erick）擁有 20 年以上企業營運與個人狀態對位經驗，提供初八企業顧問 I8、平衡空間 NAS 與艾伯林 ABL 服務，協助創辦人與高管釐清商業與生命卡點。"
+      title="Erick Firm｜艾瑞克 - 事情卡住，通常不是因為不夠努力"
+      description="卡住的真正原因，往往是還沒看見那個一直在影響結果的關鍵因素。艾瑞克以二十年跨領域實務，從生命數字的自我理解、個人狀態調和到企業決策校準，陪你把那個因素找出來。"
     />
     {/* 1. Hero */}
     <Hero />
@@ -61,32 +66,63 @@ const buildHomeStructuredData = () => ({
   '@context': 'https://schema.org',
   '@graph': [
     {
+      '@type': 'Person',
+      '@id': 'https://erickfirm.com/#person',
+      name: '艾瑞克',
+      alternateName: ['Erick', 'Erick Lin'],
+      url: 'https://erickfirm.com',
+      jobTitle: '顧問',
+      description:
+        '二十年以上跨領域實務經驗，橫跨生命數字教學、個人狀態調和與企業決策顧問。核心命題：事情卡住，通常不是因為不夠努力，而是還沒看見真正影響結果的關鍵因素。',
+      knowsAbout: [
+        '生命數字', '生命靈數', '自我理解', '認知架構',
+        '個人狀態調和', '企業決策', '組織承載力',
+      ],
+      worksFor: { '@id': 'https://erickfirm.com/#org' },
+      sameAs: [
+        'https://www.facebook.com/NAS448',
+        'https://www.instagram.com/noagespace/',
+        'https://www.youtube.com/@ageoldnew9449',
+        'https://www.threads.net/@koi54889101',
+      ],
+    },
+    {
       '@type': 'Organization',
+      '@id': 'https://erickfirm.com/#org',
       name: 'Erick Firm',
       url: 'https://erickfirm.com',
-      description: '提供初八企業顧問 I8（企業醫生專案）、平衡空間 NAS、艾伯林 ABL 三大核心服務，協助決策者建立可持續成長系統。',
+      founder: { '@id': 'https://erickfirm.com/#person' },
+      description: '協助個人與企業看見影響結果的關鍵因素——從自我理解、狀態調和到經營決策。',
     },
-    { '@type': 'WebSite', name: 'Erick Firm', url: 'https://erickfirm.com' },
+    { '@type': 'WebSite', '@id': 'https://erickfirm.com/#website', name: 'Erick Firm', url: 'https://erickfirm.com' },
     {
       '@type': 'Service',
-      name: '初八企業顧問 I8（企業醫生專案）',
-      provider: { '@type': 'Organization', name: 'Erick Firm' },
+      '@id': 'https://erickfirm.com/nas#service',
+      name: '平衡空間 NAS｜生命數字',
+      alternateName: ['生命數字', '生命靈數'],
+      url: 'https://erickfirm.com/nas',
+      provider: { '@id': 'https://erickfirm.com/#person' },
+      serviceType: 'Numerology-based self-understanding education',
+      description:
+        '以生命數字為工具的自我理解教學。核心不是判斷準不準，而是更新看待自己的認知架構——同一個數字在四個認知層次會長成完全不同的樣子。',
+    },
+    {
+      '@type': 'Service',
+      '@id': 'https://erickfirm.com/abl#service',
+      name: '艾伯林 ABL｜個人狀態調和',
+      url: 'https://erickfirm.com/abl',
+      provider: { '@id': 'https://erickfirm.com/#person' },
+      serviceType: 'Personal State Harmonization',
+      description: '協助個人穩定情緒、校準狀態，走出反覆卡住的生命模式。',
+    },
+    {
+      '@type': 'Service',
+      '@id': 'https://erickfirm.com/i8#service',
+      name: '初八企業顧問 I8｜企業醫生專案',
+      url: 'https://erickfirm.com/i8',
+      provider: { '@id': 'https://erickfirm.com/#person' },
       serviceType: 'Business Structure Optimization',
-      description: '針對企業內耗、決策效率與成長瓶頸進行結構化診斷與優化。',
-    },
-    {
-      '@type': 'Service',
-      name: '平衡空間 NAS',
-      provider: { '@type': 'Organization', name: 'Erick Firm' },
-      serviceType: 'Decision Pattern & Role Alignment',
-      description: '透過決策偏好盤點與角色對位分析，協助釐清方向、提升決策品質與合作效率。',
-    },
-    {
-      '@type': 'Service',
-      name: '艾伯林 ABL',
-      provider: { '@type': 'Organization', name: 'Erick Firm' },
-      serviceType: 'Execution & State Harmonization',
-      description: '提供個人狀態調和與週期支持，協助創辦人與高管釐清身心與狀態瓶頸。',
+      description: '協助企業主看見影響經營結果的關鍵因素，校準決策、團隊與成長方向。',
     },
   ],
 });
@@ -115,6 +151,13 @@ function App() {
         
         <Routes>
           <Route path="/" element={<Home />} />
+          {/* 第二主頁 — 流量入口 */}
+          <Route path="/nas" element={<NAS />} />
+          <Route path="/nas/calculator" element={<NASCalculator />} />
+          <Route path="/nas/meili" element={<NASDashboard />} />
+          <Route path="/nas/course" element={<NASCourse />} />
+          <Route path="/abl" element={<AblPage />} />
+
           <Route path="/insights" element={<Insights />} />
           <Route path="/insights/:service" element={<Insights />} />
           <Route path="/insights/:service/:slug" element={<PostDetail />} />
