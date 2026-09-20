@@ -1,26 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, Minus, ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import NASMark from '../components/NASMark';
 
+const API_URL = '/.netlify/functions/ai_reading';
+
+// '+12/3' → '3'
+const lastOf = (raw) => {
+  const c = String(raw || '').replace(/^[+-]/, '').split('/').filter(Boolean);
+  return (!c.length || c.some((x) => x.includes('?'))) ? null : c[c.length - 1];
+};
+
 const FEATURES = [
   { name: '主命數、先天數、後天數', free: true, paid: true },
   { name: '陽曆／陰曆雙盤對照', free: true, paid: true },
   { name: '強數與缺數', free: true, paid: true },
-  { name: '靈魂等級', free: false, paid: true },
+  { name: '靈魂等紙', free: false, paid: true },
   { name: '流年 · 流月 · 流日', free: false, paid: true },
   { name: '加入家人、伴侶、同事的盤', free: false, paid: true },
   { name: '關係對照與互動判讀', free: false, paid: true },
   { name: '歷史紀錄與回顧', free: false, paid: true },
   { name: '每月狀態提醒', free: false, paid: true },
+  { name: '每天早上 LINE 推播今天的流日', free: false, paid: true },
 ];
 
-const NASDashboard = () => (
+const NASDashboard = () => {
+  const [birthdate, setBirthdate] = useState('');
+  const [state, setState] = useState('idle');
+  const [today, setToday] = useState(null);
+  const [errMsg, setErrMsg] = useState('');
+
+  const run = async (e) => {
+    e.preventDefault();
+    if (!birthdate.trim()) return;
+    setState('loading');
+    setErrMsg('');
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'report', birthdate: birthdate.trim() }),
+      });
+      if (!res.ok) throw new Error('連線失敗');
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error || '生日格式看起來不對，請用西元年月日');
+      // 刻意不取 overall_percent：百分比會被讀成分數，低分等於嚇人。
+      setToday({
+        icon: json.overall_icon,
+        label: json.overall_label,
+        solarDay: lastOf(json.parsed?.solarDay),
+        lunarDay: lastOf(json.parsed?.lunarDay),
+      });
+      setState('done');
+    } catch (err) {
+      setErrMsg(err.message || '出了點問題，稍後再試');
+      setState('error');
+    }
+  };
+
+  return (
   <main className="bg-white text-[#1F1A2E]">
     <SEOHead
       title="數字每曆｜每天更新一次的生命數字"
-      description="主命數是氣候，一輩子不變；流年、流月、流日是天氣，每天都不一樣。數字每曆每天替你更新一次，打開看一眼就知道今天該注意什麼。免費算，訂閱看完整版。"
+      description="主命數是氣候，是你的底層設定；流年、流月、流日是天氣，每天都不一樣。數字每曆每天替你更新一次，打開看一眼就知道今天該注意什麼。免費算，訂閱看完整版。"
     />
 
     <section className="pt-32 pb-16 px-6">
@@ -34,7 +77,8 @@ const NASDashboard = () => (
           每天一曆，每天美麗。
         </p>
         <p className="text-[#55506B] leading-loose mb-5 max-w-2xl">
-          主命數是<strong>氣候</strong>——你住在哪個氣候帶，一輩子不變。
+          主命數是<strong>氣候</strong>——你的底層設定。
+          數字本身不會換，但它在你身上跑成什麼樣子，是會變的——那正是可以動的地方。
           流年、流月、流日是<strong>天氣</strong>——今天會不會下雨，每天都不一樣。
         </p>
         <p className="text-[#55506B] leading-loose mb-5 max-w-2xl">
@@ -44,10 +88,63 @@ const NASDashboard = () => (
         <p className="text-[#55506B] leading-loose mb-10 max-w-2xl">
           數字每曆每天替你更新一次。<strong>不用自己記、不用自己算，打開看一眼就好。</strong>
         </p>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Link to="/nas/calculator" className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition">
-            先免費算一次<ArrowRight size={16} />
-          </Link>
+        {/* 直接把今天算給她看。只給今天——明天想看就得再回來輸入一次，
+            那個不方便本身就是訂閱的理由，不需要用文案說服。 */}
+        <div className="p-6 rounded-2xl border border-[#E7E3F0] bg-[#F7F5FC]/50">
+          <h2 className="font-bold mb-2">先看今天的</h2>
+          <p className="text-sm text-[#6E6885] mb-5">輸入西元生日，馬上看今天你的天氣。不用留資料。</p>
+          <form onSubmit={run} className="flex flex-col sm:flex-row gap-3 mb-1">
+            <input
+              id="meili-birthdate"
+              value={birthdate}
+              onChange={(e) => setBirthdate(e.target.value)}
+              inputMode="numeric"
+              placeholder="19750909"
+              className="flex-1 px-4 py-3 rounded-xl border border-[#DAD4E8] bg-white tabular-nums focus:outline-none focus:border-[#5B3A9E] transition"
+            />
+            <button
+              type="submit"
+              disabled={state === 'loading'}
+              className="px-7 py-3 rounded-xl bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] disabled:opacity-50 transition"
+            >
+              {state === 'loading' ? '計算中⋯' : '看今天'}
+            </button>
+          </form>
+          {state === 'error' && <p className="text-sm text-red-700 mt-3">{errMsg}</p>}
+
+          {state === 'done' && today && (
+            <div className="mt-6 pt-6 border-t border-[#E7E3F0]">
+              <p className="text-xs text-[#918BA6] mb-2">你今天的天氣</p>
+              <p className="text-3xl font-bold mb-3">
+                <span aria-hidden="true">{today.icon}</span> {today.label}
+              </p>
+              <p className="text-sm text-[#55506B] leading-relaxed mb-5">
+                天氣沒有好壞。下雨不是壞日子，只是今天適合做的事不一樣。
+              </p>
+              <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm mb-6">
+                {today.solarDay && (
+                  <span className="text-[#6E6885]">
+                    今天的流日（陽曆）<strong className="text-[#1F1A2E] tabular-nums ml-2">{today.solarDay}</strong>
+                  </span>
+                )}
+                {today.lunarDay && (
+                  <span className="text-[#6E6885]">
+                    （陰曆）<strong className="text-[#1F1A2E] tabular-nums ml-2">{today.lunarDay}</strong>
+                  </span>
+                )}
+              </div>
+              <div className="p-5 rounded-xl border-l-2 border-[#D4B86A] bg-[#FBF7EE]/70">
+                <p className="text-[#55506B] leading-loose mb-2">
+                  <strong className="text-[#1F1A2E]">這是今天。明天這個數字會變。</strong>
+                </p>
+                <p className="text-[#55506B] leading-loose">
+                  你可以每天回來這裡輸入一次生日——也可以訂閱，
+                  <strong className="text-[#1F1A2E]">每天早上 LINE 直接推給你</strong>，
+                  連打開網站都不用。
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -85,6 +182,7 @@ const NASDashboard = () => (
         <div className="p-7 rounded-2xl border border-[#E7E3F0] bg-white">
           <p className="text-sm text-[#6E6885] mb-1">月訂閱</p>
           <p className="text-3xl font-bold tabular-nums mb-1">NT$299</p>
+          <p className="text-sm font-semibold text-[#A8883F] mb-1">一天不到 10 元</p>
           <p className="text-sm text-[#6E6885] mb-6">每月 · 隨時可停</p>
           <p className="text-sm text-[#55506B] leading-relaxed">先試試看適不適合你。</p>
         </div>
@@ -92,6 +190,7 @@ const NASDashboard = () => (
           <span className="absolute -top-3 left-7 text-xs px-3 py-1 rounded-full bg-[#5B3A9E] text-white">省兩個月</span>
           <p className="text-sm text-[#6E6885] mb-1">年訂閱</p>
           <p className="text-3xl font-bold tabular-nums mb-1">NT$2,880</p>
+          <p className="text-sm font-semibold text-[#A8883F] mb-1">一天不到 8 元</p>
           <p className="text-sm text-[#6E6885] mb-6">每年 · 等於每月 240</p>
           <p className="text-sm text-[#55506B] leading-relaxed">
             天氣要看過一整年，才知道自己的四季長什麼樣子。
@@ -135,6 +234,7 @@ const NASDashboard = () => (
       </div>
     </section>
   </main>
-);
+  );
+};
 
 export default NASDashboard;
