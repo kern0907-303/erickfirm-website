@@ -7,10 +7,21 @@ const dist = path.resolve('dist');
 const esc = (value = '') => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 const clean = (value = '') => String(value).replace(/[*_`#]/g, '').replace(/\s+/g, ' ').trim().slice(0, 180);
 
-const response = await fetch(source);
-if (!response.ok) throw new Error(`Static article source returned ${response.status}`);
-const data = await response.json();
-const posts = (data.posts || data.results || []).filter((post) => post.status === 'published');
+let posts = [];
+try {
+  const response = await fetch(source);
+  if (response.ok) {
+    const data = await response.json();
+    posts = (data.posts || data.results || []).filter((post) => post.status === 'published');
+  }
+} catch (e) {
+  console.warn(`Static article source fetch failed (${e.message}). Checking fallback...`);
+  const fallbackPath = path.resolve('src/data/insights.fallback.json');
+  if (fs.existsSync(fallbackPath)) {
+    const fallbackData = JSON.parse(fs.readFileSync(fallbackPath, 'utf8'));
+    posts = (fallbackData.posts || fallbackData || []).filter((post) => post.status === 'published');
+  }
+}
 const shell = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 const script = shell.match(/<script[^>]+src="([^"]+)"[^>]*><\/script>/)?.[0] || '';
 

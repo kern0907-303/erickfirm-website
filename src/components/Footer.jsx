@@ -6,7 +6,7 @@ const copy = {
   'zh-TW': {
     services: '服務項目',
     about: '關於我們',
-    consult: '預約諮詢',
+    consult: '預約對位',
     slogan: '從第一性原理出發，重塑高效能運行軌道。',
   },
   en: {

@@ -1,24 +1,27 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 
 const copy = {
   'zh-TW': {
-    badge: 'DECISION SUPPORT STUDIO',
-    title1: '歡迎你來，',
-    title2: '我們先陪你看清結構，',
-    titleAccent: '再精準對位軌道',
-    desc: '不論卡在商業營運、合夥溝通還是個人執行力，所有的瓶頸本質上都是「底層結構的錯位」。我們從系統結構出發，陪你重組高效能運行軌道。',
-    findAnswer: '30 秒，先找出你現在該解的那一題',
+    badge: 'ERICK FIRM・20 年底層結構對位',
+    title1: '世上沒有無緣無故的卡點，',
+    title2: '所有的瓶頸本質上都是',
+    titleAccent: '「底層結構的錯位」',
+    desc: '20 年跨越生命底層、天賦藍圖與商業系統。我們不給空泛的心靈雞湯，只陪你一層一層看清結構，重塑關鍵時刻的承接力與決策張力。',
+    findAnswer: '探索三大情境之門',
+    directAbl: '進入 ABL 信息調和專區',
   },
   en: {
-    badge: 'DECISION SUPPORT STUDIO',
-    title1: 'Welcome.',
-    title2: 'We map the underlying system structure first,',
-    titleAccent: 'then align your growth path',
-    desc: 'Whether stuck in revenue, partner conflict, or execution delays, every bottleneck is a structural mismatch. We isolate the root blockages using first principles.',
-    findAnswer: 'Find the 30s Decision Assessment',
+    badge: 'ERICK FIRM・20 YEARS STRUCTURAL ALIGNMENT',
+    title1: 'No bottleneck happens in vacuum,',
+    title2: 'Every limitation is fundamentally a',
+    titleAccent: 'Structural Mismatch',
+    desc: '20+ years bridging life capacity, innate talent blueprints, and enterprise architecture. We isolate root structural blocks to rebuild your decision capacity.',
+    findAnswer: 'Explore Three Scenario Gates',
+    directAbl: 'Go to ABL Information Harmonization',
   },
 };
 
@@ -112,14 +115,21 @@ const Hero = () => {
             {hero.desc}
           </p>
 
-          {/* 單一主 CTA 按鈕 */}
-          <div className="flex justify-center w-full">
-            <button
-              onClick={scrollToAssessment}
-              className="px-8 py-4 md:px-10 md:py-5 rounded-full bg-slate-900 text-white font-bold tracking-wide hover:bg-accent hover:text-slate-900 transition-all duration-300 font-sans shadow-lg hover:shadow-xl hover:scale-105 cursor-pointer text-base md:text-lg"
+          {/* 主 CTA 按鈕群 */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+            <a
+              href="#services"
+              className="w-full sm:w-auto px-8 py-4 rounded-full bg-slate-900 text-white font-bold tracking-wide hover:bg-slate-800 transition-all duration-300 font-sans shadow-md hover:shadow-xl hover:scale-105 cursor-pointer text-center text-base"
             >
               {hero.findAnswer} ➔
-            </button>
+            </a>
+            <Link
+              to="/abl"
+              className="w-full sm:w-auto px-8 py-4 rounded-full bg-emerald-700 text-white font-bold tracking-wide hover:bg-emerald-800 transition-all duration-300 font-sans shadow-md hover:shadow-xl hover:scale-105 cursor-pointer text-center text-base flex items-center justify-center gap-2"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
+              {hero.directAbl} ➔
+            </Link>
           </div>
         </motion.div>
       </div>

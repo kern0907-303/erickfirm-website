@@ -21,7 +21,13 @@ async function fetchArticles() {
     const data = await response.json();
     return Array.isArray(data) ? data : data.posts || data.results || [];
   } catch (error) {
-    throw new Error(`Failed to fetch published articles: ${error.message}`);
+    console.warn(`Fetch articles remote failed: ${error.message}. Checking local fallback...`);
+    const fallbackPath = path.resolve(__dirname, '../src/data/insights.fallback.json');
+    if (fs.existsSync(fallbackPath)) {
+      const fallbackData = JSON.parse(fs.readFileSync(fallbackPath, 'utf8'));
+      return Array.isArray(fallbackData) ? fallbackData : fallbackData.posts || [];
+    }
+    return [];
   }
 }
 
@@ -30,6 +36,7 @@ async function generateSitemap() {
   const today = new Date().toISOString().slice(0, 10);
   const staticUrls = [
     { url: `${DOMAIN}/`, lastmod: today, changefreq: 'daily', priority: '1.0' },
+    { url: `${DOMAIN}/abl`, lastmod: today, changefreq: 'daily', priority: '0.95' },
     { url: `${DOMAIN}/insights`, lastmod: today, changefreq: 'daily', priority: '0.9' },
     { url: `${DOMAIN}/insights/enterprise-doctor`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
     { url: `${DOMAIN}/insights/life-number`, lastmod: today, changefreq: 'weekly', priority: '0.8' },

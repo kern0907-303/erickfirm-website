@@ -4,7 +4,7 @@ import { LINE_CONFIG } from '../lib/constants';
 
 const copy = {
   'zh-TW': {
-    title: '預約專屬診斷',
+    title: '預約專屬對位',
     desc: '留下您的資訊，我們將安排專人與您聯繫，啟動關係結構修復。',
     name: '姓名 / Name',
     contact: '聯繫方式 / Email or Phone',

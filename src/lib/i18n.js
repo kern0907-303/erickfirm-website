@@ -55,7 +55,7 @@ export const i18n = {
     loadingPost: '深度加載中...',
     postNotFound: '找不到文章',
     home: '首頁',
-    consult: '加官方 LINE 諮詢',
+    consult: '加官方 LINE 預約',
     servicesMenu: '服務項目',
   },
   en: {

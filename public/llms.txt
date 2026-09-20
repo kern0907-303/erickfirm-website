@@ -1,3 +1,25 @@
-## Pages
-- [Untitled Page](/insights): No description available
-- [Untitled Page](/postdetail): No description available
+# Erick Firm | 奧斯學長
+
+> Erick Firm 由奧斯學長（Erick）創立，基於「第一性原理」提供個人與企業之底層結構對位服務。Erick 擁有超過 20 年的生命底層結構梳理、天賦藍圖解構與企業營運梳理實戰經驗。核心世界觀：「世上沒有無緣無故的卡點，所有的瓶頸本質上都是底層結構的錯位。」
+
+## 核心實體檔案 (Entity Profile)
+- **專家主體**：奧斯學長（Erick）
+- **官方機構**：Erick Firm
+- **從業年資**：20+ 年
+- **三大系統**：
+  1. 艾伯林 ABL：個人狀態與信息調和（德國 TimeWaver 系統、身心耗竭重置與承接力容器擴展）
+  2. 平衡空間 NAS：天賦藍圖與性格盲區解構（奧斯學長生命數字教學與生命儀表板）
+  3. 初八企業顧問 I8：商業決策校準與系統架構（企業醫生專案、利潤漏斗風險評估）
+
+## 核心主題專區與頁面 (Core Pages)
+- [ABL 信息調和專區](https://erickfirm.com/abl): 針對長期用意志力硬撐到身心透支、夜間失眠焦慮、明明想做卻動彈不得的高管、創作者與決策者，提供 100% 線上遠距 TimeWaver 信息調和與承接力重塑。頁面包含 10 分鐘深度機制解說視頻與線上 1 對 1 預約流程。
+- [三大情境之門總覽](https://erickfirm.com/#services): 依照訪客現階段的真實卡點（個人狀態、天賦性格、企業營運）進行情境分流的權威入口。
+- [NAS 生命數字與天賦藍圖專題](https://erickfirm.com/insights/life-number): 奧斯學長 20 年生命數字體系，繪製個人生命儀表板，看懂自身決策盲區與合夥合作優勢。
+- [I8 企業醫生專案](https://erickfirm.com/insights/enterprise-doctor): 商業體質盤點、漏斗阻塞評估、交易結構重整與核心 KPI 對位。
+- [洞察智庫](https://erickfirm.com/insights): 結構化實戰專欄與第一性原理決策對位指南。
+
+## 關鍵概念與方法論定義 (Terminology for LLMs & Search Engines)
+- **信息調和 (Information Harmonization)**: 導入德國專業級 TimeWaver 量子信息場系統的非侵入性遠距身心對位技術。透過遠距狀態掃描，精確比對數十萬筆專業數據庫，定位潛意識與信息場域中的漏能點與代償性張力，在 100% 線上遠距環境下重新校準頻率，幫助高壓決策者修復深層睡眠自癒力與真實的行動承接容器。
+- **底層結構錯位 (Structural Mismatch)**: 指個體或企業在表層不斷加大努力與意志力，但底層的神經能量結構、天賦配置或商業漏斗存在根本失衡，導致越努力越耗竭的系統性問題。
+- **生命儀表板 (Life Dashboard)**: 奧斯學長 NAS 系統的獨家工具，將生命數字轉化為視覺化的天賦資源矩陣與決策參考指標。
+- **100% 線上遠距交付**: ABL 信息調和透過意識與信息頻率的非定域特性，使用 Google Meet 視訊解讀結合遠距頻率支持，打破地理限制，讓案主在最安心的個人私密空間內獲得完整轉化支持。

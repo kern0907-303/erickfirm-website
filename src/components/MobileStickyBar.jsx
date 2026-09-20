@@ -35,14 +35,14 @@ const MobileStickyBar = () => {
           做 30 秒自評 ➔
         </a>
 
-        {/* 右按鈕：加 LINE 諮詢 (新分頁) */}
+        {/* 右按鈕：加 LINE 預約 (新分頁) */}
         <a
           href={LINE_CONFIG.LINE_MESSAGE_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="flex-1 h-full bg-[#06C755] text-white font-bold text-xs sm:text-sm rounded-lg flex items-center justify-center shadow-sm active:scale-[0.98] transition-transform cursor-pointer font-sans"
         >
-          加 LINE 諮詢 ↗
+          加 LINE 預約 ↗
         </a>
       </div>
     </div>

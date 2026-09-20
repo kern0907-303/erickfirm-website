@@ -12,6 +12,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Insights from './pages/Insights';
 import PostDetail from './pages/PostDetail';
+import AblPage from './pages/AblPage';
 import MobileStickyBar from './components/MobileStickyBar';
 import SEOHead, { updateMetaTags } from './components/SEOHead';
 
@@ -25,6 +26,12 @@ const ScrollToTop = () => {
         title: 'Erick Firm | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL',
         description: '奧斯學長（Erick）擁有 20 年以上企業營運與個人狀態對位經驗，提供初八企業顧問 I8、平衡空間 NAS 與艾伯林 ABL 服務，協助創辦人與高管釐清商業與生命卡點。',
         url: 'https://erickfirm.com/'
+      });
+    } else if (pathname === '/abl') {
+      updateMetaTags({
+        title: 'ABL 信息調和｜20 年底層承接力重置與線上狀態校準 - Erick Firm',
+        description: '為面臨意志力過度強撐、內在耗竭與莫名阻力的高管、創業者與女性個體，提供 100% 線上遠距信息調和與承接力重塑。填寫資料立即觀看 10 分鐘深度解說影片。',
+        url: 'https://erickfirm.com/abl'
       });
     }
   }, [pathname]);
@@ -115,6 +122,7 @@ function App() {
         
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/abl" element={<AblPage />} />
           <Route path="/insights" element={<Insights />} />
           <Route path="/insights/:service" element={<Insights />} />
           <Route path="/insights/:service/:slug" element={<PostDetail />} />
