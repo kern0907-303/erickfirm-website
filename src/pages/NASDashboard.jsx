@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, Minus, ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
@@ -6,17 +6,23 @@ import NASMark from '../components/NASMark';
 
 const API_URL = '/.netlify/functions/ai_reading';
 
-// '+12/3' → '3'
-const lastOf = (raw) => {
+// '+22/4' → '22／4'（整條顯示，不丟掉後天數與 11／22 主數）
+const chainOf = (raw) => {
   const c = String(raw || '').replace(/^[+-]/, '').split('/').filter(Boolean);
-  return (!c.length || c.some((x) => x.includes('?'))) ? null : c[c.length - 1];
+  return (!c.length || c.some((x) => x.includes('?'))) ? null : c.join('／');
+};
+
+// 19750909 → 1975/09/09（只用於顯示，送去計算的仍是原字串）
+const prettyDate = (raw) => {
+  const d = String(raw || '').replace(/\D/g, '');
+  return d.length === 8 ? `${d.slice(0, 4)}/${d.slice(4, 6)}/${d.slice(6)}` : raw;
 };
 
 const FEATURES = [
   { name: '主命數、先天數、後天數', free: true, paid: true },
   { name: '陽曆／陰曆雙盤對照', free: true, paid: true },
   { name: '強數與缺數', free: true, paid: true },
-  { name: '靈魂等紙', free: false, paid: true },
+  { name: '靈魂等級', free: false, paid: true },
   { name: '流年 · 流月 · 流日', free: false, paid: true },
   { name: '加入家人、伴侶、同事的盤', free: false, paid: true },
   { name: '關係對照與互動判讀', free: false, paid: true },
@@ -27,12 +33,34 @@ const FEATURES = [
 
 const NASDashboard = () => {
   const [birthdate, setBirthdate] = useState('');
+  const [saved, setSaved] = useState('');        // 從計算頁帶過來的生日
+  const [editing, setEditing] = useState(false); // 使用者按了「不是我」
   const [state, setState] = useState('idle');
   const [today, setToday] = useState(null);
   const [errMsg, setErrMsg] = useState('');
 
+  // 她在計算頁已經輸入過生日，這裡直接接過來，不要再問第二次。
+  // 無痕模式讀不到會丟例外，忽略即可——就退回原本的輸入框。
+  useEffect(() => {
+    try {
+      const b = localStorage.getItem('nas.birthdate');
+      if (b && b.trim()) { setSaved(b.trim()); setBirthdate(b.trim()); }
+    } catch { /* 讀不到就照原本流程輸入 */ }
+  }, []);
+
+  const useSaved = Boolean(saved) && !editing;
+
+  const notMe = () => {
+    setEditing(true);
+    setBirthdate('');
+    setToday(null);
+    setState('idle');
+    setErrMsg('');
+    try { localStorage.removeItem('nas.birthdate'); } catch { /* 清不掉不影響 */ }
+  };
+
   const run = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     if (!birthdate.trim()) return;
     setState('loading');
     setErrMsg('');
@@ -45,12 +73,12 @@ const NASDashboard = () => {
       if (!res.ok) throw new Error('連線失敗');
       const json = await res.json();
       if (!json.ok) throw new Error(json.error || '生日格式看起來不對，請用西元年月日');
-      // 刻意不取 overall_percent：百分比會被讀成分數，低分等於嚇人。
       setToday({
         icon: json.overall_icon,
         label: json.overall_label,
-        solarDay: lastOf(json.parsed?.solarDay),
-        lunarDay: lastOf(json.parsed?.lunarDay),
+        percent: typeof json.overall_percent === 'number' ? json.overall_percent : null,
+        solarDay: chainOf(json.parsed?.solarDay),
+        lunarDay: chainOf(json.parsed?.lunarDay),
       });
       setState('done');
     } catch (err) {
@@ -91,45 +119,81 @@ const NASDashboard = () => {
         {/* 直接把今天算給她看。只給今天——明天想看就得再回來輸入一次，
             那個不方便本身就是訂閱的理由，不需要用文案說服。 */}
         <div className="p-6 rounded-2xl border border-[#E7E3F0] bg-[#F7F5FC]/50">
-          <h2 className="font-bold mb-2">先看今天的</h2>
-          <p className="text-sm text-[#6E6885] mb-5">輸入西元生日，馬上看今天你的天氣。不用留資料。</p>
-          <form onSubmit={run} className="flex flex-col sm:flex-row gap-3 mb-1">
-            <input
-              id="meili-birthdate"
-              value={birthdate}
-              onChange={(e) => setBirthdate(e.target.value)}
-              inputMode="numeric"
-              placeholder="19750909"
-              className="flex-1 px-4 py-3 rounded-xl border border-[#DAD4E8] bg-white tabular-nums focus:outline-none focus:border-[#5B3A9E] transition"
-            />
-            <button
-              type="submit"
-              disabled={state === 'loading'}
-              className="px-7 py-3 rounded-xl bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] disabled:opacity-50 transition"
-            >
-              {state === 'loading' ? '計算中⋯' : '看今天'}
-            </button>
-          </form>
+          <h2 className="font-bold mb-2">先看今天的流日數字</h2>
+
+          {useSaved ? (
+            <>
+              <p className="text-sm text-[#6E6885] mb-5">
+                用你剛才算過的生日
+                <strong className="text-[#1F1A2E] tabular-nums mx-2">{prettyDate(saved)}</strong>
+                ——直接看今天。
+              </p>
+              <div className="flex flex-wrap items-center gap-4 mb-1">
+                <button
+                  type="button"
+                  onClick={run}
+                  disabled={state === 'loading'}
+                  className="px-7 py-3 rounded-xl bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] disabled:opacity-50 transition"
+                >
+                  {state === 'loading' ? '計算中⋯' : '看今天的流日'}
+                </button>
+                <button
+                  type="button"
+                  onClick={notMe}
+                  className="text-sm text-[#6E6885] underline underline-offset-4 hover:text-[#5B3A9E] transition"
+                >
+                  不是我，換一個生日
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-sm text-[#6E6885] mb-5">輸入西元生日，馬上看今天你的流日。不用留資料。</p>
+              <form onSubmit={run} className="flex flex-col sm:flex-row gap-3 mb-1">
+                <input
+                  id="meili-birthdate"
+                  value={birthdate}
+                  onChange={(e) => setBirthdate(e.target.value)}
+                  inputMode="numeric"
+                  placeholder="19750909"
+                  className="flex-1 px-4 py-3 rounded-xl border border-[#DAD4E8] bg-white tabular-nums focus:outline-none focus:border-[#5B3A9E] transition"
+                />
+                <button
+                  type="submit"
+                  disabled={state === 'loading'}
+                  className="px-7 py-3 rounded-xl bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] disabled:opacity-50 transition"
+                >
+                  {state === 'loading' ? '計算中⋯' : '看今天'}
+                </button>
+              </form>
+            </>
+          )}
           {state === 'error' && <p className="text-sm text-red-700 mt-3">{errMsg}</p>}
 
           {state === 'done' && today && (
             <div className="mt-6 pt-6 border-t border-[#E7E3F0]">
               <p className="text-xs text-[#918BA6] mb-2">你今天的天氣</p>
-              <p className="text-3xl font-bold mb-3">
-                <span aria-hidden="true">{today.icon}</span> {today.label}
+              <p className="text-3xl font-bold mb-3 flex flex-wrap items-baseline gap-x-3">
+                <span><span aria-hidden="true">{today.icon}</span> {today.label}</span>
+                {today.percent != null && (
+                  <span className="text-xl font-semibold tabular-nums text-[#6E6885]">
+                    {today.percent}<span className="text-sm ml-0.5">%</span>
+                  </span>
+                )}
               </p>
               <p className="text-sm text-[#55506B] leading-relaxed mb-5">
-                天氣沒有好壞。下雨不是壞日子，只是今天適合做的事不一樣。
+                這個數字是你的生日跟今天的流日對出來的，所以每天都不一樣。
+                天氣沒有好壞——下雨不是壞日子，只是今天適合做的事不一樣。
               </p>
               <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm mb-6">
                 {today.solarDay && (
                   <span className="text-[#6E6885]">
-                    今天的流日（陽曆）<strong className="text-[#1F1A2E] tabular-nums ml-2">{today.solarDay}</strong>
+                    今天流日　陽曆<strong className="text-[#1F1A2E] tabular-nums ml-2">{today.solarDay}</strong>
                   </span>
                 )}
                 {today.lunarDay && (
                   <span className="text-[#6E6885]">
-                    （陰曆）<strong className="text-[#1F1A2E] tabular-nums ml-2">{today.lunarDay}</strong>
+                    陰曆<strong className="text-[#1F1A2E] tabular-nums ml-2">{today.lunarDay}</strong>
                   </span>
                 )}
               </div>
@@ -138,7 +202,7 @@ const NASDashboard = () => {
                   <strong className="text-[#1F1A2E]">這是今天。明天這個數字會變。</strong>
                 </p>
                 <p className="text-[#55506B] leading-loose">
-                  你可以每天回來這裡輸入一次生日——也可以訂閱，
+                  你可以每天回來這裡按一次——也可以訂閱，
                   <strong className="text-[#1F1A2E]">每天早上 LINE 直接推給你</strong>，
                   連打開網站都不用。
                 </p>

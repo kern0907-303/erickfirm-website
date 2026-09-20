@@ -84,6 +84,12 @@ const NASCalculator = () => {
       if (!res.ok) throw new Error('連線失敗');
       const json = await res.json();
       if (!json.ok) throw new Error(json.error || '生日格式看起來不對，請用西元年月日');
+      // 記住生日，之後到數字每曆那頁就不用再輸入一次。
+      // 只存生日字串，不存任何計算結果；無痕模式會丟例外，忽略即可。
+      try {
+        localStorage.setItem('nas.birthdate', birthdate.trim());
+        if (lunarOverride.trim()) localStorage.setItem('nas.lunar', lunarOverride.trim());
+      } catch { /* 存不了就算了，不影響計算 */ }
       setResult(json);
       setState('done');
     } catch (err) {
@@ -208,9 +214,18 @@ const NASCalculator = () => {
                   </div>
                   <p className="text-xs text-[#918BA6] mb-5">{t.hint}</p>
 
-                  <p className="text-sm text-[#6E6885] mb-1">主命數</p>
-                  <p className="text-4xl font-bold tabular-nums leading-none mb-2">
-                    {t.m ? t.m.main : '—'}
+                  <p className="text-sm text-[#6E6885] mb-1">後天數 ／ 主命數</p>
+                  {/* 整條都顯示：後天數、以及 11／22 這類主數的中間層都不省略，
+                      化簡後的主命數用深色收尾，視覺上仍是主角。 */}
+                  <p className="text-3xl md:text-4xl font-bold tabular-nums leading-none mb-2">
+                    {t.m ? (
+                      <>
+                        {t.m.chain.slice(0, -1).map((n) => (
+                          <span key={n} className="text-[#918BA6]">{n}／</span>
+                        ))}
+                        <span>{t.m.main}</span>
+                      </>
+                    ) : '—'}
                   </p>
                   {t.m && (
                     <p className="text-xs text-[#918BA6] mb-6">
