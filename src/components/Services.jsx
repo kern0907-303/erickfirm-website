@@ -33,6 +33,7 @@ const copy = {
         outcome: '看懂自己的生命儀表板，掌握決策與關係的主動權，讓角色合作更流暢',
         timeline: '1-3 週內繪製專屬生命儀表板並完成核心教學',
         path: '/insights/life-number',
+        landingPath: '/nas',
       },
       {
         id: '03',
@@ -44,6 +45,7 @@ const copy = {
         outcome: '釐清隱性卡點，重塑穩定的決策張力，獲得高效能狀態支持',
         timeline: '2-6 週內完成底層對位與週期支持',
         path: '/insights/personal-growth',
+        landingPath: '/abl',
       },
     ],
   },
@@ -76,6 +78,7 @@ const copy = {
         outcome: 'Understand your personal life dashboard, clarify roles, and optimize relationship boundaries',
         timeline: 'Map personal life dashboard and complete core training in 1-3 weeks',
         path: '/insights/life-number',
+        landingPath: '/nas',
       },
       {
         id: '03',
@@ -87,6 +90,7 @@ const copy = {
         outcome: 'Clear invisible blockages, rebuild decision performance, and sustain focus',
         timeline: 'Align core state and set up support loops in 2-6 weeks',
         path: '/insights/personal-growth',
+        landingPath: '/abl',
       },
     ],
   },
@@ -111,16 +115,35 @@ const Services = () => {
             <div key={srv.id} className="bg-white rounded-2xl p-8 md:p-10 shadow-[0_4px_25px_rgba(0,42,84,0.04)] border-t-4 border-accent border-x border-b border-slate-100 hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(0,42,84,0.08)] hover:border-accent/40 transition-all duration-300 transform flex flex-col justify-between">
               <div>
                 <div className="text-xs font-bold text-accent tracking-[0.3em] mb-3 font-sans">{srv.id}</div>
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-white border border-slate-200/60 p-0.5 shadow-sm shrink-0">
-                    <img
-                      src={srv.id === '01' ? '/logo-i8.png' : srv.id === '02' ? '/logo-nas.png' : '/logo-abl.jpg'}
-                      alt={`${srv.title} Logo`}
-                      className="w-full h-full object-contain"
-                    />
+                {srv.landingPath ? (
+                  <Link
+                    to={srv.landingPath}
+                    className="group flex items-center gap-4 mb-6"
+                    aria-label={`進入 ${srv.title} 第二主頁`}
+                  >
+                    <div className="w-12 h-12 rounded-xl overflow-hidden bg-white border border-slate-200/60 p-0.5 shadow-sm shrink-0 group-hover:border-accent/70 transition-colors">
+                      <img
+                        src={srv.id === '02' ? '/logo-nas.png' : '/logo-abl.jpg'}
+                        alt={`${srv.title} Logo`}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-900 font-display leading-tight group-hover:text-accent group-hover:underline underline-offset-4 transition-colors">
+                      {srv.title}
+                    </h4>
+                  </Link>
+                ) : (
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-xl overflow-hidden bg-white border border-slate-200/60 p-0.5 shadow-sm shrink-0">
+                      <img
+                        src="/logo-i8.png"
+                        alt={`${srv.title} Logo`}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-900 font-display leading-tight">{srv.title}</h4>
                   </div>
-                  <h4 className="text-2xl font-bold text-slate-900 font-display leading-tight">{srv.title}</h4>
-                </div>
+                )}
                 <div className="space-y-4 text-sm text-slate-700 font-sans">
                   <p><span className="font-bold text-slate-900">{section.labels.project}</span>{srv.project}</p>
                   <p><span className="font-bold text-slate-900">{section.labels.audience}</span>{srv.audience}</p>
