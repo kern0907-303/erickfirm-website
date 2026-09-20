@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const DEFAULT_TITLE = 'Erick Firm | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL';
+const DEFAULT_TITLE = 'Erick Frim | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL';
 const DEFAULT_DESC = '奧斯學長（Erick）擁有 20 年以上企業營運與個人狀態對位經驗，提供初八企業顧問 I8、平衡空間 NAS 與艾伯林 ABL 服務，協助創辦人與高管釐清商業與生命卡點。';
 const DEFAULT_IMAGE = 'https://erickfirm.com/og-default.png';
 const DOMAIN = 'https://erickfirm.com';
@@ -13,7 +13,7 @@ export const updateMetaTags = ({
   url,
   type = 'website'
 }) => {
-  const metaTitle = !title ? DEFAULT_TITLE : title.includes('Erick Firm') ? title : `${title} | Erick Firm`;
+  const metaTitle = !title ? DEFAULT_TITLE : title.includes('Erick Frim') ? title : `${title} | Erick Frim`;
   const metaDesc = description || DEFAULT_DESC;
   const metaImage = image?.startsWith('http') ? image : image ? `${DOMAIN}${image.startsWith('/') ? image : `/${image}`}` : DEFAULT_IMAGE;
   const metaUrl = url || (typeof window !== 'undefined' ? window.location.href : DOMAIN);

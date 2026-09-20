@@ -29,7 +29,7 @@ for (const post of posts) {
   const route = getPostPath(post);
   const canonical = getPostUrl(post);
   const image = getPostImage(post);
-  const title = post.title.includes('Erick Firm') ? post.title : `${post.title} | Erick Firm`;
+  const title = post.title.includes('Erick Frim') ? post.title : `${post.title} | Erick Frim`;
   const description = clean(post.excerpt) || post.title;
   const schema = post.aeoSchema || post.aeo_schema || '';
   const html = `<!doctype html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${canonical}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${image}"><meta property="og:type" content="article"><meta property="og:site_name" content="Erick Firm"><meta property="og:locale" content="zh_TW"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${image}">${schema}</head><body><div id="root"><main><article><h1>${esc(post.title)}</h1><p>${esc(description)}</p></article></main></div>${script}</body></html>`;

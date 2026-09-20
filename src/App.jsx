@@ -23,13 +23,13 @@ const ScrollToTop = () => {
     window.scrollTo(0, 0);
     if (pathname === '/') {
       updateMetaTags({
-        title: 'Erick Firm | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL',
+        title: 'Erick Frim | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL',
         description: '奧斯學長（Erick）擁有 20 年以上企業營運與個人狀態對位經驗，提供初八企業顧問 I8、平衡空間 NAS 與艾伯林 ABL 服務，協助創辦人與高管釐清商業與生命卡點。',
         url: 'https://erickfirm.com/'
       });
     } else if (pathname === '/abl') {
       updateMetaTags({
-        title: 'ABL 信息調和｜20 年底層承接力重置與線上狀態校準 - Erick Firm',
+        title: 'ABL 信息調和｜20 年底層承接力重置與線上狀態校準 - Erick Frim',
         description: '為面臨意志力過度強撐、內在耗竭與莫名阻力的高管、創業者與女性個體，提供 100% 線上遠距信息調和與承接力重塑。填寫資料立即觀看 10 分鐘深度解說影片。',
         url: 'https://erickfirm.com/abl'
       });
@@ -42,7 +42,7 @@ const ScrollToTop = () => {
 const Home = () => (
   <>
     <SEOHead
-      title="Erick Firm | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL"
+      title="Erick Frim | 奧斯學長 - 初八企業顧問 I8・平衡空間 NAS・艾伯林 ABL"
       description="奧斯學長（Erick）擁有 20 年以上企業營運與個人狀態對位經驗，提供初八企業顧問 I8、平衡空間 NAS 與艾伯林 ABL 服務，協助創辦人與高管釐清商業與生命卡點。"
     />
     {/* 1. Hero */}
