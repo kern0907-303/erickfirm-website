@@ -215,7 +215,8 @@ function mapSupabaseArticleToPost(article, locale = DEFAULT_LOCALE) {
   const title = article.title || "Untitled";
   const content = article.content || "";
   const contentWithoutCode = content.replace(/```[\s\S]*?```/g, "");
-  const tags = (contentWithoutCode.match(/#\S+/g) || [])
+  // 第二個字元不能是 #，否則 Markdown 的「## 標題」會被當成一個叫「#」的標籤。
+  const tags = (contentWithoutCode.match(/#[^\s#][^\s]*/g) || [])
     .map((tag) => tag.slice(1).replace(/['",.;:!?()[\]{}]/g, "").trim())
     .filter((tag) => tag && !/^[0-9a-fA-F]{3}$|^[0-9a-fA-F]{6}$/.test(tag));
 
