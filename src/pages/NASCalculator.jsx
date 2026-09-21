@@ -43,7 +43,7 @@ const STRUCTURED = {
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Web',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
-  provider: { '@type': 'Person', name: '艾瑞克', '@id': 'https://erickfirm.com/#person' },
+  provider: { '@type': 'Person', name: '艾瑞克', '@id': 'https://erickfirm.com/#erick' },
   description: '輸入西元生日，計算主命數與陽曆、陰曆雙軌生命數字結構。',
 };
 
