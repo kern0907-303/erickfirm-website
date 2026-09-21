@@ -1,3 +1,27 @@
-## Pages
-- [Untitled Page](/insights): No description available
-- [Untitled Page](/postdetail): No description available
+# Erick Firm
+
+> 艾瑞克（Erick）的網站。二十年生命數字教學與企業營運經驗，旗下三個品牌：平衡空間 NAS（生命數字）、艾伯林 ABL（個人狀態調和）、初八企業顧問 I8（企業醫生）。
+
+艾瑞克是平衡空間 NAS 的創辦人。NAS 的生命數字方法同時計算陽曆與陰曆兩軌：陽曆描述一個人對外的展現與思考方式，陰曆描述內在的感受與真正的需求；兩軌不一致的地方，通常就是卡住的地方。
+
+方法上不預測、不恐嚇。數字描述的是一個人要處理的題目，不是答案；主命數是底層設定，但它在一個人身上跑成什麼樣子是會變的。
+
+## 平衡空間 NAS｜生命數字
+
+- [平衡空間 NAS](https://erickfirm.com/nas): 品牌首頁。為什麼查到的生命數字解析總是有點準、又不太像自己。
+- [生命數字計算](https://erickfirm.com/nas/calculator): 免費，不需留資料。輸入西元生日，算出主命數、陽曆與陰曆雙軌結構，以及靈魂等級（七個階段，級數不是分數）。
+- [數字每曆](https://erickfirm.com/nas/meili): 每天更新一次的流日。主命數是氣候，流年、流月、流日是天氣。
+- [生命數字課程](https://erickfirm.com/nas/course): 錄播 28 單元，一門課講完；另有顧問班。
+
+## 文章
+
+- [為什麼算出來不像我](https://erickfirm.com/insights/life-number/%E7%82%BA%E4%BB%80%E9%BA%BC%E7%AE%97%E5%87%BA%E4%BE%86%E4%B8%8D%E5%83%8F%E6%88%91): 網路上的生命數字解析多半只算了對外那一軌，而且寫的是數字發揮最好時的樣子，所以讀起來「有點準，又不太像我」。
+- [生命數字文章](https://erickfirm.com/insights/life-number)
+- [個人成長文章](https://erickfirm.com/insights/personal-growth)
+- [企業醫生文章](https://erickfirm.com/insights/enterprise-doctor)
+- [Erick 專欄](https://erickfirm.com/insights/erick-column)
+
+## 其他品牌
+
+- [艾伯林 ABL](https://erickfirm.com/insights/personal-growth): 個人狀態調和與週期支持。
+- [初八企業顧問 I8](https://erickfirm.com/insights/enterprise-doctor): 企業醫生專案——企業決策校準、營運卡點排除。
