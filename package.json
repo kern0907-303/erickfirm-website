@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "vite --host :: --port 3000",
-    "build": "node scripts/build-sitemap.js && vite build && node scripts/build-static-pages.js && node scripts/build-nas-pages.js",
+    "build": "node scripts/build-sitemap.js && vite build && node scripts/build-static-pages.js && node scripts/build-nas-pages.js && node scripts/build-i8-page.js",
     "preview": "vite preview --host :: --port 3000",
     "lint": "eslint . --quiet"
   },

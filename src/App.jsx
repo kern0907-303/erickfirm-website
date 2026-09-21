@@ -17,6 +17,7 @@ import NASCalculator from './pages/NASCalculator';
 import NASCourse from './pages/NASCourse';
 import NASDashboard from './pages/NASDashboard';
 import AblPage from './pages/AblPage';
+import I8Page from './pages/I8Page';
 import MobileStickyBar from './components/MobileStickyBar';
 import SEOHead, { updateMetaTags } from './components/SEOHead';
 
@@ -157,6 +158,7 @@ function App() {
           <Route path="/nas/meili" element={<NASDashboard />} />
           <Route path="/nas/course" element={<NASCourse />} />
           <Route path="/abl" element={<AblPage />} />
+          <Route path="/i8" element={<I8Page />} />
 
           <Route path="/insights" element={<Insights />} />
           <Route path="/insights/:service" element={<Insights />} />
