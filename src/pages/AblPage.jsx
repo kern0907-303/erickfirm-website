@@ -77,7 +77,7 @@ const AblPage = () => {
           '@id': 'https://erickfirm.com/#erick',
           name: '奧斯學長',
           alternateName: ['Erick'],
-          jobTitle: '生命底層結構對位顧問 / TimeWaver 系統分析專家',
+          jobTitle: '個人狀態顧問 / TimeWaver 系統分析專家',
           url: 'https://erickfirm.com',
         },
         serviceType: 'TimeWaver Information Field Analysis & Frequency Optimization',
@@ -418,7 +418,7 @@ const AblPage = () => {
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 focus:outline-none focus:border-[#00C2C2] focus:bg-white transition-colors text-sm"
                     >
                       <option value="每天醒來都像沒充飽電，意志力透支">每天醒來都像沒充飽電，意志力透支</option>
-                      <option value="夜間大腦無法關機，失眠多夢">夜間大腦無法關機，失眠多夢</option>
+                      <option value="夜間大腦無法關機，難以休息">夜間大腦無法關機，難以休息</option>
                       <option value="目標明確卻莫名拖延、動彈不得">目標明確卻莫名拖延、動彈不得</option>
                       <option value="承接力到極限，突發壓力容易煩躁">承接力到極限，突發壓力容易煩躁</option>
                     </select>
@@ -627,7 +627,7 @@ const AblPage = () => {
             </a>
 
             <p className="text-[11px] text-slate-400 mt-3">
-              暗號【ABL TimeWaver調和預約】· 專人於 24 小時內回覆
+              加入官方 LINE 後說明你的情況 · 專人於 24 小時內回覆
             </p>
           </div>
         </div>

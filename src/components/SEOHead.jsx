@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const DEFAULT_TITLE = 'Erick Firm｜艾瑞克 - 事情卡住，通常不是因為不夠努力';
-const DEFAULT_DESC = '卡住的真正原因，往往是還沒看見那個一直在影響結果的關鍵因素。艾瑞克以二十年跨領域實務，從生命數字的自我理解、個人狀態調和到企業決策校準，陪你把那個因素找出來。';
+const DEFAULT_DESC = '艾瑞克（Erick），二十年來陪個人與企業看見那個一直在影響結果、卻一直沒被看見的因素。加 LINE 回答 4 題，免費領取《事情卡住的三種樣子》初步卡點分析。';
 const DEFAULT_IMAGE = 'https://erickfirm.com/og-default.png';
 const DOMAIN = 'https://erickfirm.com';
 

@@ -26,23 +26,14 @@ const MobileStickyBar = () => {
           : 'opacity-0 translate-y-full pointer-events-none'
       }`}
     >
-      <div className="flex items-center gap-3 h-11">
-        {/* 左按鈕：做 30 秒自評 */}
-        <a
-          href="https://erickfirm.com/#assessment"
-          className="flex-1 h-full bg-slate-900 text-white font-bold text-xs sm:text-sm rounded-lg flex items-center justify-center shadow-sm active:scale-[0.98] transition-transform cursor-pointer font-sans"
-        >
-          做 30 秒自評 ➔
-        </a>
-
-        {/* 右按鈕：加 LINE 諮詢 (新分頁) */}
+      <div className="flex items-center h-11">
         <a
           href={LINE_CONFIG.LINE_MESSAGE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 h-full bg-[#06C755] text-white font-bold text-xs sm:text-sm rounded-lg flex items-center justify-center shadow-sm active:scale-[0.98] transition-transform cursor-pointer font-sans"
+          className="w-full h-full bg-slate-900 text-white font-bold text-xs sm:text-sm flex items-center justify-center active:scale-[0.98] transition-transform cursor-pointer font-sans"
         >
-          加 LINE 諮詢 ↗
+          加 LINE，4 題找出你卡在哪 →
         </a>
       </div>
     </div>

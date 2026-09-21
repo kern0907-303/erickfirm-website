@@ -1,46 +1,26 @@
 import React from 'react';
-import { getPreferredLocale, onLocaleChange } from '../lib/i18n';
+import { Link } from 'react-router-dom';
 import { LINE_CONFIG } from '../lib/constants';
 
-const copy = {
-  'zh-TW': {
-    services: '服務項目',
-    about: '關於我們',
-    consult: '預約諮詢',
-    slogan: '從第一性原理出發，重塑高效能運行軌道。',
-  },
-  en: {
-    services: 'Services',
-    about: 'About',
-    consult: 'Book Consultation',
-    slogan: 'Rebuild decision performance with first principles.',
-  },
-};
-
 const Footer = () => {
-  const [locale, setLocale] = React.useState(getPreferredLocale());
-  React.useEffect(() => onLocaleChange(setLocale), []);
-  const dict = copy[locale];
-
   return (
-    <footer className="bg-primary pt-20 pb-16 md:pb-10">
+    <footer className="bg-slate-900 pt-16 pb-20 md:pb-10">
       <div className="container mx-auto px-6 max-w-7xl">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-16">
-          <div className="mb-8 md:mb-0 text-center md:text-left">
-            <h2 className="text-2xl font-bold !text-white tracking-[0.2em] mb-2 font-display">ERICK FIRM</h2>
-            <p className="!text-accent text-xs tracking-[0.3em] uppercase font-bold font-sans">Relationship Engineering</p>
+        <div className="grid gap-12 md:grid-cols-[1.3fr_1fr] mb-16">
+          <div>
+            <h2 className="text-2xl font-bold !text-white tracking-[0.2em] mb-5 font-display">ERICK FIRM</h2>
+            <p className="text-slate-300 text-base leading-relaxed">看見那個一直在影響結果的因素。</p>
           </div>
-          
-          <div className="flex flex-wrap justify-center gap-8 text-sm font-medium font-sans">
-            <a href="/#services" className="!text-slate-300 hover:!text-accent transition-colors">{dict.services}</a>
-            <a href="/#about" className="!text-slate-300 hover:!text-accent transition-colors">{dict.about}</a>
-            <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className="!text-slate-300 hover:!text-accent transition-colors">{dict.consult}</a>
+          <div className="grid gap-3 text-sm font-medium font-sans">
+            <Link to="/i8" className="!text-slate-300 hover:!text-white transition-colors">初八信息顧問 I8</Link>
+            <Link to="/nas" className="!text-slate-300 hover:!text-white transition-colors">平衡空間 NAS</Link>
+            <Link to="/abl" className="!text-slate-300 hover:!text-white transition-colors">艾伯林量子調頻 ABL</Link>
+            <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className="mt-3 !text-slate-300 hover:!text-white transition-colors">官方 LINE</a>
           </div>
         </div>
         
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs tracking-wide font-sans">
           <p className="!text-slate-400">© {new Date().getFullYear()} Erick Firm. All rights reserved.</p>
-          <p className="mt-4 md:mt-0 !text-slate-400">{dict.slogan}</p>
         </div>
       </div>
     </footer>

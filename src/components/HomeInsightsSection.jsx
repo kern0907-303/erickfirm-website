@@ -36,8 +36,8 @@ const HomeInsightsSection = () => {
         const matched = [];
         TARGET_TITLES.forEach((targetTitle) => {
           const found = allNormalized.find((p) => {
-            const cleanP = (p.title || '').trim().replace(/^💡\s*/, '');
-            const cleanT = targetTitle.trim().replace(/^💡\s*/, '');
+            const cleanP = (p.title || '').trim().replace(/^[\u{1F4A1}]\s*/u, '');
+            const cleanT = targetTitle.trim().replace(/^[\u{1F4A1}]\s*/u, '');
             return cleanP === cleanT || cleanP.includes(cleanT) || cleanT.includes(cleanP);
           });
           if (found) {
@@ -66,15 +66,12 @@ const HomeInsightsSection = () => {
   }, [locale]);
 
   return (
-    <section id="insights-preview" className="py-24 bg-surface font-sans border-y border-slate-200/60">
+    <div id="insights-preview" className="py-20 bg-[#f7f6f2] font-sans md:py-28">
       <div className="container mx-auto px-6 max-w-7xl">
         {/* 標題與說明 */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full border border-slate-200 bg-white text-xs font-bold tracking-[0.2em] text-slate-600 font-display shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-            LATEST INSIGHTS
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 mb-5 font-display tracking-tight leading-tight">
+        <div className="max-w-3xl mb-16">
+          <p className="mb-5 text-xs tracking-[0.22em] text-slate-500">SELECTED WRITING</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-5 font-display tracking-tight leading-tight">
             不是給你答案，是先讓你看見問題長什麼樣
           </h2>
           <p className="text-slate-600 text-base md:text-lg font-light leading-relaxed">
@@ -95,26 +92,26 @@ const HomeInsightsSection = () => {
               <Link
                 key={post.id || post.slug}
                 to={getPostPath(post)}
-                className="group bg-white rounded-2xl p-7 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between h-full transform hover:-translate-y-1"
+                className="group bg-white p-7 border border-slate-300 transition-colors hover:border-slate-600 flex flex-col justify-between h-full"
               >
                 <div>
                   {/* 分類標籤與發佈日期 */}
                   <div className="flex items-center justify-between mb-5">
-                    <span className="text-xs font-bold px-3 py-1 bg-slate-100 text-slate-700 rounded-md font-sans">
+                      <span className="text-xs font-bold px-3 py-1 bg-slate-100 text-slate-700 font-sans">
                       {getServiceNameFromSlug(post.service, locale, i18n)}
                     </span>
                     <span className="text-xs text-slate-400 font-sans">{post.publishDate}</span>
                   </div>
 
                   {/* 完整不截斷的文章標題 */}
-                  <h3 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-accent transition-colors font-display leading-snug">
+                  <h3 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-slate-600 transition-colors font-display leading-snug">
                     {post.title}
                   </h3>
                 </div>
 
                 <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-accent group-hover:translate-x-1 transition-transform">
-                    閱讀完整文章 ➔
+                  <span className="text-xs font-bold text-slate-900 group-hover:translate-x-1 transition-transform">
+                    閱讀完整文章 →
                   </span>
                 </div>
               </Link>
@@ -126,13 +123,13 @@ const HomeInsightsSection = () => {
         <div className="mt-16 text-center">
           <Link
             to="/insights"
-            className="inline-flex items-center gap-2 text-slate-900 hover:text-accent font-bold text-base md:text-lg tracking-wide transition-all group font-display"
+            className="inline-flex items-center gap-2 text-slate-900 hover:text-slate-600 font-bold text-base md:text-lg tracking-wide transition-all group font-display"
           >
-            看全部 20 篇 <span className="group-hover:translate-x-1 transition-transform">→</span>
+            看全部文章 <span className="group-hover:translate-x-1 transition-transform">→</span>
           </Link>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

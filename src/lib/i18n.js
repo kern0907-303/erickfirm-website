@@ -42,7 +42,7 @@ export const i18n = {
     insightsDesc: '依服務分艙閱讀，快速找到最相關的實戰文章',
     services: {
       all: '全部',
-      'enterprise-doctor': '初八企業顧問 I8',
+      'enterprise-doctor': '初八信息顧問 I8',
       'life-number': '平衡空間 NAS',
       'personal-growth': '艾伯林 ABL',
       'erick-column': 'Erick 專欄',

@@ -397,9 +397,7 @@ const PostDetail = () => {
         {/* 相關文章區塊：「你可能也會想看」 */}
         {relatedPosts.length > 0 && (
           <section className="mt-16 pt-10 border-t border-slate-200/80 font-sans">
-            <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-6 font-display flex items-center gap-2">
-              <span className="text-accent">💡</span> 你可能也會想看
-            </h3>
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-6 font-display">你可能也會想看</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {relatedPosts.map((rPost) => (
                 <Link

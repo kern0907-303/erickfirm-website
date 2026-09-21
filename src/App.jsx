@@ -2,13 +2,17 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import QuickAssessment from './components/QuickAssessment';
 import HomeInsightsSection from './components/HomeInsightsSection';
 import AboutErickSection from './components/AboutErickSection';
-import ProblemAnswersSection from './components/ProblemAnswersSection';
 import Services from './components/Services';
-import ProofSection from './components/ProofSection';
-import Contact from './components/Contact';
+import {
+  PhilosophySection,
+  WhyStuckSection,
+  StuckTypesSection,
+  AnalysisSection,
+  ClaritySection,
+  ClosingSection,
+} from './components/HomeSections';
 import Footer from './components/Footer';
 import Insights from './pages/Insights';
 import PostDetail from './pages/PostDetail';
@@ -29,7 +33,7 @@ const ScrollToTop = () => {
     if (pathname === '/') {
       updateMetaTags({
         title: 'Erick Firm｜艾瑞克 - 事情卡住，通常不是因為不夠努力',
-        description: '卡住的真正原因，往往是還沒看見那個一直在影響結果的關鍵因素。艾瑞克以二十年跨領域實務，從生命數字的自我理解、個人狀態調和到企業決策校準，陪你把那個因素找出來。',
+        description: '艾瑞克（Erick），二十年來陪個人與企業看見那個一直在影響結果、卻一直沒被看見的因素。加 LINE 回答 4 題，免費領取《事情卡住的三種樣子》初步卡點分析。',
         url: 'https://erickfirm.com/'
       });
     }
@@ -37,29 +41,27 @@ const ScrollToTop = () => {
   return null;
 };
 
-// 8 個首頁 Section 順序
+const HOME_DESCRIPTION = '艾瑞克（Erick），二十年來陪個人與企業看見那個一直在影響結果、卻一直沒被看見的因素。加 LINE 回答 4 題，免費領取《事情卡住的三種樣子》初步卡點分析。';
+
+// 首頁 9 段：每一個行動都回到官方 LINE。
 const Home = () => (
   <>
     <SEOHead
       title="Erick Firm｜艾瑞克 - 事情卡住，通常不是因為不夠努力"
-      description="卡住的真正原因，往往是還沒看見那個一直在影響結果的關鍵因素。艾瑞克以二十年跨領域實務，從生命數字的自我理解、個人狀態調和到企業決策校準，陪你把那個因素找出來。"
+      description={HOME_DESCRIPTION}
     />
-    {/* 1. Hero */}
     <Hero />
-    {/* 2. START HERE 三題自評 (id=assessment) */}
-    <QuickAssessment />
-    {/* 3. 洞察智庫精選 */}
-    <HomeInsightsSection />
-    {/* 4. 關於 Erick */}
-    <AboutErickSection />
-    {/* 5. FIRST PRINCIPLES 第一性原理 */}
-    <ProblemAnswersSection />
-    {/* 6. THREE CORE SERVICES 三大服務 */}
+    <PhilosophySection />
+    <WhyStuckSection />
+    <StuckTypesSection />
     <Services />
-    {/* 7. PROOF & PROCESS 四步流程 */}
-    <ProofSection />
-    {/* 8. LINE & CONTACT 聯絡 */}
-    <Contact />
+    <section aria-label="關於艾瑞克與文章精選">
+      <AboutErickSection />
+      <HomeInsightsSection />
+    </section>
+    <AnalysisSection />
+    <ClaritySection />
+    <ClosingSection />
   </>
 );
 
@@ -119,7 +121,7 @@ const buildHomeStructuredData = () => ({
     {
       '@type': 'Service',
       '@id': 'https://erickfirm.com/i8#service',
-      name: '初八企業顧問 I8｜企業醫生專案',
+      name: '初八信息顧問 I8｜企業醫生診斷',
       url: 'https://erickfirm.com/i8',
       provider: { '@id': 'https://erickfirm.com/#person' },
       serviceType: 'Business Structure Optimization',

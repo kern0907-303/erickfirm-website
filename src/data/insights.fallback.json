@@ -63,7 +63,7 @@
       "service": "life-number",
       "slug": "context-decision-alignment",
       "title": {
-        "zh-TW": "生命藍圖規劃：情境與決策對位指南",
+        "zh-TW": "生命藍圖規劃：情境與決策理解指南",
         "en": "Life Blueprint Planning: Context-to-Decision Alignment Guide"
       },
       "excerpt": {
@@ -118,11 +118,11 @@
       "service": "erick-column",
       "slug": "midlife-crisis-35",
       "title": {
-        "zh-TW": "💡【Erick 專欄】35 歲後的「中年危機」還是「二次覺醒」？",
+        "zh-TW": "【Erick 專欄】35 歲後的「中年危機」還是「二次覺醒」？",
         "en": "[Erick's Column] Facing the 'Midlife Crisis' after 35: Restructure Your Inner System for a Second Awakening"
       },
       "excerpt": {
-        "zh-TW": "探討 35 歲後的職涯與人生卡點，如何用第一性原理與系統性思考重組自我定位與商業抉擇。",
+        "zh-TW": "探討 35 歲後的職涯與人生卡點，如何用系統性思考重組自我定位與商業抉擇。",
         "en": "Exploring career and life bottlenecks after 35, and how to restructure self-positioning and business choices using first principles."
       },
       "publishDate": "2026-06-11",

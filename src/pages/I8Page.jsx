@@ -37,7 +37,7 @@ const I8Page = () => {
       {
         '@type': 'Service',
         '@id': 'https://erickfirm.com/i8#service',
-        name: '初八企業顧問 I8｜企業醫生診斷',
+        name: '初八信息顧問 I8｜企業醫生診斷',
         url: 'https://erickfirm.com/i8',
         serviceType: '企業決策與組織協作診斷',
         provider: { '@id': 'https://erickfirm.com/#erick' },
@@ -46,7 +46,7 @@ const I8Page = () => {
       {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
-        name: '企業醫生診斷｜初八企業顧問 I8',
+        name: '企業醫生診斷｜初八信息顧問 I8',
         url: 'https://erickfirm.com/i8',
         inLanguage: 'zh-Hant',
         about: { '@id': 'https://erickfirm.com/i8#service' },
@@ -58,8 +58,8 @@ const I8Page = () => {
   return (
     <div className="bg-[#F7FAFB] text-slate-900 pt-24 pb-20">
       <SEOHead
-        title="企業醫生診斷｜人力與組織協作卡點 - 初八企業顧問 I8"
-        description="當團隊越來越忙、協作卻越來越慢，問題未必在人不夠。初八企業顧問 I8 從組織協作、決策節奏與經營流程，協助企業主找出最該先處理的結構。"
+        title="企業醫生診斷｜人力與組織協作卡點 - 初八信息顧問 I8"
+        description="當團隊越來越忙、協作卻越來越慢，問題未必在人不夠。初八信息顧問 I8 從組織協作、決策節奏與經營流程，協助企業主找出最該先處理的結構。"
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
@@ -67,7 +67,7 @@ const I8Page = () => {
         <div className="max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#9FDCE2] bg-white px-4 py-2 text-sm font-bold text-[#217987]">
             <img src="/logo-i8.png" alt="" className="h-5 w-5 object-contain" />
-            初八企業顧問 I8｜企業醫生診斷
+            初八信息顧問 I8｜企業醫生診斷
           </div>
           <h1 className="mt-7 max-w-3xl text-4xl md:text-6xl font-bold leading-tight tracking-tight">
             企業最怕的不是問題出現，
