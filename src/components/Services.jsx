@@ -25,18 +25,6 @@ const copy = {
       },
       {
         id: '02',
-        title: '平衡空間 NAS',
-        project: '生命數字教學',
-        audience: '希望看清個人天賦盲區、繪製生命儀表板並釐清合夥關係的個體與創業者',
-        solve: '重大決策反覆遲疑、看不清天賦盲點、人際與合夥溝通高摩擦內耗',
-        method: '生命數字解析 → 天賦資源盤點 → 繪製生命儀表板 → 盲點對位教學',
-        outcome: '看懂自己的生命儀表板，掌握決策與關係的主動權，讓角色合作更流暢',
-        timeline: '1-3 週內繪製專屬生命儀表板並完成核心教學',
-        path: '/insights/life-number',
-        landingPath: '/nas',
-      },
-      {
-        id: '03',
         title: '艾伯林 ABL',
         project: '個人狀態調和與週期支持',
         audience: '面臨意志力過度強撐身心耗盡、焦慮內耗，渴望重塑穩定狀態的高管與創業者',
@@ -46,6 +34,20 @@ const copy = {
         timeline: '2-6 週內完成底層對位與週期支持',
         path: '/insights/personal-growth',
         landingPath: '/abl',
+        logo: '/logo-abl.jpg',
+      },
+      {
+        id: '03',
+        title: '平衡空間 NAS',
+        project: '生命數字教學',
+        audience: '希望看清個人天賦盲區、繪製生命儀表板並釐清合夥關係的個體與創業者',
+        solve: '重大決策反覆遲疑、看不清天賦盲點、人際與合夥溝通高摩擦內耗',
+        method: '生命數字解析 → 天賦資源盤點 → 繪製生命儀表板 → 盲點對位教學',
+        outcome: '看懂自己的生命儀表板，掌握決策與關係的主動權，讓角色合作更流暢',
+        timeline: '1-3 週內繪製專屬生命儀表板並完成核心教學',
+        path: '/insights/life-number',
+        landingPath: '/nas',
+        logo: '/logo-nas.png',
       },
     ],
   },
@@ -70,18 +72,6 @@ const copy = {
       },
       {
         id: '02',
-        title: 'NAS Balanced Space',
-        project: 'Life Numerology Teaching',
-        audience: 'Individuals and partnership teams seeking to discover natural talents and map their decision dashboard',
-        solve: 'Difficulty recognizing talents, decision loops, and communication friction in partnerships',
-        method: 'Numerology analysis ➜ Gift assessment ➜ Life dashboard mapping ➜ Core training',
-        outcome: 'Understand your personal life dashboard, clarify roles, and optimize relationship boundaries',
-        timeline: 'Map personal life dashboard and complete core training in 1-3 weeks',
-        path: '/insights/life-number',
-        landingPath: '/nas',
-      },
-      {
-        id: '03',
         title: 'ABL Personal Alignment',
         project: 'Personal State Harmonization & Cycle Support',
         audience: 'Executives and entrepreneurs seeking to clear internal resistance and receive state alignment',
@@ -91,6 +81,20 @@ const copy = {
         timeline: 'Align core state and set up support loops in 2-6 weeks',
         path: '/insights/personal-growth',
         landingPath: '/abl',
+        logo: '/logo-abl.jpg',
+      },
+      {
+        id: '03',
+        title: 'NAS Balanced Space',
+        project: 'Life Numerology Teaching',
+        audience: 'Individuals and partnership teams seeking to discover natural talents and map their decision dashboard',
+        solve: 'Difficulty recognizing talents, decision loops, and communication friction in partnerships',
+        method: 'Numerology analysis ➜ Gift assessment ➜ Life dashboard mapping ➜ Core training',
+        outcome: 'Understand your personal life dashboard, clarify roles, and optimize relationship boundaries',
+        timeline: 'Map personal life dashboard and complete core training in 1-3 weeks',
+        path: '/insights/life-number',
+        landingPath: '/nas',
+        logo: '/logo-nas.png',
       },
     ],
   },
@@ -123,7 +127,7 @@ const Services = () => {
                   >
                     <div className="w-12 h-12 rounded-xl overflow-hidden bg-white border border-slate-200/60 p-0.5 shadow-sm shrink-0 group-hover:border-accent/70 transition-colors">
                       <img
-                        src={srv.id === '02' ? '/logo-nas.png' : '/logo-abl.jpg'}
+                        src={srv.logo}
                         alt={`${srv.title} Logo`}
                         className="w-full h-full object-contain"
                       />
