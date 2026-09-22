@@ -101,9 +101,9 @@ export const ClosingSection = () => (
       <p className="text-xs tracking-[0.22em] text-slate-500">WRITING AT THE END</p>
       <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-[1.7] text-slate-900">寫在最後</h2>
       <div className="mt-10 text-xl md:text-2xl leading-[1.9] text-slate-800">
-        <p>所以我不太急著給建議。</p>
-        <p className="mt-7">我會先陪你把結構看清楚，<br />不管你是一個人，還是一家公司。</p>
-        <p className="mt-7">因為結構一旦對了，<br />很多你以為要用力才能做到的事，<br />會自己開始動。</p>
+        <p>你來，不是為了再聽更多道理，<br />而是想知道，現在該怎麼辦。</p>
+        <p className="mt-7">不管你是一個人，還是一家公司，<br />我會先陪你看清楚：<br />眼前的問題是什麼，<br />背後反覆出現的模式又是什麼。</p>
+        <p className="mt-7">把真正卡住的位置找出來，<br />才能給你現在最該做的下一步。</p>
       </div>
       <p className="mt-10 text-base text-slate-600">— 艾瑞克 Erick</p>
       <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-10`}>

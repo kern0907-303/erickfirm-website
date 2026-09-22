@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { LINE_CONFIG } from '../lib/constants';
 
 const Hero = () => {
   return (
@@ -23,17 +22,6 @@ const Hero = () => {
             <br />
             那個一直在影響結果的因素。
           </h1>
-          <div>
-            <a
-              href={LINE_CONFIG.LINE_MESSAGE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-slate-900 px-6 py-4 text-white text-sm font-bold transition-colors hover:bg-slate-700"
-            >
-              加 LINE，4 題找出你卡在哪 →
-            </a>
-            <p className="mt-4 text-sm leading-relaxed text-slate-600">免費領取《事情卡住的三種樣子》初步卡點分析</p>
-          </div>
         </motion.div>
       </div>
     </section>
