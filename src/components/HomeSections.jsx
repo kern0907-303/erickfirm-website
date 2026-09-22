@@ -1,5 +1,4 @@
 import React from 'react';
-import { Check } from 'lucide-react';
 import { LINE_CONFIG } from '../lib/constants';
 
 const lineButtonClass = 'inline-flex items-center gap-3 bg-slate-900 px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-slate-700';
@@ -59,23 +58,28 @@ export const StuckTypesSection = () => (
 );
 
 export const AnalysisSection = () => (
-  <section className="bg-slate-900 py-20 text-white md:py-28">
+  <section className="bg-[#ece9e1] py-20 md:py-28">
     <div className="container mx-auto grid max-w-6xl gap-12 px-6 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-      <div className="aspect-[4/5] border border-white/25 bg-slate-800 p-8 flex flex-col justify-end">
-        <p className="text-xs tracking-[0.22em] text-slate-400">ERICK FIRM</p>
-        <p className="mt-4 text-3xl leading-tight">事情卡住的<br />三種樣子</p>
-        <p className="mt-4 text-sm text-slate-400">初步卡點分析</p>
+      <div className="mx-auto w-full max-w-[464px] overflow-hidden border border-slate-300 bg-slate-900 shadow-[0_20px_50px_rgba(31,26,46,0.12)]">
+        <video
+          className="block aspect-[9/16] w-full bg-slate-900"
+          controls
+          playsInline
+          preload="metadata"
+          poster="/media/erick-introduction-poster.jpg"
+        >
+          <source src="/media/erick-introduction.mp4" type="video/mp4" />
+          <track kind="captions" srcLang="zh-Hant" label="繁體中文" src="/media/erick-introduction.vtt" default />
+          你的瀏覽器不支援影片播放。
+        </video>
       </div>
       <div>
-        <h2 className="text-3xl md:text-5xl font-bold leading-tight">想先知道，你卡在哪一種嗎？</h2>
-        <p className="mt-7 text-base md:text-lg leading-loose text-slate-300">加入 LINE，回答 4 個簡單的問題。<br />我會送你一份《事情卡住的三種樣子》初步卡點分析。</p>
-        <ul className="mt-9 space-y-4 text-sm leading-relaxed text-slate-300">
-          {['4 題快速自測，30 秒完成', '你目前比較像哪一種卡住：工作、定位，還是自己', '這一種卡住，通常長什麼樣子', '三條路各自在處理什麼', '你下一步適合先看哪裡'].map((item) => (
-            <li key={item} className="flex gap-3"><Check size={16} className="mt-1 shrink-0 text-white" aria-hidden="true" />{item}</li>
-          ))}
-        </ul>
-        <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-10 bg-white text-slate-900 hover:bg-slate-200`}>
-          加 LINE，領取卡點分析 →
+        <p className="text-xs font-medium tracking-[0.22em] text-slate-500">A NOTE FROM ERICK</p>
+        <h2 className="mt-5 text-3xl md:text-5xl font-bold leading-tight text-slate-900">你不是來聽更多道理的。<br />你是想知道，現在該怎麼辦。</h2>
+        <p className="mt-7 text-base md:text-lg leading-loose text-slate-600">二十年來，我反覆做同一件事：先找出真正影響結果的問題。看清楚卡住的位置，才不會把力氣花在最吵、卻不關鍵的地方。</p>
+        <p className="mt-7 text-base leading-loose text-slate-600">如果這段話剛好說中了你現在的狀態，加入 LINE 回答 4 個問題；我們會先從你目前最值得處理的地方開始。</p>
+        <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-10`}>
+          加 LINE，回答 4 個問題 →
         </a>
       </div>
     </div>

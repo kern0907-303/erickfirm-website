@@ -33,7 +33,7 @@ const ScrollToTop = () => {
     if (pathname === '/') {
       updateMetaTags({
         title: 'Erick Firm｜艾瑞克 - 事情卡住，通常不是因為不夠努力',
-        description: '艾瑞克（Erick），二十年來陪個人與企業看見那個一直在影響結果、卻一直沒被看見的因素。加 LINE 回答 4 題，免費領取《事情卡住的三種樣子》初步卡點分析。',
+        description: '艾瑞克（Erick），二十年來陪個人與企業看見真正影響結果的關鍵因素，從自我理解、個人狀態到企業決策，找到更清楚的下一步。',
         url: 'https://erickfirm.com/'
       });
     }
@@ -41,7 +41,7 @@ const ScrollToTop = () => {
   return null;
 };
 
-const HOME_DESCRIPTION = '艾瑞克（Erick），二十年來陪個人與企業看見那個一直在影響結果、卻一直沒被看見的因素。加 LINE 回答 4 題，免費領取《事情卡住的三種樣子》初步卡點分析。';
+const HOME_DESCRIPTION = '艾瑞克（Erick），二十年來陪個人與企業看見真正影響結果的關鍵因素，從自我理解、個人狀態到企業決策，找到更清楚的下一步。';
 
 // 首頁 9 段：每一個行動都回到官方 LINE。
 const Home = () => (
