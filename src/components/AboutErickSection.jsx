@@ -9,7 +9,7 @@ const AboutErickSection = () => {
           <div className="lg:col-span-5">
             <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-surface border border-slate-200/80 shadow-md group hover:border-accent/40 transition-all duration-300">
               <img
-                src="/erick-portrait-purple.png"
+                src="/erick-portrait-warm-v2.webp"
                 alt="Erick Firm 創辦人 Erick"
                 className="w-full h-full object-cover object-center"
               />
