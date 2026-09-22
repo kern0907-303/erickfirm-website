@@ -58,29 +58,39 @@ export const StuckTypesSection = () => (
 );
 
 export const AnalysisSection = () => (
-  <section className="bg-[#ece9e1] py-20 md:py-28">
-    <div className="container mx-auto grid max-w-6xl gap-12 px-6 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-      <div className="mx-auto w-full max-w-[464px] overflow-hidden border border-slate-300 bg-slate-900 shadow-[0_20px_50px_rgba(31,26,46,0.12)]">
-        <video
-          className="block aspect-[9/16] w-full bg-slate-900"
-          controls
-          playsInline
-          preload="metadata"
-          poster="/media/erick-introduction-poster.jpg"
-        >
-          <source src="/media/erick-introduction.mp4" type="video/mp4" />
-          <track kind="captions" srcLang="zh-Hant" label="繁體中文" src="/media/erick-introduction.vtt" default />
-          你的瀏覽器不支援影片播放。
-        </video>
-      </div>
-      <div>
-        <p className="text-xs font-medium tracking-[0.22em] text-slate-500">A NOTE FROM ERICK</p>
-        <h2 className="mt-5 text-3xl md:text-5xl font-bold leading-tight text-slate-900">你不是來聽更多道理的。<br />你是想知道，現在該怎麼辦。</h2>
-        <p className="mt-7 text-base md:text-lg leading-loose text-slate-600">二十年來，我反覆做同一件事：先找出真正影響結果的問題。看清楚卡住的位置，才不會把力氣花在最吵、卻不關鍵的地方。</p>
-        <p className="mt-7 text-base leading-loose text-slate-600">如果這段話剛好說中了你現在的狀態，加入 LINE 回答 4 個問題；我們會先從你目前最值得處理的地方開始。</p>
-        <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-10`}>
-          加 LINE，回答 4 個問題 →
-        </a>
+  <section className="bg-[#ece9e1] py-16 md:py-24">
+    <div className="container mx-auto grid max-w-5xl gap-x-14 gap-y-9 px-6 md:grid-cols-[360px_minmax(0,1fr)] md:items-center">
+      <figure className="order-2 mx-auto w-full max-w-[260px] sm:max-w-[300px] md:order-1 md:max-w-[360px]">
+        <div className="overflow-hidden rounded-[1.5rem] border border-slate-300 bg-slate-900 shadow-[0_18px_45px_rgba(31,26,46,0.14)]">
+          <video
+            className="block aspect-[9/16] w-full bg-slate-900"
+            controls
+            playsInline
+            preload="metadata"
+            poster="/media/erick-introduction-poster.jpg"
+            aria-label="艾瑞克談如何找出真正影響結果的問題"
+          >
+            <source src="/media/erick-introduction.mp4" type="video/mp4" />
+            <track kind="captions" srcLang="zh-Hant" label="繁體中文" src="/media/erick-introduction.vtt" default />
+            你的瀏覽器不支援影片播放。
+          </video>
+        </div>
+        <figcaption className="mt-3 text-center text-xs tracking-[0.12em] text-slate-500">46 秒｜開啟聲音播放</figcaption>
+      </figure>
+      <div className="contents md:order-2 md:block">
+        <div className="order-1">
+          <p className="text-xs font-medium tracking-[0.22em] text-slate-500">A NOTE FROM ERICK</p>
+          <h2 className="mt-5 text-3xl md:text-5xl font-bold leading-tight text-slate-900">你不是來聽更多道理的。<br />你是想知道，現在該怎麼辦。</h2>
+          <p className="mt-7 text-base md:text-lg leading-loose text-slate-600">二十年來，我反覆做同一件事：先找出真正影響結果的問題。看清楚卡住的位置，才不會把力氣花在最吵、卻不關鍵的地方。</p>
+        </div>
+        <div className="order-3 md:mt-8">
+          <p className="text-base leading-loose text-slate-600">如果這段話剛好說中了你現在的狀態，加入 LINE 回答 4 個問題；我們會先從你目前最值得處理的地方開始。</p>
+          <div className="hidden md:block">
+            <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-8`}>
+              加 LINE，回答 4 個問題 →
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
