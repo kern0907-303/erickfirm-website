@@ -15,3 +15,91 @@
     @apply font-display text-primary font-medium;
   }
 }
+
+@layer components {
+  .erick-hero {
+    isolation: isolate;
+    background:
+      radial-gradient(circle at 25% 25%, rgba(188, 220, 211, 0.46), transparent 43%),
+      radial-gradient(circle at 78% 76%, rgba(184, 201, 231, 0.42), transparent 46%),
+      radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.82), transparent 55%),
+      #f7f6f2;
+  }
+
+  .erick-hero__glow {
+    position: absolute;
+    width: min(58vw, 760px);
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    filter: blur(58px);
+    opacity: 0.52;
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  .erick-hero__glow--one {
+    top: -28%;
+    left: -12%;
+    background: rgba(129, 190, 178, 0.82);
+    animation: erick-breathe-one 15s ease-in-out infinite alternate;
+  }
+
+  .erick-hero__glow--two {
+    right: -13%;
+    bottom: -38%;
+    background: rgba(137, 165, 215, 0.82);
+    animation: erick-breathe-two 17s ease-in-out infinite alternate;
+  }
+
+  .erick-hero__glow--three {
+    top: 20%;
+    left: 42%;
+    width: min(40vw, 520px);
+    background: rgba(221, 190, 137, 0.68);
+    animation: erick-breathe-three 13s ease-in-out infinite alternate;
+  }
+
+  .erick-scroll-line {
+    transform-origin: top;
+    animation: erick-scroll-line 2.3s ease-in-out infinite;
+  }
+}
+
+@keyframes erick-breathe-one {
+  from { transform: translate3d(-2%, -1%, 0) scale(0.94); }
+  to { transform: translate3d(9%, 7%, 0) scale(1.08); }
+}
+
+@keyframes erick-breathe-two {
+  from { transform: translate3d(2%, 2%, 0) scale(0.96); }
+  to { transform: translate3d(-9%, -7%, 0) scale(1.08); }
+}
+
+@keyframes erick-breathe-three {
+  from { transform: translate3d(-5%, 7%, 0) scale(0.9); }
+  to { transform: translate3d(7%, -5%, 0) scale(1.06); }
+}
+
+@keyframes erick-scroll-line {
+  0%, 100% { transform: scaleY(0.35); opacity: 0.4; }
+  50% { transform: scaleY(1); opacity: 0.9; }
+}
+
+@media (max-width: 640px) {
+  .erick-hero__glow {
+    width: 90vw;
+    filter: blur(46px);
+    opacity: 0.43;
+  }
+
+  .erick-hero__glow--one { top: -8%; left: -44%; }
+  .erick-hero__glow--two { right: -45%; bottom: -10%; }
+  .erick-hero__glow--three { top: 36%; left: 18%; width: 72vw; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .erick-hero__glow,
+  .erick-scroll-line {
+    animation: none;
+  }
+}

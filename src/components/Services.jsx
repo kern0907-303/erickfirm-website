@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import Reveal from './Reveal';
 const services = [
   {
     title: '初八信息顧問 I8',
@@ -25,17 +27,32 @@ const services = [
 ];
 
 const Services = () => {
+  const reduceMotion = useReducedMotion();
+  const container = {
+    hidden: {},
+    visible: { transition: { staggerChildren: reduceMotion ? 0 : 0.1 } },
+  };
+  const item = reduceMotion
+    ? { hidden: {}, visible: {} }
+    : { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.72, ease: [0.22, 1, 0.36, 1] } } };
+
   return (
-    <section id="services" className="bg-[#f7f6f2] py-20 md:py-28">
+    <section id="services" className="bg-[#f3f4f1] py-20 md:py-28">
       <div className="container mx-auto max-w-7xl px-6">
-        <div className="max-w-2xl mb-14">
+        <Reveal className="mb-14 max-w-2xl">
           <p className="text-xs tracking-[0.22em] text-slate-500 mb-5">THREE WAYS</p>
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight">三條路，看的是同一件事</h2>
           <p className="mt-7 text-base md:text-lg leading-loose text-slate-600">我把這二十年的方法，整理成三條路。<br />你不需要全部走，只需要先走對的那一條。</p>
-        </div>
-        <div className="grid gap-px overflow-hidden border border-slate-300 bg-slate-300 md:grid-cols-3">
+        </Reveal>
+        <motion.div
+          className="grid gap-px overflow-hidden border border-slate-300 bg-slate-300 md:grid-cols-3"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.12 }}
+        >
           {services.map((service) => (
-            <article key={service.title} className="bg-white p-7 md:p-9">
+            <motion.article key={service.title} variants={item} className="bg-white p-7 md:p-9">
               <p className="text-xl font-bold text-slate-900">{service.title}</p>
               {service.summary && <p className="mt-3 text-sm leading-relaxed text-slate-600">{service.summary}</p>}
               <p className="mt-5 inline-block border border-slate-300 px-3 py-1 text-xs text-slate-600">{service.label}</p>
@@ -44,9 +61,9 @@ const Services = () => {
                 <p><span className="block mb-1 font-bold text-slate-900">我怎麼看</span>{service.perspective}</p>
                 <p><span className="block mb-1 font-bold text-slate-900">大概怎麼進行</span>{service.process}</p>
               </div>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

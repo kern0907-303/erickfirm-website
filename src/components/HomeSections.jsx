@@ -1,35 +1,39 @@
 import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { LINE_CONFIG } from '../lib/constants';
+import Reveal from './Reveal';
 
 const lineButtonClass = 'inline-flex items-center gap-3 bg-slate-900 px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-slate-700';
 
 export const PhilosophySection = () => (
-  <section className="bg-white py-20 md:py-28">
+  <section className="bg-[#fbfaf7] py-20 md:py-28">
     <div className="container mx-auto max-w-3xl px-6">
-      <div className="border-l border-slate-300 pl-6 md:pl-10 text-xl md:text-3xl leading-[1.9] text-slate-800">
+      <Reveal className="border-l border-slate-300 pl-6 text-xl leading-[1.9] text-slate-800 md:pl-10 md:text-3xl">
         <p>二十年來，<br />我在三個很不一樣的地方，做同一件事。</p>
         <p className="mt-8">一個人對自己的理解。<br />一個人的狀態。<br />一間公司的決策。</p>
         <p className="mt-8">方法不同，<br />要找的東西是同一個——<br />那個一直在影響結果，卻一直沒被看見的因素。</p>
-      </div>
+      </Reveal>
     </div>
   </section>
 );
 
 export const WhyStuckSection = () => (
-  <section className="bg-[#f7f6f2] py-20 md:py-28">
+  <section className="bg-[#eef1ef] py-20 md:py-28">
     <div className="container mx-auto max-w-6xl px-6">
-      <div className="max-w-3xl">
+      <Reveal className="max-w-3xl">
         <p className="text-xs tracking-[0.22em] text-slate-500 mb-5">WHY WE GET STUCK</p>
         <p className="text-2xl md:text-4xl leading-[1.7] text-slate-900">再試一次。再撐一下。再多做一點。</p>
         <p className="mt-8 text-base md:text-lg leading-loose text-slate-600">多數人卡住的時候，第一個反應都是更用力。<br />但我看了二十年，很少有人是輸在不夠用力。</p>
         <p className="mt-7 text-base md:text-lg leading-loose text-slate-600">問題通常不在被討論的那一層。</p>
-      </div>
-      <div className="mt-14 grid border-y border-slate-300 md:grid-cols-3">
+      </Reveal>
+      <Reveal delay={0.08} className="mt-14 grid border-y border-slate-300 md:grid-cols-3">
         <p className="py-7 pr-0 text-base leading-loose text-slate-700 md:pr-8">公司說是行銷不夠，其實是交付卡住。</p>
         <p className="border-t border-slate-300 py-7 text-base leading-loose text-slate-700 md:border-l md:border-t-0 md:px-8">一個人說自己不夠自律，其實是他的節奏從來沒有被好好安排過。</p>
         <p className="border-t border-slate-300 py-7 pl-0 text-base leading-loose text-slate-700 md:border-l md:border-t-0 md:pl-8">一段合作說是溝通問題，其實是兩個人用完全不同的方式，在理解同一件事。</p>
-      </div>
-      <p className="mt-12 text-xl md:text-3xl leading-relaxed text-slate-900">最吵的那個問題，<br />通常不是最關鍵的那一個。</p>
+      </Reveal>
+      <Reveal delay={0.12}>
+        <p className="mt-12 text-xl leading-relaxed text-slate-900 md:text-3xl">最吵的那個問題，<br />通常不是最關鍵的那一個。</p>
+      </Reveal>
     </div>
   </section>
 );
@@ -40,27 +44,45 @@ const stuckTypes = [
   ['自己卡住', '你一直是那個撐住的人。\n撐著工作、撐著家人，也撐著所有人的情緒。\n等到終於有時間留給自己，卻發現——\n已經不知道怎麼回到自己了。'],
 ];
 
-export const StuckTypesSection = () => (
-  <section className="bg-white py-20 md:py-28">
-    <div className="container mx-auto max-w-7xl px-6">
-      <h2 className="text-3xl md:text-5xl font-bold leading-tight text-slate-900">事情卡住，大概有三種樣子</h2>
-      <div className="mt-12 grid gap-px overflow-hidden border border-slate-300 bg-slate-300 md:grid-cols-3">
+export const StuckTypesSection = () => {
+  const reduceMotion = useReducedMotion();
+  const container = {
+    hidden: {},
+    visible: { transition: { staggerChildren: reduceMotion ? 0 : 0.1 } },
+  };
+  const item = reduceMotion
+    ? { hidden: {}, visible: {} }
+    : { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } };
+
+  return (
+    <section className="bg-white py-20 md:py-28">
+      <div className="container mx-auto max-w-7xl px-6">
+        <Reveal><h2 className="text-3xl font-bold leading-tight text-slate-900 md:text-5xl">事情卡住，大概有三種樣子</h2></Reveal>
+        <motion.div
+          className="mt-12 grid gap-px overflow-hidden border border-slate-300 bg-slate-300 md:grid-cols-3"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.18 }}
+        >
         {stuckTypes.map(([title, body]) => (
-          <article key={title} className="min-h-[250px] bg-white p-7 md:p-9">
+          <motion.article key={title} variants={item} className="min-h-[250px] bg-white p-7 md:p-9">
             <h3 className="text-xl font-bold text-slate-900">{title}</h3>
             <p className="mt-7 whitespace-pre-line text-base leading-loose text-slate-600">{body}</p>
-          </article>
+          </motion.article>
         ))}
+        </motion.div>
+        <Reveal delay={0.1}><p className="mt-10 text-base leading-loose text-slate-600">你可能是其中一種，也可能三種都有一點。<br />先別急著判斷，往下看。</p></Reveal>
       </div>
-      <p className="mt-10 text-base leading-loose text-slate-600">你可能是其中一種，也可能三種都有一點。<br />先別急著判斷，往下看。</p>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export const AnalysisSection = () => (
   <section className="bg-[#ece9e1] py-16 md:py-24">
     <div className="container mx-auto grid max-w-5xl gap-x-14 gap-y-9 px-6 md:grid-cols-[360px_minmax(0,1fr)] md:items-center">
-      <figure className="order-2 mx-auto w-full max-w-[260px] sm:max-w-[300px] md:order-1 md:max-w-[360px]">
+      <Reveal direction="left" className="order-2 mx-auto w-full max-w-[260px] sm:max-w-[300px] md:order-1 md:max-w-[360px]">
+      <figure>
         <div className="overflow-hidden rounded-[1.5rem] border border-slate-300 bg-slate-900 shadow-[0_18px_45px_rgba(31,26,46,0.14)]">
           <video
             className="block aspect-[9/16] w-full bg-slate-900"
@@ -77,20 +99,21 @@ export const AnalysisSection = () => (
         </div>
         <figcaption className="mt-3 text-center text-xs tracking-[0.12em] text-slate-500">46 秒｜開啟聲音播放</figcaption>
       </figure>
+      </Reveal>
       <div className="contents md:order-2 md:block">
-        <div className="order-1">
+        <Reveal direction="right" className="order-1">
           <p className="text-xs font-medium tracking-[0.22em] text-slate-500">A NOTE FROM ERICK</p>
           <h2 className="mt-5 text-3xl md:text-5xl font-bold leading-tight text-slate-900">你不是來聽更多道理的。<br />你是想知道，現在該怎麼辦。</h2>
           <p className="mt-7 text-base md:text-lg leading-loose text-slate-600">二十年來，我反覆做同一件事：先找出真正影響結果的問題。看清楚卡住的位置，才不會把力氣花在最吵、卻不關鍵的地方。</p>
-        </div>
-        <div className="order-3 md:mt-8">
+        </Reveal>
+        <Reveal direction="right" delay={0.1} className="order-3 md:mt-8">
           <p className="text-base leading-loose text-slate-600">如果這段話剛好說中了你現在的狀態，加入 LINE 回答 4 個問題；我們會先從你目前最值得處理的地方開始。</p>
           <div className="hidden md:block">
             <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-8`}>
               加 LINE，回答 4 個問題 →
             </a>
           </div>
-        </div>
+        </Reveal>
       </div>
     </div>
   </section>
@@ -99,12 +122,14 @@ export const AnalysisSection = () => (
 export const ClaritySection = () => (
   <section className="bg-white py-20 md:py-28">
     <div className="container mx-auto max-w-3xl px-6">
+      <Reveal>
       <h2 className="text-3xl md:text-4xl font-bold text-slate-900">先說清楚的幾件事</h2>
       <div className="mt-9 space-y-7 text-sm md:text-base leading-loose text-slate-600">
         <p>我不做醫療診斷，也不取代醫師或心理治療。<br />如果你正在接受治療，請繼續和你的醫師合作。</p>
         <p>我不保證結果。<br />我能做的，是陪你看清楚，然後一起找出下一步。</p>
         <p>如果我判斷你現在需要的不是我，<br />我會直接告訴你。</p>
       </div>
+      </Reveal>
     </div>
   </section>
 );
@@ -112,6 +137,7 @@ export const ClaritySection = () => (
 export const ClosingSection = () => (
   <section className="bg-[#f7f6f2] py-20 md:py-28">
     <div className="container mx-auto max-w-3xl px-6">
+      <Reveal>
       <p className="text-xs tracking-[0.22em] text-slate-500">WRITING AT THE END</p>
       <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-[1.7] text-slate-900">寫在最後</h2>
       <div className="mt-10 text-xl md:text-2xl leading-[1.9] text-slate-800">
@@ -123,6 +149,7 @@ export const ClosingSection = () => (
       <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-10`}>
         加 LINE，4 題找出你卡在哪 →
       </a>
+      </Reveal>
     </div>
   </section>
 );

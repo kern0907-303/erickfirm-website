@@ -75,7 +75,7 @@ const AblPage = () => {
         provider: {
           '@type': 'Person',
           '@id': 'https://erickfirm.com/#erick',
-          name: '奧斯學長',
+          name: '艾瑞克',
           alternateName: ['Erick'],
           jobTitle: '個人狀態顧問 / TimeWaver 系統分析專家',
           url: 'https://erickfirm.com',
@@ -333,7 +333,7 @@ const AblPage = () => {
               </div>
               <h4 className="text-base font-bold text-slate-900 mb-1.5">第二步 · 看清生命盲區</h4>
               <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                奧斯學長在 Google Meet 視訊中為你拆解報表，釐清卡點背後的決策慣性。
+                艾瑞克在 Google Meet 視訊中為你拆解報表，釐清卡點背後的決策慣性。
               </p>
             </div>
 

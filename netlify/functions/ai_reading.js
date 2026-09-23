@@ -77,7 +77,7 @@ exports.handler = async (event) => {
       return resp(200, {
         ok: true,
         parsed: parsed,
-        raw_result: `主命數 ${solarResult.main}, ${lunarResult.main}\n靈魂等級陽曆 ${solarResult.soul}\n靈魂等級陰曆 ${lunarResult.soul}\n`,
+        raw_result: `主命數 ${solarResult.main}, ${lunarResult.main}\n生命功課等級陽曆 ${solarResult.soul}\n生命功課等級陰曆 ${lunarResult.soul}\n`,
         overall_percent: ov.percent,
         overall_icon: ov.emoji,
         overall_label: ov.label,

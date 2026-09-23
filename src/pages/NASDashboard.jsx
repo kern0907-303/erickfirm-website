@@ -56,7 +56,7 @@ const FEATURES = [
   { name: '主命數、先天數、後天數', free: true, paid: true },
   { name: '陽曆／陰曆雙盤對照', free: true, paid: true },
   { name: '強數與缺數', free: true, paid: true },
-  { name: '靈魂等級', free: false, paid: true },
+  { name: '生命功課等級', free: false, paid: true },
   { name: '流年 · 流月 · 流日', free: false, paid: true },
   { name: '加入家人、伴侶、同事的盤', free: false, paid: true },
   { name: '關係對照與互動判讀', free: false, paid: true },
@@ -322,7 +322,7 @@ const NASDashboard = () => {
         </p>
         <ul className="text-[#55506B] leading-loose space-y-1 mb-3 list-disc pl-5">
           <li>先天數、後天數、強數與缺數</li>
-          <li>靈魂等級</li>
+          <li>生命功課等級</li>
           <li>流年、流月、流日</li>
           <li>加入家人、伴侶、同事的生日，把兩個人的盤放在一起看</li>
         </ul>

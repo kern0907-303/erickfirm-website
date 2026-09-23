@@ -8,7 +8,7 @@ import NASMark from '../components/NASMark';
 const API_URL = '/.netlify/functions/ai_reading';
 
 /**
- * 靈魂等級——依先天數、後天數、主命數的有無判定，共七級。
+ * 生命功課等級——依先天數、後天數、主命數的有無判定，共七級。
  * 對外語言刻意只保留「學生階段」這個比喻與行為描述：
  * 原始資料裡的前世／乘願／年齡斷言都不放上公開頁面。
  * 級數不是分數，這件事必須跟著一起出現，否則一定被誤讀成分數高低。
@@ -118,8 +118,8 @@ const NASCalculator = () => {
     let soulLine = null;
     if (ss && ls) {
       soulLine = ss.n === ls.n
-        ? `靈魂等級兩邊都是 ${ss.n} 級，都在${ss.stage}這個階段的功課上。`
-        : `靈魂等級也不同：對外像個${ss.stage}，內在還是個${ls.stage}。`;
+        ? `生命功課等級兩邊都是 ${ss.n} 級，都在${ss.stage}這個階段的功課上。`
+        : `生命功課等級也不同：對外像個${ss.stage}，內在還是個${ls.stage}。`;
     }
 
     const closing = same && ss && ls && ss.n === ls.n
@@ -233,7 +233,7 @@ const NASCalculator = () => {
                     </p>
                   )}
 
-                  <p className="text-sm text-[#6E6885] mb-1">靈魂等級</p>
+                  <p className="text-sm text-[#6E6885] mb-1">生命功課等級</p>
                   {t.s ? (
                     <>
                       <p className="text-lg font-semibold mb-1">
@@ -325,10 +325,10 @@ const NASCalculator = () => {
           </p>
           <ul className="text-[#55506B] leading-loose space-y-2 mb-6 list-disc pl-5">
             <li><strong>陰曆盤</strong>——陽曆描述你對外的展現與思考方式，陰曆描述你內在的感受與真正的需求。兩邊不一致的地方，通常就是卡住的地方。</li>
-            <li><strong>靈魂等級</strong>——依先天數、後天數與主命數的有無判定，描述的是你目前在處理哪個階段的功課。</li>
+            <li><strong>生命功課等級</strong>——依先天數、後天數與主命數的有無判定，描述的是你目前在處理哪個階段的功課。</li>
           </ul>
 
-          <h3 className="font-bold mb-3 mt-10">靈魂等級的七個階段</h3>
+          <h3 className="font-bold mb-3 mt-10">生命功課等級的七個階段</h3>
           <p className="text-[#55506B] leading-loose mb-5">
             用求學階段來比喻最好懂。
             <strong className="text-[#1F1A2E]">級數不是分數，七級不比一級好</strong>——
