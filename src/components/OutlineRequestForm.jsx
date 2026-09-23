@@ -6,6 +6,8 @@ const INITIAL_FORM = { name: '', email: '', completed: '' };
 const OutlineRequestForm = ({ formName, title, description, downloadHref, fields = 'course' }) => {
   const [form, setForm] = useState(INITIAL_FORM);
   const [status, setStatus] = useState('idle');
+  const webhookUrl = import.meta.env.VITE_FORM_WEBHOOK_URL;
+  const webhookForm = fields === 'consultant' ? 'consultant_details' : 'course_outline';
 
   const updateField = (field, value) => {
     setStatus('idle');
@@ -14,25 +16,47 @@ const OutlineRequestForm = ({ formName, title, description, downloadHref, fields
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const website = event.currentTarget.elements.website.value;
+    const email = form.email.trim();
+    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (website) {
+      console.warn('Outline request skipped: honeypot field was filled.');
+      setStatus('fallback');
+      return;
+    }
+    if (!form.name.trim() || !validEmail || (fields === 'consultant' && !form.completed)) {
+      setStatus('invalid');
+      return;
+    }
+
     setStatus('submitting');
-    const data = new URLSearchParams({
-      'form-name': formName,
-      name: form.name,
-      email: form.email,
-      ...(fields === 'consultant' ? { completed: form.completed } : {}),
-    });
+    const payload = {
+      form: webhookForm,
+      name: form.name.trim(),
+      email,
+      ...(fields === 'consultant' ? { completed_main_course: form.completed === 'yes' } : {}),
+      source_path: typeof window !== 'undefined' ? window.location.pathname : '',
+      submitted_at: new Date().toISOString(),
+    };
 
     try {
-      const response = await fetch('/', {
+      if (!webhookUrl) {
+        console.warn('Outline request webhook is not configured; using PDF fallback.');
+        setStatus('fallback');
+        return;
+      }
+
+      const response = await fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: data.toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
-      if (!response.ok) throw new Error(`Form submission failed: ${response.status}`);
+      if (!response.ok) throw new Error(`Webhook request failed: ${response.status}`);
       setStatus('success');
     } catch (error) {
-      console.error(error);
-      setStatus('error');
+      console.warn('Outline request webhook failed; using PDF fallback.', error);
+      setStatus('fallback');
     }
   };
 
@@ -46,9 +70,10 @@ const OutlineRequestForm = ({ formName, title, description, downloadHref, fields
           <a href={downloadHref} download rel="nofollow" className="font-bold text-[#5B3A9E] underline underline-offset-4">下載 PDF</a>
         </div>
       ) : (
-        <form name={formName} data-netlify="true" onSubmit={handleSubmit} className="space-y-4">
-          <input type="hidden" name="form-name" value={formName} />
-          <p className="hidden"><label>不要填這一欄：<input name="bot-field" /></label></p>
+        <form name={formName} onSubmit={handleSubmit} className="space-y-4">
+          <label className="hidden">網站
+            <input name="website" tabIndex="-1" autoComplete="off" />
+          </label>
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block text-sm font-medium text-[#1F1A2E]">
               姓名
@@ -69,7 +94,8 @@ const OutlineRequestForm = ({ formName, title, description, downloadHref, fields
               </select>
             </label>
           )}
-          {status === 'error' && <p className="text-sm leading-relaxed text-[#9B3C3C]" role="alert">送出時遇到問題，請稍後再試；你也可以直接下載目前的佔位檔。</p>}
+          {status === 'invalid' && <p className="text-sm leading-relaxed text-[#9B3C3C]" role="alert">請填寫姓名、有效的 Email，並完成必要選項。</p>}
+          {(status === 'fallback') && <p className="text-sm leading-relaxed text-[#55506B]" role="status">若未收到信件請直接下載目前的 PDF。</p>}
           <button type="submit" disabled={status === 'submitting'} className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-6 py-3 font-medium text-white transition hover:bg-[#472D7D] disabled:cursor-wait disabled:opacity-60">
             {status === 'submitting' ? '送出中…' : '送出並取得 PDF'}<ArrowRight size={16} />
           </button>
