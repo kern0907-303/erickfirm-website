@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import NASMark from '../components/NASMark';
 import { LINE_CONFIG } from '../lib/constants';
@@ -73,15 +73,6 @@ const COURSE_PRICES = [
   { name: '自學', content: '主課 36 單元', price: 'NT$9,800', cta: '詢問自學方案' },
   { name: '陪跑', content: '主課＋實踐營一梯', price: 'NT$14,800', cta: '詢問陪跑方案', recommended: true },
   { name: '深度', content: '主課＋實踐營＋艾瑞克一對一 60 分鐘', price: 'NT$19,800', note: '每梯限 5 名', cta: '詢問深度方案' },
-];
-
-const CONSULTANT_WEEKS = [
-  ['1', '讀盤：陌生人的盤', '30 分鐘內講出一個人的主線'],
-  ['2', '問診：他說的問題不是真正的問題', '提問，找到真正的卡點'],
-  ['3', '說法：同一個結論七種講法', '依生命功課等級調整說法＋語言紅線'],
-  ['4', '兩個人的盤：感情解碼程序', '伴侶、親子、合夥的雙人解讀'],
-  ['5', '時間盤：幫別人排節奏', '流年與關鍵期的安排，不預測後果'],
-  ['6', '開業：把解盤變成一個服務', '服務流程、報告格式、定價、第一批個案（從身邊的人開始）；會員四項工具怎麼用'],
 ];
 
 const lineCta = (label, className = '') => (
@@ -185,59 +176,13 @@ const NASCourse = () => (
       </div>
     </section>
 
-    <section className="bg-[#F7F5FC] px-6 py-16">
-      <div className="mx-auto max-w-3xl">
-        <h2 className="mb-5 text-2xl font-bold">課程之後，不是再買一門課</h2>
-        <p className="mb-4 leading-loose text-[#55506B]">主課把看懂自己的方法完整交給你。之後需要的是把這套方法放進生活裡，持續讀數字每曆、觀察自己的節奏。</p>
-        <div className="rounded-2xl border border-[#E7E3F0] bg-white p-6">
-          <p className="mb-2 text-sm text-[#6E6885]">如果你想學會幫別人看</p>
-          <p className="leading-loose text-[#55506B]">顧問班是分流／轉職的另一條路：主課是看懂自己，顧問班是學會幫別人看。完成主課後，再依自己的時間與方向登記。</p>
-        </div>
-      </div>
-    </section>
-
     <section className="px-6 py-16">
-      <div className="mx-auto max-w-4xl">
-        <div className="max-w-3xl">
-          <p className="mb-3 text-xs tracking-[0.2em] text-[#918BA6]">分流／轉職</p>
-          <h2 className="mb-5 text-2xl font-bold md:text-3xl">生命數字顧問班</h2>
-          <p className="mb-4 leading-loose text-[#55506B]">主課是看懂自己，顧問班是學會幫別人看。形式為 6 週直播，第一屆預計 2027 年 6–7 月開班。</p>
-          <p className="mb-7 leading-loose text-[#55506B]">學費 <strong>NT$32,000</strong>，含第一年顧問會員（價值 NT$12,000）。學費不變，多送一整年會員，將近學費的四成。</p>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-2">
-          <div className="rounded-2xl border border-[#E7E3F0] p-6">
-            <h3 className="mb-4 font-bold">入學與結業</h3>
-            <ul className="space-y-3 text-sm leading-relaxed text-[#55506B]">
-              <li className="flex gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#5B3A9E]" />完成主課，並在登記時交一份「幫身邊一個人看盤」的作業。</li>
-              <li className="flex gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#5B3A9E]" />結業後交 3 份真實個案（錄音＋報告），審核通過才發認證。</li>
-              <li className="flex gap-2"><Check size={16} className="mt-0.5 shrink-0 text-[#5B3A9E]" />報名方式：意向登記制，不放直接付款。</li>
-            </ul>
-          </div>
-          <div className="rounded-2xl border border-[#E7E3F0] p-6">
-            <h3 className="mb-4 font-bold">顧問會員</h3>
-            <p className="text-sm leading-relaxed text-[#55506B]">第二年起年費 NT$12,000（約每月 1,000）。</p>
-            <p className="mt-3 text-sm leading-relaxed text-[#55506B]">會員內容：每月個案督導、每季深化課、認證顧問名錄刊登、公開解盤夜上台資格、數字每曆顧問專屬連結、內容工具。</p>
-          </div>
-        </div>
-
-        <div className="mt-5 overflow-hidden rounded-2xl border border-[#E7E3F0]">
-          <div className="border-b border-[#E7E3F0] bg-[#F7F5FC] px-5 py-4 font-bold">六週主題與學員帶走的能力</div>
-          <div className="divide-y divide-[#F0EDF7]">
-            {CONSULTANT_WEEKS.map(([week, topic, ability]) => (
-              <div key={week} className="grid gap-2 px-5 py-4 text-sm sm:grid-cols-[48px_1fr_1.2fr]">
-                <span className="font-semibold tabular-nums text-[#A8883F]">第 {week} 週</span>
-                <span className="font-medium text-[#1F1A2E]">{topic}</span>
-                <span className="leading-relaxed text-[#55506B]">{ability}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-          {lineCta('意向登記（加 LINE）')}
-          <span className="text-xs text-[#918BA6]">第一屆預計 2027 年 6–7 月開班</span>
-        </div>
+      <div className="mx-auto max-w-3xl rounded-2xl border border-[#E7E3F0] bg-[#F7F5FC] p-7 md:p-9">
+        <p className="mb-3 text-xs tracking-[0.2em] text-[#918BA6]">分流／轉職</p>
+        <h2 className="mb-5 text-2xl font-bold md:text-3xl">生命數字顧問班</h2>
+        <p className="mb-4 leading-loose text-[#55506B]">主課是看懂自己，顧問班是學會幫別人看。兩者是分流，不是深淺。</p>
+        <p className="mb-7 leading-loose text-[#55506B]">學費 <strong>NT$32,000</strong>，含第一年顧問會員（價值 NT$12,000）。第一屆預計 2027 年 6–7 月開班。</p>
+        <Link to="/nas/consultant" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-7 py-4 font-medium text-white transition hover:bg-[#472D7D]">了解顧問班<ArrowRight size={16} /></Link>
       </div>
     </section>
 

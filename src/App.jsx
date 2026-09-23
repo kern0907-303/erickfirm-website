@@ -19,6 +19,7 @@ import PostDetail from './pages/PostDetail';
 import NAS from './pages/NAS';
 import NASCalculator from './pages/NASCalculator';
 import NASCourse from './pages/NASCourse';
+import NASConsultant from './pages/NASConsultant';
 import NASDashboard from './pages/NASDashboard';
 import AblPage from './pages/AblPage';
 import I8Page from './pages/I8Page';
@@ -159,6 +160,7 @@ function App() {
           <Route path="/nas/calculator" element={<NASCalculator />} />
           <Route path="/nas/meili" element={<NASDashboard />} />
           <Route path="/nas/course" element={<NASCourse />} />
+          <Route path="/nas/consultant" element={<NASConsultant />} />
           <Route path="/abl" element={<AblPage />} />
           <Route path="/i8" element={<I8Page />} />
 
