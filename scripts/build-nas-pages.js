@@ -81,7 +81,7 @@ const COURSE_BODY = [
   ...FEATURED_UNITS.flatMap(([title, description]) => [h3(title), p(description)]),
   h2('索取完整課綱'),
   p('完整 36 堂課綱與時長，填寫姓名與 Email 後取得 PDF。總長約 9 小時 20 分，每堂不到 20 分鐘。'),
-  a('/downloads/nas-course-outline-placeholder.pdf', '下載目前的課綱 PDF 佔位檔', 'rel="nofollow"'),
+  a('/downloads/nas-course-outline.pdf', '下載完整課綱 PDF', 'rel="nofollow"'),
   h2('主課方案'),
   p('同一套系統，過去實體三階共 48 小時、NT$54,000；現在核心濃縮成 36 單元錄播，NT$9,800。'),
   p('不到兩次一對一解盤的價錢，學會自己看一輩子。'),
@@ -125,7 +125,7 @@ const CONSULTANT_BODY = [
   p('一套可以重複使用的解盤流程；一組讓你不踩線的說話原則；一份可以直接對外收費的服務設計。'),
   h2('索取顧問班詳細說明'),
   p('填寫姓名、Email 與主課完成狀態，取得顧問班詳細版 PDF。'),
-  a('/downloads/nas-consultant-details-placeholder.pdf', '下載目前的詳細說明 PDF 佔位檔', 'rel="nofollow"'),
+  a('/downloads/nas-consultant-details.pdf', '下載顧問班詳細說明 PDF', 'rel="nofollow"'),
   h2('結業認證，怎麼取得？'),
   ul([
     '結業後依課程要求完成個案報告，由艾瑞克審核。',

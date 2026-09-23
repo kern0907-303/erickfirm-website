@@ -99,7 +99,7 @@ const OutlineRequestForm = ({ formName, title, description, downloadHref, fields
           <button type="submit" disabled={status === 'submitting'} className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-6 py-3 font-medium text-white transition hover:bg-[#472D7D] disabled:cursor-wait disabled:opacity-60">
             {status === 'submitting' ? '送出中…' : '送出並取得 PDF'}<ArrowRight size={16} />
           </button>
-          <a href={downloadHref} download rel="nofollow" className="block text-center text-xs text-[#918BA6] underline underline-offset-4">先下載目前的佔位檔</a>
+          <a href={downloadHref} download rel="nofollow" className="block text-center text-xs text-[#918BA6] underline underline-offset-4">先直接下載 PDF</a>
         </form>
       )}
     </div>

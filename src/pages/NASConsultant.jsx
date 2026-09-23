@@ -132,7 +132,7 @@ const NASConsultant = () => (
             <p className="leading-loose text-[#55506B]">目前採意向登記制，第一屆限收 10 人，不設直接付款。送出資料後，會依登記順序與入學作業安排面談或通知。</p>
           </div>
 
-          <OutlineRequestForm formName="nas-consultant-outline-request" fields="consultant" title="索取顧問班詳細說明" description="填寫姓名、Email 與主課完成狀態，取得顧問班目前的詳細版 PDF 佔位檔。" downloadHref="/downloads/nas-consultant-details-placeholder.pdf" />
+          <OutlineRequestForm formName="nas-consultant-outline-request" fields="consultant" title="索取顧問班詳細說明" description="填寫姓名、Email 與主課完成狀態，取得顧問班詳細版 PDF。" downloadHref="/downloads/nas-consultant-details.pdf" />
         </div>
       </section>
 

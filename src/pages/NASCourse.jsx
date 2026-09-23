@@ -124,7 +124,7 @@ const NASCourse = () => (
         </div>
 
         <div className="mt-12">
-          <OutlineRequestForm formName="nas-course-outline-request" title="索取完整課綱" description="完整 36 堂課綱與時長，填寫後即可取得目前的 PDF 佔位檔。總長約 9 小時 20 分，每堂不到 20 分鐘。" downloadHref="/downloads/nas-course-outline-placeholder.pdf" />
+          <OutlineRequestForm formName="nas-course-outline-request" title="索取完整課綱" description="完整 36 堂課綱與時長，填寫後即可取得 PDF。總長約 9 小時 20 分，每堂不到 20 分鐘。" downloadHref="/downloads/nas-course-outline.pdf" />
         </div>
       </div>
     </section>
