@@ -9,27 +9,27 @@ import { LINE_CONFIG } from '../lib/constants';
 const COURSE_MODULES = [
   {
     id: '0', title: '模組零：先把眼睛換掉', unitCount: '5 堂', duration: '74 分', free: true,
-    solves: ['為什麼你一直很努力卻卡住', '生日描述的是出廠設定，不替你寫死答案', '從數字看自己，而不是急著替自己下結論'],
+    description: '先處理那個最常見的疑問：明明已經很努力，為什麼事情還是卡在原地。用生日資料當作觀察自己的入口，分清楚生命設定與後天反應，不急著替自己下結論。你會先換一個看自己的角度，知道這門課不預測、不算命。',
     takeaways: ['一套看自己的新角度', '知道這門課不預測、不算命'],
   },
   {
     id: '1', title: '模組一：你的出廠設定', unitCount: '9 堂', duration: '135 分',
-    solves: ['一組生日藏著兩條軌道', '白天的你和晚上的你，不是同一個人', '把生日資料放回內在與外在的差異中看'],
+    description: '把一組生日拆成陽曆與陰曆兩條軌道，理解白天的你與晚上的你為何常常不一樣。從數字出現的位置與次數，看見你的生命原型、缺少的支撐，以及反覆使用的慣性。你會得到一張比較完整的自我地圖。',
     takeaways: ['讀懂自己的兩軌', '認得十種生命原型', '找出自己缺什麼、多什麼'],
   },
   {
     id: '2', title: '模組二：你卡在哪裡', unitCount: '10 堂', duration: '161 分',
-    solves: ['為什麼你知道該怎麼做卻做不到', '重複出現的不是人，是模式', '把反覆卡住的地方從自責轉成可以觀察的結構'],
+    description: '當你知道該怎麼做卻仍然做不到，先不要急著責怪自己，回到盤上找出卡點的位置。把反覆出現的人際衝突，從某個人的問題改看成互動模式，理解自己愛人與表達的方式，讓卡住不再只剩下自責。',
     takeaways: ['在自己的盤上指出卡點的位置', '看懂自己愛人與表達的方式'],
   },
   {
     id: '3', title: '模組三：你的時間感', unitCount: '7 堂', duration: '110 分',
-    solves: ['努力不一定在對的時間', '人生有節奏，不是隨機', '把流年、流月、流日放回每天的安排裡'],
+    description: '努力不一定發生在對的時間，這個模組把流年、流月、流日放回人生節奏裡。你會知道自己現在走到哪一段，也知道遇到壞天氣時如何安排，不把每一天都當成硬撐的考驗，不必急著證明自己。',
     takeaways: ['知道自己現在走到哪一段', '壞天氣時知道怎麼安排，不硬撐'],
   },
   {
     id: '4', title: '模組四：把它用起來', unitCount: '5 堂', duration: '82 分',
-    solves: ['學完最怕的是看過就忘', '把理解放回接下來的生活', '把看見的東西變成日常可以回來使用的節奏'],
+    description: '學完最怕的是看過就忘，所以把理解整理成一頁，變成之後可以反覆回來使用的工具。排出未來十二個月，把數字每曆放進每天的選擇，不只在計算完成那天覺得有趣，還能照自己的節奏安排下一步。',
     takeaways: ['把自己寫成一頁', '排出未來十二個月', '每天會用數字每曆'],
   },
 ];
@@ -42,6 +42,39 @@ const FEATURED_UNITS = [
   ['重複出現的不是人，是互動模式', '從關係裡辨認反覆發生的互動結構。'],
   ['壞天氣不用硬撐，但要知道自己在哪一種天氣裡', '先辨認流日狀態，再安排今天的動作。'],
 ];
+
+const COURSE_FAQS = [
+  ['要花多久看完？', '主課共 36 堂，每堂不到 20 分鐘；一天一堂，36 天看完，想快一點也可以依自己的節奏安排。'],
+  ['沒有基礎可以嗎？', '可以。課程從觀察自己的方式開始，不要求先學過生命數字或其他相關工具。'],
+  ['這跟坊間課程差在哪？', '這套課程同時看陽曆與陰曆兩條軌道，從自己的卡點與生活安排出發，不只給你一個數字或一個固定結論。'],
+  ['這跟生命靈數是同一套嗎？', '有些人稱它為生命靈數，指的是同一套以生日為基礎的系統。本課程採用的是平衡空間的彩虹生命數字，特色是陽曆與陰曆雙軌一起看。'],
+  ['會不會算命？', '不會。課程不預測、不恐嚇，數字描述的是要處理的題目，不替你把答案寫死。'],
+  ['退費怎麼辦？', '目前頁面標示退費條款待確認；購買前請先確認正式條款。'],
+  ['購買後可以看多久？', '目前頁面未標示觀看期限，正式方案確認後會補上；請以購買時的條款為準。'],
+];
+
+const COURSE_STRUCTURED_DATA = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Course',
+      '@id': 'https://erickfirm.com/nas/course#course',
+      name: '人生的出廠設定',
+      description: '生命數字 36 堂，看懂你為什麼一直卡在同一個地方',
+      provider: { '@id': 'https://erickfirm.com/#org' },
+      instructor: { '@id': 'https://erickfirm.com/#erick' },
+      inLanguage: 'zh-TW',
+      hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload: 'PT9H20M' },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://erickfirm.com/nas/course#faq',
+      mainEntity: COURSE_FAQS.map(([question, answer]) => ({
+        '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer },
+      })),
+    },
+  ],
+};
 
 const COURSE_PRICES = [
   { name: '自學', content: '主課 36 單元', price: 'NT$9,800', cta: '詢問自學方案' },
@@ -58,17 +91,21 @@ const lineCta = (label, className = '') => (
 const NASCourse = () => (
   <main className="bg-white text-[#1F1A2E]">
     <SEOHead
-      title="生命數字課程｜36 堂、每堂不到 20 分鐘，約 9 小時 20 分"
-      description="生命數字主課 36 堂、每堂不到 20 分鐘，總長約 9 小時 20 分。從看懂自己的生命設定、卡點與時間節奏，到讀進數字每曆。另有分流／轉職的生命數字顧問班。艾瑞克，二十年生命數字教學。"
+      title="人生的出廠設定｜生命數字 36 堂、每堂不到 20 分鐘，約 9 小時 20 分"
+      description="生命數字 36 堂，看懂你為什麼一直卡在同一個地方；每堂不到 20 分鐘，總長約 9 小時 20 分。平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。"
     />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(COURSE_STRUCTURED_DATA) }} />
 
     <section className="px-6 pb-16 pt-32">
       <div className="mx-auto max-w-3xl">
         <NASMark label="課程" />
         <h1 className="mb-7 text-3xl font-bold leading-snug md:text-4xl">
-          數字每曆告訴你今天是什麼天氣。<br />
-          <span className="text-[#6E6885]">這門課教你怎麼讀它。</span>
+          人生的出廠設定
         </h1>
+        <p className="mb-4 text-xl font-semibold leading-relaxed text-[#6E6885] md:text-2xl">生命數字 36 堂，看懂你為什麼一直卡在同一個地方</p>
+        <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">講師：艾瑞克</p>
+        <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。</p>
+        <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">數字每曆告訴你今天是什麼天氣。這門課教你怎麼讀它。</p>
         <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">
           主課共 <strong>36 單元、五個模組、約 9 小時 20 分</strong>，從看懂自己的生命設定開始，走到能把數字每曆讀進每天的選擇。
         </p>
@@ -108,7 +145,7 @@ const NASCourse = () => (
                 <div className="text-right text-sm tabular-nums text-[#6E6885]"><p>{module.unitCount}</p><p>{module.duration}</p></div>
               </div>
               <p className="mt-5 mb-3 text-sm font-semibold text-[#1F1A2E]">這個模組在解決什麼</p>
-              <ul className="space-y-1 text-sm leading-relaxed text-[#55506B]">{module.solves.map((line) => <li key={line}>・{line}</li>)}</ul>
+              <p className="text-sm leading-relaxed text-[#55506B]">{module.description}</p>
               <p className="mt-5 mb-3 text-sm font-semibold text-[#1F1A2E]">你會帶走什麼</p>
               <ul className="space-y-1 text-sm leading-relaxed text-[#55506B]">{module.takeaways.map((line) => <li key={line}>・{line}</li>)}</ul>
             </article>
@@ -166,6 +203,17 @@ const NASCourse = () => (
       </div>
     </section>
 
+    <section className="bg-[#F7F5FC] px-6 py-16">
+      <div className="mx-auto max-w-3xl">
+        <h2 className="mb-8 text-2xl font-bold md:text-3xl">常見問題</h2>
+        <div className="divide-y divide-[#E7E3F0] border-y border-[#E7E3F0]">
+          {COURSE_FAQS.map(([question, answer]) => (
+            <article key={question} className="py-6"><h3 className="mb-3 font-bold">{question}</h3><p className="text-sm leading-loose text-[#55506B]">{answer}</p></article>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <section className="px-6 py-16">
       <div className="mx-auto max-w-3xl rounded-2xl border border-[#E7E3F0] bg-[#F7F5FC] p-7 md:p-9">
         <p className="mb-3 text-xs tracking-[0.2em] text-[#918BA6]">分流／轉職</p>
@@ -188,7 +236,7 @@ const NASCourse = () => (
       </div>
     </section>
 
-    <p className="px-6 pb-12 text-center text-xs leading-relaxed text-[#918BA6]">課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。</p>
+    <p className="px-6 pb-12 text-center text-xs leading-relaxed text-[#918BA6]">平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。<br />課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。</p>
   </main>
 );
 

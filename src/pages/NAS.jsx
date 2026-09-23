@@ -99,9 +99,9 @@ const NAS = () => {
           '@type': 'Service',
           '@id': 'https://erickfirm.com/nas#service',
           name: '平衡空間 NAS｜生命數字',
-          alternateName: ['生命數字', '生命靈數', '艾瑞克 生命數字'],
+          alternateName: ['生命數字', '艾瑞克 生命數字'],
           serviceType: 'Numerology-based self-understanding education',
-          provider: { '@id': 'https://erickfirm.com/#person' },
+          provider: { '@id': 'https://erickfirm.com/#org' },
           areaServed: 'TW',
           description:
             '以生命數字為工具的自我理解教學。核心不是判斷準不準，而是找出道理與感受互相拉扯的地方——知道該怎麼做、心裡卻有一塊過不去，那一塊才是真正卡住的原因。',

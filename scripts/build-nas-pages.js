@@ -9,7 +9,17 @@ const dist = path.resolve('dist');
 const shell = loadShell(dist);
 const IMG = `${SITE}/og-default.png`;
 const NAS = `${SITE}/nas`;
-
+const ORG_ID = `${SITE}/#org`;
+const SOCIALS = [
+  'https://www.facebook.com/NAS448',
+  'https://www.instagram.com/noagespace/',
+  'https://www.youtube.com/@ageoldnew9449',
+  'https://www.threads.net/@koi54889101',
+];
+const ORGANIZATION = {
+  '@type': 'Organization', '@id': ORG_ID, name: '平衡空間', alternateName: 'No Age Space',
+  url: SITE, logo: `${SITE}/logo-nas.png`, sameAs: SOCIALS,
+};
 const p = (t) => `<p>${esc(t)}</p>`;
 const h1 = (t) => `<h1>${esc(t)}</h1>`;
 const h2 = (t) => `<h2>${esc(t)}</h2>`;
@@ -18,16 +28,7 @@ const ul = (items) => `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</u
 const a = (href, t, attrs = '') => `<a href="${href}"${attrs ? ` ${attrs}` : ''}>${esc(t)}</a>`;
 const nav = (links) => `<nav><ul>${links.map(([h, t]) => `<li>${a(h, t)}</li>`).join('')}</ul></nav>`;
 
-const brand = {
-  '@context': 'https://schema.org',
-  '@type': 'Brand',
-  '@id': `${NAS}#brand`,
-  name: '平衡空間 NAS',
-  alternateName: ['NAS', '平衡空間'],
-  url: NAS,
-  logo: `${SITE}/logo-nas.png`,
-  description: '艾瑞克的生命數字品牌。用陽曆與陰曆雙軌結構，看懂自己對外的展現與內在真正的需求。',
-};
+const brand = { ...ORGANIZATION, '@context': 'https://schema.org' };
 
 const SOUL = [
   ['1 級', '幼稚園生', '什麼都是新的，靠嘗試和犯錯在學，需要有人陪著。'],
@@ -40,11 +41,36 @@ const SOUL = [
 ];
 
 const COURSE_MODULES = [
-  { title: '模組零：先把眼睛換掉', unitCount: '5 堂', duration: '74 分', free: true, solves: ['為什麼你一直很努力卻卡住', '生日描述的是出廠設定，不替你寫死答案', '從數字看自己，而不是急著替自己下結論'], takeaways: ['一套看自己的新角度', '知道這門課不預測、不算命'] },
-  { title: '模組一：你的出廠設定', unitCount: '9 堂', duration: '135 分', solves: ['一組生日藏著兩條軌道', '白天的你和晚上的你，不是同一個人', '把生日資料放回內在與外在的差異中看'], takeaways: ['讀懂自己的兩軌', '認得十種生命原型', '找出自己缺什麼、多什麼'] },
-  { title: '模組二：你卡在哪裡', unitCount: '10 堂', duration: '161 分', solves: ['為什麼你知道該怎麼做卻做不到', '重複出現的不是人，是模式', '把反覆卡住的地方從自責轉成可以觀察的結構'], takeaways: ['在自己的盤上指出卡點的位置', '看懂自己愛人與表達的方式'] },
-  { title: '模組三：你的時間感', unitCount: '7 堂', duration: '110 分', solves: ['努力不一定在對的時間', '人生有節奏，不是隨機', '把流年、流月、流日放回每天的安排裡'], takeaways: ['知道自己現在走到哪一段', '壞天氣時知道怎麼安排，不硬撐'] },
-  { title: '模組四：把它用起來', unitCount: '5 堂', duration: '82 分', solves: ['學完最怕的是看過就忘', '把理解放回接下來的生活', '把看見的東西變成日常可以回來使用的節奏'], takeaways: ['把自己寫成一頁', '排出未來十二個月', '每天會用數字每曆'] },
+  { title: '模組零：先把眼睛換掉', unitCount: '5 堂', duration: '74 分', free: true, description: '先處理那個最常見的疑問：明明已經很努力，為什麼事情還是卡在原地。用生日資料當作觀察自己的入口，分清楚生命設定與後天反應，不急著替自己下結論。你會先換一個看自己的角度，知道這門課不預測、不算命。', takeaways: ['一套看自己的新角度', '知道這門課不預測、不算命'] },
+  { title: '模組一：你的出廠設定', unitCount: '9 堂', duration: '135 分', description: '把一組生日拆成陽曆與陰曆兩條軌道，理解白天的你與晚上的你為何常常不一樣。從數字出現的位置與次數，看見你的生命原型、缺少的支撐，以及反覆使用的慣性。你會得到一張比較完整的自我地圖。', takeaways: ['讀懂自己的兩軌', '認得十種生命原型', '找出自己缺什麼、多什麼'] },
+  { title: '模組二：你卡在哪裡', unitCount: '10 堂', duration: '161 分', description: '當你知道該怎麼做卻仍然做不到，先不要急著責怪自己，回到盤上找出卡點的位置。把反覆出現的人際衝突，從某個人的問題改看成互動模式，理解自己愛人與表達的方式，讓卡住不再只剩下自責。', takeaways: ['在自己的盤上指出卡點的位置', '看懂自己愛人與表達的方式'] },
+  { title: '模組三：你的時間感', unitCount: '7 堂', duration: '110 分', description: '努力不一定發生在對的時間，這個模組把流年、流月、流日放回人生節奏裡。你會知道自己現在走到哪一段，也知道遇到壞天氣時如何安排，不把每一天都當成硬撐的考驗，不必急著證明自己。', takeaways: ['知道自己現在走到哪一段', '壞天氣時知道怎麼安排，不硬撐'] },
+  { title: '模組四：把它用起來', unitCount: '5 堂', duration: '82 分', description: '學完最怕的是看過就忘，所以把理解整理成一頁，變成之後可以反覆回來使用的工具。排出未來十二個月，把數字每曆放進每天的選擇，不只在計算完成那天覺得有趣，還能照自己的節奏安排下一步。', takeaways: ['把自己寫成一頁', '排出未來十二個月', '每天會用數字每曆'] },
+];
+
+const COURSE_FAQS = [
+  ['要花多久看完？', '主課共 36 堂，每堂不到 20 分鐘；一天一堂，36 天看完，想快一點也可以依自己的節奏安排。'],
+  ['沒有基礎可以嗎？', '可以。課程從觀察自己的方式開始，不要求先學過生命數字或其他相關工具。'],
+  ['這跟坊間課程差在哪？', '這套課程同時看陽曆與陰曆兩條軌道，從自己的卡點與生活安排出發，不只給你一個數字或一個固定結論。'],
+  ['這跟生命靈數是同一套嗎？', '有些人稱它為生命靈數，指的是同一套以生日為基礎的系統。本課程採用的是平衡空間的彩虹生命數字，特色是陽曆與陰曆雙軌一起看。'],
+  ['會不會算命？', '不會。課程不預測、不恐嚇，數字描述的是要處理的題目，不替你把答案寫死。'],
+  ['退費怎麼辦？', '目前頁面標示退費條款待確認；購買前請先確認正式條款。'],
+  ['購買後可以看多久？', '目前頁面未標示觀看期限，正式方案確認後會補上；請以購買時的條款為準。'],
+];
+
+const faqSchema = (id, items) => ({
+  '@context': 'https://schema.org', '@type': 'FAQPage', '@id': id,
+  mainEntity: items.map(([question, answer]) => ({
+    '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+});
+
+const CONSULTANT_FAQS = [
+  ['我沒有相關背景，可以學嗎？', '可以。入學條件是完成主課；主課會先把生命數字的看法、結構與語言基礎交代清楚。'],
+  ['跟主課差在哪？', '主課是看懂自己，顧問班是學會幫別人看。兩者是分流，不是深淺。'],
+  ['沒辦法每週出席怎麼辦？', '每週直播會提供回放，但現場實作無法補，報名前請先評估自己的時間。'],
+  ['結業後一定能接案嗎？', '不一定。課程給的是能力、流程與工具，接案取決於個人投入；本課程不做收入或客源保證。'],
+  ['這個認證是什麼性質？', '這是艾瑞克個人的結業認證，不是政府或第三方機構的證照。'],
 ];
 
 const FEATURED_UNITS = [
@@ -66,7 +92,11 @@ const CONSULTANT_WEEKS = [
 ];
 
 const COURSE_BODY = [
-  h1('數字每曆告訴你今天是什麼天氣。這門課教你怎麼讀它。'),
+  h1('人生的出廠設定'),
+  h2('生命數字 36 堂，看懂你為什麼一直卡在同一個地方'),
+  p('講師：艾瑞克'),
+  p('平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。'),
+  p('數字每曆告訴你今天是什麼天氣。這門課教你怎麼讀它。'),
   p('主課共 36 堂、每堂不到 20 分鐘，五個模組，總長約 9 小時 20 分，從看懂自己的生命設定開始，走到能把數字每曆讀進每天的選擇。'),
   p('課程圍繞四個問題：我是誰、我為什麼會這樣、我現在在哪裡、我接下來該往哪裡走。'),
   h2('每天 18 分鐘：一天一堂，一個多月看完'),
@@ -74,7 +104,7 @@ const COURSE_BODY = [
   h2('主課架構：五個模組，公開看結構'),
   ...COURSE_MODULES.flatMap((module) => [
     h3(`${module.title}｜${module.unitCount}｜${module.duration}${module.free ? '｜免費試看' : ''}`),
-    p(`這個模組在解決什麼：${module.solves.join('；')}。`),
+    p(`這個模組在解決什麼：${module.description}`),
     ul(module.takeaways.map((item) => `你會帶走：${item}`)),
   ]),
   h2('課程中的其中 6 堂'),
@@ -82,6 +112,8 @@ const COURSE_BODY = [
   h2('索取完整課綱'),
   p('完整 36 堂課綱與時長，填寫姓名與 Email 後取得 PDF。總長約 9 小時 20 分，每堂不到 20 分鐘。'),
   a('/downloads/nas-course-outline.pdf', '下載完整課綱 PDF', 'rel="nofollow"'),
+  h2('常見問題'),
+  ...COURSE_FAQS.flatMap(([question, answer]) => [h3(question), p(answer)]),
   h2('主課方案'),
   p('同一套系統，過去實體三階共 48 小時、NT$54,000；現在核心濃縮成 36 單元錄播，NT$9,800。'),
   p('不到兩次一對一解盤的價錢，學會自己看一輩子。'),
@@ -99,12 +131,14 @@ const COURSE_BODY = [
   h2('分流／轉職：生命數字顧問班'),
   p('主課是看懂自己，顧問班是學會幫別人看。兩者是分流，不是深淺。學費 NT$32,000，含第一年顧問會員（價值 NT$12,000）。第一屆預計 2027 年 6–7 月開班。'),
   a('/nas/consultant', '了解顧問班完整內容'),
-  p('課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。'),
+  p('平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。'),
   nav([['/nas/calculator', '先免費算一次'], ['/nas/meili', '數字每曆']]),
 ].join('');
 
 const CONSULTANT_BODY = [
-  h1('主課是看懂自己，顧問班是學會幫別人看。'),
+  h1('生命數字顧問班：主課是看懂自己，顧問班是學會幫別人看。'),
+  p('講師：艾瑞克'),
+  p('平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。'),
   p('這不是把主課再講深一點，而是把你已經看懂的結構，練成一套能用在別人身上的解盤服務。兩者是分流，不是深淺。'),
   h2('這門課適合誰？'),
   h3('適合'),
@@ -140,17 +174,8 @@ const CONSULTANT_BODY = [
   p('學費 NT$32,000，含第一年顧問會員。入學條件：完成主課，並於登記時交一份「幫身邊一個人看盤」的作業。'),
   p('目前為意向登記制，第一屆預計 2027 年 6–7 月開班，限收 10 人。不放直接付款按鈕。送出資料後，名額有限，開班前會依登記順序與入學作業安排面談或通知。'),
   h2('常見問題'),
-  h3('我沒有相關背景，可以學嗎？'),
-  p('可以，入學條件是完成主課。'),
-  h3('跟主課差在哪？'),
-  p('主課看懂自己，顧問班幫別人看。'),
-  h3('沒辦法每週出席怎麼辦？'),
-  p('有回放，但現場實作無法補，請報名前評估。'),
-  h3('結業後一定能接案嗎？'),
-  p('不一定。課程給的是能力、流程與工具，接案取決於個人投入，不做任何收入或客源保證。'),
-  h3('這個認證是什麼性質？'),
-  p('這是艾瑞克個人的結業認證，不是政府或第三方機構的證照。'),
-  p('課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。'),
+  ...CONSULTANT_FAQS.flatMap(([question, answer]) => [h3(question), p(answer)]),
+  p('平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。'),
   nav([['/nas/course', '回看主課內容'], ['/nas', '回到平衡空間 NAS']]),
 ].join('');
 
@@ -163,7 +188,7 @@ const PAGES = [
       brand,
       {
         '@context': 'https://schema.org', '@type': 'WebPage', url: NAS, inLanguage: 'zh-Hant',
-        name: '平衡空間 NAS｜生命數字', about: { '@id': `${NAS}#brand` },
+        name: '平衡空間 NAS｜生命數字', about: { '@id': ORG_ID },
         author: { '@id': PERSON_ID }, publisher: { '@id': PERSON_ID },
       },
       breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS]]),
@@ -185,7 +210,7 @@ const PAGES = [
       nav([
         ['/nas/calculator', '生命數字計算：輸入生日，看你的陽曆與陰曆雙軌結構'],
         ['/nas/meili', '數字每曆：每天更新一次的流日'],
-        ['/nas/course', '生命數字課程'],
+        ['/nas/course', '人生的出廠設定'],
         ['/insights/life-number', '生命數字文章'],
       ]),
     ].join(''),
@@ -200,7 +225,7 @@ const PAGES = [
         name: '生命數字計算', url: `${NAS}/calculator`, inLanguage: 'zh-Hant',
         applicationCategory: 'UtilityApplication', operatingSystem: 'Web',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
-        provider: { '@id': PERSON_ID }, brand: { '@id': `${NAS}#brand` },
+        provider: { '@id': ORG_ID }, brand: { '@id': ORG_ID },
         description: '輸入西元生日，計算主命數與陽曆、陰曆雙軌生命數字結構，並判定生命功課等級。',
       },
       breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS], ['生命數字計算', `${NAS}/calculator`]]),
@@ -230,7 +255,7 @@ const PAGES = [
       {
         '@context': 'https://schema.org', '@type': 'Service',
         name: '數字每曆', url: `${NAS}/meili`, inLanguage: 'zh-Hant',
-        serviceType: '生命數字每日流日提醒', provider: { '@id': PERSON_ID }, brand: { '@id': `${NAS}#brand` },
+        serviceType: '生命數字每日流日提醒', provider: { '@id': ORG_ID }, brand: { '@id': ORG_ID },
         description: '每天更新一次的生命數字。訂閱包含完整的生命數字計算，以及前一天晚上以 LINE 推播明天的流日。',
       },
       breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS], ['數字每曆', `${NAS}/meili`]]),
@@ -252,16 +277,18 @@ const PAGES = [
   },
   {
     route: '/nas/course',
-    title: '生命數字課程｜36 堂、每堂不到 20 分鐘，約 9 小時 20 分',
-    description: '生命數字主課 36 堂、每堂不到 20 分鐘，總長約 9 小時 20 分。五個模組公開看結構，完整課綱採索取制；另有分流／轉職的生命數字顧問班。艾瑞克，二十年生命數字教學。',
+    title: '人生的出廠設定｜生命數字 36 堂、每堂不到 20 分鐘，約 9 小時 20 分 - 平衡空間',
+    description: '生命數字 36 堂，看懂你為什麼一直卡在同一個地方；每堂不到 20 分鐘，總長約 9 小時 20 分。平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。',
     jsonld: [
       {
         '@context': 'https://schema.org', '@type': 'Course',
-        name: '看懂自己的生命數字', url: `${NAS}/course`, inLanguage: 'zh-Hant',
-        description: '生命數字主課 36 堂、每堂不到 20 分鐘，總長約 9 小時 20 分。公開五個模組的結構與六堂精選內容，完整課綱採索取制。',
-        provider: { '@id': PERSON_ID }, brand: { '@id': `${NAS}#brand` },
+        '@id': `${NAS}/course#course`, name: '人生的出廠設定', url: `${NAS}/course`, inLanguage: 'zh-TW',
+        description: '生命數字 36 堂，看懂你為什麼一直卡在同一個地方',
+        provider: { '@id': ORG_ID }, instructor: { '@id': PERSON_ID },
+        hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload: 'PT9H20M' },
       },
-      breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS], ['生命數字課程', `${NAS}/course`]]),
+      faqSchema(`${NAS}/course#faq`, COURSE_FAQS),
+      breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS], ['人生的出廠設定', `${NAS}/course`]]),
     ],
     body: COURSE_BODY,
   },
@@ -272,11 +299,13 @@ const PAGES = [
     jsonld: [
       {
         '@context': 'https://schema.org', '@type': 'Course',
-        name: '生命數字顧問班', url: `${NAS}/consultant`, inLanguage: 'zh-Hant',
+        '@id': `${NAS}/consultant#course`, name: '生命數字顧問班', url: `${NAS}/consultant`, inLanguage: 'zh-TW',
         description: '給想幫別人看盤的人。六週線上直播，從讀盤、問診、說法到服務流程；主課與顧問班是分流，不是深淺。',
-        provider: { '@id': PERSON_ID }, brand: { '@id': `${NAS}#brand` },
+        provider: { '@id': ORG_ID }, instructor: { '@id': PERSON_ID }, courseWorkload: 'PT18H',
+        hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload: 'PT18H' },
         offers: { '@type': 'Offer', price: '32000', priceCurrency: 'TWD' },
       },
+      faqSchema(`${NAS}/consultant#faq`, CONSULTANT_FAQS),
       breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS], ['生命數字顧問班', `${NAS}/consultant`]]),
     ],
     body: CONSULTANT_BODY,

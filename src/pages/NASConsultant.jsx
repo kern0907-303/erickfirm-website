@@ -22,21 +22,47 @@ const FAQS = [
   ['這個認證是什麼性質？', '這是艾瑞克個人的結業認證，不是政府或第三方機構的證照。'],
 ];
 
+const CONSULTANT_STRUCTURED_DATA = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Course',
+      '@id': 'https://erickfirm.com/nas/consultant#course',
+      name: '生命數字顧問班',
+      provider: { '@id': 'https://erickfirm.com/#org' },
+      instructor: { '@id': 'https://erickfirm.com/#erick' },
+      inLanguage: 'zh-TW',
+      courseWorkload: 'PT18H',
+      hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload: 'PT18H' },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://erickfirm.com/nas/consultant#faq',
+      mainEntity: FAQS.map(([question, answer]) => ({
+        '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer },
+      })),
+    },
+  ],
+};
+
 const NASConsultant = () => (
     <main className="bg-white text-[#1F1A2E]">
       <SEOHead
         title="生命數字顧問班｜學會幫別人看盤 - 平衡空間 NAS"
         description="生命數字顧問班給想把解盤變成服務的人。六週線上直播，從讀盤、問診、說法到服務流程；完成主課後以意向登記報名，第一屆預計 2027 年 6–7 月開班。"
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(CONSULTANT_STRUCTURED_DATA) }} />
 
       <section className="px-6 pb-16 pt-32">
         <div className="mx-auto max-w-3xl">
           <NASMark label="顧問班" />
           <p className="mb-4 text-xs tracking-[0.2em] text-[#918BA6]">分流／轉職</p>
           <h1 className="mb-7 text-3xl font-bold leading-snug md:text-5xl">
-            主課是看懂自己，<br />
-            顧問班是學會幫別人看。
+            生命數字顧問班：<br />
+            主課是看懂自己，顧問班是學會幫別人看。
           </h1>
+          <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">講師：艾瑞克</p>
+          <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。</p>
           <p className="max-w-2xl leading-loose text-[#55506B]">
             這不是把主課再講深一點，而是把你已經看懂的結構，練成一套能用在別人身上的解盤服務。兩者是分流，不是深淺。
           </p>
@@ -153,7 +179,7 @@ const NASConsultant = () => (
           </div>
         </div>
       </section>
-      <p className="px-6 pb-12 text-center text-xs leading-relaxed text-[#918BA6]">課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。</p>
+      <p className="px-6 pb-12 text-center text-xs leading-relaxed text-[#918BA6]">平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。<br />課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。</p>
     </main>
 );
 

@@ -35,25 +35,44 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "@id": "https://erickfirm.com/#erick",
-      "name": "艾瑞克",
-      "alternateName": ["Erick", "Erick Lin"],
-      "jobTitle": "Erick Firm 創辦人",
-      "description": "艾瑞克（Erick），二十年來陪個人與企業看見真正影響結果的關鍵因素，從自我理解、個人狀態到企業決策，找到更清楚的下一步。",
-      "url": "https://erickfirm.com",
-      "sameAs": [],
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Initial 8 CO. (初八信息顧問 I8)",
-        "url": "https://erickfirm.com"
-      },
-      "knowsAbout": [
-        "生命數字",
-        "企業營運診斷",
-        "個人狀態調和",
-        "系統性決策思考",
-        "商業結構重整"
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://erickfirm.com/#org",
+          "name": "平衡空間",
+          "alternateName": "No Age Space",
+          "url": "https://erickfirm.com",
+          "logo": "https://erickfirm.com/logo-nas.png",
+          "sameAs": [
+            "https://www.facebook.com/NAS448",
+            "https://www.instagram.com/noagespace/",
+            "https://www.youtube.com/@ageoldnew9449",
+            "https://www.threads.net/@koi54889101"
+          ]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://erickfirm.com/#erick",
+          "name": "艾瑞克",
+          "alternateName": ["Erick", "Erick Lin"],
+          "jobTitle": "生命數字講師",
+          "description": "艾瑞克（Erick），二十年來陪個人與企業看見真正影響結果的關鍵因素，從自我理解、個人狀態到企業決策，找到更清楚的下一步。",
+          "url": "https://erickfirm.com",
+          "sameAs": [
+            "https://www.facebook.com/NAS448",
+            "https://www.instagram.com/noagespace/",
+            "https://www.youtube.com/@ageoldnew9449",
+            "https://www.threads.net/@koi54889101"
+          ],
+          "worksFor": {"@id": "https://erickfirm.com/#org"},
+          "knowsAbout": [
+            "生命數字",
+            "企業營運診斷",
+            "個人狀態調和",
+            "系統性決策思考",
+            "商業結構重整"
+          ]
+        }
       ]
     }
     </script>
