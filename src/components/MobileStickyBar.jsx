@@ -33,7 +33,7 @@ const MobileStickyBar = () => {
           rel="noopener noreferrer"
           className="w-full h-full bg-slate-900 text-white font-bold text-xs sm:text-sm flex items-center justify-center active:scale-[0.98] transition-transform cursor-pointer font-sans"
         >
-          加 LINE，4 題找出你卡在哪 →
+          加 LINE，找到適合你的方向 →
         </a>
       </div>
     </div>

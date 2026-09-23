@@ -39,7 +39,7 @@ export const WhyStuckSection = () => (
 );
 
 const stuckTypes = [
-  ['工作卡住', '公司越來越忙，事情卻越來越慢。\n會議開了很多次，決定反覆在改。\n你知道哪裡不對，只是說不出來是哪裡。'],
+  ['組織卡住', '你承擔一個團隊、部門或事業的結果。\n人越來越忙，事情卻越來越慢。\n你知道哪裡不對，只是說不出來是哪裡。'],
   ['定位卡住', '你很努力，也不是沒有能力。\n只是心裡一直有個聲音在問：這條路，真的是我的嗎？\n換過方向、換過工作，最後好像又回到同一個地方。'],
   ['自己卡住', '你一直是那個撐住的人。\n撐著工作、撐著家人，也撐著所有人的情緒。\n等到終於有時間留給自己，卻發現——\n已經不知道怎麼回到自己了。'],
 ];
@@ -107,10 +107,10 @@ export const AnalysisSection = () => (
           <p className="mt-7 text-base md:text-lg leading-loose text-slate-600">二十年來，我反覆做同一件事：先找出真正影響結果的問題。看清楚卡住的位置，才不會把力氣花在最吵、卻不關鍵的地方。</p>
         </Reveal>
         <Reveal direction="right" delay={0.1} className="order-3 md:mt-8">
-          <p className="text-base leading-loose text-slate-600">如果這段話剛好說中了你現在的狀態，加入 LINE 回答 4 個問題；我們會先從你目前最值得處理的地方開始。</p>
+          <p className="text-base leading-loose text-slate-600">如果這段話剛好說中了你現在的狀態，加入 LINE 告訴我們目前卡住的地方；我們會先從最適合你的方向開始。</p>
           <div className="hidden md:block">
             <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-8`}>
-              加 LINE，回答 4 個問題 →
+              加 LINE，找到適合你的方向 →
             </a>
           </div>
         </Reveal>
@@ -147,7 +147,7 @@ export const ClosingSection = () => (
       </div>
       <p className="mt-10 text-base text-slate-600">— 艾瑞克 Erick</p>
       <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-10`}>
-        加 LINE，4 題找出你卡在哪 →
+        加 LINE，找到適合你的方向 →
       </a>
       </Reveal>
     </div>

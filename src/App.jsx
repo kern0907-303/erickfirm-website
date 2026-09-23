@@ -134,7 +134,7 @@ const buildHomeStructuredData = () => ({
       url: 'https://erickfirm.com/i8',
       provider: { '@id': 'https://erickfirm.com/#erick' },
       serviceType: 'Business Structure Optimization',
-      description: '協助企業主看見影響經營結果的關鍵因素，校準決策、團隊與成長方向。',
+      description: '協助企業主、高階主管與承擔組織結果的管理者，看見影響決策、團隊協作與成長節奏的關鍵因素。',
     },
   ],
 });

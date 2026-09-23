@@ -41,7 +41,7 @@ const I8Page = () => {
         url: 'https://erickfirm.com/i8',
         serviceType: '企業決策與組織協作診斷',
         provider: { '@id': 'https://erickfirm.com/#erick' },
-        description: '協助企業主從人力與組織協作、決策與管理節奏、經營流程與資源配置，釐清最該優先處理的經營卡點。',
+        description: '協助企業主、高階主管與承擔組織結果的管理者，從人力與組織協作、決策與管理節奏、經營流程與資源配置，釐清最該優先處理的卡點。',
       },
       {
         '@context': 'https://schema.org',
@@ -59,7 +59,7 @@ const I8Page = () => {
     <div className="bg-[#F7FAFB] text-slate-900 pt-24 pb-20">
       <SEOHead
         title="企業醫生診斷｜人力與組織協作卡點 - 初八信息顧問 I8"
-        description="當團隊越來越忙、協作卻越來越慢，問題未必在人不夠。初八信息顧問 I8 從組織協作、決策節奏與經營流程，協助企業主找出最該先處理的結構。"
+        description="當團隊越來越忙、協作卻越來越慢，問題未必在人不夠。初八信息顧問 I8 陪企業主、高階主管與承擔組織結果的人，從組織協作、決策節奏與經營流程找出最該先處理的結構。"
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
@@ -75,8 +75,9 @@ const I8Page = () => {
             是一直處理錯問題。
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-loose text-slate-600">
-            當人力、協作或營運開始卡住，通常不只是某個人做得不夠好。企業醫生診斷陪你回到角色、決策、流程與節奏，先找出此刻最值得處理的關鍵因素。
+            當你承擔的不只是自己的工作，而是一個團隊、一個部門、一項產品，甚至整家公司，卡住時不一定是誰做得不夠好。企業醫生診斷陪你回到角色、決策、流程與節奏，先找出此刻最值得處理的關鍵因素。
           </p>
+          <p className="mt-4 max-w-2xl leading-relaxed text-slate-600">不論你是企業主、高階主管、部門主管，或在高科技與專業組織中承擔關鍵結果的人，都可以從這裡開始。</p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <a
               href={I8_LINE_DIAGNOSTIC_URL}
@@ -99,7 +100,7 @@ const I8Page = () => {
       <section className="border-y border-slate-200 bg-white px-6 py-16">
         <div className="max-w-5xl mx-auto">
           <p className="text-sm font-bold tracking-[0.24em] text-[#217987]">WHAT WE LOOK AT</p>
-          <h2 className="mt-3 text-3xl font-bold">不是替公司貼標籤，而是把結構看清楚</h2>
+          <h2 className="mt-3 text-3xl font-bold">不是替組織貼標籤，而是把結構看清楚</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {lenses.map(({ icon: Icon, title, text }) => (
               <article key={title} className="rounded-2xl border border-slate-200 bg-[#F7FAFB] p-6">
@@ -131,7 +132,7 @@ const I8Page = () => {
             <div className="flex gap-3">
               <ShieldCheck className="mt-0.5 shrink-0 text-[#217987]" size={22} />
               <p className="leading-relaxed">
-                這不是自動評分工具，也不會用一份表單替你下結論。每一家企業的背景不同，診斷以實際經營情境為準，先確認資訊與優先順序，再討論是否需要後續支持。
+                這不是自動評分工具，也不會用一份表單替你下結論。每個組織的背景不同，診斷以實際經營情境為準，先確認資訊與優先順序，再討論是否需要後續支持。
               </p>
             </div>
           </div>
