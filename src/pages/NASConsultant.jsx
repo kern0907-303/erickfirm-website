@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import NASMark from '../components/NASMark';
+import OutlineRequestForm from '../components/OutlineRequestForm';
 
 const WEEKS = [
   ['1', '讀盤：從自己的盤，到一個你不認識的人', '30 分鐘內講出一個人的主線'],
@@ -13,17 +14,6 @@ const WEEKS = [
   ['6', '開業：把解盤變成一個可以收費的服務', '服務流程、報告、定價、第一批個案'],
 ];
 
-const TAKEAWAYS = [
-  '解盤流程卡、開場腳本',
-  '提問腳本卡、議題轉譯表、停損判斷清單',
-  '七級說法對照表、語言界線檢查表',
-  '雙人盤與家族盤工作表',
-  '十二個月排程表、常見提問的回應腳本',
-  '服務說明、報價、同意書、個案報告四份範本',
-  '三份指定個案的完整解讀',
-  '艾瑞克個人結業認證、認證顧問名錄資格、一年顧問會員權益',
-];
-
 const FAQS = [
   ['我沒有相關背景，可以學嗎？', '可以。入學條件是完成主課；主課會先把生命數字的看法、結構與語言基礎交代清楚。'],
   ['跟主課差在哪？', '主課是看懂自己，顧問班是學會幫別人看。兩者是分流，不是深淺。'],
@@ -32,23 +22,7 @@ const FAQS = [
   ['這個認證是什麼性質？', '這是艾瑞克個人的結業認證，不是政府或第三方機構的證照。'],
 ];
 
-const INITIAL_FORM = { name: '', contact: '', completed: '', problem: '' };
-
-const NASConsultant = () => {
-  const [form, setForm] = useState(INITIAL_FORM);
-  const [submitted, setSubmitted] = useState(false);
-
-  const updateField = (field, value) => {
-    setSubmitted(false);
-    setForm((current) => ({ ...current, [field]: value }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setSubmitted(true);
-  };
-
-  return (
+const NASConsultant = () => (
     <main className="bg-white text-[#1F1A2E]">
       <SEOHead
         title="生命數字顧問班｜學會幫別人看盤 - 平衡空間 NAS"
@@ -113,20 +87,18 @@ const NASConsultant = () => {
         <div className="mx-auto grid max-w-4xl gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <h2 className="mb-6 text-2xl font-bold md:text-3xl">上課方式</h2>
-            <ul className="space-y-4 leading-loose text-[#55506B]">
-              <li>每週一次線上直播 3 小時：前 2 小時教學，後 1 小時現場實作，艾瑞克當場指導。</li>
-              <li>第一屆限收 10 人，每個人都會被輪到上台實作。</li>
-              <li>作業全班做同一份指定個案，不必自己去找案主。</li>
-              <li>同學之間只提供「作為被解盤者的感受」回饋，不做互相評分。</li>
-              <li>開課前 7 天寄行前包：一份指定個案的盤、一段艾瑞克完整解盤錄音、一張觀摩表。</li>
-            </ul>
+            <div className="mb-7 grid gap-3 sm:grid-cols-3">
+              {[['6 週', '完整課程'], ['每週一次直播 3 小時', '教學與實作各半'], ['共 18 小時', '六週固定節奏']].map(([value, label]) => (
+                <div key={value} className="rounded-2xl bg-white p-4"><p className="text-xl font-bold tabular-nums text-[#5B3A9E]">{value}</p><p className="mt-2 text-xs leading-relaxed text-[#55506B]">{label}</p></div>
+              ))}
+            </div>
+            <p className="mb-4 leading-loose text-[#55506B]">每週一次線上直播 3 小時，教學與實作各半；第一屆限收 10 人，每個人都會被輪到當場實作、當場修正。</p>
+            <p className="leading-loose text-[#55506B]">有回放，但現場實作無法補。每週固定一個晚上，六週結束。不必辭職、不用請假。</p>
           </div>
           <div className="rounded-2xl border border-[#D7C9F2] bg-white p-6">
-            <p className="mb-2 text-sm tracking-[0.16em] text-[#918BA6]">你會帶走</p>
-            <h2 className="mb-5 text-xl font-bold">一套可以開始練習的工具</h2>
-            <ol className="space-y-3 text-sm leading-relaxed text-[#55506B]">
-              {TAKEAWAYS.map((item, index) => <li key={item} className="flex gap-3"><span className="w-5 shrink-0 font-semibold tabular-nums text-[#A8883F]">{index + 1}.</span><span>{item}</span></li>)}
-            </ol>
+            <p className="mb-2 text-sm tracking-[0.16em] text-[#918BA6]">你會帶走什麼</p>
+            <h2 className="mb-5 text-xl font-bold">不是一張清單，是三種能帶走的能力</h2>
+            <div className="space-y-4 text-sm leading-loose text-[#55506B]"><p>一套可以重複使用的解盤流程。</p><p>一組讓你不踩線的說話原則。</p><p>一份可以直接對外收費的服務設計。</p></div>
           </div>
         </div>
       </section>
@@ -136,7 +108,7 @@ const NASConsultant = () => {
           <article className="rounded-2xl border border-[#E7E3F0] p-6 md:p-8">
             <h2 className="mb-5 text-xl font-bold">結業認證，怎麼取得？</h2>
             <ul className="space-y-4 text-sm leading-relaxed text-[#55506B]">
-              <li>結業後 60 天內交 3 份真實個案報告，其中 1 份附完整錄音，由艾瑞克審核。</li>
+              <li>結業後依課程要求完成個案報告，由艾瑞克審核。</li>
               <li>通過即取得艾瑞克的結業認證、列入認證顧問名錄、啟用第一年顧問會員。</li>
               <li>未通過可補做，不另外收費。</li>
               <li>這是艾瑞克個人的結業認證，不是政府或第三方機構的證照。</li>
@@ -160,38 +132,7 @@ const NASConsultant = () => {
             <p className="leading-loose text-[#55506B]">目前採意向登記制，第一屆限收 10 人，不設直接付款。送出資料後，會依登記順序與入學作業安排面談或通知。</p>
           </div>
 
-          <div className="rounded-2xl border border-[#D7C9F2] bg-white p-6 md:p-8">
-            <h3 className="mb-5 text-xl font-bold">填寫意向登記</h3>
-            {submitted ? (
-              <div className="rounded-xl bg-[#F7F5FC] p-5 text-sm leading-relaxed text-[#55506B]" role="status">
-                名額有限，開班前會依登記順序與入學作業安排面談或通知。
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <label className="block text-sm font-medium text-[#1F1A2E]">
-                  姓名
-                  <input required value={form.name} onChange={(event) => updateField('name', event.target.value)} className="mt-2 w-full rounded-lg border border-[#E7E3F0] px-4 py-3 font-normal outline-none transition focus:border-[#5B3A9E]" />
-                </label>
-                <label className="block text-sm font-medium text-[#1F1A2E]">
-                  聯絡方式
-                  <input required value={form.contact} onChange={(event) => updateField('contact', event.target.value)} placeholder="LINE、Email 或電話" className="mt-2 w-full rounded-lg border border-[#E7E3F0] px-4 py-3 font-normal outline-none transition focus:border-[#5B3A9E]" />
-                </label>
-                <label className="block text-sm font-medium text-[#1F1A2E]">
-                  是否已完成主課
-                  <select required value={form.completed} onChange={(event) => updateField('completed', event.target.value)} className="mt-2 w-full rounded-lg border border-[#E7E3F0] bg-white px-4 py-3 font-normal outline-none transition focus:border-[#5B3A9E]">
-                    <option value="">請選擇</option>
-                    <option value="yes">已完成</option>
-                    <option value="no">尚未完成</option>
-                  </select>
-                </label>
-                <label className="block text-sm font-medium text-[#1F1A2E]">
-                  想解決的問題
-                  <textarea required value={form.problem} onChange={(event) => updateField('problem', event.target.value)} rows={4} className="mt-2 w-full resize-y rounded-lg border border-[#E7E3F0] px-4 py-3 font-normal outline-none transition focus:border-[#5B3A9E]" />
-                </label>
-                <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-6 py-3 font-medium text-white transition hover:bg-[#472D7D]">送出意向登記<ArrowRight size={16} /></button>
-              </form>
-            )}
-          </div>
+          <OutlineRequestForm formName="nas-consultant-outline-request" fields="consultant" title="索取顧問班詳細說明" description="填寫姓名、Email 與主課完成狀態，取得顧問班目前的詳細版 PDF 佔位檔。" downloadHref="/downloads/nas-consultant-details-placeholder.pdf" />
         </div>
       </section>
 
@@ -212,8 +153,8 @@ const NASConsultant = () => {
           </div>
         </div>
       </section>
+      <p className="px-6 pb-12 text-center text-xs leading-relaxed text-[#918BA6]">課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。</p>
     </main>
-  );
-};
+);
 
 export default NASConsultant;

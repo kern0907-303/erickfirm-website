@@ -3,70 +3,44 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import NASMark from '../components/NASMark';
+import OutlineRequestForm from '../components/OutlineRequestForm';
 import { LINE_CONFIG } from '../lib/constants';
 
 const COURSE_MODULES = [
   {
-    id: '0', title: '模組零', duration: '74 分鐘', free: true,
-    units: [
-      ['0-1', '你不是不夠努力，是兩個你在拉扯', 15],
-      ['0-2', '摸不到的東西，決定了你摸得到的一切', 16],
-      ['0-3', '你看不見的選項，對你來說就是不存在', 16],
-      ['0-4', '同一天出生的雙胞胎，為什麼一個內向一個外向', 15],
-      ['0-5', '如果你的人生可以被算準，那才是壞消息', 12],
-    ],
+    id: '0', title: '模組零：先把眼睛換掉', unitCount: '5 堂', duration: '74 分', free: true,
+    solves: ['為什麼你一直很努力卻卡住', '生日描述的是出廠設定，不替你寫死答案', '從數字看自己，而不是急著替自己下結論'],
+    takeaways: ['一套看自己的新角度', '知道這門課不預測、不算命'],
   },
   {
-    id: '1', title: '模組一', duration: '135 分鐘',
-    units: [
-      ['1-1', '一組生日，藏著一條你沒看過的路徑', 18],
-      ['1-2', '白天的你和晚上的你，不是同一個人', 16],
-      ['1-3', '同一個數字出現三次，跟出現一次是兩種人', 14],
-      ['1-4', '你身上的連線，和你缺的那一條', 17],
-      ['1-5', '十種原型 1·2', 14],
-      ['1-6', '十種原型 3·4', 14],
-      ['1-7', '十種原型 5·6', 14],
-      ['1-8', '十種原型 7·8', 14],
-      ['1-9', '十種原型 9·0', 14],
-    ],
+    id: '1', title: '模組一：你的出廠設定', unitCount: '9 堂', duration: '135 分',
+    solves: ['一組生日藏著兩條軌道', '白天的你和晚上的你，不是同一個人', '把生日資料放回內在與外在的差異中看'],
+    takeaways: ['讀懂自己的兩軌', '認得十種生命原型', '找出自己缺什麼、多什麼'],
   },
   {
-    id: '2', title: '模組二', duration: '161 分鐘',
-    units: [
-      ['2-1', '你不是做不到，是心裡有一塊過不去', 15],
-      ['2-2', '你的卡點，在盤上有一個位置', 17],
-      ['2-3', '你以為的個性，可能是被要求出來的', 16],
-      ['2-4', '你小時候的那個家，還在你身上', 17],
-      ['2-5', '你愛人的方式，跟你說話的方式不一樣', 16],
-      ['2-6', '重複出現的不是人，是互動模式', 17],
-      ['2-7', '四階不是誰比較厲害', 16],
-      ['2-8', '一樣是打掃，四個人做的是四件事', 16],
-      ['2-9', '第一次碰到的事，你會回到哪個位置', 16],
-      ['2-10', '找出你自己的那一條衝突線', 15],
-    ],
+    id: '2', title: '模組二：你卡在哪裡', unitCount: '10 堂', duration: '161 分',
+    solves: ['為什麼你知道該怎麼做卻做不到', '重複出現的不是人，是模式', '把反覆卡住的地方從自責轉成可以觀察的結構'],
+    takeaways: ['在自己的盤上指出卡點的位置', '看懂自己愛人與表達的方式'],
   },
   {
-    id: '3', title: '模組三', duration: '110 分鐘',
-    units: [
-      ['3-1', '人生是一棟五層樓', 16],
-      ['3-2', '九年一輪：從選種到休耕', 18],
-      ['3-3', '你站在九宮的哪一格', 15],
-      ['3-4', '流月與流日', 14],
-      ['3-5', '六種關係（上）', 16],
-      ['3-6', '六種關係（下）', 16],
-      ['3-7', '壞天氣不用硬撐，但要知道自己在哪一種天氣裡', 15],
-    ],
+    id: '3', title: '模組三：你的時間感', unitCount: '7 堂', duration: '110 分',
+    solves: ['努力不一定在對的時間', '人生有節奏，不是隨機', '把流年、流月、流日放回每天的安排裡'],
+    takeaways: ['知道自己現在走到哪一段', '壞天氣時知道怎麼安排，不硬撐'],
   },
   {
-    id: '4', title: '模組四', duration: '82 分鐘',
-    units: [
-      ['4-1', '把你自己寫成一頁', 17],
-      ['4-2', '你適合被放在什麼位置', 17],
-      ['4-3', '排出你的未來十二個月，把衝突線放進去', 18],
-      ['4-4', '讀懂數字每曆的每一格', 16],
-      ['4-5', '用在身邊的人身上', 14],
-    ],
+    id: '4', title: '模組四：把它用起來', unitCount: '5 堂', duration: '82 分',
+    solves: ['學完最怕的是看過就忘', '把理解放回接下來的生活', '把看見的東西變成日常可以回來使用的節奏'],
+    takeaways: ['把自己寫成一頁', '排出未來十二個月', '每天會用數字每曆'],
   },
+];
+
+const FEATURED_UNITS = [
+  ['你不是不夠努力，是兩個你在拉扯', '看見道理與感受同時拉扯時，卡住不等於不夠努力。'],
+  ['如果你的人生可以被算準，那才是壞消息', '數字描述要處理的題目，不替你把答案寫死。'],
+  ['白天的你和晚上的你，不是同一個人', '用雙軌看見對外展現與內在需求的落差。'],
+  ['你以為的個性，可能是被要求出來的', '分清楚主命設定與後天適應怎麼一起作用。'],
+  ['重複出現的不是人，是互動模式', '從關係裡辨認反覆發生的互動結構。'],
+  ['壞天氣不用硬撐，但要知道自己在哪一種天氣裡', '先辨認流日狀態，再安排今天的動作。'],
 ];
 
 const COURSE_PRICES = [
@@ -84,8 +58,8 @@ const lineCta = (label, className = '') => (
 const NASCourse = () => (
   <main className="bg-white text-[#1F1A2E]">
     <SEOHead
-      title="生命數字課程｜36 單元、五模組，約 9 小時 20 分"
-      description="生命數字主課 36 單元、五個模組、約 9 小時 20 分。從看懂自己的生命設定、卡點與時間節奏，到學會讀數字每曆。另有分流／轉職的生命數字顧問班。艾瑞克，二十年生命數字教學。"
+      title="生命數字課程｜36 堂、每堂不到 20 分鐘，約 9 小時 20 分"
+      description="生命數字主課 36 堂、每堂不到 20 分鐘，總長約 9 小時 20 分。從看懂自己的生命設定、卡點與時間節奏，到讀進數字每曆。另有分流／轉職的生命數字顧問班。艾瑞克，二十年生命數字教學。"
     />
 
     <section className="px-6 pb-16 pt-32">
@@ -106,36 +80,51 @@ const NASCourse = () => (
     </section>
 
     <section className="bg-[#F7F5FC] px-6 py-16">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-10 rounded-3xl border border-[#D7C9F2] bg-white p-7 shadow-[0_12px_35px_rgba(91,58,158,0.08)] md:p-10">
+          <p className="mb-3 text-xs tracking-[0.2em] text-[#A8883F]">每天 18 分鐘</p>
+          <h2 className="mb-4 text-2xl font-bold md:text-3xl">一天一堂，一個多月看完；每天不到 20 分鐘。</h2>
+          <div className="mb-6 grid gap-4 sm:grid-cols-3">
+            {[['36 堂', '完整主課'], ['每堂 ≤18 分鐘', '通勤、午休、睡前都放得進去'], ['總長 9 小時 20 分', '一天一堂，36 天看完']].map(([value, label]) => (
+              <div key={value} className="rounded-2xl bg-[#F7F5FC] p-5"><p className="text-2xl font-bold tabular-nums text-[#5B3A9E]">{value}</p><p className="mt-2 text-sm leading-relaxed text-[#55506B]">{label}</p></div>
+            ))}
+          </div>
+          <p className="max-w-3xl text-sm leading-loose text-[#55506B]">每一堂都控制在 18 分鐘以內，通勤、午休、睡前都放得進去。一天一堂，36 天看完；想快的人一個週末也能看完模組零到模組一。不用排出整個下午，也不用怕中斷後接不上——每一堂都是完整的一件事。</p>
+        </div>
+
         <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="mb-2 text-xs tracking-[0.2em] text-[#918BA6]">主課架構</p>
-            <h2 className="text-2xl font-bold md:text-3xl">五個模組，36 個可以走完的單元</h2>
+            <h2 className="text-2xl font-bold md:text-3xl">五個模組，公開看結構</h2>
           </div>
           <span className="text-sm tabular-nums text-[#6E6885]">合計 562 分鐘</span>
         </div>
 
-        <div className="space-y-5">
+        <div className="grid gap-5 md:grid-cols-2">
           {COURSE_MODULES.map((module) => (
-            <section key={module.id} className="overflow-hidden rounded-2xl border border-[#E7E3F0] bg-white">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E7E3F0] px-5 py-4 md:px-7">
-                <div className="flex items-center gap-3">
-                  <h3 className="font-bold">{module.title}</h3>
-                  {module.free && <span className="rounded-full bg-[#5B3A9E] px-3 py-1 text-xs text-white">免費試看</span>}
-                </div>
-                <span className="text-sm tabular-nums text-[#6E6885]">{module.duration}</span>
+            <article key={module.id} className="rounded-2xl border border-[#E7E3F0] bg-white p-6">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div><h3 className="font-bold">{module.title}</h3>{module.free && <span className="mt-2 inline-block rounded-full bg-[#5B3A9E] px-3 py-1 text-xs text-white">免費試看</span>}</div>
+                <div className="text-right text-sm tabular-nums text-[#6E6885]"><p>{module.unitCount}</p><p>{module.duration}</p></div>
               </div>
-              <ol className="divide-y divide-[#F0EDF7]">
-                {module.units.map(([number, title, minutes]) => (
-                  <li key={number} className="flex items-start gap-4 px-5 py-3.5 text-sm md:px-7">
-                    <span className="w-10 shrink-0 font-semibold tabular-nums text-[#A8883F]">{number}</span>
-                    <span className="flex-1 leading-relaxed text-[#55506B]">{title}</span>
-                    <span className="shrink-0 tabular-nums text-[#918BA6]">{minutes} 分</span>
-                  </li>
-                ))}
-              </ol>
-            </section>
+              <p className="mt-5 mb-3 text-sm font-semibold text-[#1F1A2E]">這個模組在解決什麼</p>
+              <ul className="space-y-1 text-sm leading-relaxed text-[#55506B]">{module.solves.map((line) => <li key={line}>・{line}</li>)}</ul>
+              <p className="mt-5 mb-3 text-sm font-semibold text-[#1F1A2E]">你會帶走什麼</p>
+              <ul className="space-y-1 text-sm leading-relaxed text-[#55506B]">{module.takeaways.map((line) => <li key={line}>・{line}</li>)}</ul>
+            </article>
           ))}
+        </div>
+
+        <div className="mt-12">
+          <p className="mb-2 text-xs tracking-[0.2em] text-[#918BA6]">課程中的其中 6 堂</p>
+          <h2 className="mb-6 text-2xl font-bold md:text-3xl">先看幾個你可能正在問的問題</h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {FEATURED_UNITS.map(([title, description]) => <article key={title} className="rounded-2xl border border-[#E7E3F0] bg-white p-5"><h3 className="mb-3 font-bold leading-relaxed">{title}</h3><p className="text-sm leading-relaxed text-[#55506B]">{description}</p></article>)}
+          </div>
+        </div>
+
+        <div className="mt-12">
+          <OutlineRequestForm formName="nas-course-outline-request" title="索取完整課綱" description="完整 36 堂課綱與時長，填寫後即可取得目前的 PDF 佔位檔。總長約 9 小時 20 分，每堂不到 20 分鐘。" downloadHref="/downloads/nas-course-outline-placeholder.pdf" />
         </div>
       </div>
     </section>
@@ -155,6 +144,7 @@ const NASCourse = () => (
               {plan.recommended && <span className="absolute -top-3 left-5 rounded-full bg-[#5B3A9E] px-3 py-1 text-xs text-white">推薦</span>}
               <h3 className="text-xl font-bold">{plan.name}</h3>
               <p className="mt-3 min-h-12 text-sm leading-relaxed text-[#55506B]">{plan.content}</p>
+              {plan.name === '自學' && <p className="mt-2 text-sm leading-relaxed text-[#6E6885]">一天一堂，36 天看完。</p>}
               <p className="mt-6 text-3xl font-bold tabular-nums text-[#1F1A2E]">{plan.price}</p>
               {plan.note && <p className="mt-1 text-xs text-[#A8883F]">{plan.note}</p>}
               {plan.recommended && <p className="mt-4 text-sm leading-relaxed text-[#55506B]">再加主課價的一半，多 4 週陪你做。</p>}
@@ -197,6 +187,8 @@ const NASCourse = () => (
         </div>
       </div>
     </section>
+
+    <p className="px-6 pb-12 text-center text-xs leading-relaxed text-[#918BA6]">課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。</p>
   </main>
 );
 

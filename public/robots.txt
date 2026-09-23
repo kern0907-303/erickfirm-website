@@ -1,26 +1,34 @@
 # 允許主要的 AI 搜尋與生成引擎爬蟲
 User-agent: GPTBot
 Allow: /
+Disallow: /downloads/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /downloads/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /downloads/
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /downloads/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /downloads/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /downloads/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /downloads/
 
 # 允許一般搜尋引擎
 User-agent: *
 Allow: /
+Disallow: /downloads/
 Sitemap: https://erickfirm.com/sitemap.xml
