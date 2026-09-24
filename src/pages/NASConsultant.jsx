@@ -6,7 +6,7 @@ import NASMark from '../components/NASMark';
 import OutlineRequestForm from '../components/OutlineRequestForm';
 
 const WEEKS = [
-  ['1', '讀盤：從自己的盤，到一個你不認識的人', '30 分鐘內講出一個人的主線'],
+  ['1', '讀盤：從自己的盤，到一個你不認識的人（解盤五步的顧問版）', '30 分鐘內講出一個人的主線'],
   ['2', '問診：他說的問題，通常不是真正的問題', '提問，找到真正的卡點'],
   ['3', '說法：同一個結論，七種講法', '依生命功課等級調整說法，並守住語言界線'],
   ['4', '兩個人的盤', '伴侶、親子、合夥的雙人解讀'],
@@ -106,6 +106,7 @@ const NASConsultant = () => (
               </article>
             ))}
           </div>
+          <p className="mt-6 text-xs leading-relaxed text-[#918BA6]">主課教的解盤五步（排 → 看 → 判 → 說 → 收）是自用版，用在自己身上沒有時間壓力。顧問班第 1 週把它換成顧問版：加上時間控制、加上問診、加上依對方狀態分級的說法——同一套骨架，面對陌生人時的走法不一樣。</p>
         </div>
       </section>
 

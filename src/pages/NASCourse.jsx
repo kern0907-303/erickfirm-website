@@ -19,7 +19,7 @@ const COURSE_MODULES = [
   },
   {
     id: '2', title: '模組二：你卡在哪裡', unitCount: '10 堂', duration: '161 分',
-    description: '當你知道該怎麼做卻仍然做不到，先不要急著責怪自己，回到盤上找出卡點的位置。把反覆出現的人際衝突，從某個人的問題改看成互動模式，理解自己愛人與表達的方式，讓卡住不再只剩下自責。',
+    description: '你不是做不到，是心裡有一塊過不去。這個模組把「我知道該怎麼做卻做不到」拆開來看：你的卡點不是情緒，是結構，而且在盤上有一個確切的位置。課程把常見卡點收斂成五種型別——落差、斷線、過載、空缺、錯位——並教你判斷自己現在最吃力的是哪一型。同時處理原生家庭、感情表達、四階與生命功課等級。',
     takeaways: ['在自己的盤上指出卡點的位置', '看懂自己愛人與表達的方式'],
   },
   {
@@ -51,6 +51,8 @@ const COURSE_FAQS = [
   ['會不會算命？', '不會。課程不預測、不恐嚇，數字描述的是要處理的題目，不替你把答案寫死。'],
   ['退費怎麼辦？', '目前頁面標示退費條款待確認；購買前請先確認正式條款。'],
   ['購買後可以看多久？', '目前頁面未標示觀看期限，正式方案確認後會補上；請以購買時的條款為準。'],
+  ['上完之後，我會有一套可以重複使用的方法嗎？還是只記得一堆名詞？', '會。整門課走的是同一套流程：排 → 看 → 判 → 說 → 收。第一堂就先給你這張地圖，之後每個模組都在把其中一步填滿。到了最後一個模組，你會用這套流程把自己寫成一頁，往後換一組生日、或隔半年再看自己，流程都一樣走。課程另附一張 A4 解盤流程卡，可以列印下來放在桌上。'],
+  ['我已經看過很多生命數字的內容了，這門課有什麼不一樣？', '多數內容停在「這個數字是什麼意思」。這門課的重點在流程與結構——怎麼把一組生日完整排出來、按什麼順序看、怎麼判斷自己卡在哪一種結構、以及怎麼把看到的東西講成可以執行的一個動作。知道數字的意思是材料，能走完流程才是能力。'],
 ];
 
 const COURSE_STRUCTURED_DATA = {
@@ -61,6 +63,7 @@ const COURSE_STRUCTURED_DATA = {
       '@id': 'https://erickfirm.com/nas/course#course',
       name: '人生的出廠設定',
       description: '生命數字 36 堂，看懂你為什麼一直卡在同一個地方',
+      teaches: ['解盤五步（排、看、判、說、收）', '卡點五型辨識', '生命數字三數計算', '雙軌對照', '流年節奏安排'],
       provider: { '@id': 'https://erickfirm.com/#org' },
       instructor: { '@id': 'https://erickfirm.com/#erick' },
       inLanguage: 'zh-TW',
@@ -151,6 +154,49 @@ const NASCourse = () => (
             </article>
           ))}
         </div>
+
+        <section className="mt-14 rounded-3xl border border-[#D7C9F2] bg-[#FBF9FE] p-7 md:p-10">
+          <p className="mb-3 text-xs tracking-[0.2em] text-[#A8883F]">解盤五步</p>
+          <h2 className="mb-4 text-2xl font-bold md:text-3xl">你會帶走一套流程</h2>
+          <p className="mb-8 max-w-3xl leading-loose text-[#55506B]">36 堂課不是 36 個零散的知識點。整門課走的是同一套流程，五個字：排 → 看 → 判 → 說 → 收。第一堂就先把這張地圖給你，之後每一個模組，都是在把其中一步填滿。</p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              ['排', '建檔', '把盤完整排出來。這一步不解讀任何一個數字。'],
+              ['看', '定位', '照固定順序看完一輪，先掌握輪廓，再處理細節。'],
+              ['判', '找卡點', '三個問句，找出你卡住的結構長在哪裡。'],
+              ['說', '開口', '把看到的東西講成人話，最後只給一個動作。'],
+              ['收', '收尾', '一句話、一個動作、一個回訪時間點。'],
+            ].map(([step, title, description]) => (
+              <article key={step} className="rounded-2xl border border-[#E7E3F0] bg-white p-5">
+                <p className="text-4xl font-bold leading-none text-[#8B3FA8]">{step}</p>
+                <h3 className="mt-4 font-bold text-[#1F1A2E]">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#55506B]">{description}</p>
+              </article>
+            ))}
+          </div>
+          <p className="mt-7 text-xs leading-relaxed text-[#918BA6]">學完之後，這五個字是可以重複使用的。換一組生日，流程一樣走；隔半年再看自己，流程也一樣走。</p>
+        </section>
+
+        <section className="mt-10 rounded-3xl border border-[#E7E3F0] bg-white p-7 md:p-10">
+          <p className="mb-3 text-xs tracking-[0.2em] text-[#A8883F]">卡點辨識</p>
+          <h2 className="mb-4 text-2xl font-bold md:text-3xl">你一直卡住的，可能是這五種結構之一</h2>
+          <p className="mb-7 max-w-3xl leading-loose text-[#55506B]">卡點不是感覺，是結構。課程把常見的卡點收斂成五種型別，每一種在你的盤上都有一個確切的位置。</p>
+          <div className="space-y-3">
+            {[
+              ['落差型', '想的跟做的，不是同一個人'],
+              ['斷線型', '功能接不起來，原地內耗'],
+              ['過載型', '同一招用到底，用在不該用的地方'],
+              ['空缺型', '沒安裝，一遇到就當機'],
+              ['錯位型', '在該休息的季節，硬要開工'],
+            ].map(([type, appearance]) => (
+              <div key={type} className="grid gap-1 rounded-xl bg-[#F7F5FC] px-5 py-4 sm:grid-cols-[9rem_1fr] sm:items-center">
+                <p className="font-bold text-[#8B3FA8]">{type}</p>
+                <p className="text-sm leading-relaxed text-[#55506B]">{appearance}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-7 text-xs leading-relaxed text-[#918BA6]">五種型別分別對應盤上的哪一個位置、怎麼判斷自己屬於哪一型，在課程單元 2-2。</p>
+        </section>
 
         <div className="mt-12">
           <p className="mb-2 text-xs tracking-[0.2em] text-[#918BA6]">課程中的其中 6 堂</p>
