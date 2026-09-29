@@ -29,7 +29,7 @@ const Header = () => {
         <div className="hidden md:flex items-center gap-10 font-sans">
           <Link to="/" className="text-sm font-bold text-slate-700 hover:text-accent transition-colors">首頁</Link>
           <Link to="/insights" className="text-sm font-bold text-slate-700 hover:text-slate-950 transition-colors">洞察文章</Link>
-          <a href="/#about" className="text-sm font-bold text-slate-700 hover:text-slate-950 transition-colors">關於</a>
+          <Link to="/about" className="text-sm font-bold text-slate-700 hover:text-slate-950 transition-colors">關於艾瑞克</Link>
           <a
             href={LINE_CONFIG.LINE_MESSAGE_URL}
             target="_blank"
@@ -51,7 +51,7 @@ const Header = () => {
         <div className="md:hidden bg-white border-t border-slate-100 p-6 flex flex-col gap-6 shadow-xl font-sans text-slate-900">
           <button onClick={() => handleNav('/')} className="text-left font-bold text-slate-700 hover:text-accent">首頁</button>
           <button onClick={() => handleNav('/insights')} className="text-left font-bold text-slate-700 hover:text-slate-900">洞察文章</button>
-          <a href="/#about" onClick={() => setIsMenuOpen(false)} className="font-bold text-slate-700 hover:text-slate-900">關於</a>
+          <button onClick={() => handleNav('/about')} className="text-left font-bold text-slate-700 hover:text-slate-900">關於艾瑞克</button>
           <a
             href={LINE_CONFIG.LINE_MESSAGE_URL}
             target="_blank"

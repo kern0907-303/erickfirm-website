@@ -12,6 +12,7 @@ const Footer = () => {
             <p className="text-slate-300 text-base leading-relaxed">看見那個一直在影響結果的因素。</p>
           </div>
           <div className="grid gap-3 text-sm font-medium font-sans">
+            <Link to="/about" className="!text-slate-300 hover:!text-white transition-colors">關於艾瑞克</Link>
             <Link to="/i8" className="!text-slate-300 hover:!text-white transition-colors">初八信息顧問 I8</Link>
             <Link to="/nas" className="!text-slate-300 hover:!text-white transition-colors">平衡空間 NAS</Link>
             <Link to="/nas/consultant" className="!text-slate-300 hover:!text-white transition-colors">生命數字顧問班</Link>

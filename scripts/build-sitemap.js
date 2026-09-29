@@ -36,6 +36,7 @@ async function generateSitemap() {
     { url: `${DOMAIN}/insights/personal-growth`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
     { url: `${DOMAIN}/insights/erick-column`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
     { url: `${DOMAIN}/i8`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
+    { url: `${DOMAIN}/about`, lastmod: today, changefreq: 'monthly', priority: '0.9' },
     // 平衡空間 NAS 第二層主頁——沒列在這裡，搜尋引擎與 AI 爬蟲就不知道這些頁面存在
     { url: `${DOMAIN}/nas`, lastmod: today, changefreq: 'weekly', priority: '0.9' },
     { url: `${DOMAIN}/nas/calculator`, lastmod: today, changefreq: 'monthly', priority: '0.9' },

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { LINE_CONFIG } from '../lib/constants';
 
 const MobileStickyBar = () => {
+  const { pathname } = useLocation();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -17,6 +19,8 @@ const MobileStickyBar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  if (pathname === '/about') return null;
 
   return (
     <div

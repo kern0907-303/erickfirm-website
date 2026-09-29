@@ -23,6 +23,7 @@ import NASConsultant from './pages/NASConsultant';
 import NASDashboard from './pages/NASDashboard';
 import AblPage from './pages/AblPage';
 import I8Page from './pages/I8Page';
+import AboutPage from './pages/AboutPage';
 import MobileStickyBar from './components/MobileStickyBar';
 import SEOHead, { updateMetaTags } from './components/SEOHead';
 
@@ -171,6 +172,7 @@ function App() {
           <Route path="/nas/consultant" element={<NASConsultant />} />
           <Route path="/abl" element={<AblPage />} />
           <Route path="/i8" element={<I8Page />} />
+          <Route path="/about" element={<AboutPage />} />
 
           <Route path="/insights" element={<Insights />} />
           <Route path="/insights/:service" element={<Insights />} />

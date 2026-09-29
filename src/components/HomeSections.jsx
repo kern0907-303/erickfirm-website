@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { LINE_CONFIG } from '../lib/constants';
 import Reveal from './Reveal';
 
@@ -33,6 +34,11 @@ export const WhyStuckSection = () => (
       </Reveal>
       <Reveal delay={0.12}>
         <p className="mt-12 text-xl leading-relaxed text-slate-900 md:text-3xl">最吵的那個問題，<br />通常不是最關鍵的那一個。</p>
+        <p className="mt-9 text-sm">
+          <Link to="/about" className="font-medium text-slate-700 underline decoration-slate-400 underline-offset-4 transition-colors hover:text-slate-950">
+            想知道我是怎麼走到這裡的？
+          </Link>
+        </p>
       </Reveal>
     </div>
   </section>
