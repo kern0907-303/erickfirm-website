@@ -72,10 +72,6 @@ const AboutPage = () => {
       </div>
 
       <div className="mx-auto max-w-[680px] px-6">
-        <div className="mb-16 text-center md:mb-20">
-          <LineCta>加 LINE，找到適合你的方向</LineCta>
-        </div>
-
         <article>
           <header className="mb-14 border-b border-slate-300 pb-12 md:mb-16 md:pb-14">
             <p className="mb-5 text-xs tracking-[0.22em] text-slate-500">ABOUT ERICK</p>

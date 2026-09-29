@@ -21,7 +21,6 @@ const sections = aboutLetter.sections.map((section) => [
 
 const body = [
   '<article>',
-  cta('加 LINE，找到適合你的方向'),
   `<h1>${esc(aboutLetter.title)}</h1>`,
   sections,
   '</article>',
