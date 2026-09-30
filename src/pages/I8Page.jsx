@@ -1,10 +1,10 @@
 import React from 'react';
 import { ArrowRight, ClipboardCheck, Route, ShieldCheck, UsersRound } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { LINE_CONFIG } from '../lib/constants';
+import { lineMessageUrl } from '../lib/constants';
 import SEOHead from '../components/SEOHead';
 
-const I8_LINE_DIAGNOSTIC_URL = LINE_CONFIG.LINE_MESSAGE_URL + '%E3%80%90%E4%BC%81%E6%A5%AD%E9%86%AB%E7%94%9F%E8%A8%BA%E6%96%B7%E3%80%91';
+const I8_LINE_DIAGNOSTIC_URL = lineMessageUrl('【企業醫生診斷】');
 
 const lenses = [
   {

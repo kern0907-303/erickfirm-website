@@ -35,7 +35,7 @@ const ReadingProgress = () => {
 
 const LineCta = ({ children }) => (
   <a
-    href={LINE_CONFIG.LINE_MESSAGE_URL}
+    href={LINE_CONFIG.LINE_ADD_URL}
     target="_blank"
     rel="noopener noreferrer"
     className="inline-flex items-center justify-center gap-3 bg-slate-900 px-6 py-4 text-center text-sm font-bold text-white transition-colors hover:bg-slate-700"

@@ -21,10 +21,10 @@ import {
   Flame,
   Search,
 } from 'lucide-react';
-import { LINE_CONFIG } from '../lib/constants';
+import { lineMessageUrl } from '../lib/constants';
 import SEOHead, { updateMetaTags } from '../components/SEOHead';
 
-const ABL_LINE_BOOKING_URL = `${LINE_CONFIG.LINE_MESSAGE_URL}%E3%80%90ABL%20TimeWaver%E8%AA%BF%E5%92%8C%E9%A0%90%E7%B4%84%E3%80%91`;
+const ABL_LINE_BOOKING_URL = lineMessageUrl('【ABL TimeWaver調和預約】');
 
 const AblPage = () => {
   // 10 分鐘解說影片解鎖狀態管理 (localStorage 記憶)

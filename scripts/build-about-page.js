@@ -9,7 +9,7 @@ const url = SITE + '/about';
 const title = '關於艾瑞克｜我做的其實只有一件事，只是換了三種對象';
 const description = '二十年來，我做的只有兩個動作：拆解，然後重組順序。生命數字、狀態調和、組織與決策——三個領域，同一件事。';
 
-const cta = (label) => `<p><a href="${esc(LINE_CONFIG.LINE_MESSAGE_URL)}">${esc(label)}</a></p>`;
+const cta = (label) => `<p><a href="${esc(LINE_CONFIG.LINE_ADD_URL)}">${esc(label)}</a></p>`;
 const sections = aboutLetter.sections.map((section) => [
   '<section>',
   section.heading ? `<h2 id="${esc(section.id)}">${esc(section.heading)}</h2>` : '',

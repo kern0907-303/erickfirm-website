@@ -31,7 +31,7 @@ const Header = () => {
           <Link to="/insights" className="text-sm font-bold text-slate-700 hover:text-slate-950 transition-colors">洞察文章</Link>
           <Link to="/about" className="text-sm font-bold text-slate-700 hover:text-slate-950 transition-colors">關於艾瑞克</Link>
           <a
-            href={LINE_CONFIG.LINE_MESSAGE_URL}
+            href={LINE_CONFIG.LINE_ADD_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-2 bg-slate-900 text-white text-sm font-bold hover:bg-slate-700 transition-colors"
@@ -53,7 +53,7 @@ const Header = () => {
           <button onClick={() => handleNav('/insights')} className="text-left font-bold text-slate-700 hover:text-slate-900">洞察文章</button>
           <button onClick={() => handleNav('/about')} className="text-left font-bold text-slate-700 hover:text-slate-900">關於艾瑞克</button>
           <a
-            href={LINE_CONFIG.LINE_MESSAGE_URL}
+            href={LINE_CONFIG.LINE_ADD_URL}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setIsMenuOpen(false)}

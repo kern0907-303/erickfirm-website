@@ -115,7 +115,7 @@ export const AnalysisSection = () => (
         <Reveal direction="right" delay={0.1} className="order-3 md:mt-8">
           <p className="text-base leading-loose text-slate-600">如果這段話剛好說中了你現在的狀態，加入 LINE 告訴我們目前卡住的地方；我們會先從最適合你的方向開始。</p>
           <div className="hidden md:block">
-            <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-8`}>
+            <a href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-8`}>
               加 LINE，找到適合你的方向 →
             </a>
           </div>
@@ -152,7 +152,7 @@ export const ClosingSection = () => (
         <p className="mt-7">把真正卡住的位置找出來，<br />才能給你現在最該做的下一步。</p>
       </div>
       <p className="mt-10 text-base text-slate-600">— 艾瑞克 Erick</p>
-      <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-10`}>
+      <a href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-10`}>
         加 LINE，找到適合你的方向 →
       </a>
       </Reveal>

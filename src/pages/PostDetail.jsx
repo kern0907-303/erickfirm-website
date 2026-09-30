@@ -4,6 +4,7 @@ import { HelpCircle, ChevronDown } from 'lucide-react';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { findPostByRoute, getPostImage, getPostPath, getPostUrl, getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
+import { lineMessageUrl } from '../lib/constants';
 import SEOHead, { updateMetaTags } from '../components/SEOHead';
 
 // 四大服務分類所對應的專屬 CTA 引流文案與按鈕配置
@@ -14,7 +15,7 @@ const CATEGORY_CTA_CONFIG = {
     btn1Text: '做 30 秒自評',
     btn1Url: 'https://erickfirm.com/#assessment',
     btn2Text: '加 LINE 輸入【168】',
-    btn2Url: 'https://line.me/R/oaMessage/U4744aca9737a23e3b6c3ef5a038cdf4e/?168',
+    btn2Url: lineMessageUrl('168'),
   },
   'life-number': {
     title: '你自己的那一套，是怎麼運作的？',
@@ -22,7 +23,7 @@ const CATEGORY_CTA_CONFIG = {
     btn1Text: '做 30 秒自評',
     btn1Url: 'https://erickfirm.com/#assessment',
     btn2Text: '加 LINE 輸入【168】',
-    btn2Url: 'https://line.me/R/oaMessage/U4744aca9737a23e3b6c3ef5a038cdf4e/?168',
+    btn2Url: lineMessageUrl('168'),
   },
   'enterprise-doctor': {
     title: '如果你的公司也卡在同一個地方',
@@ -30,7 +31,7 @@ const CATEGORY_CTA_CONFIG = {
     btn1Text: '做 30 秒盤點',
     btn1Url: 'https://erickfirm.com/#assessment',
     btn2Text: '預約聯繫',
-    btn2Url: 'https://line.me/R/oaMessage/U4744aca9737a23e3b6c3ef5a038cdf4e/?168',
+    btn2Url: lineMessageUrl('168'),
   },
   'erick-column': {
     title: '想知道你現在該先解哪一題？',
@@ -38,7 +39,7 @@ const CATEGORY_CTA_CONFIG = {
     btn1Text: '做 30 秒自評',
     btn1Url: 'https://erickfirm.com/#assessment',
     btn2Text: '加 LINE 輸入【168】',
-    btn2Url: 'https://line.me/R/oaMessage/U4744aca9737a23e3b6c3ef5a038cdf4e/?168',
+    btn2Url: lineMessageUrl('168'),
   },
 };
 

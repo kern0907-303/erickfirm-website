@@ -1,6 +1,7 @@
 // 把企業醫生診斷預渲染成靜態 HTML，讓不執行 JavaScript 的爬蟲也能讀到服務內容。
 import path from 'node:path';
-import { SITE, PERSON_ID, loadShell, renderPage, writePage, breadcrumb } from './prerender-shell.js';
+import { lineMessageUrl } from '../src/lib/constants.js';
+import { SITE, PERSON_ID, esc, loadShell, renderPage, writePage, breadcrumb } from './prerender-shell.js';
 
 const dist = path.resolve('dist');
 const url = SITE + '/i8';
@@ -16,7 +17,7 @@ const body = [
   '<h2>從一個真正想處理的問題開始</h2>',
   '<ol><li>先釐清現在卡在哪裡。</li><li>把角色、決策、流程與節奏攤開來看。</li><li>確認最該先處理的結構與下一步。</li></ol>',
   '<p>這不是自動評分工具，也不會用一份表單替你下結論。每個組織的背景不同，診斷以實際經營情境為準。</p>',
-  '<p><a href="https://line.me/R/oaMessage/U4744aca9737a23e3b6c3ef5a038cdf4e/?168%5B%E4%BC%81%E6%A5%AD%E9%86%AB%E7%94%9F%E8%A8%BA%E6%96%B7%5D">先說說目前的卡點</a>｜<a href="/insights/enterprise-doctor">先看企業醫生文章</a></p>',
+  `<p><a href="${esc(lineMessageUrl('168[企業醫生診斷]'))}">先說說目前的卡點</a>｜<a href="/insights/enterprise-doctor">先看企業醫生文章</a></p>`,
   '</article>',
 ].join('');
 

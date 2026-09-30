@@ -32,7 +32,7 @@ const MobileStickyBar = () => {
     >
       <div className="flex items-center h-11">
         <a
-          href={LINE_CONFIG.LINE_MESSAGE_URL}
+          href={LINE_CONFIG.LINE_ADD_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full h-full bg-slate-900 text-white font-bold text-xs sm:text-sm flex items-center justify-center active:scale-[0.98] transition-transform cursor-pointer font-sans"

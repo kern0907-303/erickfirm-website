@@ -86,7 +86,7 @@ const COURSE_PRICES = [
 ];
 
 const lineCta = (label, className = '') => (
-  <a href={LINE_CONFIG.LINE_MESSAGE_URL} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-6 py-3 font-medium text-white transition hover:bg-[#472D7D] ${className}`}>
+  <a href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-6 py-3 font-medium text-white transition hover:bg-[#472D7D] ${className}`}>
     {label}<ArrowRight size={16} />
   </a>
 );
