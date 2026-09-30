@@ -15,7 +15,6 @@ const Footer = () => {
             <Link to="/about" className="!text-slate-300 hover:!text-white transition-colors">關於艾瑞克</Link>
             <Link to="/i8" className="!text-slate-300 hover:!text-white transition-colors">初八信息顧問 I8</Link>
             <Link to="/nas" className="!text-slate-300 hover:!text-white transition-colors">平衡空間 NAS</Link>
-            <Link to="/nas/consultant" className="!text-slate-300 hover:!text-white transition-colors">生命數字顧問班</Link>
             <Link to="/abl" className="!text-slate-300 hover:!text-white transition-colors">艾伯林量子調頻 ABL</Link>
             <a href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className="mt-3 !text-slate-300 hover:!text-white transition-colors">官方 LINE</a>
           </div>
