@@ -24,6 +24,7 @@ import NASDashboard from './pages/NASDashboard';
 import AblPage from './pages/AblPage';
 import I8Page from './pages/I8Page';
 import AboutPage from './pages/AboutPage';
+import ThreePage from './pages/ThreePage';
 import MobileStickyBar from './components/MobileStickyBar';
 import SEOHead, { updateMetaTags } from './components/SEOHead';
 
@@ -173,6 +174,7 @@ function App() {
           <Route path="/abl" element={<AblPage />} />
           <Route path="/i8" element={<I8Page />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/three" element={<ThreePage />} />
 
           <Route path="/insights" element={<Insights />} />
           <Route path="/insights/:service" element={<Insights />} />

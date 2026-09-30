@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import NASMark from '../components/NASMark';
 import OutlineRequestForm from '../components/OutlineRequestForm';
+import ReportExit from '../components/ReportExit';
 import { LINE_CONFIG } from '../lib/constants';
 
 const COURSE_MODULES = [
@@ -281,6 +282,8 @@ const NASCourse = () => (
         </div>
       </div>
     </section>
+
+    <ReportExit question="還不確定自己卡在哪一種？" />
 
     <p className="px-6 pb-12 text-center text-xs leading-relaxed text-[#918BA6]">平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。<br />課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。</p>
   </main>

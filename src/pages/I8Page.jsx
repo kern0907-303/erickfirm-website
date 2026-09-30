@@ -3,6 +3,7 @@ import { ArrowRight, ClipboardCheck, Route, ShieldCheck, UsersRound } from 'luci
 import { Link } from 'react-router-dom';
 import { lineMessageUrl } from '../lib/constants';
 import SEOHead from '../components/SEOHead';
+import ReportExit from '../components/ReportExit';
 
 const I8_LINE_DIAGNOSTIC_URL = lineMessageUrl('【企業醫生診斷】');
 
@@ -155,6 +156,7 @@ const I8Page = () => {
           </a>
         </div>
       </section>
+      <ReportExit question="還不確定問題是出在組織，還是出在自己？" />
     </div>
   );
 };

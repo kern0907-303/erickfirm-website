@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { lineMessageUrl } from '../lib/constants';
 import SEOHead, { updateMetaTags } from '../components/SEOHead';
+import ReportExit from '../components/ReportExit';
 
 const ABL_LINE_BOOKING_URL = lineMessageUrl('【ABL TimeWaver調和預約】');
 
@@ -632,6 +633,7 @@ const AblPage = () => {
           </div>
         </div>
       </section>
+      <ReportExit question="還不確定自己是不是卡在狀態？" />
     </div>
   );
 };
