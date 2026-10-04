@@ -2,21 +2,24 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { getPostUrl } from '../src/lib/insights-adapter.js';
+import { listPosts } from '../functions/_middleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY;
+const supabaseEnv = {
+  SUPABASE_URL: process.env.SUPABASE_URL,
+  SUPABASE_KEY: process.env.SUPABASE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY,
+};
 const INSIGHTS_API_URL = process.env.INSIGHTS_API_URL || 'https://erickfirm.com/.netlify/functions/notion?lang=zh-TW';
 const DOMAIN = 'https://erickfirm.com';
 
 async function fetchArticles() {
   try {
-    const response = SUPABASE_URL && SUPABASE_KEY
-      ? await fetch(`${SUPABASE_URL}/rest/v1/insights_articles?brand_id=in.(erick,i8,nas,abl)&status=eq.published&order=created_at.desc`, {
-        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
-      })
-      : await fetch(INSIGHTS_API_URL);
+    if (supabaseEnv.SUPABASE_KEY) return await listPosts(supabaseEnv);
+    if (process.env.CF_PAGES === '1') {
+      throw new Error('Cloudflare Pages build requires SUPABASE_KEY; refusing to fetch from Netlify.');
+    }
+    const response = await fetch(INSIGHTS_API_URL);
     if (!response.ok) throw new Error(`content source returned ${response.status}`);
     const data = await response.json();
     return Array.isArray(data) ? data : data.posts || data.results || [];

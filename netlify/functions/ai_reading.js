@@ -1,7 +1,8 @@
 // netlify/functions/ai_reading.js
 // 修正版：本地運算 + 回傳 lunar_parsed + 嚴禁 Markdown 符號
 
-exports.handler = async (event) => {
+// Netlify 與 Cloudflare Pages 共用同一套計算及回應格式。
+export async function handleAiReading(event, env) {
   if (event.httpMethod === "OPTIONS") return resp(200, { ok: true });
   if (event.httpMethod !== "POST") return resp(405, { error: "Method Not Allowed" });
 
@@ -89,8 +90,8 @@ exports.handler = async (event) => {
     // ----------------------------
     // AI (OpenAI)
     // ----------------------------
-    const apiKey = process.env.OPENAI_API_KEY;
-    const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+    const apiKey = env.OPENAI_API_KEY;
+    const model = env.OPENAI_MODEL || "gpt-4o-mini";
 
     if (!apiKey) return resp(200, { text: "（小幫手這邊雲層偏厚，請檢查 API Key。）" });
 
@@ -121,7 +122,9 @@ exports.handler = async (event) => {
     console.error("[ai_reading] FAILED:", err);
     return resp(200, { text: "（系統忙碌中，請稍後再試。）" });
   }
-};
+}
+
+export const handler = (event) => handleAiReading(event, process.env);
 
 // ==========================================
 // 核心演算法 (保持不變)

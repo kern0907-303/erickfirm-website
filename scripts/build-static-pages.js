@@ -12,9 +12,17 @@
 import path from 'node:path';
 import { getPostImage, getPostPath, getPostUrl } from '../src/lib/insights-adapter.js';
 import { getArticleBlocks, getArticleDescription, parseArticleFaq } from '../src/lib/article-content.js';
+import { getPostDetail, listPosts } from '../functions/_middleware.js';
 import { SITE, PERSON_ID, esc, loadShell, renderPage, writePage, breadcrumb } from './prerender-shell.js';
 
 const source = process.env.INSIGHTS_API_URL || 'https://erickfirm.com/.netlify/functions/notion?lang=zh-TW';
+const supabaseEnv = {
+  SUPABASE_URL: process.env.SUPABASE_URL,
+  SUPABASE_KEY: process.env.SUPABASE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY,
+};
+if (process.env.CF_PAGES === '1' && !supabaseEnv.SUPABASE_KEY) {
+  throw new Error('Cloudflare Pages build requires SUPABASE_KEY; refusing to fetch from Netlify.');
+}
 const dist = path.resolve('dist');
 const SERVICE_NAME = {
   'life-number': '生命數字',
@@ -78,6 +86,7 @@ function normalizeCustomSchema(value, description) {
 }
 
 async function fetchDetail(id) {
+  if (supabaseEnv.SUPABASE_KEY) return getPostDetail(supabaseEnv, id);
   const u = new URL(source);
   u.searchParams.set('postId', id);
   const res = await fetch(u);
@@ -85,9 +94,13 @@ async function fetchDetail(id) {
   return res.json();
 }
 
-const response = await fetch(source);
-if (!response.ok) throw new Error(`Static article source returned ${response.status}`);
-const data = await response.json();
+const data = supabaseEnv.SUPABASE_KEY
+  ? { posts: await listPosts(supabaseEnv) }
+  : await (async () => {
+    const response = await fetch(source);
+    if (!response.ok) throw new Error(`Static article source returned ${response.status}`);
+    return response.json();
+  })();
 const posts = (data.posts || data.results || []).filter((post) => post.status === 'published');
 const shell = loadShell(dist);
 

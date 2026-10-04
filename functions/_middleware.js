@@ -1,6 +1,7 @@
+import { handleAiReading } from "../netlify/functions/ai_reading.js";
+
 const DEFAULT_SUPABASE_URL = "https://wbbnjasjyfuatkvnoogi.supabase.co";
 const DEFAULT_LOCALE = "zh-TW";
-const NETLIFY_FALLBACK_URL = "https://erickfirm.netlify.app/.netlify/functions/notion";
 
 const jsonHeaders = (cacheControl = "no-store") => ({
   "Content-Type": "application/json; charset=utf-8",
@@ -258,7 +259,7 @@ async function supabaseFetch(env, path, init = {}) {
   });
 }
 
-async function listPosts(env, locale = DEFAULT_LOCALE) {
+export async function listPosts(env, locale = DEFAULT_LOCALE) {
   const res = await supabaseFetch(
     env,
     "insights_articles?brand_id=in.(erick,i8,nas,abl)&status=eq.published&order=created_at.desc",
@@ -272,7 +273,7 @@ async function listPosts(env, locale = DEFAULT_LOCALE) {
   return (data || []).map((article) => mapSupabaseArticleToPost(article, locale));
 }
 
-async function getPostDetail(env, postId, locale = DEFAULT_LOCALE) {
+export async function getPostDetail(env, postId, locale = DEFAULT_LOCALE) {
   const res = await supabaseFetch(env, `insights_articles?id=eq.${postId}`);
 
   if (!res.ok) {
@@ -292,37 +293,9 @@ async function getPostDetail(env, postId, locale = DEFAULT_LOCALE) {
   };
 }
 
-async function proxyToNetlify(request) {
-  const sourceUrl = new URL(request.url);
-  const targetUrl = new URL(NETLIFY_FALLBACK_URL);
-  targetUrl.search = sourceUrl.search;
-
-  const proxied = await fetch(targetUrl, {
-    method: request.method,
-    headers: request.headers,
-    body: request.method === "GET" || request.method === "HEAD" ? undefined : request.body,
-  });
-
-  const headers = new Headers(proxied.headers);
-  headers.set("Access-Control-Allow-Origin", "*");
-  headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  headers.set("Access-Control-Allow-Methods", "GET, OPTIONS, POST");
-
-  return new Response(proxied.body, {
-    status: proxied.status,
-    statusText: proxied.statusText,
-    headers,
-  });
-}
-
 async function handleNotionFunction(request, env) {
   if (request.method === "OPTIONS") {
     return jsonResponse(204, {});
-  }
-
-  const hasSupabaseKey = Boolean(env.SUPABASE_KEY || env.SUPABASE_SERVICE_ROLE_KEY);
-  if (!hasSupabaseKey || env.NETLIFY_FUNCTION_FALLBACK === "true") {
-    return proxyToNetlify(request);
   }
 
   if (request.method === "POST") {
@@ -434,6 +407,14 @@ export async function onRequest(context) {
         },
       });
     }
+  }
+
+  if (url.pathname === "/.netlify/functions/ai_reading") {
+    const result = await handleAiReading({
+      httpMethod: context.request.method,
+      body: context.request.method === "POST" ? await context.request.text() : "",
+    }, context.env);
+    return new Response(result.body, { status: result.statusCode, headers: result.headers });
   }
 
   return context.next();
