@@ -11,12 +11,11 @@
 // 另外新增 Article 與 FAQPage 結構化資料，讓 AI 知道作者是誰、能直接引用問答。
 import path from 'node:path';
 import { getPostImage, getPostPath, getPostUrl } from '../src/lib/insights-adapter.js';
+import { getArticleBlocks, getArticleDescription, parseArticleFaq } from '../src/lib/article-content.js';
 import { SITE, PERSON_ID, esc, loadShell, renderPage, writePage, breadcrumb } from './prerender-shell.js';
 
 const source = process.env.INSIGHTS_API_URL || 'https://erickfirm.com/.netlify/functions/notion?lang=zh-TW';
 const dist = path.resolve('dist');
-const clean = (v = '') => String(v).replace(/[*_`#]/g, '').replace(/\s+/g, ' ').trim().slice(0, 180);
-
 const SERVICE_NAME = {
   'life-number': '生命數字',
   'personal-growth': '個人成長',
@@ -25,47 +24,27 @@ const SERVICE_NAME = {
 };
 
 // 區塊文字：新格式 b[type].rich_text[0].plain_text，舊格式 b.text / b.content / b.plain_text
-const blockText = (b = {}) =>
-  b?.[b?.type]?.rich_text?.[0]?.plain_text ?? b?.text ?? b?.content ?? b?.plain_text ?? '';
-
 // 行內 Markdown：先跳脫，再還原 **粗體** 與 [文字](連結)
 const inline = (t) => esc(t)
   .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, txt, href) => `<a href="${href}">${txt}</a>`)
   .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 
-function renderBlocks(blocks = []) {
+function renderBlocks(blocks = [], title = '') {
   if (!Array.isArray(blocks)) return '';
   const out = [];
   let list = [];
   const flush = () => { if (list.length) { out.push(`<ul>${list.join('')}</ul>`); list = []; } };
-  for (const b of blocks) {
-    const text = blockText(b);
+  for (const { type, text } of getArticleBlocks(blocks, title)) {
     if (!text) continue;
-    const type = String(b?.type || 'paragraph').toLowerCase();
     if (type.includes('list') || type === 'li') { list.push(`<li>${inline(text)}</li>`); continue; }
     flush();
-    if (type.includes('heading_1') || type.includes('heading_2') || type === 'h1' || type === 'h2') out.push(`<h2>${inline(text)}</h2>`);
-    else if (type.includes('heading_3') || type === 'h3') out.push(`<h3>${inline(text)}</h3>`);
+    if (type.includes('heading_1') || type.includes('heading_2') || type === 'h1' || type === 'h2') out.push(`<h2 class="text-2xl font-bold mt-10 mb-4 text-slate-900 border-l-4 border-accent pl-4 font-display">${inline(text)}</h2>`);
+    else if (type.includes('heading_3') || type === 'h3') out.push(`<h3 class="text-xl font-bold mt-8 mb-4 text-slate-900 font-display">${inline(text)}</h3>`);
     else if (type.includes('quote')) out.push(`<blockquote>${inline(text)}</blockquote>`);
-    else if (type === 'image') continue;
     else out.push(`<p>${inline(text)}</p>`);
   }
   flush();
   return out.join('');
-}
-
-// aeo_faq 是純文字：「Q：…」「A：…」成對。全形半形冒號、前綴粗體都接受。
-function parseFaq(text = '') {
-  const pairs = [];
-  let q = null;
-  for (const raw of String(text).split(/\r?\n/)) {
-    const line = raw.replace(/\*\*/g, '').trim();
-    const mq = line.match(/^Q\s*[:：]\s*(.+)$/i);
-    const ma = line.match(/^A\s*[:：]\s*(.+)$/i);
-    if (mq) q = mq[1].trim();
-    else if (ma && q) { pairs.push([q, ma[1].trim()]); q = null; }
-  }
-  return pairs;
 }
 
 // aeo_schema 可能是 <script> 包好的，也可能是裸 JSON。解析得出來才放，解析不了寧可不放，
@@ -83,8 +62,20 @@ function parseSchema(raw = '') {
   return objs;
 }
 
-const hasType = (objs, type) => objs.some((o) =>
-  o?.['@type'] === type || (Array.isArray(o?.['@graph']) && o['@graph'].some((g) => g?.['@type'] === type)));
+function normalizeCustomSchema(value, description) {
+  if (Array.isArray(value)) return value.map((entry) => normalizeCustomSchema(entry, description)).filter(Boolean);
+  if (!value || typeof value !== 'object') return value;
+  const types = Array.isArray(value['@type']) ? value['@type'] : [value['@type']];
+  if (types.includes('FAQPage')) return null;
+  const normalized = { ...value };
+  if (types.some((type) => ['Article', 'BlogPosting', 'NewsArticle', 'WebPage'].includes(type)) && normalized.description) {
+    normalized.description = description;
+  }
+  if (Array.isArray(normalized['@graph'])) {
+    normalized['@graph'] = normalized['@graph'].map((entry) => normalizeCustomSchema(entry, description)).filter(Boolean);
+  }
+  return normalized;
+}
 
 async function fetchDetail(id) {
   const u = new URL(source);
@@ -107,19 +98,18 @@ for (const post of posts) {
   const url = getPostUrl(post);
   const image = getPostImage(post);
   const title = post.title.includes('Erick Firm') ? post.title : `${post.title} | Erick Firm`;
-  const description = clean(post.excerpt) || post.title;
-
   let blocks = post.blocks;
   if (!Array.isArray(blocks) || !blocks.length) {
     try { blocks = (await fetchDetail(post.id))?.blocks || []; }
     catch (e) { console.warn(`  ⚠ ${post.title}：讀不到內文（${e.message}），改用摘要`); blocks = []; }
   }
-  const bodyHtml = renderBlocks(blocks);
+  const description = getArticleDescription(blocks, post.title);
+  const bodyHtml = renderBlocks(blocks, post.title);
   if (bodyHtml) withBody += 1;
 
-  const custom = parseSchema(post.aeoSchema || post.aeo_schema);
-  const faqPairs = hasType(custom, 'FAQPage') ? [] : parseFaq(post.aeoFaq || post.aeo_faq);
-  if (faqPairs.length || hasType(custom, 'FAQPage')) withFaq += 1;
+  const custom = normalizeCustomSchema(parseSchema(post.aeoSchema || post.aeo_schema), description).filter(Boolean);
+  const faqPairs = parseArticleFaq(post.aeoFaq || post.aeo_faq);
+  if (faqPairs.length) withFaq += 1;
 
   const section = SERVICE_NAME[post.service] || '文章';
   const sectionUrl = post.service ? `${SITE}/insights/${post.service}` : `${SITE}/insights`;
@@ -152,7 +142,7 @@ for (const post of posts) {
   ];
 
   const faqHtml = faqPairs.length
-    ? `<section><h2>常見問題</h2>${faqPairs.map(([q, a]) => `<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('')}</section>`
+    ? `<section class="mt-16 pt-12 border-t border-slate-100 font-sans"><h2 class="text-2xl font-bold text-slate-900 mb-8 font-display">常見問題</h2><div class="space-y-4">${faqPairs.map(([q, a]) => `<div class="border border-slate-100 rounded-xl overflow-hidden bg-white shadow-sm"><div class="p-5"><h3 class="text-base md:text-lg font-bold text-slate-900 font-display mb-3">${esc(q)}</h3><p class="text-slate-600 leading-relaxed text-sm md:text-base">${esc(a)}</p></div></div>`).join('')}</div></section>`
     : '';
 
   const body = `<article><h1>${esc(post.title)}</h1>${bodyHtml || `<p>${esc(description)}</p>`}${faqHtml}</article>`;

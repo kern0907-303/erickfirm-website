@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { HelpCircle, ChevronDown } from 'lucide-react';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { findPostByRoute, getPostImage, getPostPath, getPostUrl, getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
+import { getArticleBlocks, getArticleDescription, getFaqSource, parseArticleFaq } from '../lib/article-content';
 import { lineMessageUrl } from '../lib/constants';
 import SEOHead, { updateMetaTags } from '../components/SEOHead';
 
@@ -88,7 +88,6 @@ const PostDetail = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [blocks, setBlocks] = useState([]);
   const [faqBlocks, setFaqBlocks] = useState([]);
-  const [openFaqIndex, setOpenFaqIndex] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isUsingFallback, setIsUsingFallback] = useState(false);
   const dict = i18n[locale];
@@ -126,7 +125,7 @@ const PostDetail = () => {
 
         // 實時更新真實 DOM Head 標籤
         const postTitle = remotePost.title || '洞察文章';
-        const postExcerpt = remotePost.excerpt || postTitle;
+        const postExcerpt = getArticleDescription(data.blocks || [], postTitle);
         const postUrl = getPostUrl(remotePost);
         
         updateMetaTags({
@@ -160,7 +159,7 @@ const PostDetail = () => {
 
         if (fallbackPost) {
           const postTitle = fallbackPost.title || '洞察文章';
-          const postExcerpt = fallbackPost.excerpt || postTitle;
+          const postExcerpt = getArticleDescription(fallbackPost.blocks || [], postTitle);
           updateMetaTags({
             title: postTitle,
             description: postExcerpt,
@@ -215,32 +214,14 @@ const PostDetail = () => {
     return selected;
   }, [normalizedPost, allPosts]);
 
-  const faqGroups = useMemo(() => {
-    const groups = [];
-    let currentGroup = null;
-    
-    faqBlocks.forEach(block => {
-      const type = block.type;
-      const content = block?.[type]?.rich_text?.[0]?.plain_text || block.text || "";
-      
-      if (type === 'heading_3' && (content.startsWith('Q:') || content.includes('Q:'))) {
-        if (currentGroup) {
-          groups.push(currentGroup);
-        }
-        currentGroup = {
-          question: content.replace(/^Q:\s*/i, '').trim(),
-          blocks: []
-        };
-      } else if (currentGroup) {
-        currentGroup.blocks.push(block);
-      }
-    });
-    
-    if (currentGroup) {
-      groups.push(currentGroup);
-    }
-    return groups;
-  }, [faqBlocks]);
+  const faqPairs = useMemo(
+    () => parseArticleFaq(getFaqSource(post || {}, faqBlocks)),
+    [post, faqBlocks]
+  );
+  const articleDescription = useMemo(
+    () => getArticleDescription(blocks, normalizedPost?.title),
+    [blocks, normalizedPost?.title]
+  );
 
   if (loading) return <div className="min-h-screen flex items-center justify-center animate-pulse text-slate-400 font-sans">{dict.loadingPost}</div>;
   if (!normalizedPost) {
@@ -260,7 +241,7 @@ const PostDetail = () => {
     <div className="min-h-screen bg-white pt-32 pb-24 font-sans">
       <SEOHead
         title={normalizedPost.title}
-        description={post?.excerpt || normalizedPost.title}
+        description={articleDescription}
         type="article"
       />
       <article className="container mx-auto px-6 max-w-3xl">
@@ -290,11 +271,10 @@ const PostDetail = () => {
 
         {/* 文章正文區塊 */}
         <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed text-lg">
-          {blocks.map((block) => {
-            const type = block.type;
+          {getArticleBlocks(blocks, normalizedPost.title).map(({ type, text: content, source: block, key }) => {
             if (type === 'image') {
               return (
-                <figure key={block.id} className="my-10 flex flex-col items-center">
+                <figure key={key} className="my-10 flex flex-col items-center">
                   <img
                     src={block.image?.url}
                     alt={block.image?.alt}
@@ -309,88 +289,38 @@ const PostDetail = () => {
               );
             }
 
-            const content = block?.[type]?.rich_text?.[0]?.plain_text || block.text;
             if (!content) return null;
 
             switch (type) {
-              case 'heading_1':
-                return <h1 key={block.id} className="text-3xl font-bold mt-12 mb-6 text-slate-900 font-display">{renderFormattedText(content)}</h1>;
               case 'heading_2':
-                return <h2 key={block.id} className="text-2xl font-bold mt-10 mb-4 text-slate-900 border-l-4 border-accent pl-4 font-display">{renderFormattedText(content)}</h2>;
+              case 'heading_1':
+                return <h2 key={key} className="text-2xl font-bold mt-10 mb-4 text-slate-900 border-l-4 border-accent pl-4 font-display">{renderFormattedText(content)}</h2>;
               case 'heading_3':
-                return <h3 key={block.id} className="text-xl font-bold mt-8 mb-4 text-slate-900 font-display">{renderFormattedText(content)}</h3>;
+                return <h3 key={key} className="text-xl font-bold mt-8 mb-4 text-slate-900 font-display">{renderFormattedText(content)}</h3>;
               case 'bulleted_list_item':
-                return <li key={block.id} className="ml-4 mb-2 list-disc">{renderFormattedText(content)}</li>;
+                return <li key={key} className="ml-4 mb-2 list-disc">{renderFormattedText(content)}</li>;
               default:
-                return <p key={block.id} className="mb-6">{renderFormattedText(content)}</p>;
+                return <p key={key} className="mb-6">{renderFormattedText(content)}</p>;
             }
           })}
         </div>
 
         {/* 常見問題 FAQ (若有) */}
-        {faqGroups.length > 0 && (
+        {faqPairs.length > 0 && (
           <div className="mt-16 pt-12 border-t border-slate-100 font-sans">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 font-display flex items-center gap-3">
-              <span className="p-1.5 bg-accent/10 text-accent rounded-lg">
-                <HelpCircle className="w-5 h-5" />
-              </span>
-              常見問題 (FAQ)
-            </h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 font-display">常見問題</h2>
             <div className="space-y-4">
-              {faqGroups.map((group, index) => {
-                const isOpen = openFaqIndex === index;
-                return (
+              {faqPairs.map(([question, answer], index) => (
                   <div 
                     key={index} 
                     className="border border-slate-100 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300"
                   >
-                    <button
-                      onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                      className="w-full flex justify-between items-center p-5 text-left text-slate-900 font-bold hover:bg-slate-50/50 transition-colors"
-                    >
-                      <span className="text-base md:text-lg pr-4 font-display flex items-start gap-3">
-                        <span className="text-accent font-semibold font-mono">Q.</span>
-                        {group.question}
-                      </span>
-                      <ChevronDown 
-                        className={`w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0 ${
-                          isOpen ? 'rotate-180 text-accent' : ''
-                        }`} 
-                      />
-                    </button>
-                    <div 
-                      className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                        isOpen ? 'max-h-[1000px] border-t border-slate-50' : 'max-h-0'
-                      }`}
-                    >
-                      <div className="p-5 bg-slate-50/30 prose prose-slate max-w-none text-slate-600 leading-relaxed text-sm md:text-base">
-                        {group.blocks.map((block) => {
-                          const type = block.type;
-                          const content = block?.[type]?.rich_text?.[0]?.plain_text || block.text;
-                          if (!content) return null;
-                          
-                          const cleanContent = (type === 'paragraph' && content.startsWith('A:')) 
-                            ? content.replace(/^A:\s*/i, '') 
-                            : content;
-
-                          switch (type) {
-                            case 'heading_1':
-                              return <h1 key={block.id} className="text-2xl font-bold mt-6 mb-4 text-slate-900 font-display">{renderFormattedText(cleanContent)}</h1>;
-                            case 'heading_2':
-                              return <h2 key={block.id} className="text-xl font-bold mt-5 mb-3 text-slate-900 border-l-4 border-accent pl-3 font-display">{renderFormattedText(cleanContent)}</h2>;
-                            case 'heading_3':
-                              return <h3 key={block.id} className="text-lg font-bold mt-4 mb-2 text-slate-900 font-display">{renderFormattedText(cleanContent)}</h3>;
-                            case 'bulleted_list_item':
-                              return <li key={block.id} className="ml-4 mb-1.5 list-disc">{renderFormattedText(cleanContent)}</li>;
-                            default:
-                              return <p key={block.id} className="mb-4">{renderFormattedText(cleanContent)}</p>;
-                          }
-                        })}
-                      </div>
+                    <div className="p-5">
+                      <h3 className="text-base md:text-lg font-bold text-slate-900 font-display mb-3">{question}</h3>
+                      <p className="text-slate-600 leading-relaxed text-sm md:text-base">{answer}</p>
                     </div>
                   </div>
-                );
-              })}
+              ))}
             </div>
           </div>
         )}
@@ -398,7 +328,7 @@ const PostDetail = () => {
         {/* 相關文章區塊：「你可能也會想看」 */}
         {relatedPosts.length > 0 && (
           <section className="mt-16 pt-10 border-t border-slate-200/80 font-sans">
-            <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-6 font-display">你可能也會想看</h3>
+            <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-6 font-display">你可能也會想看</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {relatedPosts.map((rPost) => (
                 <Link
