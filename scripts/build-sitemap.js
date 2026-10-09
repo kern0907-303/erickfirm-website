@@ -56,9 +56,18 @@ async function generateSitemap() {
       changefreq: 'monthly',
       priority: '0.7',
     }));
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[...staticUrls, ...articleUrls].map((item) => `  <url>\n    <loc>${withTrailingSlash(item.url)}</loc>\n    <lastmod>${item.lastmod}</lastmod>\n    <changefreq>${item.changefreq}</changefreq>\n    <priority>${item.priority}</priority>\n  </url>`).join('\n')}\n</urlset>`;
+  // 同一篇文章若在資料庫被重複發佈，只保留第一筆（最新的），同一個網址在 sitemap 只出現一次。
+  const seen = new Set();
+  const entries = [...staticUrls, ...articleUrls].filter((item) => {
+    const loc = withTrailingSlash(item.url);
+    if (seen.has(loc)) return false;
+    seen.add(loc);
+    return true;
+  });
+  const duplicates = staticUrls.length + articleUrls.length - entries.length;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.map((item) => `  <url>\n    <loc>${withTrailingSlash(item.url)}</loc>\n    <lastmod>${item.lastmod}</lastmod>\n    <changefreq>${item.changefreq}</changefreq>\n    <priority>${item.priority}</priority>\n  </url>`).join('\n')}\n</urlset>`;
   fs.writeFileSync(path.resolve(__dirname, '../public/sitemap.xml'), xml, 'utf8');
-  console.log(`Generated sitemap.xml with ${staticUrls.length + articleUrls.length} URLs.`);
+  console.log(`Generated sitemap.xml with ${entries.length} URLs${duplicates ? `（已排除 ${duplicates} 個重複網址）` : ''}.`);
 }
 
 generateSitemap().catch((error) => { console.error(error); process.exitCode = 1; });
