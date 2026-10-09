@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getPostUrl } from '../src/lib/insights-adapter.js';
+import { getPostUrl, withTrailingSlash } from '../src/lib/insights-adapter.js';
 import { listPosts } from '../functions/_middleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -56,7 +56,7 @@ async function generateSitemap() {
       changefreq: 'monthly',
       priority: '0.7',
     }));
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[...staticUrls, ...articleUrls].map((item) => `  <url>\n    <loc>${item.url}</loc>\n    <lastmod>${item.lastmod}</lastmod>\n    <changefreq>${item.changefreq}</changefreq>\n    <priority>${item.priority}</priority>\n  </url>`).join('\n')}\n</urlset>`;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[...staticUrls, ...articleUrls].map((item) => `  <url>\n    <loc>${withTrailingSlash(item.url)}</loc>\n    <lastmod>${item.lastmod}</lastmod>\n    <changefreq>${item.changefreq}</changefreq>\n    <priority>${item.priority}</priority>\n  </url>`).join('\n')}\n</urlset>`;
   fs.writeFileSync(path.resolve(__dirname, '../public/sitemap.xml'), xml, 'utf8');
   console.log(`Generated sitemap.xml with ${staticUrls.length + articleUrls.length} URLs.`);
 }

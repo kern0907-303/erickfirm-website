@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { withTrailingSlash } from '../lib/insights-adapter';
 
 const DEFAULT_TITLE = 'Erick Firm｜艾瑞克 - 事情卡住，通常不是因為不夠努力';
 const DEFAULT_DESC = '艾瑞克（Erick），二十年來陪個人與企業看見真正影響結果的關鍵因素，從自我理解、個人狀態到企業決策，找到更清楚的下一步。';
@@ -18,7 +19,7 @@ export const updateMetaTags = ({
   const metaTitle = !title ? DEFAULT_TITLE : exactTitle || hasBrandSuffix ? title : `${title} | Erick Firm`;
   const metaDesc = description || DEFAULT_DESC;
   const metaImage = image?.startsWith('http') ? image : image ? `${DOMAIN}${image.startsWith('/') ? image : `/${image}`}` : DEFAULT_IMAGE;
-  const metaUrl = url || (typeof window !== 'undefined' ? window.location.href : DOMAIN);
+  const metaUrl = withTrailingSlash(url || (typeof window !== 'undefined' ? window.location.href : DOMAIN));
 
   // 1. Title
   document.title = metaTitle;

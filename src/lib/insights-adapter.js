@@ -69,6 +69,20 @@ export function getPostUrl(post = {}) {
   return `${SITE_ORIGIN}${getPostPath(post)}`;
 }
 
+/** 網站實際對外的網址一律帶結尾斜線；sitemap、canonical、og:url 都經過這裡，避免與實際轉址互相矛盾。 */
+export function withTrailingSlash(input) {
+  const value = String(input || '');
+  if (!value) return value;
+  try {
+    const u = new URL(value);
+    const last = u.pathname.split('/').pop();
+    if (!u.pathname.endsWith('/') && !last.includes('.')) u.pathname = `${u.pathname}/`;
+    return u.toString();
+  } catch {
+    return value;
+  }
+}
+
 export function getPostImage(post = {}) {
   const image = post.ogImage || post.og_image || post.coverImage || post.cover_image || post.image;
   if (typeof image === 'string' && image) return image.startsWith('http') ? image : `${SITE_ORIGIN}${image.startsWith('/') ? image : `/${image}`}`;

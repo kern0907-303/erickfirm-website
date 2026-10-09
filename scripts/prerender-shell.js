@@ -4,6 +4,7 @@
 // 舊版文章預渲染只抓了 <script>，導致從外部連結直接進文章頁的人看到的是沒有樣式的頁面。
 import fs from 'node:fs';
 import path from 'node:path';
+import { withTrailingSlash } from '../src/lib/insights-adapter.js';
 
 export const SITE = 'https://erickfirm.com';
 export const PERSON_ID = `${SITE}/#erick`; // 與 index.html 的 Person @id 一致，AI 才會把各頁連到同一個人
@@ -56,7 +57,8 @@ const ld = (o) => `<script type="application/ld+json">${JSON.stringify(o).replac
 export const frame = (inner) =>
   `<main style="max-width:44rem;margin:0 auto;padding:8rem 1.5rem 4rem;line-height:1.9;color:#1F1A2E;font-family:'Noto Sans TC',sans-serif">${inner}</main>`;
 
-export function renderPage(shell, { title, description, url, type = 'website', image, jsonld = [], body }) {
+export function renderPage(shell, { title, description, url: rawUrl, type = 'website', image, jsonld = [], body }) {
+  const url = withTrailingSlash(rawUrl);
   let html = shell;
   html = setTitle(html, title);
   html = setMeta(html, 'name', 'description', description);
