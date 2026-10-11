@@ -42,7 +42,15 @@ function renderBlocks(blocks = [], title = '') {
   const out = [];
   let list = [];
   const flush = () => { if (list.length) { out.push(`<ul>${list.join('')}</ul>`); list = []; } };
-  for (const { type, text } of getArticleBlocks(blocks, title)) {
+  for (const { type, text, source } of getArticleBlocks(blocks, title)) {
+    if (type === 'image') {
+      const src = String(source?.image?.url || '');
+      if (/^https:\/\//.test(src)) {
+        flush();
+        out.push(`<figure class="my-10 flex flex-col items-center"><img src="${esc(src)}" alt="${esc(source?.image?.alt || '')}" class="rounded-lg shadow-md max-w-full h-auto border border-slate-100" loading="lazy" /></figure>`);
+      }
+      continue;
+    }
     if (!text) continue;
     if (type.includes('list') || type === 'li') { list.push(`<li>${inline(text)}</li>`); continue; }
     flush();

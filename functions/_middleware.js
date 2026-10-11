@@ -26,8 +26,16 @@ function slugify(input) {
     .replace(/^-+|-+$/g, "");
 }
 
+// 文章裡第一張 Markdown 圖片（![說明](https://...)）當作封面，供 og:image、Twitter 卡片與結構化資料使用。
+// 只接受 https 網址；沒有圖片時回傳空字串，網站沿用預設分享圖。
+export function extractCoverImage(content = "") {
+  const match = String(content || "").match(/!\[[^\]]*\]\((https:\/\/[^)\s]+)\)/);
+  return match ? match[1] : "";
+}
+
 function generateExcerpt(content = "", length = 150) {
   const text = content
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
     .replace(/^#+\s+.+$/gm, "")
     .replace(/#\S+/g, "")
     .replace(/[*_`]/g, "")
@@ -236,6 +244,7 @@ function mapSupabaseArticleToPost(article, locale = DEFAULT_LOCALE) {
     format: "Article",
     aeoSchema: article.aeo_schema || "",
     aeoFaq: article.aeo_faq || "",
+    coverImage: extractCoverImage(content),
   };
 }
 
