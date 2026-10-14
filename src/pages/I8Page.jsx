@@ -104,7 +104,7 @@ const I8Page = () => {
           <h2 className="mt-3 text-3xl font-bold">不是替組織貼標籤，而是把結構看清楚</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {lenses.map(({ icon: Icon, title, text }) => (
-              <article key={title} className="rounded-2xl border border-slate-200 bg-[#F7FAFB] p-6">
+              <article key={title} className="card-soft bg-[#F4F7F8] p-6">
                 <Icon className="text-[#217987]" size={28} />
                 <h3 className="mt-5 text-xl font-bold">{title}</h3>
                 <p className="mt-3 leading-relaxed text-slate-600">{text}</p>

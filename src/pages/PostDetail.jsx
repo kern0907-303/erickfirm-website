@@ -107,7 +107,7 @@ const PostDetail = () => {
           query.set('slug', slug || '');
         }
 
-        const res = await fetch(`/.netlify/functions/notion?${query.toString()}`);
+        const res = await fetch(`/api/notion?${query.toString()}`);
         if (!res.ok) {
           throw new Error(`Notion function failed with status ${res.status}`);
         }
@@ -141,7 +141,7 @@ const PostDetail = () => {
         }
 
         // 2. 載入全站文章清單供「你可能也會想看」計算
-        const listRes = await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`);
+        const listRes = await fetch(`/api/notion?lang=${encodeURIComponent(locale)}`);
         if (listRes.ok) {
           const listData = await listRes.json();
           const normalized = normalizePosts(listData.posts || listData.results || [], locale);
@@ -313,7 +313,7 @@ const PostDetail = () => {
               {faqPairs.map(([question, answer], index) => (
                   <div 
                     key={index} 
-                    className="border border-slate-100 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300"
+                    className="card-soft overflow-hidden bg-[#f5f6f3]"
                   >
                     <div className="p-5">
                       <h3 className="text-base md:text-lg font-bold text-slate-900 font-display mb-3">{question}</h3>
@@ -334,7 +334,7 @@ const PostDetail = () => {
                 <Link
                   key={rPost.id || rPost.slug}
                   to={getPostPath(rPost)}
-                  className="group bg-surface hover:bg-white p-5 rounded-xl border border-slate-200/60 hover:border-accent hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full"
+                  className="card-soft group bg-surface hover:bg-white p-5 flex flex-col justify-between h-full"
                 >
                   <div>
                     <span className="text-[11px] font-bold px-2.5 py-0.5 bg-slate-200/60 text-slate-700 rounded-sm mb-3 inline-block">
@@ -356,7 +356,7 @@ const PostDetail = () => {
         {/* 統一的頁尾 CTA 引流區塊 */}
         {ctaConfig && (
           <section className="mt-12 pt-8 border-t border-slate-200 font-sans">
-            <div className="bg-surface rounded-2xl p-8 md:p-10 border border-slate-200/70 shadow-sm text-left">
+            <div className="card-flat bg-surface p-8 md:p-10 text-left">
               <h4 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3 font-display">
                 {ctaConfig.title}
               </h4>

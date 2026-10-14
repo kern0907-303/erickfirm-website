@@ -38,7 +38,7 @@ const Insights = () => {
     async function loadPosts() {
       setLoading(true);
       try {
-        const res = await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`);
+        const res = await fetch(`/api/notion?lang=${encodeURIComponent(locale)}`);
         if (!res.ok) {
           throw new Error(`Notion function failed with status ${res.status}`);
         }
@@ -190,7 +190,7 @@ const Insights = () => {
           sortedPosts.length ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {sortedPosts.map((post) => (
-              <div key={post.id} className="bg-white rounded-lg p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col h-full group">
+              <div key={post.id} className="card-soft bg-[#f5f6f3] p-8 flex flex-col h-full group">
                 <div className="flex justify-between items-center mb-6">
                   <span className="text-xs font-bold px-3 py-1 bg-slate-50 text-slate-600 rounded-sm">
                     {getServiceNameFromSlug(post.service, locale, i18n)}

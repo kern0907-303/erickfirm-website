@@ -251,8 +251,9 @@ export default defineConfig({
 		},
 		allowedHosts: true,
 		proxy: {
-			'/.netlify/functions': {
-				target: 'http://localhost:8888',
+			// 本機開發：先在另一個終端機執行 npx wrangler pages dev dist --port 8788
+			'/api': {
+				target: 'http://localhost:8788',
 				changeOrigin: true,
 			},
 		},

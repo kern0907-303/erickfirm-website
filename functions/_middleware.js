@@ -1,4 +1,4 @@
-import { handleAiReading } from "../netlify/functions/ai_reading.js";
+import { handleAiReading } from "../server/ai_reading.js";
 
 const DEFAULT_SUPABASE_URL = "https://wbbnjasjyfuatkvnoogi.supabase.co";
 const DEFAULT_LOCALE = "zh-TW";
@@ -403,7 +403,15 @@ export async function onRequest(context) {
     return Response.redirect(`https://erickfirm.com${url.pathname}${url.search}`, 301);
   }
 
-  if (url.pathname === "/.netlify/functions/notion") {
+  // 第一階段：新路徑 /api/*。舊的 /.netlify/functions/* 暫時保留為別名，
+  // 讓還開著舊版頁面的訪客不會壞掉。第二階段（上線約 7 天後）刪掉 LEGACY_API_ALIASES 即可。
+  const LEGACY_API_ALIASES = {
+    "/.netlify/functions/notion": "/api/notion",
+    "/.netlify/functions/ai_reading": "/api/ai_reading",
+  };
+  const apiPath = LEGACY_API_ALIASES[url.pathname] || url.pathname;
+
+  if (apiPath === "/api/notion") {
     try {
       return await handleNotionFunction(context.request, context.env);
     } catch (error) {
@@ -418,7 +426,7 @@ export async function onRequest(context) {
     }
   }
 
-  if (url.pathname === "/.netlify/functions/ai_reading") {
+  if (apiPath === "/api/ai_reading") {
     const result = await handleAiReading({
       httpMethod: context.request.method,
       body: context.request.method === "POST" ? await context.request.text() : "",

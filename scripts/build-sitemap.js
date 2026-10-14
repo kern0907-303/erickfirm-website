@@ -10,7 +10,7 @@ const supabaseEnv = {
   SUPABASE_URL: process.env.SUPABASE_URL,
   SUPABASE_KEY: process.env.SUPABASE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY,
 };
-const INSIGHTS_API_URL = process.env.INSIGHTS_API_URL || 'https://erickfirm.com/.netlify/functions/notion?lang=zh-TW';
+const INSIGHTS_API_URL = process.env.INSIGHTS_API_URL || 'https://erickfirm.com/api/notion?lang=zh-TW';
 const DOMAIN = 'https://erickfirm.com';
 
 async function fetchArticles() {

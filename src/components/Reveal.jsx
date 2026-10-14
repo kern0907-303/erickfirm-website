@@ -2,9 +2,9 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 const offsets = {
-  up: { x: 0, y: 24 },
-  left: { x: -24, y: 0 },
-  right: { x: 24, y: 0 },
+  up: { x: 0, y: 40 },
+  left: { x: -40, y: 0 },
+  right: { x: 40, y: 0 },
 };
 
 const Reveal = ({
@@ -12,7 +12,7 @@ const Reveal = ({
   className = '',
   delay = 0,
   direction = 'up',
-  duration = 0.8,
+  duration = 1,
   amount = 0.18,
 }) => {
   const reduceMotion = useReducedMotion();
@@ -29,7 +29,7 @@ const Reveal = ({
       initial={{ opacity: 0, ...offset }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, amount }}
-      transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>

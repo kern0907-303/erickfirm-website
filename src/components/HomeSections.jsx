@@ -1,8 +1,9 @@
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { LINE_CONFIG } from '../lib/constants';
 import Reveal from './Reveal';
+import StuckPivot from './StuckPivot';
+import { CardRise, CardRiseItem, MaskHeading } from './Motion';
 
 const lineButtonClass = 'inline-flex items-center gap-3 bg-slate-900 px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-slate-700';
 
@@ -21,12 +22,7 @@ export const PhilosophySection = () => (
 export const WhyStuckSection = () => (
   <section className="bg-[#eef1ef] py-20 md:py-28">
     <div className="container mx-auto max-w-6xl px-6">
-      <Reveal className="max-w-3xl">
-        <p className="text-xs tracking-[0.22em] text-slate-500 mb-5">WHY WE GET STUCK</p>
-        <p className="text-2xl md:text-4xl leading-[1.7] text-slate-900">再試一次。再撐一下。再多做一點。</p>
-        <p className="mt-8 text-base md:text-lg leading-loose text-slate-600">多數人卡住的時候，第一個反應都是更用力。<br />但我看了二十年，很少有人是輸在不夠用力。</p>
-        <p className="mt-7 text-base md:text-lg leading-loose text-slate-600">問題通常不在被討論的那一層。</p>
-      </Reveal>
+      <StuckPivot />
       <Reveal delay={0.08} className="mt-14 grid border-y border-slate-300 md:grid-cols-3">
         <p className="py-7 pr-0 text-base leading-loose text-slate-700 md:pr-8">公司說是行銷不夠，其實是交付卡住。</p>
         <p className="border-t border-slate-300 py-7 text-base leading-loose text-slate-700 md:border-l md:border-t-0 md:px-8">一個人說自己不夠自律，其實是他的節奏從來沒有被好好安排過。</p>
@@ -50,39 +46,28 @@ const stuckTypes = [
   ['自己卡住', '你一直是那個撐住的人。\n撐著工作、撐著家人，也撐著所有人的情緒。\n等到終於有時間留給自己，卻發現——\n已經不知道怎麼回到自己了。'],
 ];
 
-export const StuckTypesSection = () => {
-  const reduceMotion = useReducedMotion();
-  const container = {
-    hidden: {},
-    visible: { transition: { staggerChildren: reduceMotion ? 0 : 0.1 } },
-  };
-  const item = reduceMotion
-    ? { hidden: {}, visible: {} }
-    : { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } };
-
-  return (
-    <section className="bg-white py-20 md:py-28">
-      <div className="container mx-auto max-w-7xl px-6">
-        <Reveal><h2 className="text-3xl font-bold leading-tight text-slate-900 md:text-5xl">事情卡住，大概有三種樣子</h2></Reveal>
-        <motion.div
-          className="mt-12 grid gap-px overflow-hidden border border-slate-300 bg-slate-300 md:grid-cols-3"
-          variants={container}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.18 }}
-        >
+export const StuckTypesSection = () => (
+  <section className="bg-white py-20 md:py-28">
+    <div className="container mx-auto max-w-7xl px-6">
+      <MaskHeading
+        lines={['事情卡住，', '大概有三種樣子']}
+        className="text-3xl font-bold leading-tight text-slate-900 md:text-5xl"
+        rule
+      />
+      <CardRise className="mt-12 grid gap-5 md:grid-cols-3">
         {stuckTypes.map(([title, body]) => (
-          <motion.article key={title} variants={item} className="min-h-[250px] bg-white p-7 md:p-9">
-            <h3 className="text-xl font-bold text-slate-900">{title}</h3>
-            <p className="mt-7 whitespace-pre-line text-base leading-loose text-slate-600">{body}</p>
-          </motion.article>
+          <CardRiseItem key={title} className="h-full">
+            <article className="card-soft h-full min-h-[250px] bg-[#f5f6f3] p-7 md:p-9">
+              <h3 className="text-xl font-bold text-slate-900">{title}</h3>
+              <p className="mt-7 whitespace-pre-line text-base leading-loose text-slate-600">{body}</p>
+            </article>
+          </CardRiseItem>
         ))}
-        </motion.div>
-        <Reveal delay={0.1}><p className="mt-10 text-base leading-loose text-slate-600">你可能是其中一種，也可能三種都有一點。<br />先別急著判斷，往下看。</p></Reveal>
-      </div>
-    </section>
-  );
-};
+      </CardRise>
+      <Reveal delay={0.1}><p className="mt-10 text-base leading-loose text-slate-600">你可能是其中一種，也可能三種都有一點。<br />先別急著判斷，往下看。</p></Reveal>
+    </div>
+  </section>
+);
 
 export const AnalysisSection = () => (
   <section className="bg-[#ece9e1] py-16 md:py-24">

@@ -168,7 +168,7 @@ const AblPage = () => {
           </h1>
 
           {/* 手機後台神級類比：1秒瞬間理解為什麼自己會卡 */}
-          <div className="bg-white/90 border border-slate-200/80 rounded-2xl p-5 sm:p-6 mb-8 max-w-2xl mx-auto shadow-sm text-left">
+          <div className="card-flat bg-white/90 p-5 sm:p-6 mb-8 max-w-2xl mx-auto shadow-sm text-left">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#E0F7F7] text-[#006E6E] flex items-center justify-center shrink-0 mt-0.5">
                 <Smartphone size={22} />
@@ -240,7 +240,7 @@ const AblPage = () => {
 
           <div className="grid md:grid-cols-3 gap-6">
             {/* 卡片 1 */}
-            <div className="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200 shadow-sm hover:border-[#00C2C2] transition-all">
+            <div className="card-soft bg-white p-6 sm:p-7">
               <div className="w-10 h-10 rounded-xl bg-[#E0F7F7] text-[#006E6E] font-bold flex items-center justify-center mb-4">
                 <Flame size={20} />
               </div>
@@ -254,7 +254,7 @@ const AblPage = () => {
             </div>
 
             {/* 卡片 2 */}
-            <div className="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200 shadow-sm hover:border-[#00C2C2] transition-all">
+            <div className="card-soft bg-white p-6 sm:p-7">
               <div className="w-10 h-10 rounded-xl bg-[#E0F7F7] text-[#006E6E] font-bold flex items-center justify-center mb-4">
                 <AlertCircle size={20} />
               </div>
@@ -268,7 +268,7 @@ const AblPage = () => {
             </div>
 
             {/* 卡片 3 */}
-            <div className="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200 shadow-sm hover:border-[#00C2C2] transition-all">
+            <div className="card-soft bg-white p-6 sm:p-7">
               <div className="w-10 h-10 rounded-xl bg-[#E0F7F7] text-[#006E6E] font-bold flex items-center justify-center mb-4">
                 <BatteryCharging size={20} />
               </div>
@@ -318,7 +318,7 @@ const AblPage = () => {
 
           {/* 3 步驟顧客視角流程 */}
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-2xl border border-slate-200 bg-white shadow-sm hover:border-[#00C2C2] transition-colors">
+            <div className="card-soft p-6 bg-white">
               <div className="w-10 h-10 rounded-xl bg-[#E0F7F7] text-[#006E6E] flex items-center justify-center mb-4">
                 <Search size={20} />
               </div>
@@ -328,7 +328,7 @@ const AblPage = () => {
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl border border-slate-200 bg-white shadow-sm hover:border-[#00C2C2] transition-colors">
+            <div className="card-soft p-6 bg-white">
               <div className="w-10 h-10 rounded-xl bg-[#E0F7F7] text-[#006E6E] flex items-center justify-center mb-4">
                 <FileText size={20} />
               </div>
@@ -338,7 +338,7 @@ const AblPage = () => {
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl border border-slate-200 bg-white shadow-sm hover:border-[#00C2C2] transition-colors">
+            <div className="card-soft p-6 bg-white">
               <div className="w-10 h-10 rounded-xl bg-[#E0F7F7] text-[#006E6E] flex items-center justify-center mb-4">
                 <Radio size={20} />
               </div>
@@ -368,7 +368,7 @@ const AblPage = () => {
             </p>
           </div>
 
-          <div id="vsl-player" className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-xl overflow-hidden max-w-3xl mx-auto">
+          <div id="vsl-player" className="bg-white rounded-[28px] p-6 sm:p-10 shadow-xl overflow-hidden max-w-3xl mx-auto">
             {!isUnlocked ? (
               // ------------------- 未解鎖：留資料閘道 -------------------
               <div className="max-w-md mx-auto">
@@ -461,7 +461,7 @@ const AblPage = () => {
                 </div>
 
                 {/* 影片章節導讀 */}
-                <div className="bg-[#F4F9FA] rounded-xl p-4 border border-slate-200 mb-6 text-xs text-slate-700">
+                <div className="bg-[#F4F9FA] rounded-2xl p-4 mb-6 text-xs text-slate-700">
                   <h4 className="font-bold text-slate-800 uppercase tracking-wider mb-2 font-mono">
                     影片重點看點：
                   </h4>
@@ -505,7 +505,7 @@ const AblPage = () => {
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             {/* 適合對象 */}
-            <div className="p-6 rounded-2xl bg-slate-800 border border-slate-700">
+            <div className="card-flat p-6 bg-slate-800">
               <div className="flex items-center gap-2 text-[#00C2C2] font-bold text-base mb-3">
                 <CheckCircle2 size={20} /> 如果符合以下情況，它能幫你省下大量無效內耗：
               </div>
@@ -523,7 +523,7 @@ const AblPage = () => {
             </div>
 
             {/* 不適合對象 */}
-            <div className="p-6 rounded-2xl bg-slate-800 border border-slate-700">
+            <div className="card-flat p-6 bg-slate-800">
               <div className="flex items-center gap-2 text-rose-400 font-bold text-base mb-3">
                 <AlertCircle size={20} /> 如果符合以下情況，請勿預約：
               </div>
@@ -582,7 +582,7 @@ const AblPage = () => {
             ].map((faq, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-xl border border-slate-200 overflow-hidden transition-all shadow-sm"
+                className="card-soft bg-[#f5f6f3] overflow-hidden"
               >
                 <button
                   onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}

@@ -1,7 +1,7 @@
-// netlify/functions/ai_reading.js
+// server/ai_reading.js
 // 修正版：本地運算 + 回傳 lunar_parsed + 嚴禁 Markdown 符號
 
-// Netlify 與 Cloudflare Pages 共用同一套計算及回應格式。
+// 由 functions/_middleware.js（Cloudflare Pages）呼叫。
 export async function handleAiReading(event, env) {
   if (event.httpMethod === "OPTIONS") return resp(200, { ok: true });
   if (event.httpMethod !== "POST") return resp(405, { error: "Method Not Allowed" });
@@ -124,7 +124,6 @@ export async function handleAiReading(event, env) {
   }
 }
 
-export const handler = (event) => handleAiReading(event, process.env);
 
 // ==========================================
 // 核心演算法 (保持不變)

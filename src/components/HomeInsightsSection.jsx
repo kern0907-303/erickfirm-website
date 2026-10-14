@@ -4,16 +4,46 @@ import { getPostPath } from '../lib/insights-adapter';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
+import { CardRise, CardRiseItem, MaskHeading } from './Motion';
 
-// Erick 指定的 6 篇精選文章標題（嚴格依序）
-const TARGET_TITLES = [
-  '你不是不夠努力，而是還沒看見真正決定成敗的隱性因素',
-  '【老闆的深夜真心話】為什麼你拼盡全力，公司卻卡在瓶頸動彈不得？',
-  '【你不是不夠努力，而是你已經用「撐住」的方式活太久了：給三十歲後，那個對一切感到疲憊的你】',
-  '【為什麼有些人天生敢衝，而有些人總是想很多？】',
-  '【企業成長的隱形煞車：為什麼你的營運策略總是卡在最後一哩路？】',
-  '你以為你在選擇，其實你只是一直在重複同一個自己',
-];
+// 首頁專欄規則：取最新 6 篇，每個品牌最多 2 篇，讓四個品牌輪流露出，不被單一系列洗版。
+// 發佈新文章後不需要改程式，首頁會自動更新（文章列表快取約 60 秒）。
+const HOME_POST_COUNT = 6;
+const MAX_PER_SERVICE = 2;
+
+function pickHomePosts(posts) {
+  const sorted = posts
+    .map((post, index) => ({ post, index }))
+    .sort((a, b) => {
+      const aDate = Date.parse(a.post.publishDate || '') || 0;
+      const bDate = Date.parse(b.post.publishDate || '') || 0;
+      return bDate - aDate || a.index - b.index;
+    })
+    .map((item) => item.post);
+
+  const counts = {};
+  const picked = [];
+  for (const post of sorted) {
+    if (picked.length >= HOME_POST_COUNT) break;
+    const key = post.service || 'other';
+    if ((counts[key] || 0) >= MAX_PER_SERVICE) continue;
+    counts[key] = (counts[key] || 0) + 1;
+    picked.push(post);
+  }
+
+  // 文章總數不足以湊滿 6 篇時，用剩下最新的補齊
+  if (picked.length < HOME_POST_COUNT) {
+    const already = new Set(picked);
+    for (const post of sorted) {
+      if (picked.length >= HOME_POST_COUNT) break;
+      if (!already.has(post)) picked.push(post);
+    }
+  }
+
+  // 一律依日期新到舊顯示
+  const pickedSet = new Set(picked);
+  return sorted.filter((post) => pickedSet.has(post));
+}
 
 const HomeInsightsSection = () => {
   const [locale, setLocale] = useState(getPreferredLocale());
@@ -24,45 +54,24 @@ const HomeInsightsSection = () => {
   const dict = i18n[locale];
 
   useEffect(() => {
-    async function loadTargetPosts() {
+    async function loadLatestPosts() {
       setLoading(true);
       try {
-        const res = await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`);
+        const res = await fetch(`/api/notion?lang=${encodeURIComponent(locale)}`);
         if (!res.ok) throw new Error('Failed to fetch posts');
         const data = await res.json();
         const allNormalized = normalizePosts(data.posts || data.results || [], locale);
-
-        // 依據 TARGET_TITLES 順序比對與排序 6 篇文章
-        const matched = [];
-        TARGET_TITLES.forEach((targetTitle) => {
-          const found = allNormalized.find((p) => {
-            const cleanP = (p.title || '').trim().replace(/^[\u{1F4A1}]\s*/u, '');
-            const cleanT = targetTitle.trim().replace(/^[\u{1F4A1}]\s*/u, '');
-            return cleanP === cleanT || cleanP.includes(cleanT) || cleanT.includes(cleanP);
-          });
-          if (found) {
-            matched.push(found);
-          }
-        });
-
-        // 若部分文章未比對到，用剩餘最新文章補足至 6 篇
-        if (matched.length < 6) {
-          const matchedIds = new Set(matched.map((p) => p.id || p.slug));
-          const remain = allNormalized.filter((p) => !matchedIds.has(p.id || p.slug));
-          matched.push(...remain.slice(0, 6 - matched.length));
-        }
-
-        setPosts(matched);
+        setPosts(pickHomePosts(allNormalized));
       } catch (error) {
         console.error('HomeInsightsSection fetch error:', error);
         const fallbackNormalized = normalizePosts(fallbackData.posts || [], locale);
-        setPosts(fallbackNormalized.slice(0, 6));
+        setPosts(pickHomePosts(fallbackNormalized));
       } finally {
         setLoading(false);
       }
     }
 
-    loadTargetPosts();
+    loadLatestPosts();
   }, [locale]);
 
   return (
@@ -71,10 +80,12 @@ const HomeInsightsSection = () => {
         {/* 標題與說明 */}
         <div className="max-w-3xl mb-16">
           <p className="mb-5 text-xs tracking-[0.22em] text-slate-500">SELECTED WRITING</p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-5 font-display tracking-tight leading-tight">
-            不是給你答案，是先讓你看見問題長什麼樣
-          </h2>
-          <p className="text-slate-600 text-base md:text-lg font-light leading-relaxed">
+          <MaskHeading
+            lines={['不是給你答案，', '是先讓你看見問題長什麼樣']}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-5 font-display tracking-tight leading-tight"
+            rule
+          />
+          <p className="mt-7 text-slate-600 text-base md:text-lg font-light leading-relaxed">
             這些是我平常在想的事。挑一篇跟你現在最像的看看。
           </p>
         </div>
@@ -87,17 +98,17 @@ const HomeInsightsSection = () => {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <CardRise className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {posts.map((post) => (
+              <CardRiseItem key={post.id || post.slug} className="h-full">
               <Link
-                key={post.id || post.slug}
                 to={getPostPath(post)}
-                className="group bg-white p-7 border border-slate-300 transition-colors hover:border-slate-600 flex flex-col justify-between h-full"
+                className="card-soft group bg-white p-7 flex flex-col justify-between h-full"
               >
                 <div>
                   {/* 分類標籤與發佈日期 */}
                   <div className="flex items-center justify-between mb-5">
-                      <span className="text-xs font-bold px-3 py-1 bg-slate-100 text-slate-700 font-sans">
+                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 font-sans">
                       {getServiceNameFromSlug(post.service, locale, i18n)}
                     </span>
                     <span className="text-xs text-slate-400 font-sans">{post.publishDate}</span>
@@ -115,8 +126,9 @@ const HomeInsightsSection = () => {
                   </span>
                 </div>
               </Link>
+              </CardRiseItem>
             ))}
-          </div>
+          </CardRise>
         )}
 
         {/* 底部文字連結 */}

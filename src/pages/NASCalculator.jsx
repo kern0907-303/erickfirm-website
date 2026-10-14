@@ -5,7 +5,7 @@ import { ArrowRight, Sun, Moon } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import NASMark from '../components/NASMark';
 
-const API_URL = '/.netlify/functions/ai_reading';
+const API_URL = '/api/ai_reading';
 
 /**
  * 生命功課等級——依先天數、後天數、主命數的有無判定，共七級。
@@ -208,7 +208,7 @@ const NASCalculator = () => {
                 { icon: <Moon size={15} />, label: '陰曆 · 內在的需求',
                   hint: '你心裡真正在要的東西', m: mainOf(p.lunarMain), s: soulOf(p.lunarSoul) },
               ].map((t) => (
-                <div key={t.label} className="p-6 rounded-2xl border border-[#E7E3F0]">
+                <div key={t.label} className="card-flat p-6 bg-[#F8F6FC]">
                   <div className="flex items-center gap-2 text-[#918BA6] text-xs mb-1">
                     {t.icon} {t.label}
                   </div>
@@ -334,7 +334,7 @@ const NASCalculator = () => {
             <strong className="text-[#1F1A2E]">級數不是分數，七級不比一級好</strong>——
             就像博士生不會比小學生「更厲害」，只是在學不一樣的東西。
           </p>
-          <div className="rounded-2xl border border-[#E7E3F0] overflow-hidden mb-6">
+          <div className="card-flat bg-[#F8F6FC] overflow-hidden mb-6">
             {Object.entries(SOUL_LEVELS).map(([n, v], i) => (
               <div
                 key={n}

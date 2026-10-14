@@ -4,7 +4,7 @@ import { Check, Minus, ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import NASMark from '../components/NASMark';
 
-const API_URL = '/.netlify/functions/ai_reading';
+const API_URL = '/api/ai_reading';
 
 // '+22/4' → '22／4'（整條顯示，不丟掉後天數與 11／22 主數）
 const chainOf = (raw) => {

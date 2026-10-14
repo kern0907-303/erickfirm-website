@@ -1,6 +1,6 @@
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
 import Reveal from './Reveal';
+import { CardRise, CardRiseItem, MaskHeading } from './Motion';
 const services = [
   {
     title: '初八信息顧問 I8',
@@ -19,54 +19,45 @@ const services = [
   {
     title: '艾伯林 ABL',
     label: '狀態回不來',
-    summary: '陪你把長期撐住的狀態，慢慢調回來。',
     feeling: '你長期撐著工作、家庭或他人的需要，休息了，卻還是回不到自己的狀態。',
     perspective: '先從你感受到的消耗與反覆模式開始，讓狀態先穩下來；建立理解之後，再進一步介紹適合你的調和支持。',
     process: '狀態觀察 → 找出消耗的來源 → 狀態支持 → 定期陪伴。',
   },
 ];
 
-const Services = () => {
-  const reduceMotion = useReducedMotion();
-  const container = {
-    hidden: {},
-    visible: { transition: { staggerChildren: reduceMotion ? 0 : 0.1 } },
-  };
-  const item = reduceMotion
-    ? { hidden: {}, visible: {} }
-    : { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.72, ease: [0.22, 1, 0.36, 1] } } };
-
-  return (
-    <section id="services" className="bg-[#f3f4f1] py-20 md:py-28">
-      <div className="container mx-auto max-w-7xl px-6">
-        <Reveal className="mb-14 max-w-2xl">
+const Services = () => (
+  <section id="services" className="bg-[#f3f4f1] py-20 md:py-28">
+    <div className="container mx-auto max-w-7xl px-6">
+      <div className="mb-14 max-w-2xl">
+        <Reveal>
           <p className="text-xs tracking-[0.22em] text-slate-500 mb-5">THREE WAYS</p>
-          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight">三條路，看的是同一件事</h2>
+        </Reveal>
+        <MaskHeading
+          lines={['三條路，', '看的是同一件事']}
+          className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight"
+          rule
+        />
+        <Reveal delay={0.1}>
           <p className="mt-7 text-base md:text-lg leading-loose text-slate-600">我把這二十年的方法，整理成三條路。<br />你不需要全部走，只需要先走對的那一條。</p>
         </Reveal>
-        <motion.div
-          className="grid gap-px overflow-hidden border border-slate-300 bg-slate-300 md:grid-cols-3"
-          variants={container}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.12 }}
-        >
-          {services.map((service) => (
-            <motion.article key={service.title} variants={item} className="bg-white p-7 md:p-9">
+      </div>
+      <CardRise className="grid gap-5 md:grid-cols-3">
+        {services.map((service) => (
+          <CardRiseItem key={service.title} className="h-full">
+            <article className="card-soft h-full bg-white p-7 md:p-9">
               <p className="text-xl font-bold text-slate-900">{service.title}</p>
-              {service.summary && <p className="mt-3 text-sm leading-relaxed text-slate-600">{service.summary}</p>}
-              <p className="mt-5 inline-block border border-slate-300 px-3 py-1 text-xs text-slate-600">{service.label}</p>
+              <p className="mt-5 inline-block rounded-full bg-slate-100 px-3.5 py-1 text-xs text-slate-600">{service.label}</p>
               <div className="mt-8 space-y-6 text-sm leading-loose text-slate-600">
                 <p><span className="block mb-1 font-bold text-slate-900">你會有的感覺</span>{service.feeling}</p>
                 <p><span className="block mb-1 font-bold text-slate-900">我怎麼看</span>{service.perspective}</p>
                 <p><span className="block mb-1 font-bold text-slate-900">大概怎麼進行</span>{service.process}</p>
               </div>
-            </motion.article>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
+            </article>
+          </CardRiseItem>
+        ))}
+      </CardRise>
+    </div>
+  </section>
+);
 
 export default Services;

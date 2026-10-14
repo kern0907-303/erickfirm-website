@@ -122,7 +122,7 @@ const NASCourse = () => (
 
     <section className="bg-[#F7F5FC] px-6 py-16">
       <div className="mx-auto max-w-4xl">
-        <div className="mb-10 rounded-3xl border border-[#D7C9F2] bg-white p-7 shadow-[0_12px_35px_rgba(91,58,158,0.08)] md:p-10">
+        <div className="mb-10 rounded-[28px] bg-white p-7 shadow-[0_12px_35px_rgba(91,58,158,0.08)] md:p-10">
           <p className="mb-3 text-xs tracking-[0.2em] text-[#A8883F]">每天 18 分鐘</p>
           <h2 className="mb-4 text-2xl font-bold md:text-3xl">一天一堂，一個多月看完；每天不到 20 分鐘。</h2>
           <div className="mb-6 grid gap-4 sm:grid-cols-3">
@@ -143,7 +143,7 @@ const NASCourse = () => (
 
         <div className="grid gap-5 md:grid-cols-2">
           {COURSE_MODULES.map((module) => (
-            <article key={module.id} className="rounded-2xl border border-[#E7E3F0] bg-white p-6">
+            <article key={module.id} className="card-soft bg-[#F8F6FC] p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div><h3 className="font-bold">{module.title}</h3>{module.free && <span className="mt-2 inline-block rounded-full bg-[#5B3A9E] px-3 py-1 text-xs text-white">免費試看</span>}</div>
                 <div className="text-right text-sm tabular-nums text-[#6E6885]"><p>{module.unitCount}</p><p>{module.duration}</p></div>
@@ -156,7 +156,7 @@ const NASCourse = () => (
           ))}
         </div>
 
-        <section className="mt-14 rounded-3xl border border-[#D7C9F2] bg-[#FBF9FE] p-7 md:p-10">
+        <section className="mt-14 rounded-[28px] bg-[#FBF9FE] p-7 md:p-10">
           <p className="mb-3 text-xs tracking-[0.2em] text-[#A8883F]">解盤五步</p>
           <h2 className="mb-4 text-2xl font-bold md:text-3xl">你會帶走一套流程</h2>
           <p className="mb-8 max-w-3xl leading-loose text-[#55506B]">36 堂課不是 36 個零散的知識點。整門課走的是同一套流程，五個字：排 → 看 → 判 → 說 → 收。第一堂就先把這張地圖給你，之後每一個模組，都是在把其中一步填滿。</p>
@@ -168,7 +168,7 @@ const NASCourse = () => (
               ['說', '開口', '把看到的東西講成人話，最後只給一個動作。'],
               ['收', '收尾', '一句話、一個動作、一個回訪時間點。'],
             ].map(([step, title, description]) => (
-              <article key={step} className="rounded-2xl border border-[#E7E3F0] bg-white p-5">
+              <article key={step} className="card-soft bg-white p-5">
                 <p className="text-4xl font-bold leading-none text-[#8B3FA8]">{step}</p>
                 <h3 className="mt-4 font-bold text-[#1F1A2E]">{title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[#55506B]">{description}</p>
@@ -178,7 +178,7 @@ const NASCourse = () => (
           <p className="mt-7 text-xs leading-relaxed text-[#918BA6]">學完之後，這五個字是可以重複使用的。換一組生日，流程一樣走；隔半年再看自己，流程也一樣走。</p>
         </section>
 
-        <section className="mt-10 rounded-3xl border border-[#E7E3F0] bg-white p-7 md:p-10">
+        <section className="mt-10 rounded-[28px] bg-[#F8F6FC] p-7 md:p-10">
           <p className="mb-3 text-xs tracking-[0.2em] text-[#A8883F]">卡點辨識</p>
           <h2 className="mb-4 text-2xl font-bold md:text-3xl">你一直卡住的，可能是這五種結構之一</h2>
           <p className="mb-7 max-w-3xl leading-loose text-[#55506B]">卡點不是感覺，是結構。課程把常見的卡點收斂成五種型別，每一種在你的盤上都有一個確切的位置。</p>
@@ -203,7 +203,7 @@ const NASCourse = () => (
           <p className="mb-2 text-xs tracking-[0.2em] text-[#918BA6]">課程中的其中 6 堂</p>
           <h2 className="mb-6 text-2xl font-bold md:text-3xl">先看幾個你可能正在問的問題</h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {FEATURED_UNITS.map(([title, description]) => <article key={title} className="rounded-2xl border border-[#E7E3F0] bg-white p-5"><h3 className="mb-3 font-bold leading-relaxed">{title}</h3><p className="text-sm leading-relaxed text-[#55506B]">{description}</p></article>)}
+            {FEATURED_UNITS.map(([title, description]) => <article key={title} className="card-soft bg-white p-5"><h3 className="mb-3 font-bold leading-relaxed">{title}</h3><p className="text-sm leading-relaxed text-[#55506B]">{description}</p></article>)}
           </div>
         </div>
 
@@ -224,7 +224,7 @@ const NASCourse = () => (
 
         <div className="grid gap-4 lg:grid-cols-3">
           {COURSE_PRICES.map((plan) => (
-            <article key={plan.name} className={`relative flex flex-col rounded-2xl border p-6 ${plan.recommended ? 'border-[#5B3A9E] bg-[#F7F5FC] shadow-[0_12px_35px_rgba(91,58,158,0.14)]' : 'border-[#E7E3F0] bg-white'}`}>
+            <article key={plan.name} className={`card-soft relative flex flex-col p-6 ${plan.recommended ? 'bg-[#F1EBFB] shadow-[0_12px_35px_rgba(91,58,158,0.14)]' : 'bg-[#F8F6FC]'}`}>
               {plan.recommended && <span className="absolute -top-3 left-5 rounded-full bg-[#5B3A9E] px-3 py-1 text-xs text-white">推薦</span>}
               <h3 className="text-xl font-bold">{plan.name}</h3>
               <p className="mt-3 min-h-12 text-sm leading-relaxed text-[#55506B]">{plan.content}</p>
@@ -240,7 +240,7 @@ const NASCourse = () => (
           ))}
         </div>
 
-        <div className="mt-8 rounded-2xl border border-[#E7E3F0] bg-[#FBF7EE] p-6">
+        <div className="card-flat mt-8 bg-[#FBF7EE] p-6">
           <h3 className="mb-3 font-bold">實踐營：4 週線上小班</h3>
           <p className="mb-4 leading-loose text-[#55506B]">每週一次 90 分鐘直播（有回放），每梯上限 30 人，每季開一梯；期間有 LINE 群答疑，每週一份作業並在直播中公開講評。</p>
           <ol className="grid gap-2 text-sm leading-relaxed text-[#55506B] sm:grid-cols-2">
@@ -262,7 +262,7 @@ const NASCourse = () => (
     </section>
 
     <section className="px-6 py-16">
-      <div className="mx-auto max-w-3xl rounded-2xl border border-[#E7E3F0] bg-[#F7F5FC] p-7 md:p-9">
+      <div className="card-flat mx-auto max-w-3xl bg-[#F7F5FC] p-7 md:p-9">
         <p className="mb-3 text-xs tracking-[0.2em] text-[#918BA6]">分流／轉職</p>
         <h2 className="mb-5 text-2xl font-bold md:text-3xl">生命數字顧問班</h2>
         <p className="mb-4 leading-loose text-[#55506B]">主課是看懂自己，顧問班是學會幫別人看。兩者是分流，不是深淺。</p>

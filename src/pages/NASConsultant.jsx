@@ -73,7 +73,7 @@ const NASConsultant = () => (
         <div className="mx-auto max-w-4xl">
           <h2 className="mb-8 text-2xl font-bold md:text-3xl">這門課適合誰？</h2>
           <div className="grid gap-5 md:grid-cols-2">
-            <article className="rounded-2xl border border-[#D7C9F2] bg-white p-6">
+            <article className="card-soft bg-white p-6 shadow-[0_8px_26px_rgba(91,58,158,0.10)]">
               <h3 className="mb-5 text-lg font-bold text-[#5B3A9E]">適合</h3>
               <ul className="space-y-4 text-sm leading-relaxed text-[#55506B]">
                 <li className="flex gap-3"><Check size={17} className="mt-0.5 shrink-0 text-[#5B3A9E]" />已完成主課，想把解盤變成一項可以收費的服務</li>
@@ -81,7 +81,7 @@ const NASConsultant = () => (
                 <li className="flex gap-3"><Check size={17} className="mt-0.5 shrink-0 text-[#5B3A9E]" />想從現在的工作分流，發展第二條路</li>
               </ul>
             </article>
-            <article className="rounded-2xl border border-[#E7E3F0] bg-white p-6">
+            <article className="card-soft bg-white p-6">
               <h3 className="mb-5 text-lg font-bold text-[#6E6885]">不適合</h3>
               <ul className="space-y-4 text-sm leading-relaxed text-[#55506B]">
                 <li className="flex gap-3"><span className="mt-0.5 shrink-0 text-[#A8883F]">—</span>只想更了解自己（請留在主課）</li>
@@ -99,7 +99,7 @@ const NASConsultant = () => (
           <h2 className="mb-8 text-2xl font-bold md:text-3xl">從看懂，到能幫別人看</h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {WEEKS.map(([week, topic, ability]) => (
-              <article key={week} className="rounded-2xl border border-[#E7E3F0] bg-white p-6 shadow-[0_8px_26px_rgba(31,26,46,0.04)]">
+              <article key={week} className="card-soft bg-[#F8F6FC] p-6">
                 <p className="mb-4 text-sm font-semibold tabular-nums text-[#A8883F]">第 {week} 週</p>
                 <h3 className="mb-3 font-bold leading-relaxed">{topic}</h3>
                 <p className="text-sm leading-relaxed text-[#55506B]">學員帶走：{ability}</p>
@@ -122,7 +122,7 @@ const NASConsultant = () => (
             <p className="mb-4 leading-loose text-[#55506B]">每週一次線上直播 3 小時，教學與實作各半；第一屆限收 10 人，每個人都會被輪到當場實作、當場修正。</p>
             <p className="leading-loose text-[#55506B]">有回放，但現場實作無法補。每週固定一個晚上，六週結束。不必辭職、不用請假。</p>
           </div>
-          <div className="rounded-2xl border border-[#D7C9F2] bg-white p-6">
+          <div className="card-soft bg-white p-6 shadow-[0_8px_26px_rgba(91,58,158,0.10)]">
             <p className="mb-2 text-sm tracking-[0.16em] text-[#918BA6]">你會帶走什麼</p>
             <h2 className="mb-5 text-xl font-bold">不是一張清單，是三種能帶走的能力</h2>
             <div className="space-y-4 text-sm leading-loose text-[#55506B]"><p>一套可以重複使用的解盤流程。</p><p>一組讓你不踩線的說話原則。</p><p>一份可以直接對外收費的服務設計。</p></div>
@@ -132,7 +132,7 @@ const NASConsultant = () => (
 
       <section className="px-6 py-16">
         <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2">
-          <article className="rounded-2xl border border-[#E7E3F0] p-6 md:p-8">
+          <article className="card-soft bg-[#F8F6FC] p-6 md:p-8">
             <h2 className="mb-5 text-xl font-bold">結業認證，怎麼取得？</h2>
             <ul className="space-y-4 text-sm leading-relaxed text-[#55506B]">
               <li>結業後依課程要求完成個案報告，由艾瑞克審核。</li>
@@ -141,7 +141,7 @@ const NASConsultant = () => (
               <li>這是艾瑞克個人的結業認證，不是政府或第三方機構的證照。</li>
             </ul>
           </article>
-          <article className="rounded-2xl border border-[#E7E3F0] bg-[#FBF7EE] p-6 md:p-8">
+          <article className="card-soft bg-[#FBF7EE] p-6 md:p-8">
             <h2 className="mb-5 text-xl font-bold">認證之後：顧問會員</h2>
             <p className="mb-4 text-sm leading-relaxed text-[#55506B]">學費含第一年顧問會員（價值 NT$12,000），第二年起年費 NT$12,000。</p>
             <p className="text-sm leading-relaxed text-[#55506B]">每月個案督導、每季深化課、認證顧問名錄刊登、每月公開解盤夜上台機會、數字每曆顧問專屬連結、內容工具（每月 30 次額度）。</p>

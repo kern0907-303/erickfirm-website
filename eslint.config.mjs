@@ -4,7 +4,7 @@ import importPlugin from 'eslint-plugin-import';
 import globals from 'globals';
 
 export default [
-	{ ignores: ['node_modules/**', 'dist/**', 'build/**', 'vite.config.js', '.netlify/**'] },
+	{ ignores: ['node_modules/**', 'dist/**', 'build/**', 'vite.config.js'] },
 	{
 		files: ['**/*.js', '**/*.jsx'],
 		plugins: { react, 'react-hooks': reactHooks, import: importPlugin },
@@ -49,5 +49,5 @@ export default [
 			'import/no-cycle': 'off', // AI rarely makes this error, and the rule is very slow to run
 		},
 	},
-	{ files: ['tools/**/*.js', 'scripts/**/*.js', 'tailwind.config.js', 'netlify/functions/**/*.js'], languageOptions: { globals: globals.node } },
+	{ files: ['tools/**/*.js', 'scripts/**/*.js', 'tailwind.config.js', 'server/**/*.js', 'functions/**/*.js'], languageOptions: { globals: globals.node } },
 ];

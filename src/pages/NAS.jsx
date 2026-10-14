@@ -73,7 +73,7 @@ const NAS = () => {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`/.netlify/functions/notion?lang=${encodeURIComponent(locale)}`);
+        const res = await fetch(`/api/notion?lang=${encodeURIComponent(locale)}`);
         if (!res.ok) throw new Error(String(res.status));
         const data = await res.json();
         const list = normalizePosts(data.posts || data.results || [], locale);
@@ -239,7 +239,7 @@ const NAS = () => {
               <Link
                 key={post.id}
                 to={getPostPath(post)}
-                className="group p-6 rounded-2xl border border-[#E7E3F0] hover:border-[#5B3A9E] transition"
+                className="card-soft group p-6 bg-[#F8F6FC]"
               >
                 <h3 className="font-semibold mb-2 group-hover:underline leading-snug">{post.title}</h3>
                 <p className="text-sm text-[#6E6885] line-clamp-2 leading-relaxed">{post.excerpt}</p>
