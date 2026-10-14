@@ -12,7 +12,7 @@ const SERVICE = 'life-number';
 
 const copy = {
   'zh-TW': {
-    badge: '平衡空間 NAS ｜ 生命數字',
+    badge: '平衡空間｜生命數字',
     h1a: '你算過很多次，',
     h1b: '但沒有一次讓你真的改變。',
     lede:
@@ -98,7 +98,7 @@ const NAS = () => {
         {
           '@type': 'Service',
           '@id': 'https://erickfirm.com/nas#service',
-          name: '平衡空間 NAS｜生命數字',
+          name: '平衡空間｜生命數字',
           alternateName: ['生命數字', '艾瑞克 生命數字'],
           serviceType: 'Numerology-based self-understanding education',
           provider: { '@id': 'https://erickfirm.com/#org' },
@@ -113,7 +113,7 @@ const NAS = () => {
         {
           '@type': 'WebPage',
           '@id': 'https://erickfirm.com/nas',
-          name: '平衡空間 NAS｜生命數字',
+          name: '平衡空間｜生命數字',
           isPartOf: { '@type': 'WebSite', name: 'Erick Firm', url: 'https://erickfirm.com' },
           about: { '@id': 'https://erickfirm.com/nas#service' },
         },
@@ -137,7 +137,7 @@ const NAS = () => {
   return (
     <main className="bg-white text-[#1F1A2E]">
       <SEOHead
-        title="生命數字｜你算過很多次，但沒有一次讓你真的改變 - 平衡空間 NAS"
+        title="生命數字｜你算過很多次，但沒有一次讓你真的改變 - 平衡空間"
         description="為什麼你查到的生命數字解析總是有點準又不太像你？那不是算錯。這裡談的是道理都懂、心裡卻有一塊過不去的那種卡住——我知道該把話講開但話到嘴邊就吞回去、我知道休息不是偷懶但一停下來就覺得自己沒用。艾瑞克，二十年生命數字教學。"
       />
 

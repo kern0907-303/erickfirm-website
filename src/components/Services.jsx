@@ -3,21 +3,21 @@ import Reveal from './Reveal';
 import { CardRise, CardRiseItem, MaskHeading } from './Motion';
 const services = [
   {
-    title: '初八信息顧問 I8',
+    title: '初八企業顧問',
     label: '組織與決策卡住',
     feeling: '你承擔一個團隊、部門、產品或事業的結果，但人越來越忙，事情卻越來越慢。',
     perspective: '不急著把問題歸到某一個人，先把角色、授權、決策與協作方式攤開，找出真正拖住經營與交付的結構。',
     process: '釐清現況 → 找出關鍵卡點 → 校準優先順序 → 回看下一步。',
   },
   {
-    title: '平衡空間 NAS',
+    title: '平衡空間',
     label: '定位卡住',
     feeling: '你很努力，卻不確定是不是用了適合自己的方式在努力。',
     perspective: '用生命數字，看懂你的思考慣性、行動節奏和關係模式。數字不是標籤，是理解自己的線索。',
     process: '生命數字解析 → 整理天賦與盲點 → 找到比較適合你的方向與節奏。',
   },
   {
-    title: '艾伯林 ABL',
+    title: '艾伯林量子調頻',
     label: '狀態回不來',
     feeling: '你長期撐著工作、家庭或他人的需要，休息了，卻還是回不到自己的狀態。',
     perspective: '先從你感受到的消耗與反覆模式開始，讓狀態先穩下來；建立理解之後，再進一步介紹適合你的調和支持。',

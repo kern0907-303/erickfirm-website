@@ -187,22 +187,22 @@ const CONSULTANT_BODY = [
   h2('常見問題'),
   ...CONSULTANT_FAQS.flatMap(([question, answer]) => [h3(question), p(answer)]),
   p('平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。課程架構與內容為艾瑞克所有，未經授權不得重製、改作或用於商業用途。'),
-  nav([['/nas/course', '回看主課內容'], ['/nas', '回到平衡空間 NAS']]),
+  nav([['/nas/course', '回看主課內容'], ['/nas', '回到平衡空間']]),
 ].join('');
 
 const PAGES = [
   {
     route: '/nas',
-    title: '生命數字｜你算過很多次，但沒有一次讓你真的改變 - 平衡空間 NAS',
+    title: '生命數字｜你算過很多次，但沒有一次讓你真的改變 - 平衡空間',
     description: '為什麼你查到的生命數字解析總是有點準又不太像你？那不是算錯。這裡談的是道理都懂、心裡卻有一塊過不去的那種卡住。艾瑞克，二十年生命數字教學。',
     jsonld: [
       brand,
       {
         '@context': 'https://schema.org', '@type': 'WebPage', url: NAS, inLanguage: 'zh-Hant',
-        name: '平衡空間 NAS｜生命數字', about: { '@id': ORG_ID },
+        name: '平衡空間｜生命數字', about: { '@id': ORG_ID },
         author: { '@id': PERSON_ID }, publisher: { '@id': PERSON_ID },
       },
-      breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS]]),
+      breadcrumb([['首頁', `${SITE}/`], ['平衡空間', NAS]]),
     ],
     body: [
       h1('你算過很多次，但沒有一次讓你真的改變。'),
@@ -239,7 +239,7 @@ const PAGES = [
         provider: { '@id': ORG_ID }, brand: { '@id': ORG_ID },
         description: '輸入西元生日，計算主命數與陽曆、陰曆雙軌生命數字結構，並判定生命功課等級。',
       },
-      breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS], ['生命數字計算', `${NAS}/calculator`]]),
+      breadcrumb([['首頁', `${SITE}/`], ['平衡空間', NAS], ['生命數字計算', `${NAS}/calculator`]]),
     ],
     body: [
       h1('輸入生日，看你的雙軌結構'),
@@ -255,7 +255,7 @@ const PAGES = [
       p('用求學階段來比喻最好懂。級數不是分數，七級不比一級好——就像博士生不會比小學生更厲害，只是在學不一樣的東西。'),
       ul(SOUL.map(([n, s, w]) => `${n}・${s}：${w}`)),
       p('算出來的數字不會決定你是誰。它只告訴你要處理什麼題目——怎麼答，還是你自己的事。'),
-      nav([['/nas/meili', '今天的流日數字'], ['/nas', '回到平衡空間 NAS']]),
+      nav([['/nas/meili', '今天的流日數字'], ['/nas', '回到平衡空間']]),
     ].join(''),
   },
   {
@@ -269,7 +269,7 @@ const PAGES = [
         serviceType: '生命數字每日流日提醒', provider: { '@id': ORG_ID }, brand: { '@id': ORG_ID },
         description: '每天更新一次的生命數字。訂閱包含完整的生命數字計算，以及前一天晚上以 LINE 推播明天的流日。',
       },
-      breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS], ['數字每曆', `${NAS}/meili`]]),
+      breadcrumb([['首頁', `${SITE}/`], ['平衡空間', NAS], ['數字每曆', `${NAS}/meili`]]),
     ],
     body: [
       h1('你查一下天氣才出門。你的數字也是。'),
@@ -300,13 +300,13 @@ const PAGES = [
         hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload: 'PT9H20M' },
       },
       faqSchema(`${NAS}/course#faq`, COURSE_FAQS),
-      breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS], ['人生的出廠設定', `${NAS}/course`]]),
+      breadcrumb([['首頁', `${SITE}/`], ['平衡空間', NAS], ['人生的出廠設定', `${NAS}/course`]]),
     ],
     body: COURSE_BODY,
   },
   {
     route: '/nas/consultant',
-    title: '生命數字顧問班｜學會幫別人看盤 - 平衡空間 NAS',
+    title: '生命數字顧問班｜學會幫別人看盤 - 平衡空間',
     description: '生命數字顧問班給想把解盤變成服務的人。六週線上直播，從讀盤、問診、說法到服務流程；完成主課後以意向登記報名，第一屆預計 2027 年 6–7 月開班。',
     jsonld: [
       {
@@ -318,7 +318,7 @@ const PAGES = [
         offers: { '@type': 'Offer', price: '32000', priceCurrency: 'TWD' },
       },
       faqSchema(`${NAS}/consultant#faq`, CONSULTANT_FAQS),
-      breadcrumb([['首頁', `${SITE}/`], ['平衡空間 NAS', NAS], ['生命數字顧問班', `${NAS}/consultant`]]),
+      breadcrumb([['首頁', `${SITE}/`], ['平衡空間', NAS], ['生命數字顧問班', `${NAS}/consultant`]]),
     ],
     body: CONSULTANT_BODY,
   },

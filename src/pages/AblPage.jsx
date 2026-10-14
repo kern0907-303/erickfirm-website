@@ -44,7 +44,7 @@ const AblPage = () => {
     }
 
     updateMetaTags({
-      title: 'ABL 信息調和｜為什麼你每天醒來都像沒充飽電？德國 TimeWaver 幫你關閉生命後台耗電程式 - Erick Frim',
+      title: '艾伯林量子調頻｜為什麼你每天醒來都像沒充飽電？德國 TimeWaver 幫你關閉生命後台耗電程式 - Erick Frim',
       description: '你不是不夠努力，是你的生命後台在漏電。德國 TimeWaver 量子科技：20 分鐘掃出吃光你精力的隱藏阻力，線上頻率支持重塑身心承接力。',
       url: 'https://erickfirm.com/abl',
     });
@@ -72,7 +72,7 @@ const AblPage = () => {
       {
         '@type': 'Service',
         '@id': 'https://erickfirm.com/abl#service',
-        name: '艾伯林 ABL 信息調和（TimeWaver 遠距分析與頻率支持）',
+        name: '艾伯林量子調頻（TimeWaver 遠距分析與頻率支持）',
         provider: {
           '@type': 'Person',
           '@id': 'https://erickfirm.com/#erick',
@@ -137,7 +137,7 @@ const AblPage = () => {
   return (
     <div className="bg-white text-slate-900 font-sans pt-24 pb-20 selection:bg-cyan-100 selection:text-cyan-900">
       <SEOHead
-        title="ABL 信息調和｜為什麼你每天醒來都像沒充飽電？德國 TimeWaver 幫你關閉生命後台耗電程式 - Erick Frim"
+        title="艾伯林量子調頻｜為什麼你每天醒來都像沒充飽電？德國 TimeWaver 幫你關閉生命後台耗電程式 - Erick Frim"
         description="你不是不夠努力，是你的生命後台在漏電。德國 TimeWaver 量子科技：20 分鐘掃出吃光你精力的隱藏阻力，線上頻率支持重塑身心承接力。"
       />
 

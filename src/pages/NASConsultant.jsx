@@ -48,7 +48,7 @@ const CONSULTANT_STRUCTURED_DATA = {
 const NASConsultant = () => (
     <main className="bg-white text-[#1F1A2E]">
       <SEOHead
-        title="生命數字顧問班｜學會幫別人看盤 - 平衡空間 NAS"
+        title="生命數字顧問班｜學會幫別人看盤 - 平衡空間"
         description="生命數字顧問班給想把解盤變成服務的人。六週線上直播，從讀盤、問診、說法到服務流程；完成主課後以意向登記報名，第一屆預計 2027 年 6–7 月開班。"
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(CONSULTANT_STRUCTURED_DATA) }} />

@@ -10,9 +10,9 @@ import { SITE, esc, loadShell, renderPage, writePage, breadcrumb } from './prere
 const dist = path.resolve('dist');
 const INSIGHTS_NAME = '洞察智庫';
 const CATEGORIES = [
-  { slug: 'enterprise-doctor', name: '初八信息顧問 I8', description: '聚焦營運增長、流程優化與團隊執行力，提供可落地的企業診斷與策略。' },
-  { slug: 'life-number', name: '平衡空間 NAS', description: '聚焦決策偏好與角色理解，協助你在關鍵情境下做出更一致且有效的選擇。' },
-  { slug: 'personal-growth', name: '艾伯林 ABL', description: '聚焦行動力與決策力提升，協助創辦人與高管釐清身心與狀態瓶頸。' },
+  { slug: 'enterprise-doctor', name: '初八企業顧問', description: '聚焦營運增長、流程優化與團隊執行力，提供可落地的企業診斷與策略。' },
+  { slug: 'life-number', name: '平衡空間', description: '聚焦決策偏好與角色理解，協助你在關鍵情境下做出更一致且有效的選擇。' },
+  { slug: 'personal-growth', name: '艾伯林量子調頻', description: '聚焦行動力與決策力提升，協助創辦人與高管釐清身心與狀態瓶頸。' },
   { slug: 'erick-column', name: 'Erick 專欄', description: 'Erick 創辦人的個人專欄，分享商業思維、決策邏輯與生活實踐。' },
 ];
 

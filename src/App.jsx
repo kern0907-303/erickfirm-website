@@ -112,7 +112,7 @@ const buildHomeStructuredData = () => ({
     {
       '@type': 'Service',
       '@id': 'https://erickfirm.com/nas#service',
-      name: '平衡空間 NAS｜生命數字',
+      name: '平衡空間｜生命數字',
       alternateName: ['NAS', '生命數字'],
       url: 'https://erickfirm.com/nas',
       provider: { '@id': 'https://erickfirm.com/#org' },
@@ -123,7 +123,7 @@ const buildHomeStructuredData = () => ({
     {
       '@type': 'Service',
       '@id': 'https://erickfirm.com/abl#service',
-      name: '艾伯林 ABL｜個人狀態調和',
+      name: '艾伯林量子調頻｜個人狀態調和',
       url: 'https://erickfirm.com/abl',
       provider: { '@id': 'https://erickfirm.com/#erick' },
       serviceType: 'Personal State Harmonization',
@@ -132,7 +132,7 @@ const buildHomeStructuredData = () => ({
     {
       '@type': 'Service',
       '@id': 'https://erickfirm.com/i8#service',
-      name: '初八信息顧問 I8｜企業醫生診斷',
+      name: '初八企業顧問｜企業醫生診斷',
       url: 'https://erickfirm.com/i8',
       provider: { '@id': 'https://erickfirm.com/#erick' },
       serviceType: 'Business Structure Optimization',

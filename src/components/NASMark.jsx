@@ -9,10 +9,10 @@ import { Link } from 'react-router-dom';
  */
 const NASMark = ({ label }) => (
   <Link to="/nas" className="group inline-flex items-center gap-3 mb-7">
-    <img src="/logo-nas.png" alt="平衡空間 NAS" className="h-9 w-auto" />
+    <img src="/logo-nas.png" alt="平衡空間" className="h-9 w-auto" />
     <span className="h-6 w-px bg-[#D4B86A]" aria-hidden="true" />
     <span className="text-xs tracking-[0.18em] font-semibold text-[#5B3A9E] transition group-hover:text-[#472D7D]">
-      平衡空間 NAS{label ? `　${label}` : ''}
+      平衡空間{label ? `　${label}` : ''}
     </span>
   </Link>
 );

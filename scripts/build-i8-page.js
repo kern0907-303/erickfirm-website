@@ -27,18 +27,18 @@ const jsonld = [
     '@context': 'https://schema.org',
     '@type': 'Service',
     '@id': url + '#service',
-    name: '初八信息顧問 I8｜企業醫生診斷',
+    name: '初八企業顧問｜企業醫生診斷',
     url,
     serviceType: '企業決策與組織協作診斷',
     provider: { '@id': PERSON_ID },
     description: '協助企業主、高階主管與承擔組織結果的管理者，從人力與組織協作、決策與管理節奏、經營流程與資源配置，釐清最該優先處理的卡點。',
   },
-  breadcrumb([['首頁', SITE + '/'], ['初八信息顧問 I8', url]]),
+  breadcrumb([['首頁', SITE + '/'], ['初八企業顧問', url]]),
 ];
 
 writePage(dist, '/i8', renderPage(loadShell(dist), {
-  title: '企業醫生診斷｜人力與組織協作卡點 - 初八信息顧問 I8',
-  description: '當團隊越來越忙、協作卻越來越慢，問題未必在人不夠。初八信息顧問 I8 陪企業主、高階主管與承擔組織結果的人，從組織協作、決策節奏與經營流程找出最該先處理的結構。',
+  title: '企業醫生診斷｜人力與組織協作卡點 - 初八企業顧問',
+  description: '當團隊越來越忙、協作卻越來越慢，問題未必在人不夠。初八企業顧問陪企業主、高階主管與承擔組織結果的人，從組織協作、決策節奏與經營流程找出最該先處理的結構。',
   url,
   image: SITE + '/og-default.png',
   jsonld,
