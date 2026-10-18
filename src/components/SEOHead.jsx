@@ -13,7 +13,8 @@ export const updateMetaTags = ({
   image,
   url,
   type = 'website',
-  exactTitle = false
+  exactTitle = false,
+  noindex = false
 }) => {
   const hasBrandSuffix = title?.includes('Erick Firm') || title?.includes('Erick Frim');
   const metaTitle = !title ? DEFAULT_TITLE : exactTitle || hasBrandSuffix ? title : `${title} | Erick Firm`;
@@ -60,6 +61,12 @@ export const updateMetaTags = ({
   setMeta('property', 'og:site_name', 'Erick Firm');
   setMeta('property', 'og:locale', 'zh_TW');
 
+  if (noindex) {
+    setMeta('name', 'robots', 'noindex,nofollow');
+  } else {
+    document.querySelector('meta[name="robots"]')?.remove();
+  }
+
   // 5. Twitter Card
   setMeta('name', 'twitter:card', 'summary_large_image');
   setMeta('name', 'twitter:title', metaTitle);
@@ -67,7 +74,7 @@ export const updateMetaTags = ({
   setMeta('name', 'twitter:image', metaImage);
 };
 
-const SEOHead = ({ title, description, image, type = 'website', exactTitle = false }) => {
+const SEOHead = ({ title, description, image, type = 'website', exactTitle = false, noindex = false }) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -78,9 +85,10 @@ const SEOHead = ({ title, description, image, type = 'website', exactTitle = fal
       image,
       url: currentUrl,
       type,
-      exactTitle
+      exactTitle,
+      noindex
     });
-  }, [title, description, image, location.pathname, type, exactTitle]);
+  }, [title, description, image, location.pathname, type, exactTitle, noindex]);
 
   return null;
 };

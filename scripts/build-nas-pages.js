@@ -437,3 +437,109 @@ const ablHtml = renderPage(shell, {
 });
 writePage(dist, '/abl', ablHtml);
 console.log(`Generated static ABL page: /abl (${ablPosts.length} article links available)`);
+
+const SALES_LOGO_PATH = path.resolve('public/brand/abl-logo.png');
+const SALES_LOGO = fs.existsSync(SALES_LOGO_PATH)
+  ? '<img src="/brand/abl-logo.png" alt="" width="500" height="500" loading="eager" class="abl-logo">'
+  : '<span class="abl-logo-text">艾伯林量子調頻</span>';
+const salesP = (text) => `<p>${esc(text)}</p>`;
+const salesH2 = (text) => `<h2 class="abl-heading">${esc(text)}</h2>`;
+const salesCard = (inner, extraClass = '') => `<article class="abl-card abl-sales-card${extraClass ? ` ${extraClass}` : ''}">${inner}</article>`;
+const salesHero = (title, subtitle, anchor, action) => `
+  <section class="abl-hero abl-sales-hero"><div class="abl-sales-container">
+    <a class="abl-sales-top-link" href="/abl">艾伯林量子調頻</a>
+    <div class="abl-logo-card">${SALES_LOGO}</div>
+    <h1 class="abl-heading abl-sales-title">${esc(title)}</h1>
+    <p class="abl-sales-subtitle">${esc(subtitle)}</p>
+    <a class="abl-cta abl-sales-scroll" href="#${anchor}">${esc(action)}</a>
+  </div></section>`;
+const salesSection = (heading, inner, id = '', extraClass = '') =>
+  `<section${id ? ` id="${id}"` : ''} class="abl-sales-section${extraClass ? ` ${extraClass}` : ''}"><div class="abl-sales-inner">${salesH2(heading)}${inner}</div></section>`;
+const salesGrid = (items, className) => `<div class="abl-sales-grid ${className}">${items.join('')}</div>`;
+const salesFaqs = (items) => `<div class="abl-sales-faqs">${items.map(([question, answer]) =>
+  `<details class="abl-sales-faq" open><summary>${esc(question)}</summary>${salesP(answer)}</details>`).join('')}</div>`;
+const salesEnding = (text) => `
+  <section class="abl-sales-ending"><div class="abl-sales-inner abl-sales-ending-inner">
+    ${salesP(text)}<a class="abl-cta abl-sales-line" href="https://lin.ee/STdLXx4" target="_blank" rel="noopener noreferrer">加 LINE，開放時通知我</a>
+  </div></section>`;
+const salesDisclaimer = (text) => `<footer class="abl-sales-disclaimer">${esc(text)}</footer>`;
+
+const SALES_PAGES = [
+  {
+    route: '/abl/2027',
+    title: '艾伯林量子調頻｜2027 年度頻率支持',
+    description: '2027 年度頻率支持，一整年的背景支持，團體與個人兩種選擇，每季一次更新通知。',
+    body: [
+      '<div class="theme-abl abl-sales-page">',
+      salesHero('今年，把狀態穩在你想要的地方', '艾伯林量子調頻 2027 年度頻率支持，一整年的背景支持，一季一季陪你往前走。', 'support-options', '看三種支持'),
+      salesSection('一年怎麼走', `<div class="abl-sales-copy">${salesP('從付款確認當天起算，一整年。')}${salesP('年度主題全年固定，每一季有一個階段重點，每季你會收到一次 LINE 更新通知。')}</div>`),
+      salesSection('選哪一種支持', salesGrid([
+        salesCard(`<h3 class="abl-heading">團體年度頻率　NT$990 / 年</h3><div class="abl-sales-copy">${salesP('一群人，共同接受同一個年度主題。')}${salesP('2027 共同主題：穩定承接')}${salesP('在變動裡穩住自己，讓真正適合你的關係、機會與資源，有空間進來。')}${salesP('包含：共同年度主題、四季階段重點、每季一則簡短提醒。')}</div>`),
+        salesCard(`<h3 class="abl-heading">個人年度頻率　單一主題　NT$2,200 / 年</h3><div class="abl-sales-copy">${salesP('專門為你選定的一個年度主題，全年固定，四季各有一個階段重點。')}${salesP('包含：一個年度主題、四季階段重點、每季一次更新通知。')}</div>`),
+        salesCard(`<h3 class="abl-heading">個人年度頻率　雙主題　NT$3,980 / 年</h3><div class="abl-sales-copy">${salesP('兩個各自獨立的年度主題，各自有四季階段重點。')}${salesP('包含：兩個年度主題、各自的四季階段重點、各自每季一次更新通知。')}</div>`),
+      ], 'abl-sales-grid-plans'), 'support-options', 'abl-sales-section-muted'),
+      salesSection('團體 2027 四季', salesGrid([
+        salesCard(`<h3 class="abl-heading">第一季　穩住自己，先把自己放回中心</h3>${salesP('新的一年，不急著往外追。先把散掉的注意力收回來，把生活、情緒和行動重新放回自己的節奏。')}`),
+        salesCard(`<h3 class="abl-heading">第二季　建立連結，讓對的人與資源靠近</h3>${salesP('當自己穩下來，下一步不是更用力，而是看清楚哪些關係值得靠近、哪些合作值得投入、哪些資源值得承接。')}`),
+        salesCard(`<h3 class="abl-heading">第三季　承接行動，把機會變成真正的進展</h3>${salesP('看見機會不等於接得住。這一季的重點，是讓已有的連結與資源真正落到選擇、行動與成果。')}`),
+        salesCard(`<h3 class="abl-heading">第四季　整合收束，留下有效的，放下不再需要的</h3>${salesP('年底不是再多做一點，而是把這一年真正有價值的東西留下來，把不再適合的人、事、習慣與消耗慢慢放下。')}`),
+      ], 'abl-sales-grid-two')),
+      salesSection('個人六個年度主題', salesGrid([
+        '年度定錨頻率　穩住今年想維持的狀態',
+        '運勢光啟頻率　重新整理，回到可以前進的節奏',
+        '思維加速頻率　專注、學習與決策的整理',
+        '豐盛擴容頻率　資源承接、金錢與價值感',
+        '身心降噪頻率　壓力、耗損、休息與恢復',
+        '情感共振頻率　關係、人際、連結與互動',
+      ].map((theme) => salesCard(esc(theme))), 'abl-sales-grid-themes'), '', 'abl-sales-section-muted'),
+      salesSection('個人版一年的樣子，以豐盛擴容為例', `${salesGrid([
+        '第一季　穩定資源感', '第二季　承接機會', '第三季　擴張與行動', '第四季　整合與留存',
+      ].map((stage) => salesCard(esc(stage))), 'abl-sales-grid-four')}${salesP('年度主題不變，每一季只調整這個主題下的階段重點。')}`),
+      salesSection('常見問題', salesFaqs([
+        ['團體和個人差在哪裡？', '團體是一群人共用同一個年度主題。個人是你自己選定的主題，四季重點也圍繞著這個主題。'],
+        ['單一主題和雙主題差在哪裡？', '單一主題有一個年度主題。雙主題是兩個各自獨立的年度主題，各自有四季重點。'],
+        ['可以中途換主題嗎？', '年度主題全年固定。如果你想更換，請透過 LINE 與我們聯絡。'],
+        ['有人工諮詢嗎？', '這是年度背景支持，每季以更新通知交付，不包含一對一人工諮詢。'],
+        ['有包含平衡空間的 365 能量氣象台嗎？', '沒有。這是獨立的商品。'],
+        ['空間調頻和個人年度頻率有什麼不同？', '個人年度頻率支持的是你自己的狀態，空間調頻看的是一個地址的空間。兩者可以分開選擇。'],
+      ]), '', 'abl-sales-section-muted'),
+      salesEnding('想知道哪一種適合你，先加 LINE，我們一起看。'),
+      salesDisclaimer('頻率支持不是醫療、診斷或療效保證。'),
+      '</div>',
+    ].join(''),
+    noindex: true,
+  },
+  {
+    route: '/abl/space',
+    title: '艾伯林量子調頻｜空間調頻',
+    description: '空間調頻看的是一個地址的空間狀態，以及人在其中的使用方式，一年內分階段回看與調整。',
+    body: [
+      '<div class="theme-abl abl-sales-page">',
+      salesHero('把每天所在的空間，慢慢調成你需要的樣子', '艾伯林量子調頻 空間調頻，一個地址，一整年，分階段回看與調整。', 'space-year', '看一年怎麼走'),
+      salesSection('這是什麼', `<div class="abl-sales-copy">${salesP('空間調頻看的是一個地址的空間狀態，以及人在其中的使用方式。')}${salesP('第一輪適用居家、SOHO、個人工作室。大型商業空間目前不在第一輪範圍。')}</div>`),
+      salesSection('一年怎麼走', `<ol class="abl-sales-timeline">${[
+        '第 0 天　建立空間基準', '第 30 天　第一次回看', '第 60 天　第二次調整', '第 90 天　建立新的基準',
+        '第 180 天　半年檢視', '第 270 天　再校準', '第 360 天　年度回顧',
+      ].map((stage) => `<li class="abl-card abl-sales-card">${esc(stage)}</li>`).join('')}</ol>`, 'space-year', 'abl-sales-section-muted'),
+      salesSection('每次回看，只回答四件事', `<ul class="abl-sales-four-items">${[
+        '哪裡有改變', '哪裡維持住', '哪裡又偏掉', '下一階段調整什麼',
+      ].map((item) => `<li class="abl-card abl-sales-card">${esc(item)}</li>`).join('')}</ul>`),
+      salesSection('方案', salesCard(`<h3 class="abl-heading">空間調頻　NT$8,800 / 年 / 一個地址</h3><div class="abl-sales-copy">${salesP('適用：居家、SOHO、個人工作室。')}${salesP('一個方案對應一個地址。')}</div>`, 'abl-sales-space-plan'), '', 'abl-sales-section-muted'),
+      salesSection('常見問題', salesFaqs([
+        ['哪些空間適用？', '第一輪適用居家、SOHO、個人工作室。大型商業空間目前不在第一輪範圍。'],
+        ['一個方案可以用在幾個地址？', '一個方案對應一個地址。'],
+        ['空間調頻和個人年度頻率有什麼不同？', '個人年度頻率支持的是你自己的狀態，空間調頻看的是一個地址的空間。兩者可以分開選擇。'],
+      ])),
+      salesEnding('想先確認你的空間適不適合，先加 LINE，我們一起看。'),
+      salesDisclaimer('空間調頻提供的是空間狀態的整理與支持，不是醫療、診斷或療效保證。'),
+      '</div>',
+    ].join(''),
+    noindex: true,
+  },
+];
+
+for (const page of SALES_PAGES) {
+  const html = renderPage(shell, { ...page, url: `${SITE}${page.route}`, image: IMG });
+  writePage(dist, page.route, html);
+  console.log(`Generated static ABL sales page: ${page.route}`);
+}

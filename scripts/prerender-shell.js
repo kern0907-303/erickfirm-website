@@ -57,7 +57,7 @@ const ld = (o) => `<script type="application/ld+json">${JSON.stringify(o).replac
 export const frame = (inner) =>
   `<main style="max-width:44rem;margin:0 auto;padding:8rem 1.5rem 4rem;line-height:1.9;color:#1F1A2E;font-family:'Noto Sans TC',sans-serif">${inner}</main>`;
 
-export function renderPage(shell, { title, description, url: rawUrl, type = 'website', image, jsonld = [], body }) {
+export function renderPage(shell, { title, description, url: rawUrl, type = 'website', image, jsonld = [], noindex = false, body }) {
   const url = withTrailingSlash(rawUrl);
   let html = shell;
   html = setTitle(html, title);
@@ -71,6 +71,7 @@ export function renderPage(shell, { title, description, url: rawUrl, type = 'web
   html = setMeta(html, 'name', 'twitter:title', title);
   html = setMeta(html, 'name', 'twitter:description', description);
   if (image) html = setMeta(html, 'name', 'twitter:image', image);
+  if (noindex) html = setMeta(html, 'name', 'robots', 'noindex,nofollow');
   if (jsonld.length) html = html.replace('</head>', `  ${jsonld.map(ld).join('\n  ')}\n  </head>`);
   return replaceRoot(html, frame(body));
 }
