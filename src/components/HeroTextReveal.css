@@ -1,0 +1,16 @@
+.hero-text-reveal__visual {
+  display: inline;
+}
+
+.hero-text-reveal__letter {
+  display: inline-block;
+  white-space: pre;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-text-reveal__letter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

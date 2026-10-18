@@ -360,10 +360,12 @@ if (!ablPosts.length) {
 }
 
 const ablArticleLinks = ablPosts.map((post) => `<li><a href="${esc(getPostPath(post))}/">${esc(post.title)}</a></li>`).join('');
+const ablLogoPath = path.resolve('public/brand/abl-logo.png');
+const ablLogo = fs.existsSync(ablLogoPath)
+  ? '<img src="/brand/abl-logo.png" alt="艾伯林量子調頻" width="500" height="500" loading="eager" class="abl-logo">'
+  : '<span class="abl-logo-text">艾伯林量子調頻</span>';
 const ablBody = [
-  h1('最近我到底怎麼了'),
-  p('艾伯林量子調頻，從你現在的狀態開始看，陪你把長期撐住的狀態，慢慢調回來。'),
-  a('https://lin.ee/STdLXx4', '加 LINE', 'target="_blank" rel="noopener noreferrer"'),
+  `<div class="theme-abl"><section class="bg-[#fbfaf7] px-6 pb-20 pt-32 md:pb-28 md:pt-40"><div class="mx-auto max-w-5xl"><div class="mb-7 h-[72px]">${ablLogo}</div><h1 class="abl-heading text-4xl font-bold leading-tight text-slate-900 md:text-6xl">最近我到底怎麼了</h1><p class="abl-heading mt-7 max-w-3xl text-base leading-loose text-slate-600 md:text-xl">艾伯林量子調頻，從你現在的狀態開始看，陪你把長期撐住的狀態，慢慢調回來。</p></div></section>`,
   h2('艾伯林量子調頻在看什麼'),
   p('同一件事，狀態不同，走出來的結果就不同。'),
   p('想做的事能不能走得下去，常常取決於現在的狀態。'),
@@ -389,7 +391,7 @@ const ablBody = [
   h3('再決定調整什麼'),
   p('看清楚了，才知道哪裡值得調，哪裡先維持原樣。'),
   p('這樣的時刻，你也有過。先加 LINE，我們從你現在的狀態開始。'),
-  a('https://lin.ee/STdLXx4', '加 LINE', 'target="_blank" rel="noopener noreferrer"'),
+  a('https://lin.ee/STdLXx4', '加 LINE', 'target="_blank" rel="noopener noreferrer" class="abl-cta"'),
   h2('持續更新的文章'),
   ablArticleLinks ? `<ul>${ablArticleLinks}</ul>` : '',
   a('/insights/personal-growth', '看全部文章'),
@@ -399,6 +401,7 @@ const ablBody = [
   p('2027 年度導航 即將開放'),
   a('/about', '認識艾瑞克'),
   p('艾伯林量子調頻提供的是狀態理解與支持，不是醫療、診斷或療效保證。'),
+  '</div>',
 ].join('');
 
 const ABL_JSONLD = [

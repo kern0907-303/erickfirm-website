@@ -20,7 +20,8 @@ const MobileStickyBar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (pathname === '/about' || pathname === '/three') return null;
+  const normalizedPath = pathname.replace(/\/+$/, '');
+  if (normalizedPath === '/about' || normalizedPath === '/three' || normalizedPath === '/abl') return null;
 
   return (
     <div

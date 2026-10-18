@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { LINE_CONFIG } from '../lib/constants';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+  const showLineCta = pathname.replace(/\/+$/, '') !== '/abl';
   const navigate = useNavigate();
 
   const handleNav = (path) => {
@@ -30,14 +32,16 @@ const Header = () => {
           <Link to="/" className="text-sm font-bold text-slate-700 hover:text-accent transition-colors">首頁</Link>
           <Link to="/insights" className="text-sm font-bold text-slate-700 hover:text-slate-950 transition-colors">洞察文章</Link>
           <Link to="/about" className="text-sm font-bold text-slate-700 hover:text-slate-950 transition-colors">關於艾瑞克</Link>
-          <a
-            href={LINE_CONFIG.LINE_ADD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2 bg-slate-900 text-white text-sm font-bold hover:bg-slate-700 transition-colors"
-          >
-            加 LINE
-          </a>
+          {showLineCta && (
+            <a
+              href={LINE_CONFIG.LINE_ADD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2 bg-slate-900 text-white text-sm font-bold hover:bg-slate-700 transition-colors"
+            >
+              加 LINE
+            </a>
+          )}
         </div>
 
         {/* Mobile Toggle */}
@@ -52,15 +56,17 @@ const Header = () => {
           <button onClick={() => handleNav('/')} className="text-left font-bold text-slate-700 hover:text-accent">首頁</button>
           <button onClick={() => handleNav('/insights')} className="text-left font-bold text-slate-700 hover:text-slate-900">洞察文章</button>
           <button onClick={() => handleNav('/about')} className="text-left font-bold text-slate-700 hover:text-slate-900">關於艾瑞克</button>
-          <a
-            href={LINE_CONFIG.LINE_ADD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setIsMenuOpen(false)}
-            className="bg-slate-900 text-white text-center py-3 font-bold transition-colors cursor-pointer"
-          >
-            加 LINE
-          </a>
+          {showLineCta && (
+            <a
+              href={LINE_CONFIG.LINE_ADD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+              className="bg-slate-900 text-white text-center py-3 font-bold transition-colors cursor-pointer"
+            >
+              加 LINE
+            </a>
+          )}
         </div>
       )}
     </header>

@@ -6,6 +6,8 @@ import { LINE_CONFIG } from '../lib/constants';
 import { getPostPath, normalizePosts } from '../lib/insights-adapter';
 import SEOHead from '../components/SEOHead';
 import Services from '../components/Services';
+import HeroTextReveal from '../components/HeroTextReveal';
+import './AblPage.css';
 
 const TITLE = '艾伯林量子調頻｜最近我到底怎麼了';
 const DESCRIPTION = '努力很久，狀態卻回不來。艾伯林量子調頻從你現在的狀態開始看，先找到力氣從哪裡漏掉，再決定調整什麼。';
@@ -22,6 +24,7 @@ const getAblPosts = (posts) => sortByDate(
 
 const ABLPage = () => {
   const [posts, setPosts] = useState(() => getAblPosts(fallbackData.posts || []));
+  const [logoFailed, setLogoFailed] = useState(false);
 
   const structuredData = useMemo(() => ({
     '@context': 'https://schema.org',
@@ -70,31 +73,39 @@ const ABLPage = () => {
   };
 
   return (
-    <main className="bg-white text-slate-900">
+    <main className="theme-abl bg-white text-slate-900">
       <SEOHead title={TITLE} description={DESCRIPTION} exactTitle />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
       <section className="bg-[#fbfaf7] px-6 pb-20 pt-32 md:pb-28 md:pt-40">
         <div className="mx-auto max-w-5xl">
-          <p className="text-xs font-medium tracking-[0.22em] text-slate-500">艾伯林量子調頻</p>
-          <h1 className="mt-6 text-4xl font-bold leading-tight text-slate-900 md:text-6xl">最近我到底怎麼了</h1>
-          <p className="mt-7 max-w-3xl text-base leading-loose text-slate-600 md:text-xl">
-            艾伯林量子調頻，從你現在的狀態開始看，陪你把長期撐住的狀態，慢慢調回來。
-          </p>
-          <a
-            href={LINE_CONFIG.LINE_ADD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-9 inline-flex items-center justify-center bg-slate-900 px-7 py-4 text-sm font-bold text-white transition-colors hover:bg-slate-700"
-          >
-            加 LINE
-          </a>
+          <div className="mb-7 h-[72px]">
+            {!logoFailed ? (
+              <img
+                src="/brand/abl-logo.png"
+                alt="艾伯林量子調頻"
+                width="500"
+                height="500"
+                loading="eager"
+                className="abl-logo"
+                onError={() => setLogoFailed(true)}
+              />
+            ) : (
+              <span className="abl-logo-text">艾伯林量子調頻</span>
+            )}
+          </div>
+          <HeroTextReveal
+            title="最近我到底怎麼了"
+            subtitle="艾伯林量子調頻，從你現在的狀態開始看，陪你把長期撐住的狀態，慢慢調回來。"
+            titleClassName="abl-heading text-4xl font-bold leading-tight text-slate-900 md:text-6xl"
+            subtitleClassName="mt-7 max-w-3xl text-base leading-loose text-slate-600 md:text-xl"
+          />
         </div>
       </section>
 
       <section className="bg-white px-6 py-20 md:py-28">
         <div className="mx-auto max-w-3xl">
-          <h2 className="text-2xl font-bold text-slate-900 md:text-4xl">艾伯林量子調頻在看什麼</h2>
+          <h2 className="abl-heading text-2xl font-bold text-slate-900 md:text-4xl">艾伯林量子調頻在看什麼</h2>
           <div className="mt-8 space-y-5 text-base leading-loose text-slate-600 md:text-lg">
             <p>同一件事，狀態不同，走出來的結果就不同。</p>
             <p>想做的事能不能走得下去，常常取決於現在的狀態。</p>
@@ -105,7 +116,7 @@ const ABLPage = () => {
 
       <section className="bg-[#f3f4f1] px-6 py-20 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-2xl font-bold text-slate-900 md:text-4xl">你可能正在這樣</h2>
+          <h2 className="abl-heading text-2xl font-bold text-slate-900 md:text-4xl">你可能正在這樣</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {[
               ['活得很努力，卻看不到未來', '每天都在做該做的事，往前看，卻看不清楚路。'],
@@ -117,7 +128,7 @@ const ABLPage = () => {
                 type="button"
                 onClick={scrollToArticles}
                 aria-controls="abl-articles"
-                className="card-soft h-full bg-white p-7 text-left transition-transform hover:-translate-y-1 md:p-9"
+                className="abl-card card-soft h-full p-7 text-left transition-transform hover:-translate-y-1 md:p-9"
               >
                 <h3 className="text-xl font-bold leading-relaxed text-slate-900">{title}</h3>
                 <p className="mt-5 text-sm leading-loose text-slate-600">{body}</p>
@@ -134,7 +145,7 @@ const ABLPage = () => {
 
       <section className="bg-white px-6 py-20 md:py-28">
         <div className="mx-auto max-w-3xl">
-          <h2 className="text-2xl font-bold text-slate-900 md:text-4xl">訊號值得被理解</h2>
+          <h2 className="abl-heading text-2xl font-bold text-slate-900 md:text-4xl">訊號值得被理解</h2>
           <div className="mt-8 space-y-5 text-base leading-loose text-slate-600 md:text-lg">
             <p>訊號可以被處理，但它為什麼會出現，常常不是單一原因。</p>
             <p>我們從多個角度、多個層次，把你當成一個完整的人來看。</p>
@@ -144,15 +155,15 @@ const ABLPage = () => {
 
       <section className="bg-[#eef1ef] px-6 py-20 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-2xl font-bold text-slate-900 md:text-4xl">我們怎麼看這件事</h2>
+          <h2 className="abl-heading text-2xl font-bold text-slate-900 md:text-4xl">我們怎麼看這件事</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {[
               ['先看現在的狀態', '先把你現在的樣子看清楚，再談下一步。'],
               ['找到力氣從哪裡漏掉', '是長期撐著，是反覆出現的模式，還是環境與關係裡的消耗。'],
               ['再決定調整什麼', '看清楚了，才知道哪裡值得調，哪裡先維持原樣。'],
             ].map(([title, body]) => (
-              <article key={title} className="card-soft h-full bg-white p-7 md:p-9">
-                <h3 className="text-xl font-bold text-slate-900">{title}</h3>
+              <article key={title} className="abl-card card-soft h-full p-7 md:p-9">
+                <h3 className="abl-heading text-xl font-bold text-slate-900">{title}</h3>
                 <p className="mt-5 text-sm leading-loose text-slate-600">{body}</p>
               </article>
             ))}
@@ -167,7 +178,7 @@ const ABLPage = () => {
             href={LINE_CONFIG.LINE_ADD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center justify-center bg-slate-900 px-7 py-4 text-sm font-bold text-white transition-colors hover:bg-slate-700"
+            className="abl-cta mt-8 inline-flex items-center justify-center px-7 py-4 text-sm font-bold transition-opacity hover:opacity-90"
           >
             加 LINE
           </a>
@@ -176,12 +187,12 @@ const ABLPage = () => {
 
       <section id="abl-articles" className="scroll-mt-24 bg-white px-6 py-20 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-2xl font-bold text-slate-900 md:text-4xl">持續更新的文章</h2>
+          <h2 className="abl-heading text-2xl font-bold text-slate-900 md:text-4xl">持續更新的文章</h2>
           {posts.length > 0 && (
             <div className="mt-9 grid gap-4 md:grid-cols-2">
               {posts.map((post) => (
                 <Link key={post.id || post.slug} to={getPostPath(post)} className="card-soft group bg-[#f5f6f3] p-6">
-                  <h3 className="font-semibold leading-snug text-slate-900 group-hover:underline">{post.title}</h3>
+                  <h3 className="abl-heading font-semibold leading-snug text-slate-900 group-hover:underline">{post.title}</h3>
                   <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-slate-600">{post.excerpt}</p>
                 </Link>
               ))}

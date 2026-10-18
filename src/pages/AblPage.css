@@ -1,0 +1,49 @@
+.theme-abl {
+  --abl-mint: #3ae9de;
+  --abl-cyan: #1fd6ec;
+  --abl-grad: linear-gradient(90deg, var(--abl-mint), var(--abl-cyan));
+  --abl-ink: #0b1f2a;
+  color: var(--abl-ink);
+}
+
+.theme-abl h1::after,
+.theme-abl h2::after,
+.theme-abl h3::after,
+.theme-abl .abl-heading::after {
+  display: block;
+  width: 48px;
+  height: 3px;
+  margin-top: 0.75rem;
+  border-radius: 9999px;
+  background: var(--abl-grad);
+  content: '';
+}
+
+.theme-abl .abl-card {
+  border: 0;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(58, 233, 222, 0.08), rgba(31, 214, 236, 0.08));
+}
+
+.theme-abl .abl-cta {
+  border: 0;
+  border-radius: 22px;
+  background: var(--abl-grad);
+  color: var(--abl-ink);
+}
+
+.theme-abl .abl-logo {
+  display: block;
+  width: auto;
+  height: 72px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.theme-abl .abl-logo-text {
+  display: inline-block;
+  color: var(--abl-ink);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
