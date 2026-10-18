@@ -77,9 +77,9 @@ const ABLPage = () => {
       <SEOHead title={TITLE} description={DESCRIPTION} exactTitle />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
-      <section className="bg-[#fbfaf7] px-6 pb-20 pt-32 md:pb-28 md:pt-40">
+      <section className="abl-hero bg-[#fbfaf7] px-6 pb-20 pt-32 md:pb-28 md:pt-40">
         <div className="mx-auto max-w-5xl">
-          <div className="mb-7 h-[72px]">
+          <div className="abl-logo-card">
             {!logoFailed ? (
               <img
                 src="/brand/abl-logo.png"
@@ -114,7 +114,7 @@ const ABLPage = () => {
         </div>
       </section>
 
-      <section className="bg-[#f3f4f1] px-6 py-20 md:py-28">
+      <section className="abl-section-muted bg-[#f3f4f1] px-6 py-20 md:py-28">
         <div className="mx-auto max-w-7xl">
           <h2 className="abl-heading text-2xl font-bold text-slate-900 md:text-4xl">你可能正在這樣</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -153,7 +153,7 @@ const ABLPage = () => {
         </div>
       </section>
 
-      <section className="bg-[#eef1ef] px-6 py-20 md:py-28">
+      <section className="abl-section-muted bg-[#eef1ef] px-6 py-20 md:py-28">
         <div className="mx-auto max-w-7xl">
           <h2 className="abl-heading text-2xl font-bold text-slate-900 md:text-4xl">我們怎麼看這件事</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
