@@ -2,8 +2,11 @@
 // 把 NAS 五頁預渲染成靜態 HTML，讓不執行 JavaScript 的 AI 爬蟲也讀得到。
 // 沒有這支之前，/nas、/nas/calculator、/nas/meili、/nas/course、/nas/consultant 在爬蟲眼中全部是首頁。
 // ⚠️ 這裡的文字是各頁內容的忠實摘要。改了頁面文案，記得回來同步，否則爬蟲看到的會跟使用者不一樣。
+import fs from 'node:fs';
 import path from 'node:path';
 import { SITE, PERSON_ID, esc, loadShell, renderPage, writePage, breadcrumb } from './prerender-shell.js';
+import { listPosts } from '../functions/_middleware.js';
+import { getPostPath, normalizePosts } from '../src/lib/insights-adapter.js';
 
 const dist = path.resolve('dist');
 const shell = loadShell(dist);
@@ -330,3 +333,104 @@ for (const page of PAGES) {
   writePage(dist, page.route, html);
 }
 console.log(`Generated ${PAGES.length} static NAS pages: ${PAGES.map((x) => x.route).join(', ')}`);
+
+const ABL_TITLE = '艾伯林量子調頻｜最近我到底怎麼了';
+const ABL_DESCRIPTION = '努力很久，狀態卻回不來。艾伯林量子調頻從你現在的狀態開始看，先找到力氣從哪裡漏掉，再決定調整什麼。';
+const sortByDate = (items) => [...items].sort((a, b) => (
+  new Date(b.publishDate || b.publish_date || b.createdAt || b.created_at || 0).getTime()
+  - new Date(a.publishDate || a.publish_date || a.createdAt || a.created_at || 0).getTime()
+));
+const getAblPosts = (items) => sortByDate(
+  normalizePosts(items || [], 'zh-TW').filter((post) => post.service === 'personal-growth')
+).slice(0, 6);
+
+let ablPosts = [];
+try {
+  const key = process.env.SUPABASE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+  if (key) {
+    const rawPosts = await listPosts({ SUPABASE_URL: process.env.SUPABASE_URL, SUPABASE_KEY: key }, 'zh-TW');
+    ablPosts = getAblPosts(rawPosts);
+  }
+} catch (error) {
+  console.warn(`  ⚠ 讀不到 ABL 文章清單（${error.message}），改用備援文章`);
+}
+if (!ablPosts.length) {
+  const fallback = JSON.parse(fs.readFileSync(path.resolve('src/data/insights.fallback.json'), 'utf8'));
+  ablPosts = getAblPosts(fallback.posts || []);
+}
+
+const ablArticleLinks = ablPosts.map((post) => `<li><a href="${esc(getPostPath(post))}/">${esc(post.title)}</a></li>`).join('');
+const ablBody = [
+  h1('最近我到底怎麼了'),
+  p('艾伯林量子調頻，從你現在的狀態開始看，陪你把長期撐住的狀態，慢慢調回來。'),
+  a('https://lin.ee/STdLXx4', '加 LINE', 'target="_blank" rel="noopener noreferrer"'),
+  h2('艾伯林量子調頻在看什麼'),
+  p('同一件事，狀態不同，走出來的結果就不同。'),
+  p('想做的事能不能走得下去，常常取決於現在的狀態。'),
+  p('所以我們先看這個：你現在的狀態，在哪裡。'),
+  h2('你可能正在這樣'),
+  h3('活得很努力，卻看不到未來'),
+  p('每天都在做該做的事，往前看，卻看不清楚路。'),
+  h3('一直以來都沒有不好，總覺得可以更好'),
+  p('沒有出大問題，也說不出哪裡不對，只是知道自己還有空間。'),
+  h3('休完假還是累，是老了，還是提不起勁'),
+  p('睡也睡了，假也放了，力氣卻沒有回來。'),
+  p('你一路扛起來的角色，是你自己認可的，也是你自己願意扛的。'),
+  p('只是扛得久了，身體和狀態開始出現訊號。'),
+  p('這些訊號是身體在說話，值得被好好理解。'),
+  h2('訊號值得被理解'),
+  p('訊號可以被處理，但它為什麼會出現，常常不是單一原因。'),
+  p('我們從多個角度、多個層次，把你當成一個完整的人來看。'),
+  h2('我們怎麼看這件事'),
+  h3('先看現在的狀態'),
+  p('先把你現在的樣子看清楚，再談下一步。'),
+  h3('找到力氣從哪裡漏掉'),
+  p('是長期撐著，是反覆出現的模式，還是環境與關係裡的消耗。'),
+  h3('再決定調整什麼'),
+  p('看清楚了，才知道哪裡值得調，哪裡先維持原樣。'),
+  p('這樣的時刻，你也有過。先加 LINE，我們從你現在的狀態開始。'),
+  a('https://lin.ee/STdLXx4', '加 LINE', 'target="_blank" rel="noopener noreferrer"'),
+  h2('持續更新的文章'),
+  ablArticleLinks ? `<ul>${ablArticleLinks}</ul>` : '',
+  a('/insights/personal-growth', '看全部文章'),
+  nav([['/i8', '初八企業顧問'], ['/nas', '平衡空間'], ['/abl', '艾伯林量子調頻，目前所在頁']]),
+  p('年度頻率支持 即將開放'),
+  p('空間調頻 即將開放'),
+  p('2027 年度導航 即將開放'),
+  a('/about', '認識艾瑞克'),
+  p('艾伯林量子調頻提供的是狀態理解與支持，不是醫療、診斷或療效保證。'),
+].join('');
+
+const ABL_JSONLD = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${SITE}/abl#service`,
+    name: '艾伯林量子調頻',
+    url: `${SITE}/abl`,
+    provider: { '@id': `${SITE}/#erick` },
+    serviceType: 'Personal State Support',
+    description: ABL_DESCRIPTION,
+    areaServed: 'TW',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${SITE}/abl`,
+    name: ABL_TITLE,
+    url: `${SITE}/abl`,
+    inLanguage: 'zh-Hant',
+    about: { '@id': `${SITE}/abl#service` },
+  },
+  breadcrumb([['首頁', `${SITE}/`], ['艾伯林量子調頻', `${SITE}/abl`]]),
+];
+const ablHtml = renderPage(shell, {
+  title: ABL_TITLE,
+  description: ABL_DESCRIPTION,
+  url: `${SITE}/abl`,
+  image: IMG,
+  jsonld: ABL_JSONLD,
+  body: ablBody,
+});
+writePage(dist, '/abl', ablHtml);
+console.log(`Generated static ABL page: /abl (${ablPosts.length} article links available)`);
