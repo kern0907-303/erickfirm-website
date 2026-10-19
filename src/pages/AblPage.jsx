@@ -7,6 +7,7 @@ import { getPostPath, normalizePosts } from '../lib/insights-adapter';
 import SEOHead from '../components/SEOHead';
 import Services from '../components/Services';
 import HeroTextReveal from '../components/HeroTextReveal';
+import AblLegalFooter from '../components/AblLegalFooter';
 import './AblPage.css';
 
 const TITLE = '艾伯林量子調頻｜最近我到底怎麼了';
@@ -217,6 +218,7 @@ const ABLPage = () => {
           艾伯林量子調頻提供的是狀態理解與支持，不是醫療、診斷或療效保證。
         </p>
       </section>
+      <AblLegalFooter />
     </main>
   );
 };

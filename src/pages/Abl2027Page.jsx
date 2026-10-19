@@ -4,6 +4,7 @@ import { LINE_CONFIG } from '../lib/constants';
 import HeroTextReveal from '../components/HeroTextReveal';
 import ProductCheckoutButton from '../components/ProductCheckoutButton';
 import SEOHead from '../components/SEOHead';
+import AblLegalFooter from '../components/AblLegalFooter';
 import './AblSales.css';
 
 const INDEXABLE = false;
@@ -176,6 +177,7 @@ const Abl2027Page = () => {
       </section>
 
       <footer className="abl-sales-disclaimer">頻率支持不是醫療、診斷或療效保證。</footer>
+      <AblLegalFooter />
     </main>
   );
 };

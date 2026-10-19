@@ -1,0 +1,29 @@
+.theme-abl .abl-legal-footer {
+  padding: 1.5rem 1rem 2rem;
+  color: #64748b;
+  font-size: 0.8rem;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.theme-abl .abl-legal-footer p {
+  margin: 0;
+}
+
+.theme-abl .abl-legal-footer nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+.theme-abl .abl-legal-footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(100, 116, 139, 0.4);
+  text-underline-offset: 0.2em;
+}
+
+.theme-abl .abl-legal-footer a:hover {
+  color: var(--abl-ink);
+}

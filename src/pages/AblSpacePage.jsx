@@ -4,6 +4,7 @@ import { LINE_CONFIG } from '../lib/constants';
 import HeroTextReveal from '../components/HeroTextReveal';
 import ProductCheckoutButton from '../components/ProductCheckoutButton';
 import SEOHead from '../components/SEOHead';
+import AblLegalFooter from '../components/AblLegalFooter';
 import './AblSales.css';
 
 const INDEXABLE = false;
@@ -128,6 +129,7 @@ const AblSpacePage = () => {
       </section>
 
       <footer className="abl-sales-disclaimer">空間調頻提供的是空間狀態的整理與支持，不是醫療、診斷或療效保證。</footer>
+      <AblLegalFooter />
     </main>
   );
 };

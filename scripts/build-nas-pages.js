@@ -32,6 +32,7 @@ const a = (href, t, attrs = '') => `<a href="${href}"${attrs ? ` ${attrs}` : ''}
 const nav = (links) => `<nav><ul>${links.map(([h, t]) => `<li>${a(h, t)}</li>`).join('')}</ul></nav>`;
 
 const brand = { ...ORGANIZATION, '@context': 'https://schema.org' };
+const ablLegalFooter = '<div class="abl-legal-footer"><p>艾伯林量子調頻　統一編號 88134911　abliene358@gmail.com</p><nav aria-label="法務資訊"><a href="/abl/terms">服務條款</a><a href="/abl/privacy">隱私權政策</a></nav></div>';
 
 const SOUL = [
   ['1 級', '幼稚園生', '什麼都是新的，靠嘗試和犯錯在學，需要有人陪著。'],
@@ -401,6 +402,7 @@ const ablBody = [
   p('2027 年度導航 即將開放'),
   a('/about', '認識艾瑞克'),
   p('艾伯林量子調頻提供的是狀態理解與支持，不是醫療、診斷或療效保證。'),
+  ablLegalFooter,
   '</div>',
 ].join('');
 
@@ -505,6 +507,7 @@ const SALES_PAGES = [
       ]), '', 'abl-sales-section-muted'),
       salesEnding('想知道哪一種適合你，先加 LINE，我們一起看。'),
       salesDisclaimer('頻率支持不是醫療、診斷或療效保證。'),
+      ablLegalFooter,
       '</div>',
     ].join(''),
     noindex: true,
@@ -532,6 +535,7 @@ const SALES_PAGES = [
       ])),
       salesEnding('想先確認你的空間適不適合，先加 LINE，我們一起看。'),
       salesDisclaimer('空間調頻提供的是空間狀態的整理與支持，不是醫療、診斷或療效保證。'),
+      ablLegalFooter,
       '</div>',
     ].join(''),
     noindex: true,
