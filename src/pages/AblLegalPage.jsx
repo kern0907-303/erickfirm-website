@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import HeroTextReveal from '../components/HeroTextReveal';
 import SEOHead from '../components/SEOHead';
-import { LEGAL_ENTITY, privacy, terms } from '../content/ablLegal';
+import { LEGAL_BRAND, privacy, terms } from '../content/ablLegal';
 import './AblLegalPage.css';
 
 const renderBlock = (block, index) => {
@@ -24,7 +24,7 @@ const AblLegalPage = () => {
   const { pathname } = useLocation();
   const document = pathname.endsWith('/privacy') ? privacy : terms;
   const [logoFailed, setLogoFailed] = useState(false);
-  const pageTitle = document.title + '｜' + LEGAL_ENTITY;
+  const pageTitle = document.title + '｜' + LEGAL_BRAND;
 
   return (
     <main className="theme-abl abl-legal-page">
@@ -35,7 +35,7 @@ const AblLegalPage = () => {
           {!logoFailed ? (
             <img
               src="/brand/abl-logo.png"
-              alt={LEGAL_ENTITY}
+              alt={LEGAL_BRAND}
               width="500"
               height="500"
               loading="eager"
@@ -43,10 +43,10 @@ const AblLegalPage = () => {
               onError={() => setLogoFailed(true)}
             />
           ) : (
-            <span className="abl-logo-text">{LEGAL_ENTITY}</span>
+            <span className="abl-logo-text">{LEGAL_BRAND}</span>
           )}
         </div>
-        <p className="abl-legal-brand">{LEGAL_ENTITY}</p>
+        <p className="abl-legal-brand">{LEGAL_BRAND}</p>
         <HeroTextReveal
           title={document.title}
           subtitle={'最後更新：' + document.lastUpdated}

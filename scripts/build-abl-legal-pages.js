@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { privacy, terms, LEGAL_ENTITY } from '../src/content/ablLegal.js';
+import { privacy, terms, LEGAL_BRAND } from '../src/content/ablLegal.js';
 import { SITE, esc, loadShell, renderPage, writePage } from './prerender-shell.js';
 
 const dist = path.resolve('dist');
@@ -21,13 +21,13 @@ function renderBlock(block) {
 }
 
 function renderDocument(document) {
-  const title = document.title + '｜' + LEGAL_ENTITY;
+  const title = document.title + '｜' + LEGAL_BRAND;
   const url = SITE + '/abl/' + (document === privacy ? 'privacy' : 'terms') + '/';
   const body = '<main class="theme-abl abl-legal-page">' +
     '<header class="abl-legal-hero">' +
     '<a class="abl-legal-back" href="/abl">返回艾伯林量子調頻</a>' +
-    '<div class="abl-logo-card"><img src="/brand/abl-logo.png" alt="' + esc(LEGAL_ENTITY) + '" width="500" height="500" class="abl-logo" /></div>' +
-    '<p class="abl-legal-brand">' + esc(LEGAL_ENTITY) + '</p>' +
+    '<div class="abl-logo-card"><img src="/brand/abl-logo.png" alt="' + esc(LEGAL_BRAND) + '" width="500" height="500" class="abl-logo" /></div>' +
+    '<p class="abl-legal-brand">' + esc(LEGAL_BRAND) + '</p>' +
     '<h1 class="abl-heading abl-legal-title">' + esc(document.title) + '</h1>' +
     '<p class="abl-legal-updated">最後更新：' + esc(document.lastUpdated) + '</p>' +
     '</header><article class="abl-legal-content">' +

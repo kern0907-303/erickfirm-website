@@ -1,11 +1,13 @@
-export const LEGAL_ENTITY = '艾伯林量子調頻';
+export const LEGAL_ENTITY = '特有種商行';
+export const LEGAL_BRAND = '艾伯林量子調頻';
+export const LEGAL_SELLER_LINE = '特有種商行（品牌：艾伯林量子調頻）';
 export const LEGAL_TAX_ID = '88134911';
 export const LEGAL_EMAIL = 'abliene358@gmail.com';
 export const LEGAL_LINE_URL = 'https://lin.ee/STdLXx4';
 
 const contactCard = {
   type: 'card',
-  entity: LEGAL_ENTITY,
+  entity: LEGAL_SELLER_LINE,
   taxId: LEGAL_TAX_ID,
   email: LEGAL_EMAIL,
   lineLabel: '前往官方帳號',
@@ -16,10 +18,10 @@ export const privacy = {
   title: '隱私權政策',
   lastUpdated: '2026 年 10 月 19 日',
   description: '了解艾伯林量子調頻如何蒐集、使用、保存與保護你的個人資料。',
-  intro: '艾伯林量子調頻（以下稱「我們」）重視你的隱私。這份政策說明你購買與使用 2027 年度頻率支持、空間調頻等服務時，我們蒐集哪些資料、為什麼蒐集、如何保護，以及你可以怎麼處理這些資料。',
+  intro: '特有種商行（品牌名稱：艾伯林量子調頻，以下稱「我們」）重視你的隱私。這份政策說明你購買與使用 2027 年度頻率支持、空間調頻等服務時，我們蒐集哪些資料、為什麼蒐集、如何保護，以及你可以怎麼處理這些資料。',
   sections: [
     { title: '一、我們是誰', blocks: [
-      { type: 'p', text: '艾伯林量子調頻，統一編號 88134911，聯絡信箱 abliene358@gmail.com。' },
+      { type: 'p', text: '特有種商行（品牌名稱：艾伯林量子調頻），統一編號 88134911，聯絡信箱 abliene358@gmail.com。' },
     ] },
     { title: '二、我們蒐集哪些資料', blocks: [
       { type: 'ul', items: [
@@ -78,7 +80,7 @@ export const terms = {
   title: '服務條款',
   lastUpdated: '2026 年 10 月 19 日',
   description: '說明艾伯林量子調頻各項服務的內容、付款、退款與使用條款。',
-  intro: '歡迎使用艾伯林量子調頻的 2027 年度服務。完成付款即表示你已閱讀並同意以下條款，請在購買前先看完。',
+  intro: '歡迎使用艾伯林量子調頻的 2027 年度服務，服務由特有種商行提供。完成付款即表示你已閱讀並同意以下條款，請在購買前先看完。',
   sections: [
     { title: '一、你買到的是什麼', blocks: [
       { type: 'p', text: '本條款適用以下服務，實際內容以結帳頁與銷售頁顯示為準。' },

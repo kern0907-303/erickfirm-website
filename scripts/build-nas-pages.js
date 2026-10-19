@@ -7,6 +7,7 @@ import path from 'node:path';
 import { SITE, PERSON_ID, esc, loadShell, renderPage, writePage, breadcrumb } from './prerender-shell.js';
 import { listPosts } from '../functions/_middleware.js';
 import { getPostPath, normalizePosts } from '../src/lib/insights-adapter.js';
+import { LEGAL_EMAIL, LEGAL_SELLER_LINE, LEGAL_TAX_ID } from '../src/content/ablLegal.js';
 
 const dist = path.resolve('dist');
 const shell = loadShell(dist);
@@ -32,7 +33,7 @@ const a = (href, t, attrs = '') => `<a href="${href}"${attrs ? ` ${attrs}` : ''}
 const nav = (links) => `<nav><ul>${links.map(([h, t]) => `<li>${a(h, t)}</li>`).join('')}</ul></nav>`;
 
 const brand = { ...ORGANIZATION, '@context': 'https://schema.org' };
-const ablLegalFooter = '<div class="abl-legal-footer"><p>艾伯林量子調頻　統一編號 88134911　abliene358@gmail.com</p><nav aria-label="法務資訊"><a href="/abl/terms">服務條款</a><a href="/abl/privacy">隱私權政策</a></nav></div>';
+const ablLegalFooter = '<div class="abl-legal-footer"><p>' + esc(LEGAL_SELLER_LINE + '　統一編號 ' + LEGAL_TAX_ID + '　' + LEGAL_EMAIL) + '</p><nav aria-label="法務資訊"><a href="/abl/terms">服務條款</a><a href="/abl/privacy">隱私權政策</a></nav></div>';
 
 const SOUL = [
   ['1 級', '幼稚園生', '什麼都是新的，靠嘗試和犯錯在學，需要有人陪著。'],
