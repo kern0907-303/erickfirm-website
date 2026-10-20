@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 const PUBLIC_CONFIG_URL = 'https://pay.erickfirm.com/api/public-config';
 
-const ProductCheckoutButton = ({ code, label }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ProductCheckoutButton = ({ code, label, closedText }) => {
+  const [status, setStatus] = useState('loading');
 
   useEffect(() => {
     const controller = new AbortController();
@@ -16,7 +16,7 @@ const ProductCheckoutButton = ({ code, label }) => {
         const product = Array.isArray(data?.products)
           ? data.products.find((item) => item?.code === code)
           : null;
-        if (active) setIsOpen(product?.status === 'open');
+        if (active) setStatus(product?.status === 'open' ? 'open' : 'closed');
       })
       .catch(() => {})
       .finally(() => window.clearTimeout(timeoutId));
@@ -28,7 +28,11 @@ const ProductCheckoutButton = ({ code, label }) => {
     };
   }, [code]);
 
-  if (!isOpen) return null;
+  if (status === 'closed' && closedText) {
+    return <p className="abl-sales-soon">{closedText}</p>;
+  }
+
+  if (status !== 'open') return null;
 
   return (
     <a

@@ -93,30 +93,30 @@ const Abl2027Page = () => {
           <h2 className="abl-heading">選哪一種支持</h2>
           <div className="abl-sales-grid abl-sales-grid-plans">
             <article className="abl-card abl-sales-card">
-              <h3 className="abl-heading">團體年度頻率　NT$990 / 年</h3>
+              <h3 className="abl-heading">團體年度頻率<span className="abl-sales-price">NT$990 <small>/ 年</small></span></h3>
               <div className="abl-sales-copy">
                 <p>一群人，共同接受同一個年度主題。</p>
                 <p>2027 共同主題：穩定承接</p>
                 <p>在變動裡穩住自己，讓真正適合你的關係、機會與資源，有空間進來。</p>
                 <p>包含：共同年度主題、四季階段重點、每季一則簡短提醒。</p>
               </div>
-              <ProductCheckoutButton code="group_annual" label="前往結帳" />
+              <ProductCheckoutButton code="group_annual" label="前往結帳" closedText="十一月陸續開放" />
             </article>
             <article className="abl-card abl-sales-card">
-              <h3 className="abl-heading">個人年度頻率　單一主題　NT$2,200 / 年</h3>
+              <h3 className="abl-heading">個人年度頻率　單一主題<span className="abl-sales-price">NT$2,200 <small>/ 年</small></span></h3>
               <div className="abl-sales-copy">
                 <p>專門為你選定的一個年度主題，全年固定，四季各有一個階段重點。</p>
                 <p>包含：一個年度主題、四季階段重點、每季一次更新通知。</p>
               </div>
-              <ProductCheckoutButton code="individual_single" label="前往結帳" />
+              <ProductCheckoutButton code="individual_single" label="前往結帳" closedText="十一月陸續開放" />
             </article>
             <article className="abl-card abl-sales-card">
-              <h3 className="abl-heading">個人年度頻率　雙主題　NT$3,980 / 年</h3>
+              <h3 className="abl-heading">個人年度頻率　雙主題<span className="abl-sales-price">NT$3,980 <small>/ 年</small></span></h3>
               <div className="abl-sales-copy">
                 <p>兩個各自獨立的年度主題，各自有四季階段重點。</p>
                 <p>包含：兩個年度主題、各自的四季階段重點、各自每季一次更新通知。</p>
               </div>
-              <ProductCheckoutButton code="individual_dual" label="前往結帳" />
+              <ProductCheckoutButton code="individual_dual" label="前往結帳" closedText="十一月陸續開放" />
             </article>
           </div>
         </div>
