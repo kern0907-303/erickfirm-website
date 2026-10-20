@@ -511,7 +511,7 @@ const SALES_PAGES = [
       ablLegalFooter,
       '</div>',
     ].join(''),
-    noindex: true,
+    noindex: false,
   },
   {
     route: '/abl/space',

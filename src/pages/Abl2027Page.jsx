@@ -7,7 +7,7 @@ import SEOHead from '../components/SEOHead';
 import AblLegalFooter from '../components/AblLegalFooter';
 import './AblSales.css';
 
-const INDEXABLE = false;
+const INDEXABLE = true;
 const TITLE = '艾伯林量子調頻｜2027 年度頻率支持';
 const DESCRIPTION = '2027 年度頻率支持，一整年的背景支持，團體與個人兩種選擇，每季一次更新通知。';
 

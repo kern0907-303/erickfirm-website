@@ -40,6 +40,7 @@ async function generateSitemap() {
     { url: `${DOMAIN}/insights/erick-column`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
     { url: `${DOMAIN}/i8`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
     { url: `${DOMAIN}/abl`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
+    { url: `${DOMAIN}/abl/2027`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
     { url: `${DOMAIN}/abl/privacy`, lastmod: today, changefreq: 'monthly', priority: '0.6' },
     { url: `${DOMAIN}/abl/terms`, lastmod: today, changefreq: 'monthly', priority: '0.6' },
     { url: `${DOMAIN}/about`, lastmod: today, changefreq: 'monthly', priority: '0.9' },
