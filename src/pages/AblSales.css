@@ -349,3 +349,202 @@
   color: #475569;
   font-size: 0.95rem;
 }
+
+/* 2026-10-20 改版：怎麼購買、方案差異、六主題四季 */
+.theme-abl.abl-sales-page .abl-sales-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.theme-abl.abl-sales-page .abl-sales-step {
+  padding: 1.7rem 1.5rem;
+  border: 1px solid rgba(31, 214, 236, 0.45);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(11, 31, 42, 0.08);
+  color: #1e293b;
+}
+
+.theme-abl.abl-sales-page .abl-sales-step h3 {
+  margin: 0.8rem 0 0.5rem;
+  color: var(--abl-ink);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.theme-abl.abl-sales-page .abl-sales-step p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.theme-abl.abl-sales-page .abl-sales-step-no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3ae9de, #3b8cff);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.theme-abl.abl-sales-page .abl-sales-note {
+  margin-top: 1.5rem;
+}
+
+.theme-abl.abl-sales-page .abl-sales-diff {
+  margin: 0 0 1.75rem;
+  padding: 1.6rem 1.8rem;
+  border: 1px solid rgba(31, 214, 236, 0.45);
+  border-radius: 22px;
+  background: rgba(58, 233, 222, 0.08);
+  color: #1e293b;
+  font-size: 1.1rem;
+  line-height: 1.85;
+}
+
+.theme-abl.abl-sales-page .abl-sales-diff ul {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.theme-abl.abl-sales-page .abl-sales-diff li {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.theme-abl.abl-sales-page .abl-sales-diff strong {
+  color: var(--abl-ink);
+  font-weight: 800;
+}
+
+.theme-abl.abl-sales-page .abl-sales-diff p {
+  margin: 0;
+  font-weight: 700;
+}
+
+.theme-abl.abl-sales-page .abl-sales-lead {
+  margin: -0.5rem 0 1.5rem;
+  color: #1e293b;
+  font-size: 1.15rem;
+}
+
+.theme-abl.abl-sales-page .abl-sales-theme-icon {
+  margin-right: 0.5rem;
+}
+
+.theme-abl.abl-sales-page .abl-sales-theme-line {
+  margin: 0 0 0.25rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.theme-abl.abl-sales-page .abl-sales-theme-fit {
+  margin: 0 0 1rem;
+  color: #475569;
+}
+
+.theme-abl.abl-sales-page .abl-sales-seasons {
+  margin: 0;
+  padding: 1rem 0 0;
+  border-top: 1px dashed rgba(31, 214, 236, 0.6);
+  list-style: none;
+}
+
+.theme-abl.abl-sales-page .abl-sales-seasons li {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.45rem 0;
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.theme-abl.abl-sales-page .abl-sales-seasons b {
+  color: var(--abl-ink);
+  font-weight: 800;
+}
+
+.theme-abl.abl-sales-page .abl-sales-ending-inner > h2 {
+  margin-bottom: 1rem;
+}
+
+.theme-abl.abl-sales-page .abl-sales-ending-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .theme-abl.abl-sales-page .abl-sales-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .theme-abl.abl-sales-page .abl-sales-steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .theme-abl.abl-sales-page .abl-sales-diff li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.1rem;
+  }
+}
+
+.theme-abl.abl-sales-page .abl-sales-theme-goal {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  background: rgba(58, 233, 222, 0.14);
+  color: var(--abl-ink);
+  font-weight: 800;
+}
+
+.theme-abl.abl-sales-page .abl-sales-seasons-wrap > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  color: var(--abl-ink);
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+}
+
+.theme-abl.abl-sales-page .abl-sales-seasons-wrap > summary::-webkit-details-marker {
+  display: none;
+}
+
+.theme-abl.abl-sales-page .abl-sales-seasons-wrap > summary::after {
+  content: "收起";
+  color: #0e7490;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.theme-abl.abl-sales-page .abl-sales-seasons-wrap:not([open]) > summary::after {
+  content: "展開";
+}
+
+.theme-abl.abl-sales-page .abl-sales-ending-actions {
+  align-items: center;
+}
+
+.theme-abl.abl-sales-page .abl-sales-ending-inner > p {
+  max-width: 34rem;
+  margin-right: auto;
+  margin-left: auto;
+  text-wrap: balance;
+}
