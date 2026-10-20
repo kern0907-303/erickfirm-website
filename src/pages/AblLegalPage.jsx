@@ -22,7 +22,7 @@ const renderBlock = (block, index) => {
 
 const AblLegalPage = () => {
   const { pathname } = useLocation();
-  const document = pathname.endsWith('/privacy') ? privacy : terms;
+  const document = pathname.replace(/\/+$/, '') === '/abl/privacy' ? privacy : terms;
   const [logoFailed, setLogoFailed] = useState(false);
   const pageTitle = document.title + '｜' + LEGAL_BRAND;
 
