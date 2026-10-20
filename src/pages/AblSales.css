@@ -548,3 +548,35 @@
   margin-left: auto;
   text-wrap: balance;
 }
+
+.theme-abl.abl-sales-page .abl-sales-subhead {
+  margin: 1rem 0 0.4rem;
+  color: var(--abl-ink);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.theme-abl.abl-sales-page .abl-sales-subhead small {
+  display: block;
+  margin-top: 0.1rem;
+  color: #475569;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.theme-abl.abl-sales-page .abl-sales-focus {
+  margin: 0 0 0.6rem;
+  padding-left: 1.4rem;
+  color: #1e293b;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.theme-abl.abl-sales-page .abl-sales-focus li {
+  padding: 0.2rem 0;
+}
+
+.theme-abl.abl-sales-page .abl-sales-focus li::marker {
+  color: #0e7490;
+  font-weight: 800;
+}

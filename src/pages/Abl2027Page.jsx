@@ -5,12 +5,31 @@ import HeroTextReveal from '../components/HeroTextReveal';
 import ProductCheckoutButton from '../components/ProductCheckoutButton';
 import SEOHead from '../components/SEOHead';
 import AblLegalFooter from '../components/AblLegalFooter';
-import { BUY_STEPS, PLAN_DIFF, PLAN_DIFF_NOTE, QUARTERS, THEMES, FAQS } from '../content/abl2027Content';
+import { INTRO, BUY_STEPS, PLAN_DIFF, PLAN_DIFF_NOTE, FOCUS_TITLE, FOCUS_HINT, CHECK_TITLE, CHECK_HINT, GROUP, THEMES, FAQS } from '../content/abl2027Content';
 import './AblSales.css';
 
 const INDEXABLE = true;
 const TITLE = '艾伯林量子調頻｜2027 年度頻率支持';
-const DESCRIPTION = '2027 年度頻率支持，團體共享頻率，或個人單獨設定，一整年的背景支持，每季一次 LINE 更新通知。';
+const DESCRIPTION = '2027 年度頻率支持，團體共享頻率，或個人單獨設定，一整年的背景支持，每季一則 LINE 檢視提醒。';
+
+const FocusAndChecks = ({ item }) => (
+  <>
+    <p className="abl-sales-theme-goal">{item.goal}</p>
+    <details className="abl-sales-seasons-wrap" open>
+      <summary>頻率焦點與四季檢視</summary>
+      <p className="abl-sales-subhead">{FOCUS_TITLE}<small>{FOCUS_HINT}</small></p>
+      <ol className="abl-sales-focus">
+        {item.focus.map((sentence) => <li key={sentence}>{sentence}</li>)}
+      </ol>
+      <p className="abl-sales-subhead">{CHECK_TITLE}<small>{CHECK_HINT}</small></p>
+      <ul className="abl-sales-seasons">
+        {item.checks.map(([season, title, question]) => (
+          <li key={season}><b>{season}　{title}</b><span>{question}</span></li>
+        ))}
+      </ul>
+    </details>
+  </>
+);
 
 const Abl2027Page = () => {
   const [logoFailed, setLogoFailed] = useState(false);
@@ -52,7 +71,7 @@ const Abl2027Page = () => {
           <h2 className="abl-heading">買了會得到什麼</h2>
           <div className="abl-sales-copy">
             <p>一整年的背景支持，從付款確認當天起算，共 365 天。</p>
-            <p>你選一個年度主題，全年固定。一年分四季，每一季有一個階段重點，每一季你會在 LINE 收到一次通知。你不用另外做功課。</p>
+            {INTRO.map((text) => <p key={text}>{text}</p>)}
           </div>
         </div>
       </section>
@@ -90,7 +109,7 @@ const Abl2027Page = () => {
               <div className="abl-sales-copy">
                 <p>一群人，共享同一個頻率。</p>
                 <p>2027 共同主題：穩定承接。在變動裡穩住自己，讓真正適合你的關係、機會與資源，有空間進來。</p>
-                <p>包含：共同年度主題、四季階段重點、每季一則簡短提醒。</p>
+                <p>包含：共同年度主題，整合成一年的組合頻率，每季一則檢視提醒。</p>
               </div>
               <ProductCheckoutButton code="group_annual" label="前往結帳" closedText="十一月陸續開放" />
             </article>
@@ -98,7 +117,7 @@ const Abl2027Page = () => {
               <h3 className="abl-heading">個人年度頻率　單一主題<span className="abl-sales-price">NT$2,200 <small>/ 年</small></span></h3>
               <div className="abl-sales-copy">
                 <p>從下面六個主題選一個，頻率單獨為你設定、單獨發送。</p>
-                <p>包含：一個年度主題、四季階段重點、每季一次更新通知。</p>
+                <p>包含：一個年度主題，整合成一年的組合頻率，每季一則檢視提醒。</p>
               </div>
               <ProductCheckoutButton code="individual_single" label="前往結帳" closedText="十一月陸續開放" />
             </article>
@@ -106,7 +125,7 @@ const Abl2027Page = () => {
               <h3 className="abl-heading">個人年度頻率　雙主題<span className="abl-sales-price">NT$3,980 <small>/ 年</small></span></h3>
               <div className="abl-sales-copy">
                 <p>從下面六個主題選兩個，兩個頻率各自單獨為你設定、單獨發送。</p>
-                <p>包含：兩個年度主題、各自的四季階段重點、各自每季一次更新通知。</p>
+                <p>包含：兩個年度主題，各自整合成組合頻率，每季一則檢視提醒，涵蓋兩個主題。</p>
               </div>
               <ProductCheckoutButton code="individual_dual" label="前往結帳" closedText="十一月陸續開放" />
             </article>
@@ -116,37 +135,26 @@ const Abl2027Page = () => {
 
       <section className="abl-sales-section abl-sales-section-muted">
         <div className="abl-sales-inner">
-          <h2 className="abl-heading">團體 2027 四季</h2>
-          <div className="abl-sales-grid abl-sales-grid-two">
-            {QUARTERS.map(([title, body]) => (
-              <article className="abl-card abl-sales-card" key={title}>
-                <h3 className="abl-heading">{title}</h3>
-                <p>{body}</p>
-              </article>
-            ))}
-          </div>
+          <h2 className="abl-heading">團體 2027 年度頻率</h2>
+          <article className="abl-card abl-sales-card abl-sales-theme">
+            <h3 className="abl-heading">{GROUP.name}</h3>
+            <p className="abl-sales-theme-line">{GROUP.line}</p>
+            <FocusAndChecks item={GROUP} />
+          </article>
         </div>
       </section>
 
       <section className="abl-sales-section">
         <div className="abl-sales-inner">
           <h2 className="abl-heading">個人六個年度主題</h2>
-          <p className="abl-sales-lead">選一個，或選兩個。每個主題都有自己的四季重點。</p>
+          <p className="abl-sales-lead">選一個，或選兩個。每個主題有四個焦點，整合成一年的組合頻率，再加上四個每季檢視點。</p>
           <div className="abl-sales-grid abl-sales-grid-two">
             {THEMES.map((theme) => (
               <article className="abl-card abl-sales-card abl-sales-theme" key={theme.name}>
                 <h3 className="abl-heading"><span className="abl-sales-theme-icon" aria-hidden="true">{theme.icon}</span>{theme.name}</h3>
                 <p className="abl-sales-theme-line">{theme.line}</p>
                 <p className="abl-sales-theme-fit">{theme.fit}</p>
-                <p className="abl-sales-theme-goal">{theme.goal}</p>
-                <details className="abl-sales-seasons-wrap" open>
-                  <summary>四季重點</summary>
-                  <ul className="abl-sales-seasons">
-                    {theme.seasons.map(([season, title, body]) => (
-                      <li key={season}><b>{season}　{title}</b><span>{body}</span></li>
-                    ))}
-                  </ul>
-                </details>
+                <FocusAndChecks item={theme} />
               </article>
             ))}
           </div>
