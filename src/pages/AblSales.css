@@ -580,3 +580,7 @@
   color: #0e7490;
   font-weight: 800;
 }
+
+.theme-abl.abl-sales-page .abl-sales-theme {
+  align-self: start;
+}
