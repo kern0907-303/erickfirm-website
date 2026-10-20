@@ -210,7 +210,7 @@ const ABLPage = () => {
       <section className="bg-[#fbfaf7] px-6 py-14">
         <div className="mx-auto max-w-7xl">
           <h2 className="abl-heading text-2xl font-bold text-slate-900">2027 年度頻率支持</h2>
-          <p className="mt-3 text-sm leading-loose text-slate-600">團體與個人年度方案，早鳥價開放中</p>
+          <p className="mt-3 text-sm leading-loose text-slate-600">團體與個人年度方案，十一月陸續開放</p>
           <Link to="/abl/2027" className="abl-cta mt-6 inline-flex items-center justify-center px-7 py-4 text-sm font-bold transition-opacity hover:opacity-90">
             了解方案內容
           </Link>
