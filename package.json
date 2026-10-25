@@ -7,7 +7,8 @@
     "dev": "vite --host :: --port 3000",
     "build": "node scripts/build-sitemap.js && vite build && node scripts/build-static-pages.js && node scripts/build-nas-pages.js && node scripts/build-abl-legal-pages.js && node scripts/build-i8-page.js && node scripts/build-about-page.js && node scripts/build-three-page.js && node scripts/build-insights-pages.js",
     "preview": "vite preview --host :: --port 3000",
-    "lint": "eslint . --quiet"
+    "lint": "eslint . --quiet",
+    "test:nas-monthly-pipeline": "node --test tests/nas-monthly-pipeline.test.js"
   },
   "dependencies": {
     "framer-motion": "^11.15.0",
