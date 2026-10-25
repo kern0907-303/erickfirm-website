@@ -12,6 +12,7 @@
 import path from 'node:path';
 import { getPostImage, getPostPath, getPostUrl } from '../src/lib/insights-adapter.js';
 import { getArticleBlocks, getArticleDescription, parseArticleFaq } from '../src/lib/article-content.js';
+import { getCategoryCtaConfig } from '../src/content/categoryCta.js';
 import { getPostDetail, listPosts } from '../functions/_middleware.js';
 import { SITE, PERSON_ID, esc, loadShell, renderPage, writePage, breadcrumb } from './prerender-shell.js';
 
@@ -61,6 +62,10 @@ function renderBlocks(blocks = [], title = '') {
   }
   flush();
   return out.join('');
+}
+
+function renderNasArticleCta(config) {
+  return `<section class="mt-12 pt-8 border-t border-slate-200 font-sans"><div class="card-flat bg-surface p-8 md:p-10 text-left"><h4 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3 font-display">${esc(config.title)}</h4><p class="text-slate-600 text-base md:text-lg mb-8 leading-relaxed max-w-2xl font-light">${esc(config.desc)}</p><div class="flex flex-col sm:flex-row items-center gap-4"><a href="${esc(config.btn1Url)}" class="w-full sm:w-auto px-7 py-3.5 bg-primary text-white font-bold rounded-lg hover:bg-secondary hover:shadow-md transition-all duration-200 text-center text-base cursor-pointer">${esc(config.btn1Text)} ➔</a><a href="${esc(config.btn2Url)}" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-7 py-3.5 bg-white text-slate-900 font-bold border border-slate-300 rounded-lg hover:border-accent hover:text-accent hover:shadow-sm transition-all duration-200 text-center text-base cursor-pointer">${esc(config.btn2Text)} ↗</a></div></div></section>`;
 }
 
 // aeo_schema 可能是 <script> 包好的，也可能是裸 JSON。解析得出來才放，解析不了寧可不放，
@@ -167,6 +172,9 @@ for (const post of posts) {
     : '';
 
   const body = `<article><h1>${esc(post.title)}</h1>${bodyHtml || `<p>${esc(description)}</p>`}${faqHtml}</article>`;
-  writePage(dist, route, renderPage(shell, { title, description, url, type: 'article', image, jsonld, body }));
+  const cta = post.service === 'life-number'
+    ? renderNasArticleCta(getCategoryCtaConfig(post.service, post.slug))
+    : '';
+  writePage(dist, route, renderPage(shell, { title, description, url, type: 'article', image, jsonld, body: body.replace('</article>', `${cta}</article>`) }));
 }
 console.log(`Generated ${posts.length} static article pages (${withBody} with full body text, ${withFaq} with FAQ).`);
