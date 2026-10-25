@@ -18,14 +18,6 @@ import {
   validateMonthlyPreflight,
 } from "../src/lib/nasMonthly/index.js";
 
-const approvedSyntheticQuestions = {
-  status: "approved",
-  sections: MONTHLY_SECTION_IDS.map((id, index) => ({
-    id,
-    question: `SYNTHETIC_TEST_QUESTION_${String.fromCharCode(65 + index)}`,
-  })),
-};
-
 const syntheticProfileCatalog = {
   "1": { theme: "發起", strength: "表達主張", watch: "獨自推進" },
   "2": { theme: "連結", strength: "建立互信", watch: "模糊界線" },
@@ -47,7 +39,7 @@ const syntheticRelationRules = {
 function makePacket({
   numbers = { solarMain: 1, lunarMain: 2, flowMonth: 5 },
   profileCatalog = syntheticProfileCatalog,
-  monthlyQuestions = approvedSyntheticQuestions,
+  monthlyQuestions = MONTHLY_QUESTIONS,
   flowWindow = {
     start: "2027-01-31",
     end: "2027-02-28",
@@ -68,17 +60,31 @@ function makeValidDraft(packet = makePacket()) {
   const anchors = [
     `陽曆${packet.profiles.solarMain.theme}`,
     `陰曆${packet.profiles.lunarMain.theme}`,
-    `流月${packet.profiles.flowMonth.theme}`,
+    `本期流月${packet.profiles.flowMonth.theme}`,
     packet.numbers.solarMain === packet.numbers.lunarMain ? "一致" : "不同",
   ].join("，");
-  const seed = `${anchors}呈現的，是想往前推進的方向、實際採取的方式，以及本期節奏如何交會。這些資料只描述可觀察的傾向，讓你在日常選擇中找到更適合自己的做法。`;
+  const seed = `${anchors}呈現的，是想往前推進的方向、實際採取的方式，以及本期流月節奏如何交會。這些資料只描述可觀察的傾向，讓你在日常選擇中找到更適合自己的做法。`;
   const opening = Array.from(seed.repeat(8)).slice(0, 330).join("");
   return {
     opening,
-    sections: MONTHLY_SECTION_IDS.map((id) => ({
-      id,
-      text: "這段是合成測試文字，用來確認各段問題依序承接，不代表正式月信文案。",
-    })),
+    sections: [
+      {
+        id: "section_1",
+        text: `陽曆${packet.profiles.solarMain.theme}的方向，會在本期流月${packet.profiles.flowMonth.theme}節奏中被推動；兩者交會後，想成為的樣子會更容易往這個方向表現。`,
+      },
+      {
+        id: "section_2",
+        text: `陰曆${packet.profiles.lunarMain.theme}的實際運作，碰上本期流月${packet.profiles.flowMonth.theme}時，熟悉的方法比較順；如果沿用過頭，就會感到卡。`,
+      },
+      {
+        id: "section_3",
+        text: `陽曆${packet.profiles.solarMain.theme}與陰曆${packet.profiles.lunarMain.theme}的落差，會在本期流月${packet.profiles.flowMonth.theme}牽動的選擇上現形。`,
+      },
+      {
+        id: "section_4",
+        text: `本期流月${packet.profiles.flowMonth.theme}的節奏與你的做法交會，適合先收斂一件事；不適合硬推尚未準備好的安排。`,
+      },
+    ],
     firstStep: "今晚先寫下一件最想推進的事，再選一個可以在十分鐘內完成的步驟。",
     nextCyclePreview: "下一個週期再回來檢視，哪些做法值得延續，哪些需要調整。",
   };
@@ -95,11 +101,19 @@ test("report_system redlines included in prompt are exact fragments of the uncha
   }
 
   const packet = makePacket();
+  assert.deepEqual(MONTHLY_QUESTIONS.sections.map((section) => section.question), [
+    "這個週期，你「想成為的樣子」會被推向哪裡（陽曆主命數 × 本期流月）",
+    "這個週期，你「實際的運作方式」會比較順還是比較卡（陰曆主命數 × 本期流月）",
+    "這個週期，兩者的落差會在哪裡現形",
+    "所以這個週期適合做什麼、不適合硬推什麼",
+  ]);
   const prompts = buildMonthlyPromptBundle({
     numbers: packet.numbers,
     profiles: packet.profiles,
-    relation: { code: "polarity_pair" },
-  }, approvedSyntheticQuestions);
+    relation: { code: "same_group" },
+  }, packet.monthlyQuestions);
+  assert.ok(prompts.user.includes("這個週期，你「想成為的樣子」會被推向哪裡"));
+  assert.ok(prompts.user.includes("這個週期，你「實際的運作方式」會比較順還是比較卡"));
   for (const redline of REPORT_SYSTEM_REDLINE_FRAGMENTS) assert.ok(prompts.system.includes(redline));
   for (const supplementalRule of SUPPLEMENTAL_NAS_REDLINE_TEXT) assert.ok(prompts.system.includes(supplementalRule));
   for (const boundary of MODEL_OUTPUT_BOUNDARIES) assert.ok(prompts.system.includes(boundary));
@@ -143,7 +157,7 @@ test("synthetic end-to-end draft completes without sending or persisting", async
   assert.equal(Array.from(result.draft.opening).length, 330);
 });
 
-test("missing profile including unresolved number 0 blocks before text generation", async () => {
+test("missing profile and unconfirmed number 0 block before text generation", async () => {
   const packet = makePacket({ numbers: { solarMain: 0, lunarMain: 2, flowMonth: 5 } });
   let called = false;
   const result = await runMonthlyDraftPipeline({
@@ -151,14 +165,30 @@ test("missing profile including unresolved number 0 blocks before text generatio
     generateText: async () => { called = true; return "{}"; },
   });
 
-  assert.equal(NUMBER_ZERO_PROFILE_STATUS, "awaiting_erick_profile");
+  assert.equal(NUMBER_ZERO_PROFILE_STATUS, "awaiting_erick_final_confirmation");
   assert.equal(result.status, "blocked");
   assert.ok(result.errors.includes("missing_profile:solarMain:0"));
+  assert.ok(result.errors.includes("profile_pending:0"));
   assert.equal(called, false);
+
+  const candidateCatalog = {
+    ...syntheticProfileCatalog,
+    "0": { theme: "待核定", strength: "待核定", watch: "待核定" },
+  };
+  const candidatePacket = makePacket({
+    numbers: { solarMain: 0, lunarMain: 2, flowMonth: 5 },
+    profileCatalog: candidateCatalog,
+  });
+  assert.ok(validateMonthlyPreflight(candidatePacket).errors.includes("profile_pending:0"));
 });
 
 test("unapproved or absent section questions block before text generation", async () => {
-  const packet = makePacket({ monthlyQuestions: MONTHLY_QUESTIONS });
+  const packet = makePacket({
+    monthlyQuestions: {
+      status: "pending_erick_approval",
+      sections: MONTHLY_SECTION_IDS.map((id) => ({ id, question: null })),
+    },
+  });
   let called = false;
   const result = await runMonthlyDraftPipeline({
     packet,
@@ -211,6 +241,17 @@ test("generic opening without all three personal anchors is blocked", () => {
   const result = validateMonthlyGeneratedContent(draft, packet);
   assert.equal(result.ok, false);
   assert.ok(result.errors.includes("opening_missing_personalization_anchor"));
+});
+
+test("each section is blocked when it repeats static profile traits without this flow month", () => {
+  const packet = makePacket();
+  for (const sectionId of MONTHLY_SECTION_IDS) {
+    const draft = makeValidDraft(packet);
+    draft.sections.find((section) => section.id === sectionId).text = "固定特質描述，不提本期節奏，也不說明互動。";
+    const result = validateMonthlyGeneratedContent(draft, packet);
+    assert.equal(result.ok, false, `${sectionId} should be blocked`);
+    assert.ok(result.errors.includes(`section_missing_flow_interaction:${sectionId}`));
+  }
 });
 
 test("NAS banned phrases from the brand guardrail are caught", () => {

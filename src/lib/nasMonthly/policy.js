@@ -70,14 +70,28 @@ export const MONTHLY_SECTION_IDS = Object.freeze([
 ]);
 
 export const MONTHLY_QUESTIONS = Object.freeze({
-  status: "pending_erick_approval",
-  sections: Object.freeze(MONTHLY_SECTION_IDS.map((id) => Object.freeze({
-    id,
-    question: null,
-  }))),
+  status: "approved",
+  sections: Object.freeze([
+    Object.freeze({
+      id: "section_1",
+      question: "這個週期，你「想成為的樣子」會被推向哪裡（陽曆主命數 × 本期流月）",
+    }),
+    Object.freeze({
+      id: "section_2",
+      question: "這個週期，你「實際的運作方式」會比較順還是比較卡（陰曆主命數 × 本期流月）",
+    }),
+    Object.freeze({
+      id: "section_3",
+      question: "這個週期，兩者的落差會在哪裡現形",
+    }),
+    Object.freeze({
+      id: "section_4",
+      question: "所以這個週期適合做什麼、不適合硬推什麼",
+    }),
+  ]),
 });
 
-export const NUMBER_ZERO_PROFILE_STATUS = "awaiting_erick_profile";
+export const NUMBER_ZERO_PROFILE_STATUS = "awaiting_erick_final_confirmation";
 
 export function buildMonthlyPromptBundle(packet, approvedQuestions) {
   if (
@@ -102,6 +116,7 @@ export function buildMonthlyPromptBundle(packet, approvedQuestions) {
     "\n計算與輸出欄位界線：",
     ...MODEL_OUTPUT_BOUNDARIES.map((line) => `- ${line}`),
     "\n個人化要求：opening 是本封信的第一段，長度為 300–400 個 Unicode 字元。必須同時寫出陽曆主命數 profile、陰曆主命數 profile 的一致或落差，以及這個交互如何落在本期流月節奏。前 300–400 字要讓當事人辨認出自己的狀態；不得用泛用問候或抽象套話充數。",
+    "四個 sections 必須逐段回應對應問題，且每一段都要明確連結本期流月 profile 與該段指定的陽曆／陰曆素材。只重述固定 profile 的靜態特質不合格；每段都要描述固定結構如何在本期流月中交互、呈現或改變。",
     "不得把人分類，也不得從不完整盤面推導類型。盤面沒有出生時分、九宮或連線資料，視為不具備判型條件；只可描述輸入 profile 支持的現象。",
     "不得在文字欄位輸出任何阿拉伯數字、日期或計算結果。數字 ID 只供你理解素材，不能重算、修改或寫進文字。遇到資料缺漏或矛盾時不要自行補足，讓前後攔截拒絕產文。",
     "只輸出符合下列形狀的 JSON，不要 Markdown fence、HTML、額外欄位或說明：",

@@ -126,6 +126,7 @@ export function validateMonthlyPreflight(packet) {
       errors.push(`invalid_number:${key}`);
       continue;
     }
+    if (value === 0) errors.push("profile_pending:0");
 
     const profile = packet.profiles?.[key];
     if (!profile) {
@@ -294,6 +295,9 @@ export function validateMonthlyGeneratedContent(result, packet) {
   if (!/(?:交會|交互|互相|牽動|影響|相遇|交織)/u.test(opening)) {
     errors.push("opening_missing_interaction");
   }
+  if (!opening.includes("本期") || !opening.includes("流月")) {
+    errors.push("opening_missing_current_flow_month");
+  }
   if (packet.numbers.solarMain === packet.numbers.lunarMain) {
     if (!/(?:一致|相同)/u.test(opening)) errors.push("opening_missing_alignment");
   } else if (!/(?:不同|落差)/u.test(opening)) {
@@ -301,6 +305,50 @@ export function validateMonthlyGeneratedContent(result, packet) {
   }
   if (!result.firstStep.includes("今晚") || !/(?:先|寫下|選擇|試著|安排|設定|整理|列出|完成|預留|留下|停下|問自己|練習|對話|記錄|確認|區分|拒絕|調整)/u.test(result.firstStep)) {
     errors.push("first_step_not_actionable");
+  }
+
+  const sectionChecks = [
+    {
+      id: "section_1",
+      anchors: ["陽曆", packet.profiles.solarMain.theme, packet.profiles.flowMonth.theme],
+      response: /(?:方向|推向|推動)/u,
+    },
+    {
+      id: "section_2",
+      anchors: ["陰曆", packet.profiles.lunarMain.theme, packet.profiles.flowMonth.theme],
+      response: /(?:順|卡)/u,
+    },
+    {
+      id: "section_3",
+      anchors: ["陽曆", packet.profiles.solarMain.theme, "陰曆", packet.profiles.lunarMain.theme, packet.profiles.flowMonth.theme],
+      response: /(?:現形|呈現|出現|表現)/u,
+      contrast: /(?:落差|一致)/u,
+    },
+    {
+      id: "section_4",
+      anchors: ["流月", packet.profiles.flowMonth.theme],
+      response: /(?:^|[^不])適合/u,
+      contrast: /(?:不適合|不宜|先別|不要|別).{0,6}硬推/u,
+    },
+  ];
+  for (const check of sectionChecks) {
+    const section = result.sections.find((entry) => entry.id === check.id);
+    if (!section) continue;
+    const sectionText = section.text;
+    if (
+      !sectionText.includes("本期")
+      || !sectionText.includes("流月")
+      || !/(?:交會|交互|互相|牽動|影響|相遇|交織|帶動|推動|碰上|遇上)/u.test(sectionText)
+      || check.anchors.some((anchor) => !sectionText.includes(anchor))
+    ) {
+      errors.push(`section_missing_flow_interaction:${check.id}`);
+    }
+    if (check.response && !check.response.test(sectionText)) {
+      errors.push(`section_missing_answer:${check.id}`);
+    }
+    if (check.contrast && !check.contrast.test(sectionText)) {
+      errors.push(`section_missing_contrast:${check.id}`);
+    }
   }
 
   return { ok: errors.length === 0, errors };
