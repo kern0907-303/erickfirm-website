@@ -1,11 +1,11 @@
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-function deepFreezeTable(table) {
-  for (const row of Object.values(table)) Object.freeze(row);
-  return Object.freeze(table);
+function deepFreezeRows(rows) {
+  for (const row of Object.values(rows)) Object.freeze(row);
+  return Object.freeze(rows);
 }
 
-export const LUNAR_TABLE = deepFreezeTable({
+export const LUNAR_TABLE = deepFreezeRows({
   "1900": {
     "new_year": "1900-01-31",
     "code": "08|1100101101101"
