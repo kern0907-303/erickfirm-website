@@ -295,6 +295,9 @@ const NASCalculator = () => {
                 />
               </div>
             </details>
+            <p className="-mt-2 text-sm leading-relaxed text-[#A8883F]">
+              {FLOW_COPY.completenessHint}
+            </p>
 
             <button
               type="submit"
@@ -406,7 +409,7 @@ const NASCalculator = () => {
               <div>
                 <p className="text-sm font-semibold text-[#A8883F]">你現在看到的完整度</p>
                 <p className="mt-2 text-4xl font-bold text-[#5B3A9E]">{completenessLabel}</p>
-                <p className="mt-3 text-sm leading-loose text-[#6E6885]">陽曆約六成；加入陰曆約八成五；再加出生時分為十成。</p>
+                <p className="mt-3 text-sm leading-loose text-[#6E6885]">{FLOW_COPY.completenessHint}</p>
               </div>
               <label className="text-sm font-medium">
                 出生時分（選填）
