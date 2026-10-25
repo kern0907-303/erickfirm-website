@@ -20,8 +20,8 @@ const CATEGORY_CTA_CONFIG = {
   'life-number': {
     title: '你自己的那一套，是怎麼運作的？',
     desc: '每個人的節奏、判斷方式與卡點位置本來就不同。硬套別人的方法會累，先看懂自己這一套比較快。',
-    btn1Text: '做 30 秒自評',
-    btn1Url: 'https://erickfirm.com/#assessment',
+    btn1Text: '先免費算一次',
+    btn1Url: '/nas/calculator/',
     btn2Text: '加 LINE 輸入【168】',
     btn2Url: lineMessageUrl('168'),
   },
@@ -190,7 +190,10 @@ const PostDetail = () => {
   // 取得當前分類對應的 CTA 引流卡片配置
   const ctaConfig = useMemo(() => {
     const s = normalizedPost?.service || 'personal-growth';
-    return CATEGORY_CTA_CONFIG[s] || CATEGORY_CTA_CONFIG['personal-growth'];
+    const config = CATEGORY_CTA_CONFIG[s] || CATEGORY_CTA_CONFIG['personal-growth'];
+    if (s !== 'life-number' || !normalizedPost?.slug) return config;
+    const source = new URLSearchParams({ source: `nas-article-${normalizedPost.slug}` });
+    return { ...config, btn1Url: `/nas/calculator/?${source.toString()}` };
   }, [normalizedPost]);
 
   // 計算「你可能也會想看」的 3 篇文章

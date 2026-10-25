@@ -3,6 +3,4 @@
 /src/* /src/:splat 200
 /node_modules/* /node_modules/:splat 200
 /nas/calculator /nas/calculator/ 301
-/nas/life-number /nas/calculator/ 301
-/nas/life-number/ /nas/calculator/ 301
 /* /index.html   200

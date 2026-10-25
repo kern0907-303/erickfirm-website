@@ -16,14 +16,14 @@
 
 | 表 | 筆數 |
 |---|---|
-| `insights_articles` | 104 |
+| `insights_articles` | 113（110 published、3 draft） |
 | `analytics_events` | 3,606 |
 | `publish_queue` / `social_publish_queue` | 79 / 98 |
 | `knowledge_notes` | 61 |
 
 `insights_articles` 欄位：`id(uuid), created_at, brand_id(text), title, content, aeo_schema, aeo_faq, status`
 
-文章分佈：**nas 25 篇已發布**、abl 50、i8 22、erick 5。
+文章分佈（2026-10-25 實查）：**nas 27 篇已發布**、abl 50 篇已發布／2 篇草稿、i8 28 篇已發布／1 篇草稿、erick 5 篇已發布。舊版文章總數與分佈已過時。
 
 **Supabase `erickfirm-pay`（oggbqjwiayxebfyiqvzt）** — 金流，2026-10-18 建
 `customers`(0)、`price_rules`(8)、`price_locks`、`invites`、`usage_feedback`、`line_bot_sessions`(1)、`abl_2027_*` 四張表。
@@ -110,7 +110,7 @@ function baseScore(n) {
 
 ### 1-3 生命功課等級（1–7 級）公開呈現
 
-既有 `/nas/calculator/` 已公開顯示陽曆與陰曆的生命功課等級，並說明「級數不是分數，七級不比一級好」。先前「免費頁不顯示等級」的限制已撤銷。Erick 已裁定合併到 `/nas/calculator/`：保留既有等級說明，並在同頁呈現流年、流月、流日與月信入口；`/nas/life-number/` 301 轉址至計算器。
+既有 `/nas/calculator/` 已公開顯示陽曆與陰曆的生命功課等級，並說明「級數不是分數，七級不比一級好」。先前「免費頁不顯示等級」的限制已撤銷。Erick 已裁定合併到 `/nas/calculator/`：保留既有等級說明，並在同頁呈現流年、流月、流日與月信入口。`/nas/life-number/` 從未上線，不建立該路由或轉址。
 
 ---
 
@@ -351,13 +351,13 @@ NAS 第一層禁用：命定、注定、改命、開運、絕對準、破解命�
 
 ## 7. 文章導流
 
-NAS 目前 **25 篇已發布**（`insights_articles` where `brand_id='nas'`）。
+NAS 於 2026-10-25 實查有 **27 篇已發布**（`insights_articles` where `brand_id='nas'`；原 25 篇數字已過時）。
 
-- 這 25 篇的文末 CTA 改指向 `/nas/calculator/`，取代現行指向文章列表的做法。讀者看完文章的下一個問題是「那我是幾號」，文章列表回答不了。
+- 這 27 篇的文末 CTA 改指向 `/nas/calculator/`，取代現行指向文章列表的做法。讀者看完文章的下一個問題是「那我是幾號」，文章列表回答不了。
 - 帶 UTM 或 `source` 參數，讓名單表知道是哪一篇帶來的。
 - **保留文章之間的內部連結**，不要為了導流把內鏈全拔掉。
 
-沿用既有計算器路徑 **`/nas/calculator/`** 作為唯一入口；舊 `/nas/life-number/` 301 轉址至此。不要用 `lifeos`——那是內部代號，沒有搜尋價值，而這很可能是整條 NAS 線流量最高的一頁。
+沿用既有計算器路徑 **`/nas/calculator/`** 作為唯一入口。`/nas/life-number/` 從未上線，不建立路由或轉址。不要用 `lifeos`——那是內部代號，沒有搜尋價值，而這很可能是整條 NAS 線流量最高的一頁。
 
 ---
 
@@ -378,20 +378,20 @@ NAS 目前 **25 篇已發布**（`insights_articles` where `brand_id='nas'`）�
 ## 9. 驗收
 
 1. 新舊計算對拍腳本全綠（陽／陰主命數、流年、流月、流日逐欄一致），含第 2 節列出的所有邊界案例。
-2. `/nas/calculator/` 的**原始 HTML**（不執行 JS）含得到 ⑤⑥⑦ 的教育內容、正確的 title／description／canonical／og；舊路徑回應 301 至此。
+2. `/nas/calculator/` 的**原始 HTML**（不執行 JS）含得到 ⑤⑥⑦ 的教育內容、正確的 title／description／canonical／og；sitemap 僅保留既有 calculator 項目，沒有 `/nas/life-number/` 路由或轉址。
 3. 未輸入生日時頁面仍有完整可讀內容。
 4. 輸入生日後：顯示兩個主命數與意義、落差那一句、完整度提示、本次流月前導與依定版公式推導的換期說明；生命功課等級依頁面方案裁定；**不顯示全年十二個月表**；**不顯示任何百分比或天氣分數**。
 5. 留 email → 名單表寫入成功 → 當前流月信立刻寄達；退訂連結可用；信件含 `List-Unsubscribe` 標頭。
 6. 排程測試：建立生日為 1 號、15 號、29 號、30 號、31 號的測試訂閱者，逐日套用定版公式並偵測流月來源月變化；驗證各自在變化日前一天收到信，含短月案例。
 7. 全頁文案掃過第 6 節禁用詞，命中數為 0。
 8. 今日提醒已移除分數制，且用語與 365 能量氣象台一致。
-9. 25 篇 NAS 文章的文末 CTA 全部指向 `/nas/calculator/` 且帶來源參數。
+9. 實查的 27 篇 NAS 已發布文章，其文末 CTA 全部指向 `/nas/calculator/` 且帶文章來源參數。
 
 ## 10. 已定案事項（不需再問）
 
 | 項目 | 決定 |
 |---|---|
-| 路徑 | `/nas/calculator/`（唯一入口；舊 `/nas/life-number/` 301 轉址） |
+| 路徑 | `/nas/calculator/`（唯一入口；`/nas/life-number/` 不建立路由或轉址） |
 | 今日提醒 | 移除分數制，沿用 365 氣象台用語 |
 | 免費頁容器 | 使用者自己的流月／流年週期 |
 | 2027 報告容器 | 日曆年，兩段轉折當賣點 |
