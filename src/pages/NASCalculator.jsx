@@ -4,8 +4,43 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Sun, Moon } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import NASMark from '../components/NASMark';
+import {
+  calculateBirthNumbers,
+  calculateFlows,
+  calculateLunarFlows,
+  getFlowMonthWindow,
+} from '../lib/numerology';
+import { relationForPaths } from '../lib/numerology/dailyGuidance';
+import {
+  DAILY_RELATION_COPY,
+  FOCUS_OPTIONS,
+  MAIN_NUMBER_PROFILES,
+  NAS_LIFE_NUMBER_COPY as FLOW_COPY,
+} from '../content/nasLifeNumberCopy';
 
 const API_URL = '/api/ai_reading';
+const MONTHLY_LETTER_API_URL = import.meta.env.VITE_NAS_MONTHLY_LETTER_WEBHOOK_URL;
+
+function taipeiDate() {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Taipei',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
+function dateLabel(value) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || '');
+  return match ? `${Number(match[2])}/${Number(match[3])}` : value;
+}
+
+function lunarBirthValue(value) {
+  if (!value) return '';
+  return `${value.year}-${String(value.month).padStart(2, '0')}-${String(value.day).padStart(2, '0')}`;
+}
 
 /**
  * 生命功課等級——依先天數、後天數、主命數的有無判定，共七級。
@@ -39,19 +74,26 @@ const STRUCTURED = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
   name: '生命數字計算',
-  url: 'https://erickfirm.com/nas/calculator',
+  url: 'https://erickfirm.com/nas/calculator/',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Web',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
   provider: { '@type': 'Person', name: '艾瑞克', '@id': 'https://erickfirm.com/#erick' },
-  description: '輸入西元生日，計算主命數與陽曆、陰曆雙軌生命數字結構。',
+  description: '輸入西元生日，計算陽曆與陰曆雙軌主命數、生命功課等級、流年、流月與今日流日。',
 };
 
 const NASCalculator = () => {
   const [birthdate, setBirthdate] = useState('');
   const [lunarOverride, setLunarOverride] = useState('');
+  const [name, setName] = useState('');
+  const [birthTime, setBirthTime] = useState('');
+  const [email, setEmail] = useState('');
+  const [focus, setFocus] = useState('');
+  const [consent, setConsent] = useState(false);
+  const [subscribeStatus, setSubscribeStatus] = useState('idle');
   const [state, setState] = useState('idle'); // idle | loading | done | error
   const [result, setResult] = useState(null);
+  const [flowResult, setFlowResult] = useState(null);
   const [errMsg, setErrMsg] = useState('');
 
   React.useEffect(() => {
@@ -71,6 +113,7 @@ const NASCalculator = () => {
     if (!birthdate.trim()) return;
     setState('loading');
     setErrMsg('');
+    setSubscribeStatus('idle');
     try {
       const res = await fetch(API_URL, {
         method: 'POST',
@@ -84,19 +127,91 @@ const NASCalculator = () => {
       if (!res.ok) throw new Error('連線失敗');
       const json = await res.json();
       if (!json.ok) throw new Error(json.error || '生日格式看起來不對，請用西元年月日');
+      const solarBirth = birthdate.trim();
+      const lunarBirth = lunarOverride.trim();
+      const target = taipeiDate();
+      const numbers = calculateBirthNumbers(solarBirth, lunarBirth);
+      const solarFlows = calculateFlows(solarBirth, target);
+      const lunarFlows = numbers.lunarBirth
+        ? calculateLunarFlows(numbers.lunarBirth, target)
+        : null;
+      const monthWindow = getFlowMonthWindow(solarBirth, target);
+      const nextFlowMonth = calculateFlows(solarBirth, monthWindow.nextChange).flowMonth.num;
       // 記住生日，之後到數字每曆那頁就不用再輸入一次。
-      // 只存生日字串，不存任何計算結果；無痕模式會丟例外，忽略即可。
+      // 只存生日字串，不存計算結果或月信聯絡資料；無痕模式會丟例外，忽略即可。
       try {
-        localStorage.setItem('nas.birthdate', birthdate.trim());
-        if (lunarOverride.trim()) localStorage.setItem('nas.lunar', lunarOverride.trim());
+        localStorage.setItem('nas.birthdate', solarBirth);
+        if (lunarBirth) localStorage.setItem('nas.lunar', lunarBirth);
+        else localStorage.removeItem('nas.lunar');
       } catch { /* 存不了就算了，不影響計算 */ }
-      setResult(json);
+      setResult({
+        ...json,
+        parsed: {
+          ...json.parsed,
+          solarMain: numbers.solarMain.path,
+          lunarMain: numbers.lunarMain?.path || '',
+        },
+      });
+      setFlowResult({ target, numbers, solarFlows, lunarFlows, monthWindow, nextFlowMonth });
       setState('done');
     } catch (err) {
       setErrMsg(err.message || '出了點狀況，稍後再試一次');
       setState('error');
     }
   };
+
+  const subscribe = async (e) => {
+    e.preventDefault();
+    if (e.currentTarget.elements.website.value) {
+      setSubscribeStatus('error');
+      return;
+    }
+    if (!MONTHLY_LETTER_API_URL) {
+      setSubscribeStatus('unconfigured');
+      return;
+    }
+
+    setSubscribeStatus('submitting');
+    const params = new URLSearchParams(window.location.search);
+    const payload = {
+      form: 'nas_monthly_letter',
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      solar_birth: birthdate.trim(),
+      lunar_birth: lunarBirthValue(flowResult?.numbers.lunarBirth),
+      birth_time: birthTime || '',
+      focus,
+      source: params.get('source') || params.get('utm_source') || window.location.pathname,
+      source_path: window.location.pathname,
+      consent_at: new Date().toISOString(),
+    };
+
+    try {
+      const response = await fetch(MONTHLY_LETTER_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) throw new Error(`Webhook request failed: ${response.status}`);
+      setSubscribeStatus('success');
+    } catch {
+      setSubscribeStatus('error');
+    }
+  };
+
+  const completeness = flowResult
+    ? (birthTime ? 100 : flowResult.numbers.lunarBirth ? 85 : 60)
+    : 60;
+  const completenessLabel = completeness === 100
+    ? '十成'
+    : completeness === 85 ? '約八成五' : '約六成';
+
+  const dailySolarRelation = flowResult
+    ? relationForPaths(flowResult.numbers.solarMain.path, flowResult.solarFlows.flowDay.path)
+    : null;
+  const dailyLunarRelation = flowResult?.lunarFlows
+    ? relationForPaths(flowResult.numbers.lunarMain.path, flowResult.lunarFlows.flowDay.path)
+    : null;
 
   const p = result?.parsed;
 
@@ -133,20 +248,22 @@ const NASCalculator = () => {
     <main className="bg-white text-[#1F1A2E]">
       <SEOHead
         title="生命數字計算｜輸入生日，看懂你的陽曆與陰曆雙軌結構"
-        description="免費生命數字計算。輸入西元生日，算出主命數與陽曆、陰曆雙軌結構。不只給你一個數字——還告訴你為什麼同樣的數字會長成完全不同的人。艾瑞克，二十年生命數字教學。"
+        description="免費生命數字計算，呈現陽曆與陰曆雙軌結構、生命功課等級，以及依生日計算的流年、流月與今日流日。艾瑞克，二十年生命數字教學。"
       />
 
       {/* 輸入 */}
       <section className="pt-32 pb-14 px-6">
         <div className="max-w-2xl mx-auto">
           <NASMark label="生命數字計算" />
+          <p className="text-sm font-semibold text-[#A8883F] mb-3">{FLOW_COPY.hook}</p>
           <h1 className="text-2xl md:text-4xl font-bold leading-snug mb-5">
             輸入生日，看你的雙軌結構
           </h1>
           <p className="text-[#55506B] leading-loose mb-9">
-            三十秒算完，不用留任何資料。
+            免費計算，不需註冊或提交 Email。生日會送往計算服務，並保存在這台瀏覽器，供數字每曆讀取；想收每月流月信，再自行填寫訂閱資料。
             陽曆看你對外的展現，陰曆看你內在真正的需求——多數人的卡點，就落在這兩者不一致的地方。
           </p>
+          <p className="text-sm text-[#6E6885] leading-loose mb-8">{FLOW_COPY.heroSupport}</p>
 
           <form onSubmit={run} className="space-y-4">
             <div>
@@ -244,6 +361,14 @@ const NASCalculator = () => {
                   ) : (
                     <p className="text-lg">—</p>
                   )}
+
+                  {t.m && MAIN_NUMBER_PROFILES[t.m.main] && (
+                    <dl className="mt-5 space-y-2 border-t border-[#E7E3F0] pt-4 text-sm leading-relaxed text-[#55506B]">
+                      <div><dt className="inline font-semibold text-[#1F1A2E]">主題：</dt><dd className="inline">{MAIN_NUMBER_PROFILES[t.m.main].theme}</dd></div>
+                      <div><dt className="inline font-semibold text-[#1F1A2E]">可運用：</dt><dd className="inline">{MAIN_NUMBER_PROFILES[t.m.main].strength}</dd></div>
+                      <div><dt className="inline font-semibold text-[#1F1A2E]">可觀察：</dt><dd className="inline">{MAIN_NUMBER_PROFILES[t.m.main].watch}</dd></div>
+                    </dl>
+                  )}
                 </div>
               ))}
             </div>
@@ -272,6 +397,98 @@ const NASCalculator = () => {
             )}
           </div>
         </motion.section>
+      )}
+
+      {state === 'done' && flowResult && (
+        <>
+          <section className="px-6 pb-16" aria-label="計算完整度">
+            <div className="mx-auto grid max-w-4xl gap-8 rounded-3xl border border-[#E7E3F0] p-6 md:grid-cols-[1fr_1.3fr] md:p-8">
+              <div>
+                <p className="text-sm font-semibold text-[#A8883F]">你現在看到的完整度</p>
+                <p className="mt-2 text-4xl font-bold text-[#5B3A9E]">{completenessLabel}</p>
+                <p className="mt-3 text-sm leading-loose text-[#6E6885]">陽曆約六成；加入陰曆約八成五；再加出生時分為十成。</p>
+              </div>
+              <label className="text-sm font-medium">
+                出生時分（選填）
+                <input type="time" value={birthTime} onChange={(e) => setBirthTime(e.target.value)} className="mt-2 block w-full rounded-xl border border-[#DAD4E8] px-4 py-3 outline-none focus:border-[#5B3A9E]" />
+                <span className="mt-2 block font-normal leading-relaxed text-[#918BA6]">出生時間只用於完整度提示，不改變此頁顯示的主命數與流年、流月、流日。</span>
+              </label>
+            </div>
+          </section>
+
+          <section className="px-6 pb-16" id="current-flow-month">
+            <div className="mx-auto max-w-4xl rounded-3xl border border-[#E7E3F0] bg-[#F7F5FC]/50 p-6 md:p-8">
+              <p className="text-sm font-semibold text-[#A8883F]">本次個人流月</p>
+              <h2 className="mt-2 text-2xl font-bold md:text-3xl">你現在走在流月 {flowResult.solarFlows.flowMonth.num}</h2>
+              <p className="mt-3 text-[#55506B]">這個階段到 {dateLabel(flowResult.monthWindow.end)}，{dateLabel(flowResult.monthWindow.nextChange)} 進入流月 {flowResult.nextFlowMonth}。</p>
+              <p className="mt-5 text-sm leading-loose text-[#6E6885]">流月逐日套用「當日 &gt;= 生日日取本月，否則取上個月」的公式，再依結果變化推導換期。生日 31 號時，1/31–2/28 取一月、3/1–3/30 取二月、3/31–4/30 取三月、5/1–5/30 取四月。</p>
+              <p className="mt-3 text-sm leading-relaxed text-[#6E6885]">你現在走在流年 {flowResult.solarFlows.flowYear.num}。</p>
+
+              <div className="mt-6 border-t border-[#E7E3F0] pt-6" id="monthly-signup">
+                <h3 className="text-xl font-bold">訂閱每月流月信</h3>
+                <p className="mt-2 text-sm leading-loose text-[#55506B]">留 Email 後立刻寄出當前這一封；之後在每個人自己的流月換日前一天寄。</p>
+                <p className="mt-2 text-xs leading-relaxed text-[#918BA6]">每封信涵蓋即將開始的完整流月，並提供退訂方式。</p>
+                {!MONTHLY_LETTER_API_URL && <p className="mt-4 rounded-xl bg-[#FBF7EE] p-4 text-sm text-[#6E6885]" role="status">月信訂閱服務尚未連接，這份表單不會送出資料。</p>}
+
+                {subscribeStatus === 'success' ? (
+                  <p className="mt-5 rounded-xl bg-white p-4 text-sm text-[#416147]" role="status">訂閱資料已送出。</p>
+                ) : (
+                  <form onSubmit={subscribe} className="mt-5 grid gap-4 md:grid-cols-2">
+                    <label className="text-sm font-medium">
+                      姓名
+                      <input required value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" className="mt-2 w-full rounded-xl border border-[#DAD4E8] bg-white px-4 py-3 outline-none focus:border-[#5B3A9E]" />
+                    </label>
+                    <label className="text-sm font-medium">
+                      Email
+                      <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" placeholder="you@example.com" className="mt-2 w-full rounded-xl border border-[#DAD4E8] bg-white px-4 py-3 outline-none focus:border-[#5B3A9E]" />
+                    </label>
+                    <label className="text-sm font-medium md:col-span-2">
+                      你現在最想整理的是什麼？
+                      <select required value={focus} onChange={(e) => setFocus(e.target.value)} className="mt-2 w-full rounded-xl border border-[#DAD4E8] bg-white px-4 py-3 outline-none focus:border-[#5B3A9E]">
+                        <option value="">請選擇</option>
+                        {FOCUS_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
+                      </select>
+                    </label>
+                    <label className="flex items-start gap-3 text-sm leading-relaxed text-[#55506B] md:col-span-2">
+                      <input required type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-1 accent-[#5B3A9E]" />
+                      <span>我同意透過 Email 接收每月流月信，並了解每封信都可退訂。</span>
+                    </label>
+                    <label className="hidden" aria-hidden="true">
+                      網站
+                      <input name="website" tabIndex={-1} autoComplete="off" />
+                    </label>
+                    {subscribeStatus === 'unconfigured' && <p className="text-sm text-red-700 md:col-span-2" role="alert">月信訂閱服務目前尚未連接，資料沒有送出。</p>}
+                    {subscribeStatus === 'error' && <p className="text-sm text-red-700 md:col-span-2" role="alert">送出時發生問題，請稍後再試。</p>}
+                    <button type="submit" disabled={subscribeStatus === 'submitting' || !MONTHLY_LETTER_API_URL} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-6 py-3 font-medium text-white transition hover:bg-[#472D7D] disabled:opacity-50 md:col-span-2">
+                      {subscribeStatus === 'submitting' ? '送出中…' : '訂閱每月流月信'}<ArrowRight size={17} />
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </section>
+
+          <section className="px-6 pb-16" aria-labelledby="today-reminder-title">
+            <div className="mx-auto max-w-4xl rounded-3xl border border-[#E7E3F0] p-6 md:p-8">
+              <p className="text-sm font-semibold text-[#A8883F]">今日提醒｜{flowResult.target}</p>
+              <h2 id="today-reminder-title" className="mt-2 text-2xl font-bold">今天的流日數字</h2>
+              <div className="mt-5 grid gap-4 md:grid-cols-2">
+                <div className="rounded-2xl bg-[#F7F5FC] p-5">
+                  <p className="text-xs text-[#918BA6]">陽曆流日</p>
+                  <p className="mt-1 text-3xl font-bold">{flowResult.solarFlows.flowDay.num}</p>
+                  {dailySolarRelation && <p className="mt-3 text-sm leading-relaxed text-[#55506B]">{DAILY_RELATION_COPY[dailySolarRelation]}</p>}
+                </div>
+                {flowResult.lunarFlows && (
+                  <div className="rounded-2xl bg-[#FBF7EE] p-5">
+                    <p className="text-xs text-[#918BA6]">陰曆流日</p>
+                    <p className="mt-1 text-3xl font-bold">{flowResult.lunarFlows.flowDay.num}</p>
+                    {dailyLunarRelation && <p className="mt-3 text-sm leading-relaxed text-[#55506B]">{DAILY_RELATION_COPY[dailyLunarRelation]}</p>}
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        </>
       )}
 
       {/* 算完了，然後呢 — 唯一的轉換點 */}
@@ -326,6 +543,7 @@ const NASCalculator = () => {
           <ul className="text-[#55506B] leading-loose space-y-2 mb-6 list-disc pl-5">
             <li><strong>陰曆盤</strong>——陽曆描述你對外的展現與思考方式，陰曆描述你內在的感受與真正的需求。兩邊不一致的地方，通常就是卡住的地方。</li>
             <li><strong>生命功課等級</strong>——依先天數、後天數與主命數的有無判定，描述的是你目前在處理哪個階段的功課。</li>
+            <li><strong>流年、流月與今日流日</strong>——依陽曆生日逐日計算當前週期；加入陰曆盤時，也會顯示陰曆流日。</li>
           </ul>
 
           <h3 className="font-bold mb-3 mt-10">生命功課等級的七個階段</h3>
@@ -351,6 +569,41 @@ const NASCalculator = () => {
           <p className="text-[#55506B] leading-loose">
             算出來的數字不會決定你是誰。它只告訴你要處理什麼題目——怎麼答，還是你自己的事。
           </p>
+        </div>
+      </section>
+
+      <section className="px-6 py-16 border-t border-[#F0EDF7]">
+        <div className="mx-auto grid max-w-4xl gap-10 md:grid-cols-2">
+          <article>
+            <h2 className="text-xl font-bold mb-5">為什麼看生命數字</h2>
+            <p className="text-[#55506B] leading-loose mb-4">{FLOW_COPY.mainNumberDefinition}</p>
+            <p className="text-[#55506B] leading-loose mb-4">{FLOW_COPY.stuck}</p>
+            <p className="text-[#55506B] leading-loose">{FLOW_COPY.positioning}</p>
+          </article>
+          <article className="rounded-3xl bg-[#F7F5FC] p-6 md:p-8">
+            <h2 className="text-xl font-bold mb-5">平衡空間與艾瑞克</h2>
+            <p className="text-[#55506B] leading-loose">{FLOW_COPY.brand}</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="px-6 pb-24">
+        <div className="mx-auto max-w-4xl">
+          <h2 className="text-xl font-bold mb-6">下一步</h2>
+          <div className="grid gap-4 md:grid-cols-3">
+            <article className="rounded-2xl border border-[#E7E3F0] p-5">
+              <h3 className="font-bold">2027 流年報告</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#6E6885]">{FLOW_COPY.annualReport}</p>
+            </article>
+            <Link to="/nas/course" className="rounded-2xl border border-[#E7E3F0] p-5 transition hover:border-[#5B3A9E]">
+              <h3 className="font-bold">主課</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#6E6885]">{FLOW_COPY.course}</p>
+            </Link>
+            <Link to="/nas/course" className="rounded-2xl border border-[#E7E3F0] p-5 transition hover:border-[#5B3A9E]">
+              <h3 className="font-bold">一對一</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#6E6885]">{FLOW_COPY.oneToOne}</p>
+            </Link>
+          </div>
         </div>
       </section>
     </main>

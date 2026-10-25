@@ -277,7 +277,7 @@ const NASCourse = () => (
         <p className="mb-4 leading-loose text-[#55506B]">先免費算一次，或者訂閱數字每曆用一陣子。</p>
         <p className="mb-7 leading-loose text-[#55506B]">等到你開始覺得「我看得懂數字了，但我不知道該怎麼用」——那句話出現的時候，再回來。</p>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Link to="/nas/calculator" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-7 py-4 font-medium text-white transition hover:bg-[#472D7D]">先免費算一次<ArrowRight size={16} /></Link>
+          <Link to="/nas/calculator/" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-7 py-4 font-medium text-white transition hover:bg-[#472D7D]">先免費算一次<ArrowRight size={16} /></Link>
           <Link to="/nas/meili" className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D4B86A] px-7 py-4 font-medium text-[#A8883F] transition hover:border-[#A8883F] hover:bg-[#FBF7EE]">看數字每曆</Link>
         </div>
       </div>
