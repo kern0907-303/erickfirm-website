@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   calculateFlows,
+  getFlowMonthWindow,
   LUNAR_TABLE,
   solarToLunar,
 } from "../src/lib/numerology/index.js";
@@ -24,6 +25,11 @@ assert.equal(
   "golden_from_excel case count mismatch",
 );
 assert.equal(lunarVectors.cases.length, lunarVectors.case_count, "lunar case count mismatch");
+assert.equal(
+  numerologyVectors.flow_month_window_cases.cases.length,
+  numerologyVectors.flow_month_window_cases.count,
+  "flow_month_window case count mismatch",
+);
 
 for (const [index, testCase] of numerologyVectors.golden_from_excel.cases.entries()) {
   const result = calculateFlows(testCase.birth, testCase.target);
@@ -54,6 +60,14 @@ for (const [index, testCase] of numerologyVectors.derived_edge_cases.cases.entri
   }
 }
 
+for (const [index, testCase] of numerologyVectors.flow_month_window_cases.cases.entries()) {
+  assert.deepEqual(
+    getFlowMonthWindow(testCase.birth, testCase.target),
+    testCase.expect,
+    `flow month window case ${index + 1} (${testCase.target})`,
+  );
+}
+
 for (const [index, testCase] of lunarVectors.cases.entries()) {
   assert.deepEqual(
     solarToLunar(testCase.solar),
@@ -64,5 +78,6 @@ for (const [index, testCase] of lunarVectors.cases.entries()) {
 
 console.log(`numerology golden_from_excel: ${numerologyVectors.golden_from_excel.cases.length}/${numerologyVectors.golden_from_excel.count} PASS`);
 console.log(`numerology derived_edge_cases: ${numerologyVectors.derived_edge_cases.cases.length}/${numerologyVectors.derived_edge_cases.count} PASS`);
+console.log(`flow month window cases: ${numerologyVectors.flow_month_window_cases.cases.length}/${numerologyVectors.flow_month_window_cases.count} PASS`);
 console.log(`lunar vectors: ${lunarVectors.cases.length}/${lunarVectors.case_count} PASS`);
 console.log(`lunar table: ${Object.keys(LUNAR_TABLE).length} years, exact match PASS`);

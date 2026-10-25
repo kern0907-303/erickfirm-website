@@ -996,44 +996,36 @@ export function calculateBirthNumbers(solarBirthDate, lunarBirthOverride = "") {
   };
 }
 
-function anniversaryDate(year, month, day) {
-  const date = new Date(0);
-  date.setUTCHours(0, 0, 0, 0);
-  date.setUTCFullYear(year, month - 1, day);
-  if (date.getUTCFullYear() !== year || date.getUTCMonth() + 1 !== month || date.getUTCDate() !== day) {
-    return null;
-  }
-  return date;
-}
-
 function isoDate(date) {
   return `${String(date.getUTCFullYear()).padStart(4, "0")}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
 }
 
-/** Return the active solar monthly cycle and the next valid birthday-day boundary. */
+/** Return the active solar monthly cycle by detecting daily formula-source changes. */
 export function getFlowMonthWindow(birthDate, targetDate) {
   const birth = parseDateParts(birthDate);
   const target = parseDateParts(targetDate);
+  const searchDays = 40;
+  const firstDay = target.epoch - searchDays * DAY_MS;
+  const lastDay = target.epoch + searchDays * DAY_MS;
   let start = null;
   let next = null;
+  let previousSource = calculateForParts(
+    birth,
+    parseDateParts(isoDate(new Date(firstDay))),
+  ).flowMonth.source;
 
-  for (let offset = -12; offset <= 12; offset += 1) {
-    const monthStart = new Date(0);
-    monthStart.setUTCHours(0, 0, 0, 0);
-    monthStart.setUTCFullYear(target.year, target.month - 1 + offset, 1);
-    const candidate = anniversaryDate(
-      monthStart.getUTCFullYear(),
-      monthStart.getUTCMonth() + 1,
-      birth.day,
-    );
-    if (!candidate) continue;
-
-    if (candidate.getTime() <= target.epoch && (!start || candidate.getTime() > start.getTime())) {
-      start = candidate;
+  for (let epoch = firstDay + DAY_MS; epoch <= lastDay; epoch += DAY_MS) {
+    const date = new Date(epoch);
+    const source = calculateForParts(birth, parseDateParts(isoDate(date))).flowMonth.source;
+    if (source !== previousSource) {
+      if (epoch <= target.epoch) {
+        start = date;
+      } else {
+        next = date;
+        break;
+      }
     }
-    if (candidate.getTime() > target.epoch && (!next || candidate.getTime() < next.getTime())) {
-      next = candidate;
-    }
+    previousSource = source;
   }
 
   if (!start || !next) throw new RangeError("無法建立流月週期日期");
