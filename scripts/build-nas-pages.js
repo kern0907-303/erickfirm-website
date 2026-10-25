@@ -236,7 +236,7 @@ const PAGES = [
   {
     route: '/nas/calculator',
     title: '生命數字計算｜輸入生日，看懂你的陽曆與陰曆雙軌結構',
-    description: '免費生命數字計算，呈現陽曆與陰曆雙軌結構、生命功課等級，以及依生日計算的流年、流月與今日流日。艾瑞克，二十年生命數字教學。',
+    description: '免費生命數字計算。輸入西元生日，算出主命數與陽曆、陰曆雙軌結構。不只給你一個數字——還告訴你為什麼同樣的數字會長成完全不同的人。艾瑞克，二十年生命數字教學。',
     jsonld: [
       {
         '@context': 'https://schema.org', '@type': 'WebApplication',
