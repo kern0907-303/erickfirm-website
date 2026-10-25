@@ -183,7 +183,9 @@ const NASCalculator = () => {
       focus,
       source: params.get('source') || params.get('utm_source') || window.location.pathname,
       source_path: window.location.pathname,
+      consent: consent === true,
       consent_at: new Date().toISOString(),
+      website: e.currentTarget.elements.website.value || '',
     };
 
     try {
