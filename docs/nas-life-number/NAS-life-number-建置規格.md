@@ -327,6 +327,16 @@ function baseScore(n) {
 | 備援排程 | Cloudflare Worker + Cron Trigger |
 | 投遞 | Resend API |
 
+### 配額守門與寄送紀錄（Erick 決策，2026-10-25）
+
+首期依 Free 方案上限設計：整個 Resend 帳號共用 100 封／日、3,000 封／月。NAS 先保留一半額度給既有 ABL 與其他流程，軟上限設為帳號累計 50 封／日、1,500 封／月；這是整個帳號的累計用量門檻，不是 NAS 自己已寄的數量。門檻存於 `nas_monthly_resend_quota_policy`，Erick 回報實際方案與用量後再調整。
+
+每次領取寄送工作前，必須呼叫 Resend `GET /usage`，以 `emails.daily.used`、`emails.monthly.used` 與兩個 reset 時間判斷是否可寄。該 API 的 `used` 包含寄出與收件用量，才能涵蓋共用帳號裡的 ABL 流程。用量查詢失敗、回應不完整或 credential 無權讀取時，一律 fail closed：保留佇列並停止寄送。Resend 文件要求這支 API 使用 full-access key；現有 `Resend abliene` credential 權限尚未實測，啟用 workflow 前要先完成唯讀用量查詢驗收。
+
+寄送列存在 `nas_monthly_email_deliveries`，保存每位訂閱者每個週期的狀態、嘗試次數、Resend ID、配額快照與錯誤。達到 NAS 軟上限時，工作延後至 Resend 回報的重置時間；暫時性失敗最多自動嘗試五次，並可由 service role 將失敗列重置後重試。每個訂閱週期使用固定 idempotency key，避免重試重複建立信件。退信或投訴會抑制訂閱者並取消其他待寄工作。資料庫只授權 service role，RLS 與 FORCE RLS 保持啟用。
+
+資料庫 migration 檔：`docs/nas-life-number/nas-monthly-delivery-queue.sql`、`docs/nas-life-number/nas-monthly-delivery-controls.sql`。月信正式文案來源仍需找到並接入；取得文案前不得啟用 webhook 或寄送 workflow。
+
 **需要人工完成、不可由 AI 代做的**：開 Resend 帳號、取得 API key、將 key 存入 n8n credential、設定寄件子網域（建議 `send.erickfirm.com`）的 SPF／DKIM／DMARC 記錄。
 
 **必要的投遞合規**：每封信必須帶 `List-Unsubscribe` 標頭（法規要求，Gmail 與 Yahoo 亦在技術層面要求，缺少會被降級投遞）；用子網域寄件以隔離主網域信譽，避免影響日常商務信件。

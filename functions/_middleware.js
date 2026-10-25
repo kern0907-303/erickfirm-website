@@ -1,4 +1,5 @@
 import { handleAiReading } from "../server/ai_reading.js";
+import { getFlowMonthWindow } from "../src/lib/numerology/index.js";
 
 const DEFAULT_SUPABASE_URL = "https://wbbnjasjyfuatkvnoogi.supabase.co";
 const DEFAULT_LOCALE = "zh-TW";
@@ -16,6 +17,46 @@ function jsonResponse(status, body, cacheControl) {
     status,
     headers: jsonHeaders(cacheControl),
   });
+}
+
+async function handleNasFlowWindow(request) {
+  if (request.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: jsonHeaders() });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse(405, { ok: false, error: "method_not_allowed" });
+  }
+
+  const rawBody = await request.text();
+  if (rawBody.length > 2048) {
+    return jsonResponse(413, { ok: false, error: "payload_too_large" });
+  }
+
+  let body;
+  try {
+    body = JSON.parse(rawBody);
+  } catch {
+    return jsonResponse(400, { ok: false, error: "invalid_json" });
+  }
+
+  const birthDate = String(body?.birthDate || "").trim();
+  const targetDate = String(body?.targetDate || "").trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate) || !/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
+    return jsonResponse(400, { ok: false, error: "invalid_date_format" });
+  }
+
+  try {
+    const window = getFlowMonthWindow(birthDate, targetDate);
+    const [year, month, day] = window.nextChange.split("-").map(Number);
+    const nextSend = new Date(Date.UTC(year, month - 1, day) - 24 * 60 * 60 * 1000);
+    const nextSendDate = `${nextSend.getUTCFullYear()}-${String(nextSend.getUTCMonth() + 1).padStart(2, "0")}-${String(nextSend.getUTCDate()).padStart(2, "0")}`;
+    return jsonResponse(200, { ok: true, ...window, nextSendDate });
+  } catch (error) {
+    if (error instanceof RangeError) {
+      return jsonResponse(422, { ok: false, error: "date_out_of_supported_range" });
+    }
+    throw error;
+  }
 }
 
 function slugify(input) {
@@ -410,6 +451,10 @@ export async function onRequest(context) {
     "/.netlify/functions/ai_reading": "/api/ai_reading",
   };
   const apiPath = LEGACY_API_ALIASES[url.pathname] || url.pathname;
+
+  if (apiPath === "/api/nas/flow-window") {
+    return await handleNasFlowWindow(context.request);
+  }
 
   if (apiPath === "/api/notion") {
     try {
