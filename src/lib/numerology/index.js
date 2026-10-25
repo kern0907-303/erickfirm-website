@@ -913,7 +913,16 @@ export function solarToLunar(solarDate) {
 
 function parseLunarBirth(value) {
   if (typeof value === "string") {
-    const { year, month, day } = parseDateParts(value);
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value)
+      ?? /^(\d{4})(\d{2})(\d{2})$/.exec(value);
+    if (!match) throw new RangeError(`無效農曆生日格式：${value}`);
+    const [, yearText, monthText, dayText] = match;
+    const year = Number(yearText);
+    const month = Number(monthText);
+    const day = Number(dayText);
+    if (year < 1 || month < 1 || month > 12 || day < 1 || day > 30) {
+      throw new RangeError(`無效農曆生日：${value}`);
+    }
     return { year, month, day };
   }
 
@@ -955,6 +964,81 @@ function digitPath(source) {
 
 function compactYearMonthDay(year, month, day) {
   return `${String(year).padStart(4, "0")}${String(month).padStart(2, "0")}${String(day).padStart(2, "0")}`;
+}
+
+function mainPathForParts(parts) {
+  const result = digitPath(compactYearMonthDay(parts.year, parts.month, parts.day));
+  return { number: result.num, path: result.path, steps: result.steps };
+}
+
+/** Calculate both natal tracks from the canonical solar/lunar date rules. */
+export function calculateBirthNumbers(solarBirthDate, lunarBirthOverride = "") {
+  const solar = parseDateParts(solarBirthDate);
+  const solarMain = mainPathForParts(solar);
+  let lunar = null;
+
+  if (String(lunarBirthOverride).trim()) {
+    lunar = parseLunarBirth(String(lunarBirthOverride).trim());
+  } else {
+    try {
+      const converted = solarToLunar(solarBirthDate);
+      lunar = { year: converted.y, month: converted.m, day: converted.d, leap: converted.leap };
+    } catch (error) {
+      if (!(error instanceof RangeError)) throw error;
+    }
+  }
+
+  return {
+    solarBirth: { year: solar.year, month: solar.month, day: solar.day },
+    solarMain,
+    lunarBirth: lunar,
+    lunarMain: lunar ? mainPathForParts(lunar) : null,
+  };
+}
+
+function anniversaryDate(year, month, day) {
+  const date = new Date(0);
+  date.setUTCHours(0, 0, 0, 0);
+  date.setUTCFullYear(year, month - 1, day);
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() + 1 !== month || date.getUTCDate() !== day) {
+    return null;
+  }
+  return date;
+}
+
+function isoDate(date) {
+  return `${String(date.getUTCFullYear()).padStart(4, "0")}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
+}
+
+/** Return the active solar monthly cycle and the next valid birthday-day boundary. */
+export function getFlowMonthWindow(birthDate, targetDate) {
+  const birth = parseDateParts(birthDate);
+  const target = parseDateParts(targetDate);
+  let start = null;
+  let next = null;
+
+  for (let offset = -12; offset <= 12; offset += 1) {
+    const monthStart = new Date(0);
+    monthStart.setUTCHours(0, 0, 0, 0);
+    monthStart.setUTCFullYear(target.year, target.month - 1 + offset, 1);
+    const candidate = anniversaryDate(
+      monthStart.getUTCFullYear(),
+      monthStart.getUTCMonth() + 1,
+      birth.day,
+    );
+    if (!candidate) continue;
+
+    if (candidate.getTime() <= target.epoch && (!start || candidate.getTime() > start.getTime())) {
+      start = candidate;
+    }
+    if (candidate.getTime() > target.epoch && (!next || candidate.getTime() < next.getTime())) {
+      next = candidate;
+    }
+  }
+
+  if (!start || !next) throw new RangeError("無法建立流月週期日期");
+  const end = new Date(next.getTime() - DAY_MS);
+  return { start: isoDate(start), end: isoDate(end), nextChange: isoDate(next) };
 }
 
 function calculateForParts(birth, target) {

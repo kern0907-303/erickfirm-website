@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Check, Minus, ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import NASMark from '../components/NASMark';
+import { DAILY_RELATION_COPY } from '../content/nasLifeNumberCopy';
+import { relationForPaths } from '../lib/numerology/dailyGuidance';
 
 const API_URL = '/api/ai_reading';
 
@@ -12,39 +14,7 @@ const chainOf = (raw) => {
   return (!c.length || c.some((x) => x.includes('?'))) ? null : c.join('／');
 };
 
-// 路徑取末位數字：'+22/4' → 4
-const digitOf = (raw) => {
-  const c = String(raw || '').replace(/^[+-]/, '').split('/').filter(Boolean);
-  if (!c.length || c.some((x) => x.includes('?'))) return null;
-  const n = parseInt(c[c.length - 1].replace(/\D/g, ''), 10);
-  return (n >= 1 && n <= 9) ? n : null;
-};
-
-// 主命數 × 流日 的六種關係。判定邏輯與能量氣象台（n8n）同一套，
-// 對沖組合必須排在「差 4～5」之前，否則永遠觸發不到。
-const CONFLICT_PAIRS = [[1,5],[5,1],[2,7],[7,2],[3,8],[8,3],[4,9],[9,4]];
-
-const relationOf = (main, flow) => {
-  if (main === null || flow === null) return null;
-  if (flow === main) return 'resonance';
-  if (Math.abs(flow - main) === 1 || (main === 1 && flow === 9) || (main === 9 && flow === 1)) return 'flow';
-  if (flow + main === 10) return 'help';
-  if (CONFLICT_PAIRS.some((pr) => pr[0] === main && pr[1] === flow)) return 'clash';
-  const d = Math.abs(flow - main);
-  if (d >= 4 && d <= 5) return 'trial';
-  return 'calm';
-};
-
-// 第一層語言：只講她今天會遇到什麼，不講數字之間怎麼算出來的。
-// 計算方式、六種關係的名稱都屬於課程內容，不放在公開頁面。
-const RELATION = {
-  resonance: '這種日子一年沒幾天，你做起事來會特別順手——適合把拖很久的決定做掉。',
-  flow:      '你的強項今天比較容易被看見，適合做你本來就擅長的事。',
-  help:      '這種日子容易遇到願意幫你的人——但你得先開口。',
-  calm:      '普通的一天，按原本的節奏走就好。',
-  trial:     '今天走起來會有點卡。降低期待，把小事處理掉就算及格。',
-  clash:     '話少說、事緩辦，重要的決定挪到明天。',
-};
+// The shared guidance helper keeps this page's established daily messages intact.
 
 // 19750909 → 1975/09/09（只用於顯示，送去計算的仍是原字串）
 const prettyDate = (raw) => {
@@ -113,8 +83,8 @@ const NASDashboard = () => {
         percent: typeof json.overall_percent === 'number' ? json.overall_percent : null,
         solarDay: chainOf(json.parsed?.solarDay),
         lunarDay: chainOf(json.parsed?.lunarDay),
-        solarRel: relationOf(digitOf(json.parsed?.solarMain), digitOf(json.parsed?.solarDay)),
-        lunarRel: relationOf(digitOf(json.parsed?.lunarMain), digitOf(json.parsed?.lunarDay)),
+        solarRel: relationForPaths(json.parsed?.solarMain, json.parsed?.solarDay),
+        lunarRel: relationForPaths(json.parsed?.lunarMain, json.parsed?.lunarDay),
       });
       setState('done');
     } catch (err) {
@@ -242,19 +212,19 @@ const NASDashboard = () => {
               {(today.solarRel || today.lunarRel) && (
                 <div className="mb-6 text-[#55506B] leading-loose">
                   {today.solarRel && today.solarRel === today.lunarRel ? (
-                    <p>{RELATION[today.solarRel]}</p>
+                    <p>{DAILY_RELATION_COPY[today.solarRel]}</p>
                   ) : (
                     <>
                       {today.solarRel && (
                         <p className="mb-2">
                           <strong className="text-[#1F1A2E]">對外這一軌</strong>
-                          ：{RELATION[today.solarRel]}
+                          ：{DAILY_RELATION_COPY[today.solarRel]}
                         </p>
                       )}
                       {today.lunarRel && (
                         <p>
                           <strong className="text-[#1F1A2E]">內在這一軌</strong>
-                          ：{RELATION[today.lunarRel]}
+                          ：{DAILY_RELATION_COPY[today.lunarRel]}
                         </p>
                       )}
                     </>

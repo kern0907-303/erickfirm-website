@@ -9,6 +9,7 @@ import { listPosts } from '../functions/_middleware.js';
 import { getPostPath, normalizePosts } from '../src/lib/insights-adapter.js';
 import { LEGAL_EMAIL, LEGAL_SELLER_LINE, LEGAL_TAX_ID } from '../src/content/ablLegal.js';
 import * as C2027 from '../src/content/abl2027Content.js';
+import { NAS_LIFE_NUMBER_COPY as LIFE_NUMBER_COPY } from '../src/content/nasLifeNumberCopy.js';
 
 const dist = path.resolve('dist');
 const shell = loadShell(dist);
@@ -225,10 +226,65 @@ const PAGES = [
       p('主命數是氣候——你的底層設定。數字本身不會換，但它在你身上跑成什麼樣子，是會變的，那正是可以動的地方。流年、流月、流日是天氣，每天都不一樣。'),
       h2('從這裡開始'),
       nav([
+        ['/nas/life-number', '生命數字雙軌計算：輸入生日，看見兩條生命軌跡'],
         ['/nas/calculator', '生命數字計算：輸入生日，看你的陽曆與陰曆雙軌結構'],
         ['/nas/meili', '數字每曆：每天更新一次的流日'],
         ['/nas/course', '人生的出廠設定'],
         ['/insights/life-number', '生命數字文章'],
+      ]),
+    ].join(''),
+  },
+  {
+    route: '/nas/life-number',
+    title: LIFE_NUMBER_COPY.title,
+    description: LIFE_NUMBER_COPY.description,
+    jsonld: [
+      {
+        '@context': 'https://schema.org', '@type': 'WebApplication',
+        name: '生命數字雙軌計算', url: `${NAS}/life-number`, inLanguage: 'zh-Hant',
+        applicationCategory: 'UtilityApplication', operatingSystem: 'Web',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
+        provider: { '@id': ORG_ID }, brand: { '@id': ORG_ID },
+        description: LIFE_NUMBER_COPY.description,
+      },
+      breadcrumb([
+        ['首頁', `${SITE}/`],
+        ['平衡空間', NAS],
+        ['生命數字雙軌計算', `${NAS}/life-number`],
+      ]),
+    ],
+    body: [
+      h1(LIFE_NUMBER_COPY.hook),
+      p(LIFE_NUMBER_COPY.heroSupport),
+      h2('主命數是什麼'),
+      p(LIFE_NUMBER_COPY.mainNumberDefinition),
+      h2('陽曆與陰曆的落差'),
+      ul([
+        '陽高陰低：說得到做不到。',
+        '陰高陽低：做得到說不出口。',
+        '陽陰同數：一致，但做不了違心的事。',
+      ]),
+      h2('完整度提示'),
+      ul(['只有陽曆：約六成。', '陽曆加陰曆：約八成五。', '再加出生時分：十成。']),
+      h2('本次流月與今日提醒'),
+      p(LIFE_NUMBER_COPY.monthlyTurnRule),
+      h2('為什麼看生命數字'),
+      p(LIFE_NUMBER_COPY.stuck),
+      p(LIFE_NUMBER_COPY.positioning),
+      h2('平衡空間與艾瑞克'),
+      p(LIFE_NUMBER_COPY.brand),
+      h2('下一步'),
+      h3('2027 流年報告'),
+      p(LIFE_NUMBER_COPY.annualReport),
+      h3('主課'),
+      p(LIFE_NUMBER_COPY.course),
+      a('/nas/course', '查看生命數字主課'),
+      h3('一對一'),
+      p(LIFE_NUMBER_COPY.oneToOne),
+      a('/nas/course', '查看課程與一對一資訊'),
+      nav([
+        ['/nas', '回到平衡空間'],
+        ['/nas/course', '生命數字課程'],
       ]),
     ].join(''),
   },

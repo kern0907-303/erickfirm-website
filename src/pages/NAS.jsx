@@ -161,7 +161,7 @@ const NAS = () => {
           </motion.p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
-              to="/nas/calculator"
+              to="/nas/life-number"
               className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition"
             >
               <Calculator size={18} />
@@ -219,7 +219,7 @@ const NAS = () => {
           <h2 className="text-2xl md:text-3xl font-bold mb-4">{t.toolTitle}</h2>
           <p className="text-[#55506B] mb-8">{t.toolDesc}</p>
           <Link
-            to="/nas/calculator"
+            to="/nas/life-number"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition"
           >
             <Calculator size={18} />
