@@ -73,3 +73,17 @@
 .theme-abl.theme-nas-2027 .abl-sales-faq {
   background: #fff;
 }
+
+/* 平衡空間法務頁（/nas/terms、/nas/privacy） */
+.theme-abl.theme-nas-2027.nas-legal-page .abl-legal-hero {
+  background: linear-gradient(135deg, rgba(180, 83, 217, 0.12), rgba(212, 165, 55, 0.09) 55%, #fff);
+}
+
+.theme-abl.theme-nas-2027.nas-legal-page .abl-legal-contact-card {
+  border-color: rgba(180, 83, 217, 0.28);
+  background: rgba(180, 83, 217, 0.05);
+}
+
+.theme-abl.theme-nas-2027.nas-legal-page a {
+  text-decoration-color: rgba(42, 24, 56, 0.3);
+}

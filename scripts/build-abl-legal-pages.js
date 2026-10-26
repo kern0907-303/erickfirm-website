@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { privacy, terms, LEGAL_BRAND } from '../src/content/ablLegal.js';
+import { NAS_LEGAL_BRAND, nasPrivacy, nasTerms } from '../src/content/nasLegal.js';
 import { SITE, esc, loadShell, renderPage, writePage } from './prerender-shell.js';
 
 const dist = path.resolve('dist');
@@ -20,14 +21,20 @@ function renderBlock(block) {
   return '';
 }
 
-function renderDocument(document) {
-  const title = document.title + '｜' + LEGAL_BRAND;
-  const url = SITE + '/abl/' + (document === privacy ? 'privacy' : 'terms') + '/';
-  const body = '<main class="theme-abl abl-legal-page">' +
+const BRANDS = {
+  abl: { name: LEGAL_BRAND, home: '/abl', back: '返回艾伯林量子調頻', logo: '/brand/abl-logo.png', mainClass: 'theme-abl abl-legal-page' },
+  nas: { name: NAS_LEGAL_BRAND, home: '/nas', back: '返回平衡空間', logo: '/logo-nas.png', mainClass: 'theme-abl theme-nas-2027 abl-legal-page nas-legal-page' },
+};
+
+function renderDocument(document, route, brandKey = 'abl') {
+  const brand = BRANDS[brandKey];
+  const title = document.title + '｜' + brand.name;
+  const url = SITE + route + '/';
+  const body = '<main class="' + brand.mainClass + '">' +
     '<header class="abl-legal-hero">' +
-    '<a class="abl-legal-back" href="/abl">返回艾伯林量子調頻</a>' +
-    '<div class="abl-logo-card"><img src="/brand/abl-logo.png" alt="' + esc(LEGAL_BRAND) + '" width="500" height="500" class="abl-logo" /></div>' +
-    '<p class="abl-legal-brand">' + esc(LEGAL_BRAND) + '</p>' +
+    '<a class="abl-legal-back" href="' + brand.home + '">' + esc(brand.back) + '</a>' +
+    '<div class="abl-logo-card"><img src="' + brand.logo + '" alt="' + esc(brand.name) + '" width="500" height="500" class="abl-logo" /></div>' +
+    '<p class="abl-legal-brand">' + esc(brand.name) + '</p>' +
     '<h1 class="abl-heading abl-legal-title">' + esc(document.title) + '</h1>' +
     '<p class="abl-legal-updated">最後更新：' + esc(document.lastUpdated) + '</p>' +
     '</header><article class="abl-legal-content">' +
@@ -45,8 +52,14 @@ function renderDocument(document) {
   });
 }
 
-for (const document of [privacy, terms]) {
-  const route = document === privacy ? '/abl/privacy' : '/abl/terms';
-  const output = writePage(dist, route, renderDocument(document));
+const PAGES = [
+  [privacy, '/abl/privacy', 'abl'],
+  [terms, '/abl/terms', 'abl'],
+  [nasPrivacy, '/nas/privacy', 'nas'],
+  [nasTerms, '/nas/terms', 'nas'],
+];
+
+for (const [document, route, brandKey] of PAGES) {
+  const output = writePage(dist, route, renderDocument(document, route, brandKey));
   console.log('Generated static legal page: ' + route + ' -> ' + output);
 }

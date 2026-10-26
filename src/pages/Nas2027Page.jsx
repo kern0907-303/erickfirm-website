@@ -6,7 +6,7 @@ import ProductCheckoutButton from '../components/ProductCheckoutButton';
 import SEOHead from '../components/SEOHead';
 import { LEGAL_EMAIL, LEGAL_TAX_ID } from '../content/ablLegal';
 import {
-  NAS2027_PRODUCT_CODE, NAS2027_PRICE, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, STAGES, STAGES_NOTE,
+  NAS2027_PRODUCT_CODE, NAS2027_CHECKOUT_URL, NAS2027_PRICE, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, STAGES, STAGES_NOTE,
   CHAPTERS, DIFFERENCES, PREVIEWS, PLAN_LINES, BUY_STEPS, ABOUT, FAQS, ENDING, DISCLAIMER, LEGAL_SELLER_LINE_NAS,
 } from '../content/nas2027Content';
 import './AblPage.css';
@@ -109,7 +109,7 @@ const Nas2027Page = () => {
             <div className="abl-sales-copy">
               {PLAN_LINES.map((line) => <p key={line}>{line}</p>)}
             </div>
-            <ProductCheckoutButton code={NAS2027_PRODUCT_CODE} label="前往結帳" closedText="即將開放" />
+            <ProductCheckoutButton code={NAS2027_PRODUCT_CODE} label="前往結帳" closedText="即將開放" checkoutUrl={NAS2027_CHECKOUT_URL} />
           </article>
           <ol className="abl-sales-steps">
             {BUY_STEPS.map(([title, body], index) => (
@@ -161,8 +161,8 @@ const Nas2027Page = () => {
       <div className="abl-legal-footer">
         <p>{LEGAL_SELLER_LINE_NAS}　統一編號 {LEGAL_TAX_ID}　{LEGAL_EMAIL}</p>
         <nav aria-label="法務資訊">
-          <Link to="/abl/terms">服務條款</Link>
-          <Link to="/abl/privacy">隱私權政策</Link>
+          <Link to="/nas/terms">服務條款</Link>
+          <Link to="/nas/privacy">隱私權政策</Link>
         </nav>
       </div>
     </main>

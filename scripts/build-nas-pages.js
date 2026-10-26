@@ -537,7 +537,7 @@ const nas2027Body = () => [
   salesSection('常見問題', salesFaqs(N2027.FAQS)),
   `<section class="abl-sales-ending"><div class="abl-sales-inner abl-sales-ending-inner"><h2 class="abl-heading">${esc(N2027.ENDING.title)}</h2>${salesP(N2027.ENDING.body)}<div class="abl-sales-ending-actions"><a class="abl-cta abl-sales-scroll" href="#plan">回到價格與購買</a><a class="abl-cta abl-sales-line" href="https://lin.ee/STdLXx4" target="_blank" rel="noopener noreferrer">加官方 LINE，開放時通知我</a></div></div></section>`,
   salesDisclaimer(N2027.DISCLAIMER),
-  '<div class="abl-legal-footer"><p>' + esc(N2027.LEGAL_SELLER_LINE_NAS + '　統一編號 ' + LEGAL_TAX_ID + '　' + LEGAL_EMAIL) + '</p><nav aria-label="法務資訊"><a href="/abl/terms">服務條款</a><a href="/abl/privacy">隱私權政策</a></nav></div>',
+  '<div class="abl-legal-footer"><p>' + esc(N2027.LEGAL_SELLER_LINE_NAS + '　統一編號 ' + LEGAL_TAX_ID + '　' + LEGAL_EMAIL) + '</p><nav aria-label="法務資訊"><a href="/nas/terms">服務條款</a><a href="/nas/privacy">隱私權政策</a></nav></div>',
   '</div>',
 ].join('');
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const PUBLIC_CONFIG_URL = 'https://pay.erickfirm.com/api/public-config';
 
-const ProductCheckoutButton = ({ code, label, closedText }) => {
+const ProductCheckoutButton = ({ code, label, closedText, checkoutUrl }) => {
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const ProductCheckoutButton = ({ code, label, closedText }) => {
 
   return (
     <a
-      href={'https://pay.erickfirm.com/?product=' + encodeURIComponent(code)}
+      href={checkoutUrl || 'https://pay.erickfirm.com/?product=' + encodeURIComponent(code)}
       className="abl-cta abl-sales-checkout"
     >
       {label}
