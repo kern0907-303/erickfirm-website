@@ -13,13 +13,11 @@ import {
 import { relationForPaths } from '../lib/numerology/dailyGuidance';
 import {
   DAILY_RELATION_COPY,
-  FOCUS_OPTIONS,
   MAIN_NUMBER_PROFILES,
   NAS_LIFE_NUMBER_COPY as FLOW_COPY,
 } from '../content/nasLifeNumberCopy';
 
 const API_URL = '/api/ai_reading';
-const MONTHLY_LETTER_API_URL = import.meta.env.VITE_NAS_MONTHLY_LETTER_WEBHOOK_URL;
 
 function taipeiDate() {
   const parts = new Intl.DateTimeFormat('en-CA', {
@@ -35,11 +33,6 @@ function taipeiDate() {
 function dateLabel(value) {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || '');
   return match ? `${Number(match[2])}/${Number(match[3])}` : value;
-}
-
-function lunarBirthValue(value) {
-  if (!value) return '';
-  return `${value.year}-${String(value.month).padStart(2, '0')}-${String(value.day).padStart(2, '0')}`;
 }
 
 /**
@@ -85,12 +78,7 @@ const STRUCTURED = {
 const NASCalculator = () => {
   const [birthdate, setBirthdate] = useState('');
   const [lunarOverride, setLunarOverride] = useState('');
-  const [name, setName] = useState('');
   const [birthTime, setBirthTime] = useState('');
-  const [email, setEmail] = useState('');
-  const [focus, setFocus] = useState('');
-  const [consent, setConsent] = useState(false);
-  const [subscribeStatus, setSubscribeStatus] = useState('idle');
   const [state, setState] = useState('idle'); // idle | loading | done | error
   const [result, setResult] = useState(null);
   const [flowResult, setFlowResult] = useState(null);
@@ -113,7 +101,6 @@ const NASCalculator = () => {
     if (!birthdate.trim()) return;
     setState('loading');
     setErrMsg('');
-    setSubscribeStatus('idle');
     try {
       const res = await fetch(API_URL, {
         method: 'POST',
@@ -157,47 +144,6 @@ const NASCalculator = () => {
     } catch (err) {
       setErrMsg(err.message || '出了點狀況，稍後再試一次');
       setState('error');
-    }
-  };
-
-  const subscribe = async (e) => {
-    e.preventDefault();
-    if (e.currentTarget.elements.website.value) {
-      setSubscribeStatus('error');
-      return;
-    }
-    if (!MONTHLY_LETTER_API_URL) {
-      setSubscribeStatus('unconfigured');
-      return;
-    }
-
-    setSubscribeStatus('submitting');
-    const params = new URLSearchParams(window.location.search);
-    const payload = {
-      form: 'nas_monthly_letter',
-      name: name.trim(),
-      email: email.trim().toLowerCase(),
-      solar_birth: birthdate.trim(),
-      lunar_birth: lunarBirthValue(flowResult?.numbers.lunarBirth),
-      birth_time: birthTime || '',
-      focus,
-      source: params.get('source') || params.get('utm_source') || window.location.pathname,
-      source_path: window.location.pathname,
-      consent: consent === true,
-      consent_at: consent === true ? new Date().toISOString() : null,
-      website: e.currentTarget.elements.website.value || '',
-    };
-
-    try {
-      const response = await fetch(MONTHLY_LETTER_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!response.ok) throw new Error(`Webhook request failed: ${response.status}`);
-      setSubscribeStatus('success');
-    } catch {
-      setSubscribeStatus('error');
     }
   };
 
@@ -262,7 +208,7 @@ const NASCalculator = () => {
             輸入生日，看你的雙軌結構
           </h1>
           <p className="text-[#55506B] leading-loose mb-9">
-            免費計算，不需註冊或提交 Email。生日會送往計算服務，並保存在這台瀏覽器，供數字每曆讀取；想收每月流月信，再自行填寫訂閱資料。
+            免費計算，不需註冊或提交 Email。生日會送往計算服務，並保存在這台瀏覽器，供數字每曆讀取。
             陽曆看你對外的展現，陰曆看你內在真正的需求——多數人的卡點，就落在這兩者不一致的地方。
           </p>
           <p className="text-sm text-[#6E6885] leading-loose mb-8">{FLOW_COPY.heroSupport}</p>
@@ -428,48 +374,6 @@ const NASCalculator = () => {
               <p className="mt-3 text-[#55506B]">這個階段到 {dateLabel(flowResult.monthWindow.end)}，{dateLabel(flowResult.monthWindow.nextChange)} 進入流月 {flowResult.nextFlowMonth}。</p>
               <p className="mt-5 text-sm leading-loose text-[#6E6885]">流月逐日套用「當日 &gt;= 生日日取本月，否則取上個月」的公式，再依結果變化推導換期。生日 31 號時，1/31–2/28 取一月、3/1–3/30 取二月、3/31–4/30 取三月、5/1–5/30 取四月。</p>
               <p className="mt-3 text-sm leading-relaxed text-[#6E6885]">你現在走在流年 {flowResult.solarFlows.flowYear.num}。</p>
-
-              <div className="mt-6 border-t border-[#E7E3F0] pt-6" id="monthly-signup">
-                <h3 className="text-xl font-bold">訂閱每月流月信</h3>
-                <p className="mt-2 text-sm leading-loose text-[#55506B]">留 Email 後立刻寄出當前這一封；之後在每個人自己的流月換日前一天寄。</p>
-                <p className="mt-2 text-xs leading-relaxed text-[#918BA6]">每封信涵蓋即將開始的完整流月，並提供退訂方式。</p>
-                {!MONTHLY_LETTER_API_URL && <p className="mt-4 rounded-xl bg-[#FBF7EE] p-4 text-sm text-[#6E6885]" role="status">月信訂閱服務尚未連接，這份表單不會送出資料。</p>}
-
-                {subscribeStatus === 'success' ? (
-                  <p className="mt-5 rounded-xl bg-white p-4 text-sm text-[#416147]" role="status">訂閱資料已送出。</p>
-                ) : (
-                  <form onSubmit={subscribe} className="mt-5 grid gap-4 md:grid-cols-2">
-                    <label className="text-sm font-medium">
-                      姓名
-                      <input required value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" className="mt-2 w-full rounded-xl border border-[#DAD4E8] bg-white px-4 py-3 outline-none focus:border-[#5B3A9E]" />
-                    </label>
-                    <label className="text-sm font-medium">
-                      Email
-                      <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" placeholder="you@example.com" className="mt-2 w-full rounded-xl border border-[#DAD4E8] bg-white px-4 py-3 outline-none focus:border-[#5B3A9E]" />
-                    </label>
-                    <label className="text-sm font-medium md:col-span-2">
-                      你現在最想整理的是什麼？
-                      <select required value={focus} onChange={(e) => setFocus(e.target.value)} className="mt-2 w-full rounded-xl border border-[#DAD4E8] bg-white px-4 py-3 outline-none focus:border-[#5B3A9E]">
-                        <option value="">請選擇</option>
-                        {FOCUS_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
-                      </select>
-                    </label>
-                    <label className="flex items-start gap-3 text-sm leading-relaxed text-[#55506B] md:col-span-2">
-                      <input required type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-1 accent-[#5B3A9E]" />
-                      <span>我同意透過 Email 接收每月流月信，並了解每封信都可退訂。</span>
-                    </label>
-                    <label className="hidden" aria-hidden="true">
-                      網站
-                      <input name="website" tabIndex={-1} autoComplete="off" />
-                    </label>
-                    {subscribeStatus === 'unconfigured' && <p className="text-sm text-red-700 md:col-span-2" role="alert">月信訂閱服務目前尚未連接，資料沒有送出。</p>}
-                    {subscribeStatus === 'error' && <p className="text-sm text-red-700 md:col-span-2" role="alert">送出時發生問題，請稍後再試。</p>}
-                    <button type="submit" disabled={subscribeStatus === 'submitting' || !MONTHLY_LETTER_API_URL} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-6 py-3 font-medium text-white transition hover:bg-[#472D7D] disabled:opacity-50 md:col-span-2">
-                      {subscribeStatus === 'submitting' ? '送出中…' : '訂閱每月流月信'}<ArrowRight size={17} />
-                    </button>
-                  </form>
-                )}
-              </div>
             </div>
           </section>
 
