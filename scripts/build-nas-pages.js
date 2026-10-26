@@ -8,6 +8,7 @@ import { SITE, PERSON_ID, esc, loadShell, renderPage, writePage, breadcrumb } fr
 import { listPosts } from '../functions/_middleware.js';
 import { getPostPath, normalizePosts } from '../src/lib/insights-adapter.js';
 import { LEGAL_EMAIL, LEGAL_SELLER_LINE, LEGAL_TAX_ID } from '../src/content/ablLegal.js';
+import { NAS_LEGAL_EMAIL } from '../src/content/nasLegal.js';
 import * as C2027 from '../src/content/abl2027Content.js';
 import * as N2027 from '../src/content/nas2027Content.js';
 import { NAS_LIFE_NUMBER_COPY as LIFE_NUMBER_COPY } from '../src/content/nasLifeNumberCopy.js';
@@ -517,27 +518,29 @@ const sales2027Body = () => [
 ].join('');
 
 const nasSalesHero = () => `
-  <section class="abl-hero abl-sales-hero"><div class="abl-sales-container">
+  <section class="abl-hero abl-sales-hero nas-hero"><div class="abl-sales-container">
     <a class="abl-sales-top-link" href="/nas">平衡空間</a>
     <div class="abl-logo-card"><img src="/logo-nas.png" alt="" width="500" height="500" loading="eager" class="abl-logo"></div>
     <h1 class="abl-heading abl-sales-title">${esc(N2027.HERO.title)}</h1>
     <p class="abl-sales-subtitle">${esc(N2027.HERO.subtitle)}</p>
-    <a class="abl-cta abl-sales-scroll" href="#chapters">${esc(N2027.HERO.action)}</a>
+    <a class="abl-cta abl-sales-scroll" href="#struggle">${esc(N2027.HERO.action)}</a>
   </div></section>`;
-const nasIconCard = (icon, name, body) => salesCard(`<h3 class="abl-heading"><span class="abl-sales-theme-icon" aria-hidden="true">${icon}</span>${esc(name)}</h3>${salesP(body)}`);
+const nasCheckList = (items) => `<ul class="nas-check-list">${items.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>`;
+const nasPlanCard = (plan) => `<article class="abl-card abl-sales-card nas-plan${plan.featured ? ' is-featured' : ''}">${plan.badge ? `<span class="nas-plan-badge">${esc(plan.badge)}</span>` : ''}<h3 class="abl-heading">${esc(plan.name)}</h3><p class="nas-plan-tagline">${esc(plan.tagline)}</p><p class="nas-plan-price">${esc(plan.price)}</p>${nasCheckList(plan.items)}${plan.note ? `<p class="nas-plan-note">${esc(plan.note)}</p>` : ''}<p class="abl-sales-soon">即將開放</p></article>`;
 const nas2027Body = () => [
   '<div class="theme-abl theme-nas-2027 abl-sales-page">',
   nasSalesHero(),
-  salesSection('你是不是也在這裡', `${salesGrid(N2027.STAGES.map((st) => nasIconCard(st.icon, st.name, st.body)), 'abl-sales-grid-themes')}${salesP(N2027.STAGES_NOTE).replace('<p>', '<p class="abl-sales-note">')}`),
-  salesSection('這份報告回答六件事', salesGrid(N2027.CHAPTERS.map(([icon, name, body]) => nasIconCard(icon, name, body)), 'abl-sales-grid-themes'), 'chapters', 'abl-sales-section-muted'),
+  salesSection(N2027.STRUGGLE.title, `<ul class="nas-scenes">${N2027.STRUGGLE.scenes.map(([icon, text]) => `<li><span aria-hidden="true">${icon}</span>${salesP(text)}</li>`).join('')}</ul><p class="nas-pullquote">${esc(N2027.STRUGGLE.closing)}</p>`, 'struggle'),
+  salesSection(N2027.TURN.title, `<div class="abl-sales-copy nas-turn">${N2027.TURN.paragraphs.map(salesP).join('')}</div>`, '', 'abl-sales-section-muted'),
+  salesSection(N2027.SOLUTION.title, `<p class="abl-sales-note">${esc(N2027.SOLUTION.intro)}</p>${salesGrid(N2027.SOLUTION.parts.map((part) => salesCard(`<h3 class="abl-heading"><span class="abl-sales-theme-icon" aria-hidden="true">${part.icon}</span>${esc(part.name)}</h3>${salesP(part.body)}${nasCheckList(part.items)}`, 'nas-solution-card')), 'nas-solution-grid')}`, 'solution'),
+  salesSection('報告裡面長這樣', `<div class="abl-sales-grid abl-sales-grid-themes nas-sales-previews">${N2027.PREVIEWS.map(([src, alt]) => `<figure class="abl-card nas-sales-preview"><img src="${src}" alt="${esc(alt)}" loading="lazy" width="900" height="1274"><figcaption>${esc(alt)}</figcaption></figure>`).join('')}</div>`, '', 'abl-sales-section-muted'),
   salesSection('和一般流年運勢不一樣的地方', `<div class="abl-sales-diff"><ul>${N2027.DIFFERENCES.map(([n, b]) => `<li><strong>${esc(n)}</strong><span>${esc(b)}</span></li>`).join('')}</ul></div>`),
-  salesSection('裡面長這樣', `<div class="abl-sales-grid abl-sales-grid-themes nas-sales-previews">${N2027.PREVIEWS.map(([src, alt]) => `<figure class="abl-card nas-sales-preview"><img src="${src}" alt="${esc(alt)}" loading="lazy" width="900" height="1274"><figcaption>${esc(alt)}</figcaption></figure>`).join('')}</div>`, '', 'abl-sales-section-muted'),
-  salesSection('價格與購買', `${salesCard(`<h3 class="abl-heading">2027 年度導航　個人報告<span class="abl-sales-price">${esc(N2027.NAS2027_PRICE)}</span></h3><div class="abl-sales-copy">${N2027.PLAN_LINES.map(salesP).join('')}</div><p class="abl-sales-soon">即將開放</p>`, 'nas-sales-plan')}<ol class="abl-sales-steps">${N2027.BUY_STEPS.map(([t, b], i) => `<li class="abl-sales-step"><span class="abl-sales-step-no">${i + 1}</span><h3>${esc(t)}</h3>${salesP(b)}</li>`).join('')}</ol>`, 'plan'),
-  salesSection('寫這份報告的人', `<div class="abl-sales-copy">${N2027.ABOUT.map(salesP).join('')}</div>`, '', 'abl-sales-section-muted'),
-  salesSection('常見問題', salesFaqs(N2027.FAQS)),
-  `<section class="abl-sales-ending"><div class="abl-sales-inner abl-sales-ending-inner"><h2 class="abl-heading">${esc(N2027.ENDING.title)}</h2>${salesP(N2027.ENDING.body)}<div class="abl-sales-ending-actions"><a class="abl-cta abl-sales-scroll" href="#plan">回到價格與購買</a><a class="abl-cta abl-sales-line" href="https://lin.ee/STdLXx4" target="_blank" rel="noopener noreferrer">加官方 LINE，開放時通知我</a></div></div></section>`,
+  salesSection('選一個方案', `<div class="nas-plans">${N2027.PLANS.map(nasPlanCard).join('')}</div><ol class="abl-sales-steps">${N2027.BUY_STEPS.map(([t, b], i) => `<li class="abl-sales-step"><span class="abl-sales-step-no">${i + 1}</span><h3>${esc(t)}</h3>${salesP(b)}</li>`).join('')}</ol>`, 'plan', 'abl-sales-section-muted'),
+  salesSection('寫這份導航的人', `<div class="abl-sales-copy">${N2027.ABOUT.map(salesP).join('')}</div>`),
+  salesSection('常見問題', salesFaqs(N2027.FAQS), '', 'abl-sales-section-muted'),
+  `<section class="abl-sales-ending nas-ending"><div class="abl-sales-inner abl-sales-ending-inner"><h2 class="abl-heading">${esc(N2027.ENDING.title)}</h2>${salesP(N2027.ENDING.body)}<div class="abl-sales-ending-actions"><a class="abl-cta abl-sales-scroll" href="#plan">${esc(N2027.ENDING.action)}</a><a class="abl-cta abl-sales-line" href="https://lin.ee/STdLXx4" target="_blank" rel="noopener noreferrer">還有問題，先加官方 LINE 問我們</a></div></div></section>`,
   salesDisclaimer(N2027.DISCLAIMER),
-  '<div class="abl-legal-footer"><p>' + esc(N2027.LEGAL_SELLER_LINE_NAS + '　統一編號 ' + LEGAL_TAX_ID + '　' + LEGAL_EMAIL) + '</p><nav aria-label="法務資訊"><a href="/nas/terms">服務條款</a><a href="/nas/privacy">隱私權政策</a></nav></div>',
+  '<div class="abl-legal-footer"><p>' + esc(N2027.LEGAL_SELLER_LINE_NAS + '　統一編號 ' + LEGAL_TAX_ID + '　' + NAS_LEGAL_EMAIL) + '</p><nav aria-label="法務資訊"><a href="/nas/terms">服務條款</a><a href="/nas/privacy">隱私權政策</a></nav></div>',
   '</div>',
 ].join('');
 

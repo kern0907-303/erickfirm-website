@@ -1,10 +1,12 @@
 // 平衡空間（NAS）服務條款與隱私權政策（React 頁面與預渲染共用，改文字只改這裡）。
 // 文案規則：不用破折號。
-import { LEGAL_EMAIL, LEGAL_ENTITY, LEGAL_LINE_URL, LEGAL_TAX_ID } from './ablLegal.js';
+import { LEGAL_ENTITY, LEGAL_LINE_URL, LEGAL_TAX_ID } from './ablLegal.js';
 
 export const NAS_LEGAL_BRAND = '平衡空間';
 export const NAS_LEGAL_SELLER_LINE = LEGAL_ENTITY + '（品牌：' + NAS_LEGAL_BRAND + '）';
-export { LEGAL_EMAIL as NAS_LEGAL_EMAIL, LEGAL_TAX_ID as NAS_LEGAL_TAX_ID };
+export const NAS_LEGAL_EMAIL = 'noagespace@gmail.com';
+const LEGAL_EMAIL = NAS_LEGAL_EMAIL;
+export { LEGAL_TAX_ID as NAS_LEGAL_TAX_ID };
 
 const contactCard = {
   type: 'card',

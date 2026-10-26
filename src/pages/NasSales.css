@@ -87,3 +87,107 @@
 .theme-abl.theme-nas-2027.nas-legal-page a {
   text-decoration-color: rgba(42, 24, 56, 0.3);
 }
+
+/* 2026-10-26 銷售頁故事線：情境、轉折、地圖與路況、三方案 */
+.theme-nas-2027 .nas-hero .abl-sales-title {
+  max-width: 22em;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.4;
+}
+
+.theme-nas-2027 .nas-scenes {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.theme-nas-2027 .nas-scenes li {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.1rem 1.25rem;
+  border-left: 4px solid #b453d9;
+  border-radius: 0.75rem;
+  background: rgba(180, 83, 217, 0.05);
+}
+
+.theme-nas-2027 .nas-scenes li span { font-size: 1.5rem; line-height: 1.4; }
+.theme-nas-2027 .nas-scenes li p { margin: 0; color: #1e293b; font-size: 1.12rem; line-height: 1.8; }
+
+.theme-nas-2027 .nas-pullquote {
+  margin: 2rem 0 0;
+  color: #2a1838;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.theme-nas-2027 .nas-turn p { font-size: 1.12rem; line-height: 1.95; }
+.theme-nas-2027 .nas-turn p:last-child { color: #2a1838; font-weight: 700; }
+
+.theme-nas-2027 .nas-solution-grid { grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+
+.theme-nas-2027 .nas-check-list { margin: 1rem 0 0; padding: 0; list-style: none; }
+.theme-nas-2027 .nas-check-list li {
+  position: relative;
+  margin: 0.55rem 0;
+  padding-left: 1.6rem;
+  color: #1e293b;
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+.theme-nas-2027 .nas-check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #b453d9;
+  font-weight: 800;
+}
+
+.theme-nas-2027 .nas-plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.25rem;
+  align-items: stretch;
+  margin-bottom: 2.5rem;
+}
+
+.theme-nas-2027 .nas-plan { position: relative; display: flex; flex-direction: column; }
+.theme-nas-2027 .nas-plan .abl-heading { font-size: 1.2rem; }
+.theme-abl.theme-nas-2027.abl-sales-page .nas-plan .nas-plan-tagline { margin: 0.25rem 0 0; color: #64748b; font-size: 0.98rem; }
+.theme-abl.theme-nas-2027.abl-sales-page .nas-plan .nas-plan-price { margin: 0.75rem 0 0; color: #2a1838; font-size: 2.1rem; font-weight: 800; line-height: 1.2; }
+.theme-abl.theme-nas-2027.abl-sales-page .nas-plan .nas-plan-note { margin: 1rem 0 1.25rem; color: #7a4d00; font-size: 0.98rem; font-weight: 700; line-height: 1.7; }
+.theme-nas-2027 .nas-plan .abl-sales-checkout,
+.theme-nas-2027 .nas-plan .abl-sales-soon { margin-top: auto; padding-top: 1.25rem; }
+
+.theme-nas-2027 .nas-plan.is-featured {
+  border: 2px solid #b453d9 !important;
+  box-shadow: 0 16px 40px rgba(180, 83, 217, 0.18);
+  transform: translateY(-6px);
+}
+
+.theme-nas-2027 .nas-plan-badge {
+  position: absolute;
+  top: -0.85rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.25rem 0.9rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #b453d9, #d4a537);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.theme-nas-2027 .nas-ending .abl-heading { font-size: 1.8rem; }
+.theme-nas-2027 .nas-ending .abl-sales-ending-inner > p { font-size: 1.25rem; font-weight: 700; }
+
+@media (max-width: 640px) {
+  .theme-nas-2027 .nas-plan.is-featured { transform: none; }
+  .theme-nas-2027 .nas-pullquote { font-size: 1.15rem; }
+}
