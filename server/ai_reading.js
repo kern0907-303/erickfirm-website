@@ -2,6 +2,9 @@
 // 修正版：本地運算 + 回傳 lunar_parsed + 嚴禁 Markdown 符號
 
 // 由 functions/_middleware.js（Cloudflare Pages）呼叫。
+// 2026-10-26：農曆換算改用 src/lib/numerology 的定版農曆表（Excel 123諮商版 1900–2100），
+// 舊 LUNAR_DB 的 1970 與 2031 年起月長碼有誤；生命功課等級改用 Excel 完整路徑規則（Erick 2026-10-26 裁定）。
+import { solarToLunar } from "../src/lib/numerology/index.js";
 export async function handleAiReading(event, env) {
   if (event.httpMethod === "OPTIONS") return resp(200, { ok: true });
   if (event.httpMethod !== "POST") return resp(405, { error: "Method Not Allowed" });
@@ -128,116 +131,6 @@ export async function handleAiReading(event, env) {
 // ==========================================
 // 核心演算法 (保持不變)
 // ==========================================
-const LUNAR_DB = {
-    1900: { new_year: '1900-01-31', code: '08|1100101101101' }, 1901: { new_year: '1901-02-19', code: '00|0100101011100' },
-    1902: { new_year: '1902-02-08', code: '00|1010010101110' }, 1903: { new_year: '1903-01-29', code: '05|0101001001101' },
-    1904: { new_year: '1904-02-16', code: '00|1101001001100' }, 1905: { new_year: '1905-02-04', code: '00|1101100101010' },
-    1906: { new_year: '1906-01-25', code: '04|0110101010101' }, 1907: { new_year: '1907-02-13', code: '00|0101011010100' },
-    1908: { new_year: '1908-02-02', code: '00|1001101011010' }, 1909: { new_year: '1909-01-22', code: '02|0100101011101' },
-    1910: { new_year: '1910-02-10', code: '00|0100101011100' }, 1911: { new_year: '1911-01-30', code: '06|1010010011011' },
-    1912: { new_year: '1912-02-18', code: '00|1010010011010' }, 1913: { new_year: '1913-02-06', code: '00|1101001001010' },
-    1914: { new_year: '1914-01-26', code: '05|1101010100101' }, 1915: { new_year: '1915-02-14', code: '00|1011010101000' },
-    1916: { new_year: '1916-02-03', code: '00|1101011010100' }, 1917: { new_year: '1917-01-23', code: '02|1001011011010' },
-    1918: { new_year: '1918-02-11', code: '00|1001010110110' }, 1919: { new_year: '1919-02-01', code: '07|0100100110111' },
-    1920: { new_year: '1920-02-20', code: '00|0100100101110' }, 1921: { new_year: '1921-02-08', code: '00|1010010010110' },
-    1922: { new_year: '1922-01-28', code: '05|1011001001011' }, 1923: { new_year: '1923-02-16', code: '00|0110101001010' },
-    1924: { new_year: '1924-02-05', code: '00|0110110101000' }, 1925: { new_year: '1925-01-24', code: '04|1010110110101' },
-    1926: { new_year: '1926-02-13', code: '00|0010101101100' }, 1927: { new_year: '1927-02-02', code: '00|1001010101110' },
-    1928: { new_year: '1928-01-23', code: '02|0100100101111' }, 1929: { new_year: '1929-02-10', code: '00|0100100101110' },
-    1930: { new_year: '1930-01-30', code: '06|0110010010110' }, 1931: { new_year: '1931-02-17', code: '00|1101010010100' },
-    1932: { new_year: '1932-02-06', code: '00|1110101001010' }, 1933: { new_year: '1933-01-26', code: '05|0110110101001' },
-    1934: { new_year: '1934-02-14', code: '00|0101101011010' }, 1935: { new_year: '1935-02-04', code: '00|0010101101100' },
-    1936: { new_year: '1936-01-24', code: '03|1001001101110' }, 1937: { new_year: '1937-02-11', code: '00|1001001011100' },
-    1938: { new_year: '1938-01-31', code: '07|1100100101101' }, 1939: { new_year: '1939-02-19', code: '00|1100100101010' },
-    1940: { new_year: '1940-02-08', code: '00|1101010010100' }, 1941: { new_year: '1941-01-27', code: '06|1101101001010' },
-    1942: { new_year: '1942-02-15', code: '00|1011010101010' }, 1943: { new_year: '1943-02-05', code: '00|0101011010100' },
-    1944: { new_year: '1944-01-25', code: '04|1010101011011' }, 1945: { new_year: '1945-02-13', code: '00|0010010111010' },
-    1946: { new_year: '1946-02-02', code: '00|1001001011010' }, 1947: { new_year: '1947-01-22', code: '02|1100100101011' },
-    1948: { new_year: '1948-02-10', code: '00|1010100101010' }, 1949: { new_year: '1949-01-29', code: '07|1011010010101' },
-    1950: { new_year: '1950-02-17', code: '00|0110110010100' }, 1951: { new_year: '1951-02-06', code: '00|1011010101010' },
-    1952: { new_year: '1952-01-27', code: '05|0101010110101' }, 1953: { new_year: '1953-02-14', code: '00|0100110110100' },
-    1954: { new_year: '1954-02-03', code: '00|1010010110110' }, 1955: { new_year: '1955-01-24', code: '03|0101001010111' },
-    1956: { new_year: '1956-02-12', code: '00|0101001010110' }, 1957: { new_year: '1957-01-31', code: '08|1010100101010' },
-    1958: { new_year: '1958-02-18', code: '00|1110100101010' }, 1959: { new_year: '1959-02-08', code: '00|0110101010100' },
-    1960: { new_year: '1960-01-28', code: '06|1010110101010' }, 1961: { new_year: '1961-02-15', code: '00|1010101101010' },
-    1962: { new_year: '1962-02-05', code: '00|0100101101100' }, 1963: { new_year: '1963-01-25', code: '04|1010010101110' },
-    1964: { new_year: '1964-02-13', code: '00|1010010101110' }, 1965: { new_year: '1965-02-02', code: '00|0101001001100' },
-    1966: { new_year: '1966-01-21', code: '03|1110100100110' }, 1967: { new_year: '1967-02-09', code: '00|1101100101010' },
-    1968: { new_year: '1968-01-30', code: '07|0101101010101' }, 1969: { new_year: '1969-02-17', code: '00|0101011010100' },
-    1970: { new_year: '1970-02-06', code: '00|1011101001010' }, 1971: { new_year: '1971-01-27', code: '05|0100101011101' },
-    1972: { new_year: '1972-02-15', code: '00|0100101011010' }, 1973: { new_year: '1973-02-03', code: '00|1010010011010' },
-    1974: { new_year: '1974-01-23', code: '04|1101001001101' }, 1975: { new_year: '1975-02-11', code: '00|1101001001010' },
-    1976: { new_year: '1976-01-31', code: '08|1101010100101' }, 1977: { new_year: '1977-02-18', code: '00|1011010101000' },
-    1978: { new_year: '1978-02-07', code: '00|1011011010100' }, 1979: { new_year: '1979-01-28', code: '06|1001011011010' },
-    1980: { new_year: '1980-02-16', code: '00|1001010110110' }, 1981: { new_year: '1981-02-05', code: '00|0100100110110' },
-    1982: { new_year: '1982-01-25', code: '04|1010010010111' }, 1983: { new_year: '1983-02-13', code: '00|1010010010110' },
-    1984: { new_year: '1984-02-02', code: '10|1011001001011' }, 1985: { new_year: '1985-02-20', code: '00|0110101001010' },
-    1986: { new_year: '1986-02-09', code: '00|0110110101000' },
-    1987: { new_year: '1987-01-29', code: '06|1010110110100' },
-    1988: { new_year: '1988-02-17', code: '00|1010101101100' },
-    1989: { new_year: '1989-02-06', code: '00|1001010101110' },
-    1990: { new_year: '1990-01-27', code: '05|0100100101111' },
-    1991: { new_year: '1991-02-15', code: '00|0100100101110' },
-    1992: { new_year: '1992-02-04', code: '00|0110010010110' },
-    1993: { new_year: '1993-01-23', code: '03|0110101001010' },
-    1994: { new_year: '1994-02-10', code: '00|1110101001010' },
-    1995: { new_year: '1995-01-31', code: '08|0110101100101' },
-    1996: { new_year: '1996-02-19', code: '00|0101101011000' },
-    1997: { new_year: '1997-02-07', code: '00|1010101101100' },
-    1998: { new_year: '1998-01-28', code: '05|1001001101101' },
-    1999: { new_year: '1999-02-16', code: '00|1001001011100' },
-    2000: { new_year: '2000-02-05', code: '00|1100100101100' },
-    2001: { new_year: '2001-01-24', code: '04|1101010010101' },
-    2002: { new_year: '2002-02-12', code: '00|1101010010100' },
-    2003: { new_year: '2003-02-01', code: '00|1101101001010' },
-    2004: { new_year: '2004-01-22', code: '02|0101101010101' },
-    2005: { new_year: '2005-02-09', code: '00|0101011010100' },
-    2006: { new_year: '2006-01-29', code: '07|1010101011011' },
-    2007: { new_year: '2007-02-18', code: '00|0010010111010' },
-    2008: { new_year: '2008-02-07', code: '00|1001001011010' },
-    2009: { new_year: '2009-01-26', code: '05|1100100101011' },
-    2010: { new_year: '2010-02-14', code: '00|1010100101010' },
-    2011: { new_year: '2011-02-03', code: '00|1011010010100' },
-    2012: { new_year: '2012-01-23', code: '04|1011010101010' },
-    2013: { new_year: '2013-02-10', code: '00|1010110101010' },
-    2014: { new_year: '2014-01-31', code: '09|0101010110101' },
-    2015: { new_year: '2015-02-19', code: '00|0100101110100' },
-    2016: { new_year: '2016-02-08', code: '00|1010010110110' },
-    2017: { new_year: '2017-01-28', code: '06|0101001010111' },
-    2018: { new_year: '2018-02-16', code: '00|0101001010110' },
-    2019: { new_year: '2019-02-05', code: '00|1010100100110' },
-    2020: { new_year: '2020-01-25', code: '04|0111010010101' },
-    2021: { new_year: '2021-02-12', code: '00|0110101010100' },
-    2022: { new_year: '2022-02-01', code: '00|1010110101010' },
-    2023: { new_year: '2023-01-22', code: '02|0100110110101' },
-    2024: { new_year: '2024-02-10', code: '00|0100101101100' },
-    2025: { new_year: '2025-01-29', code: '06|1010010101110' },
-    2026: { new_year: '2026-02-17', code: '00|1010010011100' },
-    2027: { new_year: '2027-02-06', code: '00|1101001001100' },
-    2028: { new_year: '2028-01-26', code: '05|1110100100110' },
-    2029: { new_year: '2029-02-13', code: '00|1101010100110' },
-    2030: { new_year: '2030-02-03', code: '00|0101101010100' },
-    2031: { new_year: '2031-01-23', code: '03|0110110101000' },
-    2032: { new_year: '2032-02-11', code: '00|0010101101010' },
-    2033: { new_year: '2033-01-31', code: '11|0100101011010' },
-    2034: { new_year: '2034-02-19', code: '00|1010010101110' },
-    2035: { new_year: '2035-02-08', code: '00|0101001001100' },
-    2036: { new_year: '2036-01-28', code: '06|0111001001010' },
-    2037: { new_year: '2037-02-15', code: '00|1110101001010' },
-    2038: { new_year: '2038-02-04', code: '00|0110110100100' },
-    2039: { new_year: '2039-01-24', code: '05|0101101010100' },
-    2040: { new_year: '2040-02-12', code: '00|1001011011010' },
-    2041: { new_year: '2041-02-01', code: '00|0100101011100' },
-    2042: { new_year: '2042-01-22', code: '06|0100101011100' },
-    2043: { new_year: '2043-02-10', code: '00|1010010011010' },
-    2044: { new_year: '2044-01-30', code: '07|0101001001101' },
-    2045: { new_year: '2045-02-17', code: '00|1101001001100' },
-    2046: { new_year: '2046-02-06', code: '00|1101101001010' },
-    2047: { new_year: '2047-01-26', code: '05|0101101010100' },
-    2048: { new_year: '2048-02-14', code: '00|1001011010100' },
-    2049: { new_year: '2049-02-02', code: '00|0100101011010' },
-    2050: { new_year: '2050-01-23', code: '03|0100100111010' }
-};
 
 function sumDigits(n) {
   let sum = 0;
@@ -260,6 +153,11 @@ function calcPath(numVal, sign = "") {
 }
 
 function calcSoulLevelFull(year, month, day, sign = "") {
+  // Excel 完整路徑規則（與 nas-annual-engine birth_track 相同）：
+  // 後天數取路徑最後一層之前的所有數字（例 29/11/2 → 2、9、1、1；20/2 → 2、0），逐一比對生日八碼。
+  // 主命數不在生日：後天數全不在 1 級、部分 2 級、全部 3 級。
+  // 主命數在生日：全不在 4 級、部分 5 級、全部 7 級；若重複數（長路徑看路徑數字與主命數，短路徑看 1–9，不含 0）
+  // 在生日出現三次以上，降為 6 級。
   const dateStr = String(year) + String(month).padStart(2,'0') + String(day).padStart(2,'0');
   const innateDigits = dateStr.split('').map(d => parseInt(d, 10));
   const total = innateDigits.reduce((a, b) => a + b, 0);
@@ -268,58 +166,36 @@ function calcSoulLevelFull(year, month, day, sign = "") {
   const mainNumber = res.main;
   const counts = {};
   innateDigits.forEach(d => counts[d] = (counts[d] || 0) + 1);
-  const hasTriple = Object.values(counts).some(c => c >= 3);
-  const innateSet = new Set(innateDigits);
-  let ant1 = null, ant2 = null;
-  if (total >= 10) {
-    ant1 = Math.floor(total / 10);
-    ant2 = total % 10;
+  const parts = pathStr.replace(/^[+-]/, "").split("/");
+  const consequentDigits = parts.slice(0, -1).join("").split("").map(d => parseInt(d, 10));
+  const hits = consequentDigits.map(d => counts[d] !== undefined);
+  const allPresent = hits.length > 0 && hits.every(Boolean);
+  const anyPresent = hits.some(Boolean);
+  let level;
+  if (counts[mainNumber] === undefined) {
+    level = allPresent ? 3 : anyPresent ? 2 : 1;
+  } else if (!anyPresent) {
+    level = 4;
+  } else if (!allPresent) {
+    level = 5;
+  } else {
+    const pool = consequentDigits.length > 2
+      ? new Set([...consequentDigits, mainNumber])
+      : new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    level = [...pool].some(d => (counts[d] || 0) >= 3) ? 6 : 7;
   }
-  const ant1_in = (ant1 !== null) && innateSet.has(ant1);
-  const ant2_in = (ant2 !== null) && innateSet.has(ant2);
-  const main_in = innateSet.has(mainNumber);
-  let level = 1;
-  if (ant1_in && ant2_in && main_in) level = hasTriple ? 6 : 7;
-  else if (!ant1_in && ant2_in && main_in) level = 5;
-  else if (!ant1_in && !ant2_in && main_in) level = 4;
-  else if (ant1_in && ant2_in && !main_in) level = 3;
-  else if (!ant1_in && ant2_in && !main_in) level = 2;
-  else if (!ant1_in && !ant2_in && !main_in) level = 1;
-  else if (ant1_in && !ant2_in && main_in) level = 5;
-  else if (ant1_in && !ant2_in && !main_in) level = 2;
   return { main: pathStr, soul: level + "級" };
 }
 
 function getLunarStruct(sy, sm, sd) {
-  let y = parseInt(sy, 10);
-  const sDate = new Date(Date.UTC(y, sm - 1, sd));
-  if (!LUNAR_DB[y]) return null;
-  let info = LUNAR_DB[y];
-  let nyDate = new Date(info.new_year + 'T00:00:00Z');
-  let offset = Math.round((sDate - nyDate) / 86400000);
-  if (offset < 0) {
-    y -= 1;
-    if (!LUNAR_DB[y]) return null;
-    info = LUNAR_DB[y];
-    nyDate = new Date(info.new_year + 'T00:00:00Z');
-    offset = Math.round((sDate - nyDate) / 86400000);
+  const iso = `${String(sy).padStart(4, "0")}-${String(sm).padStart(2, "0")}-${String(sd).padStart(2, "0")}`;
+  try {
+    const lunar = solarToLunar(iso);
+    return { y: lunar.y, m: lunar.m, d: lunar.d, str: `${lunar.y}年${lunar.leap ? "閏" : ""}${lunar.m}月${lunar.d}日` };
+  } catch (error) {
+    if (error instanceof RangeError) return null;
+    throw error;
   }
-  const [leapStr, codes] = info.code.split('|');
-  const leap = parseInt(leapStr, 10);
-  let lm = 1;
-  let isLeap = false;
-  for (let i = 0; i < codes.length; i++) {
-    const char = codes[i];
-    const days = (char === '1') ? 30 : 29;
-    if (offset < days) {
-      const ld = offset + 1;
-      return { y: y, m: lm, d: ld, str: `${y}年${isLeap?"閏":""}${lm}月${ld}日` };
-    }
-    offset -= days;
-    if (leap > 0 && lm === leap && !isLeap) isLeap = true;
-    else { if (isLeap) isLeap = false; lm++; }
-  }
-  return null;
 }
 
 function calcFlowsWithTarget(birthY, birthM, birthD, targetY, targetM, targetD, sign = "") {
@@ -336,7 +212,8 @@ function calcFlowsWithTarget(birthY, birthM, birthD, targetY, targetM, targetD, 
     fmBase = targetM - 1;
     if (fmBase === 0) fmBase = 12;
   }
-  const fmStrRaw = String(fyBase) + String(fmBase).padStart(2,'0') + String(birthD).padStart(2,'0');
+  // 定版規則：流月＝生日年＋目標月（目標日小於生日日則減 1）＋生日日
+  const fmStrRaw = String(birthY) + String(fmBase).padStart(2,'0') + String(birthD).padStart(2,'0');
   const fmRes = calcPath(sumDigits(fmStrRaw), sign);
 
   const fdStrRaw = String(birthY) + String(birthM).padStart(2,'0') + String(targetD).padStart(2,'0');

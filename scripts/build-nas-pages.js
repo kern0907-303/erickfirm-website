@@ -9,6 +9,7 @@ import { listPosts } from '../functions/_middleware.js';
 import { getPostPath, normalizePosts } from '../src/lib/insights-adapter.js';
 import { LEGAL_EMAIL, LEGAL_SELLER_LINE, LEGAL_TAX_ID } from '../src/content/ablLegal.js';
 import * as C2027 from '../src/content/abl2027Content.js';
+import * as N2027 from '../src/content/nas2027Content.js';
 import { NAS_LIFE_NUMBER_COPY as LIFE_NUMBER_COPY } from '../src/content/nasLifeNumberCopy.js';
 
 const dist = path.resolve('dist');
@@ -515,6 +516,31 @@ const sales2027Body = () => [
   '</div>',
 ].join('');
 
+const nasSalesHero = () => `
+  <section class="abl-hero abl-sales-hero"><div class="abl-sales-container">
+    <a class="abl-sales-top-link" href="/nas">平衡空間</a>
+    <div class="abl-logo-card"><img src="/logo-nas.png" alt="" width="500" height="500" loading="eager" class="abl-logo"></div>
+    <h1 class="abl-heading abl-sales-title">${esc(N2027.HERO.title)}</h1>
+    <p class="abl-sales-subtitle">${esc(N2027.HERO.subtitle)}</p>
+    <a class="abl-cta abl-sales-scroll" href="#chapters">${esc(N2027.HERO.action)}</a>
+  </div></section>`;
+const nasIconCard = (icon, name, body) => salesCard(`<h3 class="abl-heading"><span class="abl-sales-theme-icon" aria-hidden="true">${icon}</span>${esc(name)}</h3>${salesP(body)}`);
+const nas2027Body = () => [
+  '<div class="theme-abl theme-nas-2027 abl-sales-page">',
+  nasSalesHero(),
+  salesSection('你是不是也在這裡', `${salesGrid(N2027.STAGES.map((st) => nasIconCard(st.icon, st.name, st.body)), 'abl-sales-grid-themes')}${salesP(N2027.STAGES_NOTE).replace('<p>', '<p class="abl-sales-note">')}`),
+  salesSection('這份報告回答六件事', salesGrid(N2027.CHAPTERS.map(([icon, name, body]) => nasIconCard(icon, name, body)), 'abl-sales-grid-themes'), 'chapters', 'abl-sales-section-muted'),
+  salesSection('和一般流年運勢不一樣的地方', `<div class="abl-sales-diff"><ul>${N2027.DIFFERENCES.map(([n, b]) => `<li><strong>${esc(n)}</strong><span>${esc(b)}</span></li>`).join('')}</ul></div>`),
+  salesSection('裡面長這樣', `<div class="abl-sales-grid abl-sales-grid-themes nas-sales-previews">${N2027.PREVIEWS.map(([src, alt]) => `<figure class="abl-card nas-sales-preview"><img src="${src}" alt="${esc(alt)}" loading="lazy" width="900" height="1274"><figcaption>${esc(alt)}</figcaption></figure>`).join('')}</div>`, '', 'abl-sales-section-muted'),
+  salesSection('價格與購買', `${salesCard(`<h3 class="abl-heading">2027 年度導航　個人報告<span class="abl-sales-price">${esc(N2027.NAS2027_PRICE)}</span></h3><div class="abl-sales-copy">${N2027.PLAN_LINES.map(salesP).join('')}</div><p class="abl-sales-soon">即將開放</p>`, 'nas-sales-plan')}<ol class="abl-sales-steps">${N2027.BUY_STEPS.map(([t, b], i) => `<li class="abl-sales-step"><span class="abl-sales-step-no">${i + 1}</span><h3>${esc(t)}</h3>${salesP(b)}</li>`).join('')}</ol>`, 'plan'),
+  salesSection('寫這份報告的人', `<div class="abl-sales-copy">${N2027.ABOUT.map(salesP).join('')}</div>`, '', 'abl-sales-section-muted'),
+  salesSection('常見問題', salesFaqs(N2027.FAQS)),
+  `<section class="abl-sales-ending"><div class="abl-sales-inner abl-sales-ending-inner"><h2 class="abl-heading">${esc(N2027.ENDING.title)}</h2>${salesP(N2027.ENDING.body)}<div class="abl-sales-ending-actions"><a class="abl-cta abl-sales-scroll" href="#plan">回到價格與購買</a><a class="abl-cta abl-sales-line" href="https://lin.ee/STdLXx4" target="_blank" rel="noopener noreferrer">加官方 LINE，開放時通知我</a></div></div></section>`,
+  salesDisclaimer(N2027.DISCLAIMER),
+  '<div class="abl-legal-footer"><p>' + esc(N2027.LEGAL_SELLER_LINE_NAS + '　統一編號 ' + LEGAL_TAX_ID + '　' + LEGAL_EMAIL) + '</p><nav aria-label="法務資訊"><a href="/abl/terms">服務條款</a><a href="/abl/privacy">隱私權政策</a></nav></div>',
+  '</div>',
+].join('');
+
 const SALES_PAGES = [
   {
     route: '/abl/2027',
@@ -522,6 +548,14 @@ const SALES_PAGES = [
     description: '2027 年度頻率支持，團體共享頻率，或個人單獨設定，一整年的背景支持，每季一則 LINE 檢視提醒。',
     body: sales2027Body(),
     noindex: false,
+  },
+  {
+    route: '/nas/2027',
+    title: N2027.NAS2027_TITLE,
+    description: N2027.NAS2027_DESCRIPTION,
+    body: nas2027Body(),
+    // 自動產生與交付上線前維持 noindex；上線時改為 false，並把 /nas/2027 加進 build-sitemap.js。
+    noindex: true,
   },
   {
     route: '/abl/space',
