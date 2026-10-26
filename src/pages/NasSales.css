@@ -19,26 +19,87 @@
   text-decoration-color: rgba(42, 24, 56, 0.28);
 }
 
-.nas-sales-preview {
+/* 報告摘句：放大字體的精華段落，像從報告紙頁剪下來的一段 */
+.theme-nas-2027 .nas-excerpts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.75rem;
+}
+
+.theme-nas-2027 .nas-excerpt {
+  position: relative;
   margin: 0;
-  padding: 0.75rem;
-  overflow: hidden;
+  padding: 1.6rem 1.6rem 1.5rem;
+  border: 1px solid rgba(180, 83, 217, 0.2);
+  border-top: 4px solid #b453d9;
+  border-radius: 0.9rem;
+  background: #fffdf8;
+  box-shadow: 0 12px 30px rgba(42, 24, 56, 0.08);
 }
 
-.nas-sales-preview img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 0.6rem;
-  box-shadow: 0 10px 28px rgba(42, 24, 56, 0.12);
+.theme-nas-2027 .nas-excerpt-chapter {
+  margin: 0 0 0.9rem;
+  color: #8a5a00;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
 }
 
-.nas-sales-preview figcaption {
-  margin-top: 0.75rem;
-  color: #64748b;
-  font-size: 0.88rem;
+.theme-nas-2027 .nas-excerpt-quote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #2a1838;
+  font-size: clamp(1.22rem, 2.1vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.85;
+}
+
+.theme-nas-2027 .nas-excerpt-quote mark {
+  padding: 0 0.1em;
+  color: inherit;
+  font-weight: 800;
+  background: linear-gradient(transparent 58%, rgba(212, 165, 55, 0.42) 58%);
+}
+
+.theme-nas-2027 .nas-excerpt-dont {
+  margin: 1rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 1px dashed rgba(42, 24, 56, 0.18);
+  color: #475569;
+  font-size: 1.05rem;
   line-height: 1.7;
+}
+
+.theme-nas-2027 .nas-excerpt-dont span { margin-right: 0.35rem; }
+
+.theme-nas-2027 .nas-excerpt-months { grid-column: 1 / -1; }
+
+.theme-nas-2027 .nas-months { display: grid; gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
+.theme-nas-2027 .nas-months li { display: flex; gap: 1rem; align-items: flex-start; }
+.theme-nas-2027 .nas-light {
+  flex: none;
+  min-width: 3.6rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 800;
   text-align: center;
+}
+.theme-nas-2027 .nas-light-red { background: #d9534f; }
+.theme-nas-2027 .nas-light-yellow { background: #d4a537; }
+.theme-nas-2027 .nas-light-green { background: #3f9d6b; }
+.theme-nas-2027 .nas-months-range { margin: 0; color: #64748b; font-size: 0.98rem; font-weight: 700; }
+.theme-nas-2027 .nas-months-range span { margin-left: 0.6rem; color: #2a1838; }
+.theme-nas-2027 .nas-months-text { margin: 0.2rem 0 0; color: #2a1838; font-size: clamp(1.12rem, 1.9vw, 1.3rem); font-weight: 600; line-height: 1.7; }
+.theme-nas-2027 .nas-excerpt-note { margin: 1.1rem 0 0; color: #64748b; font-size: 0.98rem; line-height: 1.7; }
+
+@media (max-width: 640px) {
+  .theme-nas-2027 .nas-excerpts { grid-template-columns: 1fr; }
+  .theme-nas-2027 .nas-excerpt { padding: 1.3rem 1.2rem; }
+  .theme-nas-2027 .nas-months-range span { display: block; margin: 0.1rem 0 0; }
 }
 
 .nas-sales-plan {

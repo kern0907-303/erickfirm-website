@@ -8,7 +8,7 @@ import { LEGAL_TAX_ID } from '../content/ablLegal';
 import { NAS_LEGAL_EMAIL } from '../content/nasLegal';
 import {
   NAS2027_CHECKOUT_URL, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, STRUGGLE, TURN, SOLUTION,
-  DIFFERENCES, PREVIEWS, PLANS, BUY_STEPS, ABOUT, FAQS, ENDING, DISCLAIMER, LEGAL_SELLER_LINE_NAS,
+  DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, BUY_STEPS, ABOUT, FAQS, ENDING, DISCLAIMER, LEGAL_SELLER_LINE_NAS,
 } from '../content/nas2027Content';
 import './AblPage.css';
 import './AblSales.css';
@@ -87,14 +87,35 @@ const Nas2027Page = () => {
 
       <section className="abl-sales-section abl-sales-section-muted">
         <div className="abl-sales-inner">
-          <h2 className="abl-heading">報告裡面長這樣</h2>
-          <div className="abl-sales-grid abl-sales-grid-themes nas-sales-previews">
-            {PREVIEWS.map(([src, alt]) => (
-              <figure className="abl-card nas-sales-preview" key={src}>
-                <img src={src} alt={alt} loading="lazy" width="900" height="1274" />
-                <figcaption>{alt}</figcaption>
+          <h2 className="abl-heading">{EXCERPTS_TITLE}</h2>
+          <p className="abl-sales-note">{EXCERPTS_INTRO}</p>
+          <div className="nas-excerpts">
+            {EXCERPTS.map((item) => (
+              <figure className="nas-excerpt" key={item.chapter}>
+                <figcaption className="nas-excerpt-chapter">{item.chapter}</figcaption>
+                <blockquote className="nas-excerpt-quote">
+                  {item.quote.map((text, index) => (index % 2 === 1
+                    ? <mark key={text}>{text}</mark>
+                    : <React.Fragment key={text}>{text}</React.Fragment>))}
+                </blockquote>
+                {item.dont ? <p className="nas-excerpt-dont"><span aria-hidden="true">⛔</span>先別做：{item.dont}</p> : null}
               </figure>
             ))}
+            <figure className="nas-excerpt nas-excerpt-months">
+              <figcaption className="nas-excerpt-chapter">{EXCERPT_MONTHS.chapter}</figcaption>
+              <ul className="nas-months">
+                {EXCERPT_MONTHS.rows.map(([tone, light, range, theme, side, text]) => (
+                  <li key={range}>
+                    <span className={'nas-light nas-light-' + tone}>{light}</span>
+                    <div>
+                      <p className="nas-months-range">{range}<span>{theme}</span></p>
+                      <p className="nas-months-text">{side}｜{text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <p className="nas-excerpt-note">{EXCERPT_MONTHS.note}</p>
+            </figure>
           </div>
         </div>
       </section>
