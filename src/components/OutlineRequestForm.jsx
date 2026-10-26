@@ -7,7 +7,7 @@ const OutlineRequestForm = ({ formName, title, description, downloadHref, fields
   const [form, setForm] = useState(INITIAL_FORM);
   const [status, setStatus] = useState('idle');
   const webhookUrl = import.meta.env.VITE_FORM_WEBHOOK_URL;
-  const webhookForm = fields === 'consultant' ? 'consultant_details' : 'course_outline';
+  const webhookForm = fields === 'consultant' ? 'consultant_details' : (formName === 'nas-sample-report-request' ? 'nas_sample_report' : 'course_outline');
 
   const updateField = (field, value) => {
     setStatus('idle');

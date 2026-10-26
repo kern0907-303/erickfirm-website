@@ -241,7 +241,7 @@ const NASCalculator = () => {
           <p className="text-sm font-semibold text-[#A8883F] mb-3">{FLOW_COPY.hook}</p>
           <HeroTextReveal
             title="輸入生日，看你的雙軌結構"
-            subtitle="免費計算，不需註冊或提交 Email。生日會送往計算服務，並保存在這台瀏覽器，換到 365 能量氣象台頁面看今天時不用再輸入。陽曆看你對外的展現，陰曆看你內在真正的需求，多數人的卡點，就落在這兩者不一致的地方。"
+            subtitle="免費計算，不需註冊或提交 Email。生日會送往計算服務，並保存在這台瀏覽器，換到 365 能量氣象台頁面看今天時不用再輸入。陽曆看你對外做事的樣子，陰曆看你心裡的感受，多數人的卡點，就落在這兩者不一致的地方。"
             titleClassName="text-2xl md:text-4xl font-bold leading-snug mb-5"
             subtitleClassName="text-[#55506B] leading-loose mb-9"
           />
@@ -539,7 +539,7 @@ const NASCalculator = () => {
             多數計算器算到這裡就停了。這裡多算兩件事：
           </p>
           <ul className="text-[#55506B] leading-loose space-y-2 mb-6 list-disc pl-5">
-            <li><strong>陰曆盤</strong>：陽曆描述你對外的展現與思考方式，陰曆描述你內在的感受與真正的需求。兩邊不一致的地方，通常就是卡住的地方。</li>
+            <li><strong>陰曆盤</strong>：陽曆描述你對外做事、工作、和外界打交道的樣子，陰曆描述你心裡的感受、想法與情緒。兩邊不一致的地方，通常就是卡住的地方。</li>
             <li><strong>生命功課等級</strong>：依先天數、後天數與主命數的有無判定，描述的是你目前在處理哪個階段的功課。</li>
             <li><strong>流年、流月與今日流日</strong>：依陽曆生日逐日計算當前週期；加入陰曆盤時，也會顯示陰曆流日。</li>
           </ul>

@@ -16,7 +16,7 @@ const COURSE_MODULES = [
   },
   {
     id: '1', title: '模組一：你的出廠設定', unitCount: '9 堂', duration: '135 分',
-    description: '把一組生日拆成陽曆與陰曆兩條軌道，理解白天的你與晚上的你為何常常不一樣。從數字出現的位置與次數，看見你的生命原型、缺少的支撐，以及反覆使用的慣性。你會得到一張比較完整的自我地圖。',
+    description: '把一組生日拆成陽曆與陰曆兩條軌道，理解對外的你與心裡的你為何常常不一樣。從數字出現的位置與次數，看見你的生命原型、缺少的支撐，以及反覆使用的慣性。你會得到一張比較完整的自我地圖。',
     takeaways: ['讀懂自己的兩軌', '認得十種生命原型', '找出自己缺什麼、多什麼'],
   },
   {
@@ -39,7 +39,7 @@ const COURSE_MODULES = [
 const FEATURED_UNITS = [
   ['你不是不夠努力，是兩個你在拉扯', '看見道理與感受同時拉扯時，卡住不等於不夠努力。'],
   ['如果你的人生可以被算準，那才是壞消息', '數字描述要處理的題目，不替你把答案寫死。'],
-  ['白天的你和晚上的你，不是同一個人', '用雙軌看見對外展現與內在需求的落差。'],
+  ['對外的你和心裡的你，不是同一個人', '用雙軌看見對外做事的樣子與心裡感受的落差。'],
   ['你以為的個性，可能是被要求出來的', '分清楚主命設定與後天適應怎麼一起作用。'],
   ['重複出現的不是人，是互動模式', '從關係裡辨認反覆發生的互動結構。'],
   ['壞天氣不用硬撐，但要知道自己在哪一種天氣裡', '先辨認流日狀態，再安排今天的動作。'],
@@ -209,7 +209,7 @@ const NASCourse = () => (
         </div>
 
         <div className="mt-12">
-          <OutlineRequestForm formName="nas-course-outline-request" title="索取完整課綱" description="完整 36 堂課綱與時長，填寫後即可取得 PDF。總長約 9 小時 20 分，每堂不到 20 分鐘。" downloadHref="/downloads/nas-course-outline.pdf" />
+          <OutlineRequestForm formName="nas-sample-report-request" title="索取 2027 年度導航範例報告" description="一份完整的範例報告，約 12 頁。先看看依生日寫成的年度導航長什麼樣子，再決定要不要替自己做一份。" downloadHref="/downloads/nas-2027-sample-report.pdf" />
         </div>
       </div>
     </section>
