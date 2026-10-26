@@ -37,9 +37,23 @@ export const CATEGORY_CTA_CONFIG = {
   },
 };
 
-export function getCategoryCtaConfig(service, slug = '') {
+// 已經在計算器算過的人，看完文章不再被帶回計算器，改往下一步走（2026-10-26）。
+export const NAS_NEXT_AFTER_CALCULATOR = {
+  title: '你已經看過自己的雙軌了，接下來呢？',
+  desc: '雙軌說的是你這個人；2027 年度導航說的是你這一年。依你的生日寫成，十二個月什麼時候衝、什麼時候收，再加上 365 能量氣象台每天晚上的提醒。',
+  btn1Text: '看 2027 年度導航',
+  btn1Url: '/nas/2027',
+  btn2Text: '加 LINE 輸入【168】',
+  btn2Url: lineMessageUrl('168'),
+};
+
+export function getCategoryCtaConfig(service, slug = '', { calculated = false } = {}) {
   const config = CATEGORY_CTA_CONFIG[service] || CATEGORY_CTA_CONFIG['personal-growth'];
-  if (service !== 'life-number' || !slug) return config;
-  const source = new URLSearchParams({ source: `nas-article-${slug}` });
-  return { ...config, btn1Url: `/nas/calculator/?${source.toString()}` };
+  if (service !== 'life-number') return config;
+  const source = slug ? new URLSearchParams({ source: `nas-article-${slug}` }).toString() : '';
+  if (calculated) {
+    return { ...NAS_NEXT_AFTER_CALCULATOR, btn1Url: source ? `/nas/2027?${source}` : '/nas/2027' };
+  }
+  if (!slug) return config;
+  return { ...config, btn1Url: `/nas/calculator/?${source}` };
 }

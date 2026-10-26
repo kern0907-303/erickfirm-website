@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 const PUBLIC_CONFIG_URL = 'https://pay.erickfirm.com/api/public-config';
 
-const ProductCheckoutButton = ({ code, label, closedText, checkoutUrl }) => {
+const ProductCheckoutButton = ({
+  code, label, closedText, checkoutUrl,
+  className = 'abl-cta abl-sales-checkout', closedClassName = 'abl-sales-soon',
+}) => {
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
@@ -29,7 +32,7 @@ const ProductCheckoutButton = ({ code, label, closedText, checkoutUrl }) => {
   }, [code]);
 
   if (status === 'closed' && closedText) {
-    return <p className="abl-sales-soon">{closedText}</p>;
+    return <p className={closedClassName}>{closedText}</p>;
   }
 
   if (status !== 'open') return null;
@@ -37,7 +40,7 @@ const ProductCheckoutButton = ({ code, label, closedText, checkoutUrl }) => {
   return (
     <a
       href={checkoutUrl || 'https://pay.erickfirm.com/?product=' + encodeURIComponent(code)}
-      className="abl-cta abl-sales-checkout"
+      className={className}
     >
       {label}
     </a>

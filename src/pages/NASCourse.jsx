@@ -209,7 +209,7 @@ const NASCourse = () => (
         </div>
 
         <div className="mt-12">
-          <OutlineRequestForm formName="nas-sample-report-request" title="索取 2027 年度導航範例報告" description="一份完整的範例報告，約 12 頁。先看看依生日寫成的年度導航長什麼樣子，再決定要不要替自己做一份。" downloadHref="/downloads/nas-2027-sample-report.pdf" />
+          <OutlineRequestForm formName="nas-sample-report-request" title="索取 2027 年度導航範例報告" description="一份範例報告，只收錄一半的章節，封面上是虛構的人物。先看看依生日寫成的年度導航長什麼樣子，再決定要不要替自己做一份完整的。" downloadHref="/downloads/nas-2027-sample-report.pdf" />
         </div>
       </div>
     </section>

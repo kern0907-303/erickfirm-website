@@ -151,11 +151,17 @@ const PostDetail = () => {
     };
   }, [post, service, slug]);
 
+  // 已經在計算器算過（瀏覽器記得生日）的人，文章結尾改往下一步，不再繞回計算器。
+  const [calculated, setCalculated] = useState(false);
+  useEffect(() => {
+    try { setCalculated(Boolean(localStorage.getItem('nas.birthdate'))); } catch { /* 讀不到就當沒算過 */ }
+  }, []);
+
   // 取得當前分類對應的 CTA 引流卡片配置
   const ctaConfig = useMemo(() => {
     const s = normalizedPost?.service || 'personal-growth';
-    return getCategoryCtaConfig(s, normalizedPost?.slug);
-  }, [normalizedPost]);
+    return getCategoryCtaConfig(s, normalizedPost?.slug, { calculated });
+  }, [normalizedPost, calculated]);
 
   // 計算「你可能也會想看」的 3 篇文章
   const relatedPosts = useMemo(() => {

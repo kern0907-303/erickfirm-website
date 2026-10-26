@@ -1,213 +1,254 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { ArrowRight, Check, Map as MapIcon, CloudSun } from 'lucide-react';
 import { LINE_CONFIG } from '../lib/constants';
 import HeroTextReveal from '../components/HeroTextReveal';
 import ProductCheckoutButton from '../components/ProductCheckoutButton';
 import SEOHead from '../components/SEOHead';
+import NASMark from '../components/NASMark';
 import { LEGAL_TAX_ID } from '../content/ablLegal';
 import { NAS_LEGAL_EMAIL } from '../content/nasLegal';
 import {
   NAS2027_CHECKOUT_URL, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, STRUGGLE, TURN, SOLUTION,
-  DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, BUY_STEPS, ABOUT, FAQS, ENDING, DISCLAIMER, LEGAL_SELLER_LINE_NAS,
+  DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, BUY_STEPS, ABOUT, FAQS, ENDING,
+  DISCLAIMER, LEGAL_SELLER_LINE_NAS,
 } from '../content/nas2027Content';
-import './AblPage.css';
-import './AblSales.css';
-import '../components/AblLegalFooter.css';
-import './NasSales.css';
 
+// 2026-10-26：改用平衡空間其他頁面同一套視覺（白底、紫金點綴、NAS 品牌標記），不再沿用艾伯林的銷售頁版型。
 // 自動產生與交付上線前維持 noindex，結帳按鈕在後台開放商品前顯示「即將開放」。
 const INDEXABLE = false;
 
-const Nas2027Page = () => {
-  const [logoFailed, setLogoFailed] = useState(false);
+const PART_ICONS = [MapIcon, CloudSun];
+const LIGHT_TONE = {
+  red: 'bg-[#D9534F]',
+  yellow: 'bg-[#D4A537]',
+  green: 'bg-[#3F9D6B]',
+};
 
-  return (
-    <main className="theme-abl theme-nas-2027 abl-sales-page">
-      <SEOHead title={NAS2027_TITLE} description={NAS2027_DESCRIPTION} exactTitle noindex={!INDEXABLE} />
+const Quote = ({ parts }) => (
+  <>
+    {parts.map((text, index) => (index % 2 === 1
+      ? <mark key={text} className="px-0.5 font-bold text-[#1F1A2E]" style={{ background: 'linear-gradient(transparent 58%, rgba(212, 184, 106, 0.45) 58%)' }}>{text}</mark>
+      : <React.Fragment key={text}>{text}</React.Fragment>))}
+  </>
+);
 
-      <section className="abl-hero abl-sales-hero nas-hero">
-        <div className="abl-sales-container">
-          <Link className="abl-sales-top-link" to="/nas">平衡空間</Link>
-          <div className="abl-logo-card">
-            {!logoFailed ? (
-              <img src="/logo-nas.png" alt="" width="500" height="500" loading="eager" className="abl-logo"
-                onError={() => setLogoFailed(true)} />
-            ) : (
-              <span className="abl-logo-text">平衡空間</span>
-            )}
-          </div>
-          <HeroTextReveal
-            title={HERO.title}
-            subtitle={HERO.subtitle}
-            titleClassName="abl-heading abl-sales-title"
-            subtitleClassName="abl-sales-subtitle"
-          />
-          <a className="abl-cta abl-sales-scroll" href="#struggle">{HERO.action}</a>
+const Nas2027Page = () => (
+  <main className="bg-white text-[#1F1A2E]">
+    <SEOHead title={NAS2027_TITLE} description={NAS2027_DESCRIPTION} exactTitle noindex={!INDEXABLE} />
+
+    {/* 1. 首屏：車燈 */}
+    <section className="pt-32 pb-20 px-6 bg-gradient-to-b from-white via-[#F4F0FB]/60 to-white">
+      <div className="max-w-4xl mx-auto">
+        <NASMark label="2027 年度導航" />
+        <HeroTextReveal
+          title={HERO.title}
+          subtitle={HERO.subtitle}
+          titleClassName="text-3xl md:text-[2.6rem] font-bold leading-snug mb-8"
+          subtitleClassName="text-base md:text-lg text-[#55506B] leading-loose mb-10 max-w-3xl"
+        />
+        <a href="#struggle" className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition">
+          {HERO.action}<ArrowRight size={16} />
+        </a>
+      </div>
+    </section>
+
+    {/* 2. 你是不是也這樣 */}
+    <section id="struggle" className="py-20 px-6 border-t border-[#F0EDF7]">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold mb-10">{STRUGGLE.title}</h2>
+        <div className="mb-10">
+          {STRUGGLE.scenes.map(([, text], index) => (
+            <p key={text} className={`text-lg md:text-xl leading-relaxed text-[#1F1A2E] py-5 ${index === 0 ? '' : 'border-t border-[#F0EDF7]'}`}>{text}</p>
+          ))}
         </div>
-      </section>
+        <p className="text-lg font-medium leading-loose text-[#1F1A2E] border-l-2 border-[#D4B86A] pl-6">{STRUGGLE.closing}</p>
+      </div>
+    </section>
 
-      <section id="struggle" className="abl-sales-section">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">{STRUGGLE.title}</h2>
-          <ul className="nas-scenes">
-            {STRUGGLE.scenes.map(([icon, text]) => (
-              <li key={text}><span aria-hidden="true">{icon}</span><p>{text}</p></li>
-            ))}
-          </ul>
-          <p className="nas-pullquote">{STRUGGLE.closing}</p>
-        </div>
-      </section>
+    {/* 3. 轉折 */}
+    <section className="py-20 px-6 bg-[#F7F5FC]">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8 leading-snug">{TURN.title}</h2>
+        {TURN.paragraphs.map((text, index) => (
+          <p key={text} className={`leading-loose mb-5 ${index === TURN.paragraphs.length - 1 ? 'text-lg font-semibold text-[#1F1A2E]' : 'text-[#55506B]'}`}>{text}</p>
+        ))}
+      </div>
+    </section>
 
-      <section className="abl-sales-section abl-sales-section-muted">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">{TURN.title}</h2>
-          <div className="abl-sales-copy nas-turn">
-            {TURN.paragraphs.map((text) => <p key={text}>{text}</p>)}
-          </div>
-        </div>
-      </section>
-
-      <section id="solution" className="abl-sales-section">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">{SOLUTION.title}</h2>
-          <p className="abl-sales-note">{SOLUTION.intro}</p>
-          <div className="abl-sales-grid nas-solution-grid">
-            {SOLUTION.parts.map((part) => (
-              <article className="abl-card abl-sales-card nas-solution-card" key={part.name}>
-                <h3 className="abl-heading"><span className="abl-sales-theme-icon" aria-hidden="true">{part.icon}</span>{part.name}</h3>
-                <p>{part.body}</p>
-                <ul className="nas-check-list">
-                  {part.items.map((item) => <li key={item}>{item}</li>)}
+    {/* 4. 地圖與路況 */}
+    <section id="solution" className="py-20 px-6">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">{SOLUTION.title}</h2>
+        <p className="text-[#55506B] leading-relaxed mb-10 max-w-3xl">{SOLUTION.intro}</p>
+        <div className="grid md:grid-cols-2 gap-5">
+          {SOLUTION.parts.map((part, index) => {
+            const Icon = PART_ICONS[index] || MapIcon;
+            return (
+              <article key={part.name} className="card-flat p-7 bg-[#F8F6FC]">
+                <div className="flex items-center gap-3 mb-4">
+                  <Icon size={22} className="text-[#5B3A9E]" />
+                  <h3 className="text-xl font-bold">{part.name}</h3>
+                </div>
+                <p className="text-[#55506B] leading-loose mb-5">{part.body}</p>
+                <ul className="space-y-3">
+                  {part.items.map((item) => (
+                    <li key={item} className="flex gap-3 text-sm leading-relaxed text-[#463F5C]">
+                      <Check size={16} className="shrink-0 mt-1 text-[#A8883F]" /><span>{item}</span>
+                    </li>
+                  ))}
                 </ul>
               </article>
-            ))}
-          </div>
+            );
+          })}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section className="abl-sales-section abl-sales-section-muted">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">{EXCERPTS_TITLE}</h2>
-          <p className="abl-sales-note">{EXCERPTS_INTRO}</p>
-          <div className="nas-excerpts">
-            {EXCERPTS.map((item) => (
-              <figure className="nas-excerpt" key={item.chapter}>
-                <figcaption className="nas-excerpt-chapter">{item.chapter}</figcaption>
-                <blockquote className="nas-excerpt-quote">
-                  {item.quote.map((text, index) => (index % 2 === 1
-                    ? <mark key={text}>{text}</mark>
-                    : <React.Fragment key={text}>{text}</React.Fragment>))}
-                </blockquote>
-                {item.dont ? <p className="nas-excerpt-dont"><span aria-hidden="true">⛔</span>先別做：{item.dont}</p> : null}
-              </figure>
-            ))}
-            <figure className="nas-excerpt nas-excerpt-months">
-              <figcaption className="nas-excerpt-chapter">{EXCERPT_MONTHS.chapter}</figcaption>
-              <ul className="nas-months">
-                {EXCERPT_MONTHS.rows.map(([tone, light, range, theme, side, text]) => (
-                  <li key={range}>
-                    <span className={'nas-light nas-light-' + tone}>{light}</span>
-                    <div>
-                      <p className="nas-months-range">{range}<span>{theme}</span></p>
-                      <p className="nas-months-text">{side}｜{text}</p>
-                    </div>
+    {/* 5. 報告摘句 */}
+    <section className="py-20 px-6 bg-[#F7F5FC]">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">{EXCERPTS_TITLE}</h2>
+        <p className="text-[#55506B] leading-relaxed mb-10">{EXCERPTS_INTRO}</p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {EXCERPTS.map((item) => (
+            <figure key={item.chapter} className="m-0 rounded-2xl border border-[#E7E3F0] bg-white p-6">
+              <figcaption className="text-xs font-semibold tracking-wide text-[#A8883F] mb-4">{item.chapter}</figcaption>
+              <blockquote className="m-0 text-lg md:text-xl font-medium leading-loose text-[#1F1A2E]"><Quote parts={item.quote} /></blockquote>
+              {item.dont && <p className="mt-4 pt-4 border-t border-dashed border-[#E7E3F0] text-sm text-[#55506B]">先別做：{item.dont}</p>}
+            </figure>
+          ))}
+          <figure className="m-0 rounded-2xl border border-[#E7E3F0] bg-white p-6 md:col-span-2 lg:col-span-3">
+            <figcaption className="text-xs font-semibold tracking-wide text-[#A8883F] mb-5">{EXCERPT_MONTHS.chapter}</figcaption>
+            <ul className="space-y-4">
+              {EXCERPT_MONTHS.rows.map(([tone, light, range, theme, side, text]) => (
+                <li key={range} className="flex gap-4 items-start">
+                  <span className={`shrink-0 rounded-full px-3 py-1 text-sm font-bold text-white ${LIGHT_TONE[tone]}`}>{light}</span>
+                  <div>
+                    <p className="text-sm text-[#6E6885]">{range}<span className="ml-2 font-semibold text-[#1F1A2E]">{theme}</span></p>
+                    <p className="text-lg font-medium leading-relaxed text-[#1F1A2E]">{side}｜{text}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 text-sm leading-relaxed text-[#6E6885]">{EXCERPT_MONTHS.note}</p>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    {/* 6. 不一樣的地方 */}
+    <section className="py-20 px-6">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold mb-10">和一般流年運勢不一樣的地方</h2>
+        <div className="grid md:grid-cols-2 gap-x-12 gap-y-8">
+          {DIFFERENCES.map(([name, body]) => (
+            <div key={name} className="flex gap-3">
+              <Check size={18} className="shrink-0 mt-1 text-[#5B3A9E]" />
+              <div>
+                <h3 className="font-bold mb-1">{name}</h3>
+                <p className="text-sm leading-relaxed text-[#55506B]">{body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* 7. 方案 */}
+    <section id="plan" className="py-20 px-6 bg-[#F7F5FC]">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold mb-10">選一個方案</h2>
+        <div className="grid md:grid-cols-3 gap-5 items-stretch mb-14">
+          {PLANS.map((plan) => (
+            <article key={plan.code} className={`relative flex flex-col rounded-2xl bg-white p-7 ${plan.featured ? 'border-2 border-[#5B3A9E] shadow-[0_16px_40px_rgba(91,58,158,0.14)]' : 'border border-[#E7E3F0]'}`}>
+              {plan.badge && <span className="absolute -top-3 left-7 text-xs px-3 py-1 rounded-full bg-[#5B3A9E] text-white">{plan.badge}</span>}
+              <p className="text-sm text-[#6E6885] mb-1">{plan.name}</p>
+              <p className="text-3xl font-bold tabular-nums mb-1">{plan.price}</p>
+              <p className="text-sm font-semibold text-[#A8883F] mb-5">{plan.tagline}</p>
+              <ul className="space-y-3 mb-5">
+                {plan.items.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm leading-relaxed text-[#463F5C]">
+                    <Check size={16} className="shrink-0 mt-1 text-[#5B3A9E]" /><span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <p className="nas-excerpt-note">{EXCERPT_MONTHS.note}</p>
-            </figure>
-          </div>
+              {plan.note && <p className="text-sm leading-relaxed text-[#55506B] mb-5">{plan.note}</p>}
+              <div className="mt-auto pt-2">
+                <ProductCheckoutButton
+                  code={plan.code} label="前往結帳" closedText="即將開放"
+                  checkoutUrl={NAS2027_CHECKOUT_URL + '?plan=' + plan.code}
+                  className="inline-flex w-full items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition"
+                  closedClassName="w-full text-center px-6 py-3.5 rounded-full border border-[#DAD4E8] text-sm text-[#918BA6]"
+                />
+              </div>
+            </article>
+          ))}
         </div>
-      </section>
+        <h3 className="text-xl font-bold mb-6">怎麼買，四步就完成</h3>
+        <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {BUY_STEPS.map(([title, body], index) => (
+            <li key={title} className="rounded-2xl border border-[#E7E3F0] bg-white p-5">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#5B3A9E] text-sm font-bold text-white mb-3">{index + 1}</span>
+              <h4 className="font-bold mb-2">{title}</h4>
+              <p className="text-sm leading-relaxed text-[#55506B]">{body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
 
-      <section className="abl-sales-section">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">和一般流年運勢不一樣的地方</h2>
-          <div className="abl-sales-diff">
-            <ul>
-              {DIFFERENCES.map(([name, body]) => (
-                <li key={name}><strong>{name}</strong><span>{body}</span></li>
-              ))}
-            </ul>
-          </div>
+    {/* 8. 寫的人 */}
+    <section className="py-20 px-6">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">寫這份導航的人</h2>
+        {ABOUT.map((text) => <p key={text} className="text-[#55506B] leading-loose mb-4">{text}</p>)}
+        <Link to="/about" className="inline-flex items-center gap-2 text-[#1F1A2E] font-medium hover:underline mt-2">認識艾瑞克<ArrowRight size={16} /></Link>
+      </div>
+    </section>
+
+    {/* 9. 常見問題 */}
+    <section className="py-20 px-6 bg-[#F7F5FC]">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">常見問題</h2>
+        <div className="divide-y divide-[#E7E3F0] border-y border-[#E7E3F0]">
+          {FAQS.map(([question, answer]) => (
+            <article key={question} className="py-6">
+              <h3 className="mb-3 font-bold">{question}</h3>
+              <p className="text-sm leading-loose text-[#55506B]">{answer}</p>
+            </article>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="plan" className="abl-sales-section abl-sales-section-muted">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">選一個方案</h2>
-          <div className="nas-plans">
-            {PLANS.map((plan) => (
-              <article className={'abl-card abl-sales-card nas-plan' + (plan.featured ? ' is-featured' : '')} key={plan.code}>
-                {plan.badge ? <span className="nas-plan-badge">{plan.badge}</span> : null}
-                <h3 className="abl-heading">{plan.name}</h3>
-                <p className="nas-plan-tagline">{plan.tagline}</p>
-                <p className="nas-plan-price">{plan.price}</p>
-                <ul className="nas-check-list">
-                  {plan.items.map((item) => <li key={item}>{item}</li>)}
-                </ul>
-                {plan.note ? <p className="nas-plan-note">{plan.note}</p> : null}
-                <ProductCheckoutButton code={plan.code} label="前往結帳" closedText="即將開放"
-                  checkoutUrl={NAS2027_CHECKOUT_URL + '?plan=' + plan.code} />
-              </article>
-            ))}
-          </div>
-          <ol className="abl-sales-steps">
-            {BUY_STEPS.map(([title, body], index) => (
-              <li className="abl-sales-step" key={title}>
-                <span className="abl-sales-step-no">{index + 1}</span>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </li>
-            ))}
-          </ol>
+    {/* 10. 結尾：加 LINE 只在這裡出現一次 */}
+    <section className="py-24 px-6">
+      <div className="max-w-3xl mx-auto text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-5">{ENDING.title}</h2>
+        <p className="text-lg text-[#55506B] leading-loose mb-10">{ENDING.body}</p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="#plan" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition">
+            {ENDING.action}<ArrowRight size={16} />
+          </a>
+          <a href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-[#D4B86A] text-[#A8883F] hover:border-[#A8883F] hover:bg-[#FBF7EE] transition">
+            還有問題，先加官方 LINE 問我們
+          </a>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section className="abl-sales-section">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">寫這份導航的人</h2>
-          <div className="abl-sales-copy">
-            {ABOUT.map((text) => <p key={text}>{text}</p>)}
-          </div>
-        </div>
-      </section>
-
-      <section className="abl-sales-section abl-sales-section-muted">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">常見問題</h2>
-          <div className="abl-sales-faqs">
-            {FAQS.map(([question, answer]) => (
-              <details className="abl-sales-faq" open key={question}>
-                <summary>{question}</summary>
-                <p>{answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="abl-sales-ending nas-ending">
-        <div className="abl-sales-inner abl-sales-ending-inner">
-          <h2 className="abl-heading">{ENDING.title}</h2>
-          <p>{ENDING.body}</p>
-          <div className="abl-sales-ending-actions">
-            <a className="abl-cta abl-sales-scroll" href="#plan">{ENDING.action}</a>
-            <a className="abl-cta abl-sales-line" href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer">還有問題，先加官方 LINE 問我們</a>
-          </div>
-        </div>
-      </section>
-
-      <footer className="abl-sales-disclaimer">{DISCLAIMER}</footer>
-      <div className="abl-legal-footer">
+    <footer className="px-6 pb-14">
+      <div className="max-w-4xl mx-auto border-t border-[#F0EDF7] pt-8 text-center text-xs leading-loose text-[#918BA6]">
+        <p className="mb-3">{DISCLAIMER}</p>
         <p>{LEGAL_SELLER_LINE_NAS}　統一編號 {LEGAL_TAX_ID}　{NAS_LEGAL_EMAIL}</p>
-        <nav aria-label="法務資訊">
-          <Link to="/nas/terms">服務條款</Link>
-          <Link to="/nas/privacy">隱私權政策</Link>
+        <nav aria-label="法務資訊" className="mt-2 flex justify-center gap-5">
+          <Link to="/nas/terms" className="underline underline-offset-4 hover:text-[#5B3A9E]">服務條款</Link>
+          <Link to="/nas/privacy" className="underline underline-offset-4 hover:text-[#5B3A9E]">隱私權政策</Link>
         </nav>
       </div>
-    </main>
-  );
-};
+    </footer>
+  </main>
+);
 
 export default Nas2027Page;
