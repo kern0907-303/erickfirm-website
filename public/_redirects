@@ -3,4 +3,6 @@
 /src/* /src/:splat 200
 /node_modules/* /node_modules/:splat 200
 /nas/calculator /nas/calculator/ 301
+/nas/meili /nas/365 301
+/nas/meili/ /nas/365 301
 /* /index.html   200

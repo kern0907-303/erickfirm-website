@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import HomeInsightsSection from './components/HomeInsightsSection';
@@ -173,7 +173,8 @@ function App() {
           {/* 第二主頁 — 流量入口 */}
           <Route path="/nas" element={<NAS />} />
           <Route path="/nas/calculator" element={<NASCalculator />} />
-          <Route path="/nas/meili" element={<NASDashboard />} />
+          <Route path="/nas/365" element={<NASDashboard />} />
+          <Route path="/nas/meili" element={<Navigate to="/nas/365" replace />} />
           <Route path="/nas/course" element={<NASCourse />} />
           <Route path="/nas/consultant" element={<NASConsultant />} />
           <Route path="/nas/2027" element={<Nas2027Page />} />

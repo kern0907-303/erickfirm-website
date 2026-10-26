@@ -221,7 +221,6 @@ const ABLPage = () => {
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-7 gap-y-3 text-sm text-slate-600">
           <span>年度頻率支持 即將開放</span>
           <span>空間調頻 即將開放</span>
-          <span>2027 年度導航 即將開放</span>
           <Link to="/about" className="underline decoration-slate-300 underline-offset-4 hover:text-slate-950">認識艾瑞克</Link>
         </div>
         <p className="mx-auto mt-8 max-w-7xl border-t border-slate-200 pt-6 text-xs leading-loose text-slate-500">

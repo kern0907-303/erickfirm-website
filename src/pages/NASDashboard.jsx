@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Check, Minus, ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import NASMark from '../components/NASMark';
+import HeroTextReveal from '../components/HeroTextReveal';
 import { DAILY_RELATION_COPY } from '../content/nasLifeNumberCopy';
 import { relationForPaths } from '../lib/numerology/dailyGuidance';
 
@@ -22,17 +23,13 @@ const prettyDate = (raw) => {
   return d.length === 8 ? `${d.slice(0, 4)}/${d.slice(4, 6)}/${d.slice(6)}` : raw;
 };
 
+// 2026-10-26：數字每曆併入 365 能量氣象台，不單獨販售；全年服務跟 2027 年度導航一起提供。
 const FEATURES = [
-  { name: '主命數、先天數、後天數', free: true, paid: true },
-  { name: '陽曆／陰曆雙盤對照', free: true, paid: true },
-  { name: '強數與缺數', free: true, paid: true },
-  { name: '生命功課等級', free: false, paid: true },
-  { name: '流年 · 流月 · 流日', free: false, paid: true },
-  { name: '加入家人、伴侶、同事的盤', free: false, paid: true },
-  { name: '關係對照與互動判讀', free: false, paid: true },
-  { name: '歷史紀錄與回顧', free: false, paid: true },
-  { name: '每月狀態提醒', free: false, paid: true },
-  { name: '前一天晚上 LINE 推播明天的流日', free: false, paid: true },
+  { name: '主命數、陽曆與陰曆雙盤（計算器）', free: true, paid: true },
+  { name: '今天的流日', free: true, paid: true },
+  { name: '前一天晚上，LINE 傳來明天的提醒', free: false, paid: true },
+  { name: '隨時在 LINE 問今天、這個月或今年的狀態', free: false, paid: true },
+  { name: '2027 年度導航報告（約 12 頁 PDF）', free: false, paid: true },
 ];
 
 const NASDashboard = () => {
@@ -96,43 +93,41 @@ const NASDashboard = () => {
   return (
   <main className="bg-white text-[#1F1A2E]">
     <SEOHead
-      title="數字每曆｜每天更新一次的生命數字"
-      description="主命數是氣候，是你的底層設定；流年、流月、流日是天氣，每天都不一樣。數字每曆每天替你更新一次，打開看一眼就知道今天該注意什麼。免費算，訂閱看完整版。"
+      title="365 能量氣象台｜每天晚上，提醒你明天的天氣"
+      description="主命數是氣候，是你的底層設定；流年、流月、流日是天氣，每天都不一樣。先免費看今天的流日；365 能量氣象台每天晚上用 LINE 提醒你明天，跟 2027 年度導航一起，付款日起一整年。"
     />
 
     <section className="pt-32 pb-16 px-6">
       <div className="max-w-3xl mx-auto">
-        <NASMark label="數字每曆" />
-        <h1 className="text-3xl md:text-4xl font-bold leading-snug mb-4">
-          你查一下天氣才出門。<br />
-          <span className="text-[#6E6885]">你的數字也是。</span>
-        </h1>
-        <p className="text-sm font-semibold tracking-wide text-[#A8883F] mb-8">
-          每天一曆，每天美麗。
-        </p>
+        <NASMark label="365 能量氣象台" />
+        <HeroTextReveal
+          title="你查一下天氣才出門。你的數字也是。"
+          subtitle="每天晚上一則，提醒你明天的天氣。"
+          titleClassName="text-3xl md:text-4xl font-bold leading-snug mb-4"
+          subtitleClassName="text-sm font-semibold tracking-wide text-[#A8883F] mb-8"
+        />
         <p className="text-[#55506B] leading-loose mb-5 max-w-2xl">
-          主命數是<strong>氣候</strong>——你的底層設定。
-          數字本身不會換，但它在你身上跑成什麼樣子，是會變的——那正是可以動的地方。
-          流年、流月、流日是<strong>天氣</strong>——今天會不會下雨，每天都不一樣。
+          主命數是<strong>氣候</strong>，是你的底層設定。
+          數字本身不會換，但它在你身上跑成什麼樣子，是會變的，那正是可以動的地方。
+          流年、流月、流日是<strong>天氣</strong>，今天會不會下雨，每天都不一樣。
         </p>
         <p className="text-[#55506B] leading-loose mb-5 max-w-2xl">
           多數人只知道自己的氣候，然後穿同一套衣服過每一天：該往前的時候收手，
           該休息的時候硬撐。那個落差，就是很多人「明明很努力卻一直不對」的原因。
         </p>
         <p className="text-[#55506B] leading-loose mb-10 max-w-2xl">
-          數字每曆每天替你更新一次。<strong>不用自己記、不用自己算，打開看一眼就好。</strong>
+          365 能量氣象台每天晚上替你看一次明天。<strong>不用自己記、不用自己算，打開 LINE 看一眼就好。</strong>
         </p>
-        {/* 直接把今天算給她看。只給今天——明天想看就得再回來輸入一次，
-            那個不方便本身就是訂閱的理由，不需要用文案說服。 */}
+        {/* 直接把今天算給她看。只給今天，明天的提醒交給 365 能量氣象台。 */}
         <div className="p-6 rounded-2xl border border-[#E7E3F0] bg-[#F7F5FC]/50">
-          <h2 className="font-bold mb-2">先看今天的流日數字</h2>
+          <h2 className="font-bold mb-2">先免費看今天的流日</h2>
 
           {useSaved ? (
             <>
               <p className="text-sm text-[#6E6885] mb-5">
                 用你剛才算過的生日
                 <strong className="text-[#1F1A2E] tabular-nums mx-2">{prettyDate(saved)}</strong>
-                ——直接看今天。
+                直接看今天。
               </p>
               <div className="flex flex-wrap items-center gap-4 mb-1">
                 <button
@@ -189,7 +184,7 @@ const NASDashboard = () => {
               </p>
               <p className="text-sm text-[#55506B] leading-relaxed mb-5">
                 這個數字是你的生日跟今天的流日對出來的，所以每天都不一樣。
-                天氣沒有好壞——下雨不是壞日子，只是今天適合做的事不一樣。
+                天氣沒有好壞，下雨不是壞日子，只是今天適合做的事不一樣。
               </p>
               {/* 兩組數字要分得開，否則 26／8 24／6 會被讀成一串 268246 */}
               <p className="text-xs text-[#918BA6] mb-2">今天流日</p>
@@ -236,16 +231,12 @@ const NASDashboard = () => {
                   <strong className="text-[#1F1A2E]">這是今天。明天的數字已經不一樣了。</strong>
                 </p>
                 <p className="text-[#55506B] leading-loose mb-3">
-                  免費版只給你今天。問題是——等你察覺今天特別不順，這一天也已經過完了。
-                </p>
-                <p className="text-[#55506B] leading-loose mb-3">
-                  訂閱之後，<strong className="text-[#1F1A2E]">前一天晚上就收到明天的</strong>。
-                  差別在這裡：你多了一個晚上可以重新安排。那場難談的會要不要挪開、
-                  那通電話今天打還是明天打、哪一天適合把心裡的話講出來——
-                  這些事，事前知道跟事後才懂，差很多。
+                  這裡只給你今天。問題是，等你察覺今天特別不順，這一天也已經過完了。
                 </p>
                 <p className="text-[#55506B] leading-loose">
-                  一天不到 10 元。一個月裡只要少排錯一件重要的事，就值回來了。
+                  365 能量氣象台會在<strong className="text-[#1F1A2E]">前一天晚上</strong>，用 LINE 把明天的提醒傳給你。
+                  你多了一個晚上可以重新安排：那場難談的會要不要挪開、那通電話今天打還是明天打、
+                  哪一天適合把心裡的話講出來。這些事，事前知道跟事後才懂，差很多。
                 </p>
               </div>
             </div>
@@ -254,14 +245,14 @@ const NASDashboard = () => {
       </div>
     </section>
 
-    {/* 功能對照 */}
+    {/* 免費與 365 對照 */}
     <section className="pb-16 px-6">
       <div className="max-w-3xl mx-auto">
         <div className="rounded-2xl border border-[#E7E3F0] overflow-hidden">
           <div className="grid grid-cols-[1fr_88px_88px] bg-[#F7F5FC] text-xs text-[#6E6885]">
-            <div className="px-5 py-3">每曆內容</div>
+            <div className="px-5 py-3">內容</div>
             <div className="px-3 py-3 text-center">免費</div>
-            <div className="px-3 py-3 text-center font-medium text-[#1F1A2E]">訂閱</div>
+            <div className="px-3 py-3 text-center font-medium text-[#1F1A2E]">全年陪跑</div>
           </div>
           {FEATURES.map((f, i) => (
             <div
@@ -281,69 +272,53 @@ const NASDashboard = () => {
       </div>
     </section>
 
-    {/* 訂閱包含什麼 —— 必須排在定價之前：先說明買到什麼，再報價 */}
     <section className="pb-16 px-6">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-xl md:text-2xl font-bold mb-8">訂閱包含兩件事</h2>
+        <h2 className="text-xl md:text-2xl font-bold mb-8">365 能量氣象台包含兩件事</h2>
 
-        <h3 className="font-bold text-[#1F1A2E] mb-3">一、完整的生命數字計算</h3>
-        <p className="text-[#55506B] leading-loose mb-3">
-          免費版只算主命數和雙盤對照。訂閱之後，整張盤打開：
-        </p>
-        <ul className="text-[#55506B] leading-loose space-y-1 mb-3 list-disc pl-5">
-          <li>先天數、後天數、強數與缺數</li>
-          <li>生命功課等級</li>
-          <li>流年、流月、流日</li>
-          <li>加入家人、伴侶、同事的生日，把兩個人的盤放在一起看</li>
-        </ul>
+        <h3 className="font-bold text-[#1F1A2E] mb-3">一、每天晚上，明天的提醒</h3>
         <p className="text-[#55506B] leading-loose mb-8">
-          算一次，之後隨時回來看，不用重算。
+          <strong className="text-[#1F1A2E]">前一天晚上，明天的提醒直接用 LINE 傳給你：</strong>
+          適合推進什麼、先別碰什麼。不用打開網頁、不用自己記，你有一整個晚上可以重新安排。
         </p>
 
-        <h3 className="font-bold text-[#1F1A2E] mb-3">二、每天的流日推播</h3>
-        <p className="text-[#55506B] leading-loose mb-3">
-          <strong className="text-[#1F1A2E]">前一天晚上，明天的流日直接用 LINE 推給你。</strong>
-        </p>
+        <h3 className="font-bold text-[#1F1A2E] mb-3">二、想問的時候，隨時都能問</h3>
         <p className="text-[#55506B] leading-loose">
-          不用打開網頁、不用自己記——而且推的是「明天的」，你有一整個晚上可以重新安排。
+          想知道今天、這個月或今年的狀態，在 LINE 上直接問。年中迷路的時候，不用重新找方向。
         </p>
       </div>
     </section>
 
-    {/* 定價 */}
+    {/* 取得方式：不單獨販售，跟年度導航一起 */}
     <section className="py-16 px-6 bg-[#F7F5FC]">
-      <div className="max-w-3xl mx-auto grid sm:grid-cols-2 gap-4">
-        <div className="p-7 rounded-2xl border border-[#E7E3F0] bg-white">
-          <p className="text-sm text-[#6E6885] mb-1">月訂閱</p>
-          <p className="text-3xl font-bold tabular-nums mb-1">NT$299</p>
-          <p className="text-sm font-semibold text-[#A8883F] mb-1">一天不到 10 元</p>
-          <p className="text-sm text-[#6E6885] mb-6">每月 · 隨時可停</p>
-          <p className="text-sm text-[#55506B] leading-relaxed">先試試看適不適合你。</p>
-        </div>
-        <div className="p-7 rounded-2xl border-2 border-[#5B3A9E] bg-white relative">
-          <span className="absolute -top-3 left-7 text-xs px-3 py-1 rounded-full bg-[#5B3A9E] text-white">省兩個月</span>
-          <p className="text-sm text-[#6E6885] mb-1">年訂閱</p>
-          <p className="text-3xl font-bold tabular-nums mb-1">NT$2,880</p>
-          <p className="text-sm font-semibold text-[#A8883F] mb-1">一天不到 8 元</p>
-          <p className="text-sm text-[#6E6885] mb-6">每年</p>
-          <p className="text-sm text-[#55506B] leading-relaxed">
-            天氣要看過一整年，才知道自己的四季長什麼樣子。
-          </p>
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-xl md:text-2xl font-bold mb-4">怎麼開始</h2>
+        <p className="text-[#55506B] leading-loose mb-6">
+          365 能量氣象台不單獨販售，它跟 2027 年度導航一起提供：報告是這一年的地圖，365 是每天的路況。
+          期間從付款日起算，一整年。
+        </p>
+        <div className="p-7 rounded-2xl border-2 border-[#5B3A9E] bg-white">
+          <p className="text-sm text-[#6E6885] mb-1">2027 年度導航＋全年陪跑</p>
+          <p className="text-3xl font-bold tabular-nums mb-1">NT$1,280</p>
+          <p className="text-sm font-semibold text-[#A8883F] mb-5">比只買報告多 300 元，一天不到一元，多了一整年的每日提醒。</p>
+          <Link to="/nas/2027" className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition">
+            看 2027 年度導航<ArrowRight size={16} />
+          </Link>
         </div>
       </div>
     </section>
 
     {/* 與課程的關係 */}
-    <section className="py-16 px-6 bg-[#F7F5FC]">
+    <section className="py-16 px-6">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-xl font-bold mb-4">看得懂天氣，跟知道該怎麼穿，是兩件事</h2>
         <p className="text-[#55506B] leading-loose mb-4">
-          數字每曆會告訴你「今天的流年是 3」。但那代表什麼、你該怎麼調，
-          那是另一件事——而且不是一段說明文字講得完的。
+          365 能量氣象台會告訴你明天是什麼天氣。但那代表什麼、你該怎麼調，
+          那是另一件事，而且不是一段提醒講得完的。
         </p>
         <p className="text-[#55506B] leading-loose mb-8">
-          如果你用了一陣子，開始覺得<strong>「我看得懂數字了，但我不知道該怎麼用」</strong>，
-          那就是課程要接手的地方。不急，工具先用著。
+          如果你用了一陣子，開始覺得<strong>「我看得懂提醒了，但我不知道該怎麼用」</strong>，
+          那就是課程要接手的地方。不急，先用著。
         </p>
         <Link to="/nas/course" className="inline-flex items-center gap-2 px-7 py-4 rounded-full border border-[#5B3A9E] text-[#1F1A2E] hover:bg-[#5B3A9E] hover:text-white transition">
           看課程<ArrowRight size={16} />

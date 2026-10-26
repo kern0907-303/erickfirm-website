@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
+import HeroTextReveal from '../components/HeroTextReveal';
 import NASMark from '../components/NASMark';
 import OutlineRequestForm from '../components/OutlineRequestForm';
 
@@ -49,7 +50,7 @@ const NASConsultant = () => (
     <main className="bg-white text-[#1F1A2E]">
       <SEOHead
         title="生命數字顧問班｜學會幫別人看盤 - 平衡空間"
-        description="生命數字顧問班給想把解盤變成服務的人。六週線上直播，從讀盤、問診、說法到服務流程；完成主課後以意向登記報名，第一屆預計 2027 年 6–7 月開班。"
+        description="生命數字顧問班給想把解盤變成服務的人。六週線上直播，從讀盤、問診、說法到服務流程；完成主課後以意向登記報名，第一屆預計 2027 年 6 到 7 月開班。"
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(CONSULTANT_STRUCTURED_DATA) }} />
 
@@ -57,11 +58,12 @@ const NASConsultant = () => (
         <div className="mx-auto max-w-3xl">
           <NASMark label="顧問班" />
           <p className="mb-4 text-xs tracking-[0.2em] text-[#918BA6]">分流／轉職</p>
-          <h1 className="mb-7 text-3xl font-bold leading-snug md:text-5xl">
-            生命數字顧問班：<br />
-            主課是看懂自己，顧問班是學會幫別人看。
-          </h1>
-          <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">講師：艾瑞克</p>
+          <HeroTextReveal
+            title="生命數字顧問班：主課是看懂自己，顧問班是學會幫別人看。"
+            subtitle="講師：艾瑞克"
+            titleClassName="mb-7 text-3xl font-bold leading-snug md:text-5xl"
+            subtitleClassName="mb-4 max-w-2xl leading-loose text-[#55506B]"
+          />
           <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。</p>
           <p className="max-w-2xl leading-loose text-[#55506B]">
             這不是把主課再講深一點，而是把你已經看懂的結構，練成一套能用在別人身上的解盤服務。兩者是分流，不是深淺。
@@ -84,9 +86,9 @@ const NASConsultant = () => (
             <article className="card-soft bg-white p-6">
               <h3 className="mb-5 text-lg font-bold text-[#6E6885]">不適合</h3>
               <ul className="space-y-4 text-sm leading-relaxed text-[#55506B]">
-                <li className="flex gap-3"><span className="mt-0.5 shrink-0 text-[#A8883F]">—</span>只想更了解自己（請留在主課）</li>
-                <li className="flex gap-3"><span className="mt-0.5 shrink-0 text-[#A8883F]">—</span>還沒完成主課</li>
-                <li className="flex gap-3"><span className="mt-0.5 shrink-0 text-[#A8883F]">—</span>想要一套照本宣科的話術</li>
+                <li className="flex gap-3"><span className="mt-0.5 shrink-0 text-[#A8883F]">・</span>只想更了解自己（請留在主課）</li>
+                <li className="flex gap-3"><span className="mt-0.5 shrink-0 text-[#A8883F]">・</span>還沒完成主課</li>
+                <li className="flex gap-3"><span className="mt-0.5 shrink-0 text-[#A8883F]">・</span>想要一套照本宣科的話術</li>
               </ul>
             </article>
           </div>
@@ -106,7 +108,7 @@ const NASConsultant = () => (
               </article>
             ))}
           </div>
-          <p className="mt-6 text-xs leading-relaxed text-[#918BA6]">主課教的解盤五步（排 → 看 → 判 → 說 → 收）是自用版，用在自己身上沒有時間壓力。顧問班第 1 週把它換成顧問版：加上時間控制、加上問診、加上依對方狀態分級的說法——同一套骨架，面對陌生人時的走法不一樣。</p>
+          <p className="mt-6 text-xs leading-relaxed text-[#918BA6]">主課教的解盤五步（排 → 看 → 判 → 說 → 收）是自用版，用在自己身上沒有時間壓力。顧問班第 1 週把它換成顧問版：加上時間控制、加上問診、加上依對方狀態分級的說法，同一套骨架，面對陌生人時的走法不一樣。</p>
         </div>
       </section>
 
@@ -144,7 +146,7 @@ const NASConsultant = () => (
           <article className="card-soft bg-[#FBF7EE] p-6 md:p-8">
             <h2 className="mb-5 text-xl font-bold">認證之後：顧問會員</h2>
             <p className="mb-4 text-sm leading-relaxed text-[#55506B]">學費含第一年顧問會員（價值 NT$12,000），第二年起年費 NT$12,000。</p>
-            <p className="text-sm leading-relaxed text-[#55506B]">每月個案督導、每季深化課、認證顧問名錄刊登、每月公開解盤夜上台機會、數字每曆顧問專屬連結、內容工具（每月 30 次額度）。</p>
+            <p className="text-sm leading-relaxed text-[#55506B]">每月個案督導、每季深化課、認證顧問名錄刊登、每月公開解盤夜上台機會、年度導航顧問專屬連結、內容工具（每月 30 次額度）。</p>
             <p className="mt-4 text-sm leading-relaxed text-[#6E6885]">這些是讓顧問被看見的工具；艾瑞克不轉介個案，不提供客源保證。</p>
           </article>
         </div>
@@ -154,7 +156,7 @@ const NASConsultant = () => (
         <div className="mx-auto grid max-w-4xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="mb-3 text-xs tracking-[0.2em] text-[#918BA6]">意向登記</p>
-            <h2 className="mb-5 text-2xl font-bold md:text-3xl">第一屆預計 2027 年 6–7 月開班</h2>
+            <h2 className="mb-5 text-2xl font-bold md:text-3xl">第一屆預計 2027 年 6 到 7 月開班</h2>
             <p className="mb-5 leading-loose text-[#55506B]">學費 <strong>NT$32,000</strong>，含第一年顧問會員。完成主課，並於登記時交一份「幫身邊一個人看盤」的作業，才符合入學條件。</p>
             <p className="leading-loose text-[#55506B]">目前採意向登記制，第一屆限收 10 人，不設直接付款。送出資料後，會依登記順序與入學作業安排面談或通知。</p>
           </div>

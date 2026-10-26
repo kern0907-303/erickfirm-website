@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sun, Moon } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
+import HeroTextReveal from '../components/HeroTextReveal';
 import NASMark from '../components/NASMark';
 import {
   calculateBirthNumbers,
@@ -124,7 +125,7 @@ const NASCalculator = () => {
         : null;
       const monthWindow = getFlowMonthWindow(solarBirth, target);
       const nextFlowMonth = calculateFlows(solarBirth, monthWindow.nextChange).flowMonth.num;
-      // 記住生日，之後到數字每曆那頁就不用再輸入一次。
+      // 記住生日，之後到 365 能量氣象台那頁就不用再輸入一次。
       // 只存生日字串，不存計算結果或月信聯絡資料；無痕模式會丟例外，忽略即可。
       try {
         localStorage.setItem('nas.birthdate', solarBirth);
@@ -175,7 +176,7 @@ const NASCalculator = () => {
 
     const same = sm.main === lm.main;
     const mainLine = same
-      ? `對外和內在的主命數都是 ${sm.main}。兩軌同向的人不算多——你要的和你做的，方向是一致的。`
+      ? `對外和內在的主命數都是 ${sm.main}。兩軌同向的人不算多，你要的和你做的，方向是一致的。`
       : `對外你走的是 ${sm.main}，內在要的是 ${lm.main}。這兩個不一樣。`;
 
     let soulLine = null;
@@ -186,8 +187,8 @@ const NASCalculator = () => {
     }
 
     const closing = same && ss && ls && ss.n === ls.n
-      ? '兩軌一致不代表沒有課題，只代表你的拉扯不在這裡——而是在別的地方。'
-      : '這個落差不是你哪裡有問題。是你身上有兩股力量在往不同方向拉——你在做的很多決定，其實都是在這兩股之間妥協。';
+      ? '兩軌一致不代表沒有課題，只代表你的拉扯不在這裡，而是在別的地方。'
+      : '這個落差不是你哪裡有問題。是你身上有兩股力量在往不同方向拉，你在做的很多決定，其實都是在這兩股之間妥協。';
 
     return { mainLine, soulLine, closing };
   }, [p]);
@@ -196,7 +197,7 @@ const NASCalculator = () => {
     <main className="bg-white text-[#1F1A2E]">
       <SEOHead
         title="生命數字計算｜輸入生日，看懂你的陽曆與陰曆雙軌結構"
-        description="免費生命數字計算。輸入西元生日，算出主命數與陽曆、陰曆雙軌結構。不只給你一個數字——還告訴你為什麼同樣的數字會長成完全不同的人。艾瑞克，二十年生命數字教學。"
+        description="免費生命數字計算。輸入西元生日，算出主命數與陽曆、陰曆雙軌結構。不只給你一個數字，還告訴你為什麼同樣的數字會長成完全不同的人。艾瑞克，二十年生命數字教學。"
       />
 
       {/* 輸入 */}
@@ -204,13 +205,12 @@ const NASCalculator = () => {
         <div className="max-w-2xl mx-auto">
           <NASMark label="生命數字計算" />
           <p className="text-sm font-semibold text-[#A8883F] mb-3">{FLOW_COPY.hook}</p>
-          <h1 className="text-2xl md:text-4xl font-bold leading-snug mb-5">
-            輸入生日，看你的雙軌結構
-          </h1>
-          <p className="text-[#55506B] leading-loose mb-9">
-            免費計算，不需註冊或提交 Email。生日會送往計算服務，並保存在這台瀏覽器，供數字每曆讀取。
-            陽曆看你對外的展現，陰曆看你內在真正的需求——多數人的卡點，就落在這兩者不一致的地方。
-          </p>
+          <HeroTextReveal
+            title="輸入生日，看你的雙軌結構"
+            subtitle="免費計算，不需註冊或提交 Email。生日會送往計算服務，並保存在這台瀏覽器，換到 365 能量氣象台頁面看今天時不用再輸入。陽曆看你對外的展現，陰曆看你內在真正的需求，多數人的卡點，就落在這兩者不一致的地方。"
+            titleClassName="text-2xl md:text-4xl font-bold leading-snug mb-5"
+            subtitleClassName="text-[#55506B] leading-loose mb-9"
+          />
           <p className="text-sm text-[#6E6885] leading-loose mb-8">{FLOW_COPY.heroSupport}</p>
 
           <form onSubmit={run} className="space-y-4">
@@ -293,7 +293,7 @@ const NASCalculator = () => {
                         ))}
                         <span>{t.m.main}</span>
                       </>
-                    ) : '—'}
+                    ) : '無'}
                   </p>
                   {t.m && (
                     <p className="text-xs text-[#918BA6] mb-6">
@@ -310,7 +310,7 @@ const NASCalculator = () => {
                       <p className="text-xs text-[#6E6885] leading-relaxed">{t.s.work}</p>
                     </>
                   ) : (
-                    <p className="text-lg">—</p>
+                    <p className="text-lg">無</p>
                   )}
 
                   {t.m && MAIN_NUMBER_PROFILES[t.m.main] && (
@@ -372,7 +372,7 @@ const NASCalculator = () => {
               <p className="text-sm font-semibold text-[#A8883F]">本次個人流月</p>
               <h2 className="mt-2 text-2xl font-bold md:text-3xl">你現在走在流月 {flowResult.solarFlows.flowMonth.num}</h2>
               <p className="mt-3 text-[#55506B]">這個階段到 {dateLabel(flowResult.monthWindow.end)}，{dateLabel(flowResult.monthWindow.nextChange)} 進入流月 {flowResult.nextFlowMonth}。</p>
-              <p className="mt-5 text-sm leading-loose text-[#6E6885]">流月逐日套用「當日 &gt;= 生日日取本月，否則取上個月」的公式，再依結果變化推導換期。生日 31 號時，1/31–2/28 取一月、3/1–3/30 取二月、3/31–4/30 取三月、5/1–5/30 取四月。</p>
+              <p className="mt-5 text-sm leading-loose text-[#6E6885]">流月逐日套用「當日 &gt;= 生日日取本月，否則取上個月」的公式，再依結果變化推導換期。生日 31 號時，1/31 到 2/28 取一月、3/1 到 3/30 取二月、3/31 到 4/30 取三月、5/1 到 5/30 取四月。</p>
               <p className="mt-3 text-sm leading-relaxed text-[#6E6885]">你現在走在流年 {flowResult.solarFlows.flowYear.num}。</p>
             </div>
           </section>
@@ -409,7 +409,7 @@ const NASCalculator = () => {
           <div className="max-w-2xl mx-auto">
             <h2 className="text-xl md:text-2xl font-bold mb-5">算完了，然後呢？</h2>
             <p className="text-[#55506B] leading-loose mb-4">
-              你剛才拿到的是一組數字。網路上查得到它的標準描述——但如果你看了覺得
+              你剛才拿到的是一組數字。網路上查得到它的標準描述，但如果你看了覺得
               <strong className="text-[#1F1A2E]">「有點準，又不太像我」</strong>，
               那個感覺是對的，而且有原因。
             </p>
@@ -428,7 +428,7 @@ const NASCalculator = () => {
                 <ArrowRight size={16} />
               </Link>
               <Link
-                to="/nas/meili"
+                to="/nas/365"
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full border border-[#D4B86A] text-[#A8883F] hover:border-[#A8883F] hover:bg-[#FBF7EE] transition"
               >
                 今天的數字呢？
@@ -444,21 +444,21 @@ const NASCalculator = () => {
           <h2 className="text-xl font-bold mb-5">這個計算器算什麼</h2>
           <p className="text-[#55506B] leading-loose mb-4">
             <strong>主命數</strong>是把西元出生年月日的每一位數字相加、收斂到個位數得到的。
-            它描述的是你這一生最主要會反覆遇到的功課——注意，是<strong>題目</strong>，不是答案。
+            它描述的是你這一生最主要會反覆遇到的功課，注意，是<strong>題目</strong>，不是答案。
           </p>
           <p className="text-[#55506B] leading-loose mb-4">
             多數計算器算到這裡就停了。這裡多算兩件事：
           </p>
           <ul className="text-[#55506B] leading-loose space-y-2 mb-6 list-disc pl-5">
-            <li><strong>陰曆盤</strong>——陽曆描述你對外的展現與思考方式，陰曆描述你內在的感受與真正的需求。兩邊不一致的地方，通常就是卡住的地方。</li>
-            <li><strong>生命功課等級</strong>——依先天數、後天數與主命數的有無判定，描述的是你目前在處理哪個階段的功課。</li>
-            <li><strong>流年、流月與今日流日</strong>——依陽曆生日逐日計算當前週期；加入陰曆盤時，也會顯示陰曆流日。</li>
+            <li><strong>陰曆盤</strong>：陽曆描述你對外的展現與思考方式，陰曆描述你內在的感受與真正的需求。兩邊不一致的地方，通常就是卡住的地方。</li>
+            <li><strong>生命功課等級</strong>：依先天數、後天數與主命數的有無判定，描述的是你目前在處理哪個階段的功課。</li>
+            <li><strong>流年、流月與今日流日</strong>：依陽曆生日逐日計算當前週期；加入陰曆盤時，也會顯示陰曆流日。</li>
           </ul>
 
           <h3 className="font-bold mb-3 mt-10">生命功課等級的七個階段</h3>
           <p className="text-[#55506B] leading-loose mb-5">
             用求學階段來比喻最好懂。
-            <strong className="text-[#1F1A2E]">級數不是分數，七級不比一級好</strong>——
+            <strong className="text-[#1F1A2E]">級數不是分數，七級不比一級好</strong>，
             就像博士生不會比小學生「更厲害」，只是在學不一樣的東西。
           </p>
           <div className="card-flat bg-[#F8F6FC] overflow-hidden mb-6">
@@ -476,7 +476,7 @@ const NASCalculator = () => {
             ))}
           </div>
           <p className="text-[#55506B] leading-loose">
-            算出來的數字不會決定你是誰。它只告訴你要處理什麼題目——怎麼答，還是你自己的事。
+            算出來的數字不會決定你是誰。它只告訴你要處理什麼題目，怎麼答，還是你自己的事。
           </p>
         </div>
       </section>
@@ -500,10 +500,10 @@ const NASCalculator = () => {
         <div className="mx-auto max-w-4xl">
           <h2 className="text-xl font-bold mb-6">下一步</h2>
           <div className="grid gap-4 md:grid-cols-3">
-            <article className="rounded-2xl border border-[#E7E3F0] p-5">
-              <h3 className="font-bold">2027 流年報告</h3>
+            <Link to="/nas/2027" className="rounded-2xl border border-[#E7E3F0] p-5 transition hover:border-[#5B3A9E]">
+              <h3 className="font-bold">2027 年度導航</h3>
               <p className="mt-2 text-sm leading-relaxed text-[#6E6885]">{FLOW_COPY.annualReport}</p>
-            </article>
+            </Link>
             <Link to="/nas/course" className="rounded-2xl border border-[#E7E3F0] p-5 transition hover:border-[#5B3A9E]">
               <h3 className="font-bold">主課</h3>
               <p className="mt-2 text-sm leading-relaxed text-[#6E6885]">{FLOW_COPY.course}</p>

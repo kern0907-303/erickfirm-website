@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
+import HeroTextReveal from '../components/HeroTextReveal';
 import NASMark from '../components/NASMark';
 import OutlineRequestForm from '../components/OutlineRequestForm';
 import ReportExit from '../components/ReportExit';
@@ -20,7 +21,7 @@ const COURSE_MODULES = [
   },
   {
     id: '2', title: '模組二：你卡在哪裡', unitCount: '10 堂', duration: '161 分',
-    description: '你不是做不到，是心裡有一塊過不去。這個模組把「我知道該怎麼做卻做不到」拆開來看：你的卡點不是情緒，是結構，而且在盤上有一個確切的位置。課程把常見卡點收斂成五種型別——落差、斷線、過載、空缺、錯位——並教你判斷自己現在最吃力的是哪一型。同時處理原生家庭、感情表達、四階與生命功課等級。',
+    description: '你不是做不到，是心裡有一塊過不去。這個模組把「我知道該怎麼做卻做不到」拆開來看：你的卡點不是情緒，是結構，而且在盤上有一個確切的位置。課程把常見卡點收斂成五種型別：落差、斷線、過載、空缺、錯位，並教你判斷自己現在最吃力的是哪一型。同時處理原生家庭、感情表達、四階與生命功課等級。',
     takeaways: ['在自己的盤上指出卡點的位置', '看懂自己愛人與表達的方式'],
   },
   {
@@ -30,8 +31,8 @@ const COURSE_MODULES = [
   },
   {
     id: '4', title: '模組四：把它用起來', unitCount: '5 堂', duration: '82 分',
-    description: '學完最怕的是看過就忘，所以把理解整理成一頁，變成之後可以反覆回來使用的工具。排出未來十二個月，把數字每曆放進每天的選擇，不只在計算完成那天覺得有趣，還能照自己的節奏安排下一步。',
-    takeaways: ['把自己寫成一頁', '排出未來十二個月', '每天會用數字每曆'],
+    description: '學完最怕的是看過就忘，所以把理解整理成一頁，變成之後可以反覆回來使用的工具。排出未來十二個月，把 365 能量氣象台的每日提醒放進每天的選擇，不只在計算完成那天覺得有趣，還能照自己的節奏安排下一步。',
+    takeaways: ['把自己寫成一頁', '排出未來十二個月', '讀懂每天的天氣提醒'],
   },
 ];
 
@@ -50,10 +51,8 @@ const COURSE_FAQS = [
   ['這跟坊間課程差在哪？', '這套課程同時看陽曆與陰曆兩條軌道，從自己的卡點與生活安排出發，不只給你一個數字或一個固定結論。'],
   ['這跟生命靈數是同一套嗎？', '有些人稱它為生命靈數，指的是同一套以生日為基礎的系統。本課程採用的是平衡空間的彩虹生命數字，特色是陽曆與陰曆雙軌一起看。'],
   ['會不會算命？', '不會。課程不預測、不恐嚇，數字描述的是要處理的題目，不替你把答案寫死。'],
-  ['退費怎麼辦？', '目前頁面標示退費條款待確認；購買前請先確認正式條款。'],
-  ['購買後可以看多久？', '目前頁面未標示觀看期限，正式方案確認後會補上；請以購買時的條款為準。'],
   ['上完之後，我會有一套可以重複使用的方法嗎？還是只記得一堆名詞？', '會。整門課走的是同一套流程：排 → 看 → 判 → 說 → 收。第一堂就先給你這張地圖，之後每個模組都在把其中一步填滿。到了最後一個模組，你會用這套流程把自己寫成一頁，往後換一組生日、或隔半年再看自己，流程都一樣走。課程另附一張 A4 解盤流程卡，可以列印下來放在桌上。'],
-  ['我已經看過很多生命數字的內容了，這門課有什麼不一樣？', '多數內容停在「這個數字是什麼意思」。這門課的重點在流程與結構——怎麼把一組生日完整排出來、按什麼順序看、怎麼判斷自己卡在哪一種結構、以及怎麼把看到的東西講成可以執行的一個動作。知道數字的意思是材料，能走完流程才是能力。'],
+  ['我已經看過很多生命數字的內容了，這門課有什麼不一樣？', '多數內容停在「這個數字是什麼意思」。這門課的重點在流程與結構，怎麼把一組生日完整排出來、按什麼順序看、怎麼判斷自己卡在哪一種結構、以及怎麼把看到的東西講成可以執行的一個動作。知道數字的意思是材料，能走完流程才是能力。'],
 ];
 
 const COURSE_STRUCTURED_DATA = {
@@ -103,15 +102,17 @@ const NASCourse = () => (
     <section className="px-6 pb-16 pt-32">
       <div className="mx-auto max-w-3xl">
         <NASMark label="課程" />
-        <h1 className="mb-7 text-3xl font-bold leading-snug md:text-4xl">
-          人生的出廠設定
-        </h1>
-        <p className="mb-4 text-xl font-semibold leading-relaxed text-[#6E6885] md:text-2xl">生命數字 36 堂，看懂你為什麼一直卡在同一個地方</p>
+        <HeroTextReveal
+          title="人生的出廠設定"
+          subtitle="生命數字 36 堂，看懂你為什麼一直卡在同一個地方"
+          titleClassName="mb-7 text-3xl font-bold leading-snug md:text-4xl"
+          subtitleClassName="mb-4 text-xl font-semibold leading-relaxed text-[#6E6885] md:text-2xl"
+        />
         <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">講師：艾瑞克</p>
         <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">平衡空間（No Age Space）的生命數字課程，由艾瑞克主講。</p>
-        <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">數字每曆告訴你今天是什麼天氣。這門課教你怎麼讀它。</p>
+        <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">365 能量氣象台告訴你明天是什麼天氣。這門課教你怎麼讀它。</p>
         <p className="mb-4 max-w-2xl leading-loose text-[#55506B]">
-          主課共 <strong>36 單元、五個模組、約 9 小時 20 分</strong>，從看懂自己的生命設定開始，走到能把數字每曆讀進每天的選擇。
+          主課共 <strong>36 單元、五個模組、約 9 小時 20 分</strong>，從看懂自己的生命設定開始，走到能把每天的天氣提醒讀進自己的選擇。
         </p>
         <p className="max-w-2xl leading-loose text-[#55506B]">
           課程圍繞四個問題：<strong>我是誰</strong>、<strong>我為什麼會這樣</strong>、
@@ -130,7 +131,7 @@ const NASCourse = () => (
               <div key={value} className="rounded-2xl bg-[#F7F5FC] p-5"><p className="text-2xl font-bold tabular-nums text-[#5B3A9E]">{value}</p><p className="mt-2 text-sm leading-relaxed text-[#55506B]">{label}</p></div>
             ))}
           </div>
-          <p className="max-w-3xl text-sm leading-loose text-[#55506B]">每一堂都控制在 18 分鐘以內，通勤、午休、睡前都放得進去。一天一堂，36 天看完；想快的人一個週末也能看完模組零到模組一。不用排出整個下午，也不用怕中斷後接不上——每一堂都是完整的一件事。</p>
+          <p className="max-w-3xl text-sm leading-loose text-[#55506B]">每一堂都控制在 18 分鐘以內，通勤、午休、睡前都放得進去。一天一堂，36 天看完；想快的人一個週末也能看完模組零到模組一。不用排出整個下午，也不用怕中斷後接不上，每一堂都是完整的一件事。</p>
         </div>
 
         <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
@@ -234,7 +235,6 @@ const NASCourse = () => (
               {plan.recommended && <p className="mt-4 text-sm leading-relaxed text-[#55506B]">再加主課價的一半，多 4 週陪你做。</p>}
               <div className="mt-auto pt-7">
                 {lineCta(plan.cta, 'w-full')}
-                <p className="mt-3 text-xs leading-relaxed text-[#918BA6]">退費條款：〔待確認後補上〕</p>
               </div>
             </article>
           ))}
@@ -244,7 +244,7 @@ const NASCourse = () => (
           <h3 className="mb-3 font-bold">實踐營：4 週線上小班</h3>
           <p className="mb-4 leading-loose text-[#55506B]">每週一次 90 分鐘直播（有回放），每梯上限 30 人，每季開一梯；期間有 LINE 群答疑，每週一份作業並在直播中公開講評。</p>
           <ol className="grid gap-2 text-sm leading-relaxed text-[#55506B] sm:grid-cols-2">
-            <li>① 讀懂自己的盤</li><li>② 找出卡點與衝突線</li><li>③ 排出未來十二個月</li><li>④ 把自己寫成一頁、學會看數字每曆</li>
+            <li>① 讀懂自己的盤</li><li>② 找出卡點與衝突線</li><li>③ 排出未來十二個月</li><li>④ 把自己寫成一頁、學會讀每天的天氣提醒</li>
           </ol>
         </div>
       </div>
@@ -266,7 +266,7 @@ const NASCourse = () => (
         <p className="mb-3 text-xs tracking-[0.2em] text-[#918BA6]">分流／轉職</p>
         <h2 className="mb-5 text-2xl font-bold md:text-3xl">生命數字顧問班</h2>
         <p className="mb-4 leading-loose text-[#55506B]">主課是看懂自己，顧問班是學會幫別人看。兩者是分流，不是深淺。</p>
-        <p className="mb-7 leading-loose text-[#55506B]">學費 <strong>NT$32,000</strong>，含第一年顧問會員（價值 NT$12,000）。第一屆預計 2027 年 6–7 月開班。</p>
+        <p className="mb-7 leading-loose text-[#55506B]">學費 <strong>NT$32,000</strong>，含第一年顧問會員（價值 NT$12,000）。第一屆預計 2027 年 6 到 7 月開班。</p>
         <Link to="/nas/consultant" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-7 py-4 font-medium text-white transition hover:bg-[#472D7D]">了解顧問班<ArrowRight size={16} /></Link>
       </div>
     </section>
@@ -274,11 +274,11 @@ const NASCourse = () => (
     <section className="px-6 py-16">
       <div className="mx-auto max-w-3xl">
         <h2 className="mb-5 text-xl font-bold">還沒決定？那就先不要買</h2>
-        <p className="mb-4 leading-loose text-[#55506B]">先免費算一次，或者訂閱數字每曆用一陣子。</p>
-        <p className="mb-7 leading-loose text-[#55506B]">等到你開始覺得「我看得懂數字了，但我不知道該怎麼用」——那句話出現的時候，再回來。</p>
+        <p className="mb-4 leading-loose text-[#55506B]">先免費算一次，或者讓 2027 年度導航陪你走一年。</p>
+        <p className="mb-7 leading-loose text-[#55506B]">等到你開始覺得「我看得懂數字了，但我不知道該怎麼用」，那句話出現的時候，再回來。</p>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Link to="/nas/calculator/" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-7 py-4 font-medium text-white transition hover:bg-[#472D7D]">先免費算一次<ArrowRight size={16} /></Link>
-          <Link to="/nas/meili" className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D4B86A] px-7 py-4 font-medium text-[#A8883F] transition hover:border-[#A8883F] hover:bg-[#FBF7EE]">看數字每曆</Link>
+          <Link to="/nas/2027" className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D4B86A] px-7 py-4 font-medium text-[#A8883F] transition hover:border-[#A8883F] hover:bg-[#FBF7EE]">看 2027 年度導航</Link>
         </div>
       </div>
     </section>
