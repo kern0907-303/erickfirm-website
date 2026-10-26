@@ -12,6 +12,10 @@ import {
   getFlowMonthWindow,
 } from '../lib/numerology';
 import { relationForPaths } from '../lib/numerology/dailyGuidance';
+import { lifeStages } from '../lib/numerology/stages';
+import {
+  OUTER, INNER, SAME_MAIN, GAP_CLOSING, LEVEL_INTRO, LEVEL_OUTER, LEVEL_INNER, LEVEL_GAP, STAGES, FLOW_YEAR, FLOW_MONTH,
+} from '../content/nasCalculatorReading';
 import {
   DAILY_RELATION_COPY,
   MAIN_NUMBER_PROFILES,
@@ -63,6 +67,25 @@ const mainOf = (raw) => {
   if (!chain.length || chain.some((x) => x.includes('?'))) return null;
   return { total: chain[0], main: chain[chain.length - 1], chain };
 };
+
+// 後天數與中間層用金色，最後收斂的數字用紫色，一看就分得出來。
+const Chain = ({ chain }) => (
+  <>
+    {chain.slice(0, -1).map((n, i) => (
+      <span key={`${n}-${i}`} className="text-[#C9921E]">{n}<span className="text-[#C4BDD6]">／</span></span>
+    ))}
+    <span className="text-[#5B3A9E]">{chain[chain.length - 1]}</span>
+  </>
+);
+
+const flowChain = (path) => String(path || '').replace(/^[+-]/, '').split('/').filter(Boolean);
+
+const FlowNum = ({ label, chain }) => (
+  <span>
+    <span className="block text-xs text-[#918BA6] mb-0.5">{label}</span>
+    <strong className="text-2xl font-bold tabular-nums"><Chain chain={chain} /></strong>
+  </span>
+);
 
 const STRUCTURED = {
   '@context': 'https://schema.org',
@@ -124,7 +147,7 @@ const NASCalculator = () => {
         ? calculateLunarFlows(numbers.lunarBirth, target)
         : null;
       const monthWindow = getFlowMonthWindow(solarBirth, target);
-      const nextFlowMonth = calculateFlows(solarBirth, monthWindow.nextChange).flowMonth.num;
+      const nextFlowMonth = calculateFlows(solarBirth, monthWindow.nextChange).flowMonth;
       // 記住生日，之後到 365 能量氣象台那頁就不用再輸入一次。
       // 只存生日字串，不存計算結果或月信聯絡資料；無痕模式會丟例外，忽略即可。
       try {
@@ -164,34 +187,45 @@ const NASCalculator = () => {
 
   const p = result?.parsed;
 
-  // 兩軌的落差——這一塊才是免費計算器真正要交付的東西。
-  // 數字本身網路上都查得到；「對外和對內不是同一個人」是這裡才看得見的。
-  const gap = React.useMemo(() => {
+  // 兩軌的落差：這一塊是免費計算器真正要交付的東西，要讓她看懂對自己的影響。
+  const reading = React.useMemo(() => {
     if (!p) return null;
     const sm = mainOf(p.solarMain);
     const lm = mainOf(p.lunarMain);
+    if (!sm || !lm) return null;
     const ss = soulOf(p.solarSoul);
     const ls = soulOf(p.lunarSoul);
-    if (!sm || !lm) return null;
-
-    const same = sm.main === lm.main;
-    const mainLine = same
-      ? `對外和內在的主命數都是 ${sm.main}。兩軌同向的人不算多，你要的和你做的，方向是一致的。`
-      : `對外你走的是 ${sm.main}，內在要的是 ${lm.main}。這兩個不一樣。`;
-
-    let soulLine = null;
+    const so = OUTER[sm.main];
+    const li = INNER[lm.main];
+    const outer = {
+      label: '陽曆 · 對外的你', hint: '做事、工作、和外界打交道時的樣子', icon: <Sun size={15} />,
+      m: sm, s: ss, copy: so, extra: [so.strength, so.stuck], levelText: ss ? LEVEL_OUTER[ss.n] : '',
+    };
+    const inner = {
+      label: '陰曆 · 心裡的你', hint: '感受、想法、情緒，你心裡真正在要的', icon: <Moon size={15} />,
+      m: lm, s: ls, copy: li, extra: [li.hurt], levelText: ls ? LEVEL_INNER[ls.n] : '',
+    };
+    const mainLines = sm.main === lm.main
+      ? [`對外和心裡的主命數都是 ${sm.main}。${SAME_MAIN}`]
+      : [
+        `對外的你是 ${sm.main}（${so.name}），心裡的你是 ${lm.main}（${li.name}）。`,
+        `外面的你想${so.want}，心裡的你需要${li.need}。兩邊要的不一樣，所以你常常${so.act}，心裡卻${li.react}。`,
+      ];
+    const levelLines = [];
     if (ss && ls) {
-      soulLine = ss.n === ls.n
-        ? `生命功課等級兩邊都是 ${ss.n} 級，都在${ss.stage}這個階段的功課上。`
-        : `生命功課等級也不同：對外像個${ss.stage}，內在還是個${ls.stage}。`;
+      levelLines.push(`${LEVEL_INTRO}`);
+      levelLines.push(`你對外是 ${ss.n} 級（${ss.stage}），心裡是 ${ls.n} 級（${ls.stage}）。`
+        + (ss.n > ls.n ? LEVEL_GAP.outerHigher : ss.n < ls.n ? LEVEL_GAP.innerHigher : LEVEL_GAP.same));
     }
-
-    const closing = same && ss && ls && ss.n === ls.n
-      ? '兩軌一致不代表沒有課題，只代表你的拉扯不在這裡，而是在別的地方。'
-      : '這個落差不是你哪裡有問題。是你身上有兩股力量在往不同方向拉，你在做的很多決定，其實都是在這兩股之間妥協。';
-
-    return { mainLine, soulLine, closing };
+    return { outer, inner, mainLines, levelLines };
   }, [p]);
+
+  const stages = React.useMemo(() => {
+    if (!flowResult || !birthTime) return null;
+    const solar = lifeStages(flowResult.numbers.solarBirth, birthTime);
+    if (!solar) return null;
+    return { solar, lunar: flowResult.numbers.lunarBirth ? lifeStages(flowResult.numbers.lunarBirth, birthTime) : null };
+  }, [flowResult, birthTime]);
 
   return (
     <main className="bg-white text-[#1F1A2E]">
@@ -262,84 +296,69 @@ const NASCalculator = () => {
         </div>
       </section>
 
-      {/* 結果 */}
-      {state === 'done' && p && (
+      {/* 結果：先讓她看懂這組數字對自己的影響，計算方式不在這裡講。 */}
+      {state === 'done' && p && reading && (
         <motion.section
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           className="pb-14 px-6"
         >
-          <div className="max-w-2xl mx-auto">
-            <div className="grid sm:grid-cols-2 gap-4 mb-4">
-              {[
-                { icon: <Sun size={15} />, label: '陽曆 · 對外的展現',
-                  hint: '你習慣呈現出來的樣子', m: mainOf(p.solarMain), s: soulOf(p.solarSoul) },
-                { icon: <Moon size={15} />, label: '陰曆 · 內在的需求',
-                  hint: '你心裡真正在要的東西', m: mainOf(p.lunarMain), s: soulOf(p.lunarSoul) },
-              ].map((t) => (
+          <div className="max-w-3xl mx-auto">
+            <div className="mb-4 flex flex-wrap items-center gap-3 text-xs">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF3E0] px-3 py-1 font-semibold text-[#9A6B12]">
+                <span className="h-2 w-2 rounded-full bg-[#C9921E]" />後天數：生日數字相加的總數
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F1EAFB] px-3 py-1 font-semibold text-[#5B3A9E]">
+                <span className="h-2 w-2 rounded-full bg-[#5B3A9E]" />主命數：再收成個位數
+              </span>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4 mb-6">
+              {[reading.outer, reading.inner].map((t) => (
                 <div key={t.label} className="card-flat p-6 bg-[#F8F6FC]">
-                  <div className="flex items-center gap-2 text-[#918BA6] text-xs mb-1">
+                  <div className="flex items-center gap-2 text-[#6E6885] text-xs mb-1">
                     {t.icon} {t.label}
                   </div>
-                  <p className="text-xs text-[#918BA6] mb-5">{t.hint}</p>
-
-                  <p className="text-sm text-[#6E6885] mb-1">後天數 ／ 主命數</p>
-                  {/* 整條都顯示：後天數、以及 11／22 這類主數的中間層都不省略，
-                      化簡後的主命數用深色收尾，視覺上仍是主角。 */}
-                  <p className="text-3xl md:text-4xl font-bold tabular-nums leading-none mb-2">
-                    {t.m ? (
-                      <>
-                        {t.m.chain.slice(0, -1).map((n) => (
-                          <span key={n} className="text-[#918BA6]">{n}／</span>
-                        ))}
-                        <span>{t.m.main}</span>
-                      </>
-                    ) : '無'}
+                  <p className="text-xs text-[#918BA6] mb-4">{t.hint}</p>
+                  <p className="text-sm mb-1">
+                    <span className="font-semibold text-[#9A6B12]">後天數</span>
+                    <span className="text-[#918BA6]"> ／ </span>
+                    <span className="font-semibold text-[#5B3A9E]">主命數</span>
                   </p>
-                  {t.m && (
-                    <p className="text-xs text-[#918BA6] mb-6">
-                      生日數字相加是 {t.m.total}，再收到個位數就是 {t.m.main}
-                    </p>
-                  )}
-
-                  <p className="text-sm text-[#6E6885] mb-1">生命功課等級</p>
-                  {t.s ? (
-                    <>
-                      <p className="text-lg font-semibold mb-1">
-                        <span className="tabular-nums">{t.s.n}</span> 級 · {t.s.stage}
-                      </p>
-                      <p className="text-xs text-[#6E6885] leading-relaxed">{t.s.work}</p>
-                    </>
-                  ) : (
-                    <p className="text-lg">無</p>
-                  )}
-
-                  {t.m && MAIN_NUMBER_PROFILES[t.m.main] && (
-                    <dl className="mt-5 space-y-2 border-t border-[#E7E3F0] pt-4 text-sm leading-relaxed text-[#55506B]">
-                      <div><dt className="inline font-semibold text-[#1F1A2E]">主題：</dt><dd className="inline">{MAIN_NUMBER_PROFILES[t.m.main].theme}</dd></div>
-                      <div><dt className="inline font-semibold text-[#1F1A2E]">可運用：</dt><dd className="inline">{MAIN_NUMBER_PROFILES[t.m.main].strength}</dd></div>
-                      <div><dt className="inline font-semibold text-[#1F1A2E]">可觀察：</dt><dd className="inline">{MAIN_NUMBER_PROFILES[t.m.main].watch}</dd></div>
-                    </dl>
+                  <p className="text-4xl font-bold tabular-nums leading-none mb-2">
+                    <Chain chain={t.m.chain} />
+                  </p>
+                  <p className="text-xs text-[#6E6885] mb-5">
+                    生日數字相加是 <strong className="text-[#9A6B12]">{t.m.total}</strong>，再收到個位數是 <strong className="text-[#5B3A9E]">{t.m.main}</strong>
+                  </p>
+                  <p className="font-bold text-[#1F1A2E] mb-2">{t.m.main}｜{t.copy.name}</p>
+                  <p className="text-sm leading-relaxed text-[#463F5C] mb-2">{t.copy.daily}</p>
+                  {t.extra.map((line) => (
+                    <p key={line} className="text-sm leading-relaxed text-[#55506B] mb-2">{line}</p>
+                  ))}
+                  {t.s && (
+                    <div className="mt-4 border-t border-[#E7E3F0] pt-4">
+                      <p className="text-sm text-[#6E6885] mb-1">生命功課等級</p>
+                      <p className="text-lg font-semibold mb-1"><span className="tabular-nums">{t.s.n}</span> 級 · {t.s.stage}</p>
+                      <p className="text-sm leading-relaxed text-[#55506B]">{t.levelText}</p>
+                    </div>
                   )}
                 </div>
               ))}
             </div>
 
-            <p className="text-xs text-[#A8883F] font-semibold mb-6">
-              級數不是分數。七級不比一級好，只是功課不同。
-            </p>
-
-            {gap && (
-              <div className="p-6 rounded-2xl border-l-2 border-[#D4B86A] bg-[#FBF7EE]/60">
-                <h3 className="font-bold mb-4 text-[#1F1A2E]">你的兩軌，差在哪裡</h3>
-                {gap.mainLine && (
-                  <p className="text-[#55506B] leading-loose mb-3">{gap.mainLine}</p>
-                )}
-                {gap.soulLine && (
-                  <p className="text-[#55506B] leading-loose mb-3">{gap.soulLine}</p>
-                )}
-                <p className="text-[#55506B] leading-loose">{gap.closing}</p>
-              </div>
-            )}
+            <div className="p-6 md:p-8 rounded-2xl border-l-4 border-[#D4B86A] bg-[#FBF7EE]/70">
+              <h3 className="text-xl font-bold mb-4 text-[#1F1A2E]">你的兩軌，差在哪裡</h3>
+              {reading.mainLines.map((line) => (
+                <p key={line} className="text-[#463F5C] leading-loose mb-3">{line}</p>
+              ))}
+              {reading.levelLines.length > 0 && (
+                <div className="mt-5 pt-5 border-t border-[#EADFC4]">
+                  {reading.levelLines.map((line) => (
+                    <p key={line} className="text-[#463F5C] leading-loose mb-3">{line}</p>
+                  ))}
+                </div>
+              )}
+              <p className="mt-2 font-semibold text-[#1F1A2E] leading-loose">{GAP_CLOSING}</p>
+            </div>
 
             {result.lunar_birthday_text && (
               <p className="mt-5 text-xs text-[#918BA6]">
@@ -352,48 +371,118 @@ const NASCalculator = () => {
 
       {state === 'done' && flowResult && (
         <>
-          <section className="px-6 pb-16" aria-label="計算完整度">
-            <div className="mx-auto grid max-w-4xl gap-8 rounded-3xl border border-[#E7E3F0] p-6 md:grid-cols-[1fr_1.3fr] md:p-8">
-              <div>
-                <p className="text-sm font-semibold text-[#A8883F]">你現在看到的完整度</p>
-                <p className="mt-2 text-4xl font-bold text-[#5B3A9E]">{completenessLabel}</p>
-                <p className="mt-3 text-sm leading-loose text-[#6E6885]">{FLOW_COPY.completenessHint}</p>
+          <section className="px-6 pb-16" aria-label="計算完整度與人生五個階段">
+            <div className="mx-auto max-w-3xl rounded-3xl border border-[#E7E3F0] p-6 md:p-8">
+              <div className="grid gap-6 md:grid-cols-[1fr_1.2fr]">
+                <div>
+                  <p className="text-sm font-semibold text-[#A8883F]">你現在看到的完整度</p>
+                  <p className="mt-2 text-4xl font-bold text-[#5B3A9E]">{completenessLabel}</p>
+                  <p className="mt-3 text-sm leading-loose text-[#6E6885]">{FLOW_COPY.completenessHint}</p>
+                </div>
+                <label className="text-sm font-medium">
+                  出生時分（選填）
+                  <input type="time" value={birthTime} onChange={(e) => setBirthTime(e.target.value)} className="mt-2 block w-full rounded-xl border border-[#DAD4E8] px-4 py-3 outline-none focus:border-[#5B3A9E]" />
+                  <span className="mt-2 block font-normal leading-relaxed text-[#918BA6]">填入出生時分，下面就會出現你人生五個階段各自的數字。</span>
+                </label>
               </div>
-              <label className="text-sm font-medium">
-                出生時分（選填）
-                <input type="time" value={birthTime} onChange={(e) => setBirthTime(e.target.value)} className="mt-2 block w-full rounded-xl border border-[#DAD4E8] px-4 py-3 outline-none focus:border-[#5B3A9E]" />
-                <span className="mt-2 block font-normal leading-relaxed text-[#918BA6]">出生時間只用於完整度提示，不改變此頁顯示的主命數與流年、流月、流日。</span>
-              </label>
+              {stages ? (
+                <div className="mt-8 border-t border-[#E7E3F0] pt-6">
+                  <h2 className="text-xl font-bold mb-2">你人生的五個階段</h2>
+                  <p className="text-sm leading-loose text-[#6E6885] mb-5">
+                    人生像一棟五層樓：幼年與青少年是地基，青年是你的主命數，中年與老年是往上蓋的樓層。每一層都有自己的數字，也就是那一段人生最常面對的主題。
+                  </p>
+                  <div className="overflow-hidden rounded-2xl border border-[#E7E3F0]">
+                    <div className="grid grid-cols-[84px_1fr_1fr] bg-[#F7F5FC] text-xs text-[#6E6885]">
+                      <div className="px-4 py-3">階段</div>
+                      <div className="px-4 py-3">陽曆｜對外</div>
+                      <div className="px-4 py-3">陰曆｜心裡</div>
+                    </div>
+                    {STAGES.map((stage, index) => (
+                      <div key={stage.key} className={`grid grid-cols-[84px_1fr_1fr] text-sm ${index % 2 ? 'bg-white' : 'bg-[#F7F5FC]/40'}`}>
+                        <div className="px-4 py-4">
+                          <p className="font-bold text-[#1F1A2E]">{stage.name}</p>
+                          <p className="mt-1 text-xs leading-relaxed text-[#918BA6]">{stage.note}</p>
+                        </div>
+                        <div className="px-4 py-4">
+                          <p className="text-xl font-bold tabular-nums"><Chain chain={stages.solar[stage.key]} /></p>
+                          <p className="mt-1 text-xs leading-relaxed text-[#55506B]">{OUTER[stages.solar[stage.key].at(-1)]?.name}</p>
+                        </div>
+                        <div className="px-4 py-4">
+                          {stages.lunar ? (
+                            <>
+                              <p className="text-xl font-bold tabular-nums"><Chain chain={stages.lunar[stage.key]} /></p>
+                              <p className="mt-1 text-xs leading-relaxed text-[#55506B]">{INNER[stages.lunar[stage.key].at(-1)]?.name}</p>
+                            </>
+                          ) : <p className="text-[#918BA6]">無</p>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-4 text-xs leading-relaxed text-[#918BA6]">五層之間怎麼互相影響、哪一層正在主導你，是主課裡會一層一層帶你讀的內容。</p>
+                </div>
+              ) : (
+                <p className="mt-6 border-t border-[#E7E3F0] pt-5 text-sm leading-loose text-[#6E6885]">
+                  不知道出生時分也沒關係，上面的雙軌已經是最主要的部分。知道的話填進去，可以再多看到人生五個階段的數字。
+                </p>
+              )}
             </div>
           </section>
 
           <section className="px-6 pb-16" id="current-flow-month">
-            <div className="mx-auto max-w-4xl rounded-3xl border border-[#E7E3F0] bg-[#F7F5FC]/50 p-6 md:p-8">
-              <p className="text-sm font-semibold text-[#A8883F]">本次個人流月</p>
-              <h2 className="mt-2 text-2xl font-bold md:text-3xl">你現在走在流月 {flowResult.solarFlows.flowMonth.num}</h2>
-              <p className="mt-3 text-[#55506B]">這個階段到 {dateLabel(flowResult.monthWindow.end)}，{dateLabel(flowResult.monthWindow.nextChange)} 進入流月 {flowResult.nextFlowMonth}。</p>
-              <p className="mt-5 text-sm leading-loose text-[#6E6885]">流月逐日套用「當日 &gt;= 生日日取本月，否則取上個月」的公式，再依結果變化推導換期。生日 31 號時，1/31 到 2/28 取一月、3/1 到 3/30 取二月、3/31 到 4/30 取三月、5/1 到 5/30 取四月。</p>
-              <p className="mt-3 text-sm leading-relaxed text-[#6E6885]">你現在走在流年 {flowResult.solarFlows.flowYear.num}。</p>
-            </div>
-          </section>
+            <div className="mx-auto max-w-3xl rounded-3xl border border-[#E7E3F0] bg-[#F7F5FC]/50 p-6 md:p-8">
+              <p className="text-sm font-semibold text-[#A8883F]">你現在走到哪裡｜{flowResult.target}</p>
+              <h2 className="mt-2 text-2xl font-bold md:text-3xl">主命數是氣候，流年、流月、流日是天氣</h2>
+              <p className="mt-3 text-sm leading-loose text-[#6E6885]">氣候是你的底，一輩子不變；天氣是你的生日遇上今年、這個月、今天，每一段都不一樣。</p>
 
-          <section className="px-6 pb-16" aria-labelledby="today-reminder-title">
-            <div className="mx-auto max-w-4xl rounded-3xl border border-[#E7E3F0] p-6 md:p-8">
-              <p className="text-sm font-semibold text-[#A8883F]">今日提醒｜{flowResult.target}</p>
-              <h2 id="today-reminder-title" className="mt-2 text-2xl font-bold">今天的流日數字</h2>
-              <div className="mt-5 grid gap-4 md:grid-cols-2">
-                <div className="rounded-2xl bg-[#F7F5FC] p-5">
-                  <p className="text-xs text-[#918BA6]">陽曆流日</p>
-                  <p className="mt-1 text-3xl font-bold">{flowResult.solarFlows.flowDay.num}</p>
-                  {dailySolarRelation && <p className="mt-3 text-sm leading-relaxed text-[#55506B]">{DAILY_RELATION_COPY[dailySolarRelation]}</p>}
-                </div>
-                {flowResult.lunarFlows && (
-                  <div className="rounded-2xl bg-[#FBF7EE] p-5">
-                    <p className="text-xs text-[#918BA6]">陰曆流日</p>
-                    <p className="mt-1 text-3xl font-bold">{flowResult.lunarFlows.flowDay.num}</p>
-                    {dailyLunarRelation && <p className="mt-3 text-sm leading-relaxed text-[#55506B]">{DAILY_RELATION_COPY[dailyLunarRelation]}</p>}
+              <div className="mt-6 space-y-5">
+                <article className="rounded-2xl bg-white p-5 md:p-6">
+                  <p className="text-xs font-semibold text-[#A8883F]">今年｜流年</p>
+                  <div className="mt-2 flex flex-wrap gap-x-8 gap-y-2">
+                    <FlowNum label="陽曆" chain={flowChain(flowResult.solarFlows.flowYear.path)} />
+                    {flowResult.lunarFlows && <FlowNum label="陰曆" chain={flowChain(flowResult.lunarFlows.flowYear.path)} />}
                   </div>
-                )}
+                  <p className="mt-3 font-bold text-[#1F1A2E]">今年的關鍵字：{FLOW_YEAR[flowResult.solarFlows.flowYear.num].kw}</p>
+                  <p className="mt-2 text-sm leading-loose text-[#55506B]">{FLOW_YEAR[flowResult.solarFlows.flowYear.num].outer}</p>
+                  {flowResult.lunarFlows && (
+                    <p className="mt-2 text-sm leading-loose text-[#55506B]">{FLOW_YEAR[flowResult.lunarFlows.flowYear.num].inner}</p>
+                  )}
+                </article>
+
+                <article className="rounded-2xl bg-white p-5 md:p-6">
+                  <p className="text-xs font-semibold text-[#A8883F]">這個月｜流月</p>
+                  <div className="mt-2 flex flex-wrap gap-x-8 gap-y-2">
+                    <FlowNum label="陽曆" chain={flowChain(flowResult.solarFlows.flowMonth.path)} />
+                    {flowResult.lunarFlows && <FlowNum label="陰曆" chain={flowChain(flowResult.lunarFlows.flowMonth.path)} />}
+                  </div>
+                  <p className="mt-3 font-bold text-[#1F1A2E]">這個月的主題：{FLOW_MONTH[flowResult.solarFlows.flowMonth.num].label}</p>
+                  <p className="mt-2 text-sm leading-loose text-[#55506B]">做事上，這個月適合：{FLOW_MONTH[flowResult.solarFlows.flowMonth.num].outer}</p>
+                  {flowResult.lunarFlows && (
+                    <p className="mt-1 text-sm leading-loose text-[#55506B]">心裡，這個月適合：{FLOW_MONTH[flowResult.lunarFlows.flowMonth.num].inner}</p>
+                  )}
+                  <p className="mt-3 text-sm leading-relaxed text-[#6E6885]">
+                    陽曆這一段從 {dateLabel(flowResult.monthWindow.start)} 到 {dateLabel(flowResult.monthWindow.end)}。{dateLabel(flowResult.monthWindow.nextChange)} 起換成 <span className="font-semibold tabular-nums"><Chain chain={flowChain(flowResult.nextFlowMonth.path)} /></span>，主題是「{FLOW_MONTH[flowResult.nextFlowMonth.num].label}」。
+                  </p>
+                </article>
+
+                <article className="rounded-2xl bg-white p-5 md:p-6" aria-labelledby="today-reminder-title">
+                  <p className="text-xs font-semibold text-[#A8883F]">今天｜流日</p>
+                  <h3 id="today-reminder-title" className="sr-only">今天的流日</h3>
+                  <div className="mt-3 grid gap-4 md:grid-cols-2">
+                    <div className="rounded-xl bg-[#F7F5FC] p-4">
+                      <FlowNum label="陽曆｜對外" chain={flowChain(flowResult.solarFlows.flowDay.path)} />
+                      <p className="mt-2 text-sm font-semibold text-[#1F1A2E]">今天做事的主題：{MAIN_NUMBER_PROFILES[flowResult.solarFlows.flowDay.num]?.theme}</p>
+                      {dailySolarRelation && <p className="mt-1 text-sm leading-relaxed text-[#55506B]">{DAILY_RELATION_COPY[dailySolarRelation]}</p>}
+                    </div>
+                    {flowResult.lunarFlows && (
+                      <div className="rounded-xl bg-[#FBF7EE] p-4">
+                        <FlowNum label="陰曆｜心裡" chain={flowChain(flowResult.lunarFlows.flowDay.path)} />
+                        <p className="mt-2 text-sm font-semibold text-[#1F1A2E]">今天心裡的主題：{MAIN_NUMBER_PROFILES[flowResult.lunarFlows.flowDay.num]?.theme}</p>
+                        {dailyLunarRelation && <p className="mt-1 text-sm leading-relaxed text-[#55506B]">{DAILY_RELATION_COPY[dailyLunarRelation]}</p>}
+                      </div>
+                    )}
+                  </div>
+                  <p className="mt-3 text-xs leading-relaxed text-[#918BA6]">今天的提醒，是你的主命數和今天的流日放在一起看出來的。</p>
+                </article>
               </div>
             </div>
           </section>
