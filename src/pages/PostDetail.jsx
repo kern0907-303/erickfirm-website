@@ -148,6 +148,8 @@ const PostDetail = () => {
       service: post.service || service || 'personal-growth',
       publishDate: post.publishDate || '',
       slug: post.slug || slug || '',
+      // 冷或溫，決定頁尾 CTA 帶去計算器還是要 email 的小測。沒有值就用通用 CTA。
+      funnel: post.funnel === 'cold' || post.funnel === 'warm' ? post.funnel : null,
     };
   }, [post, service, slug]);
 
@@ -160,7 +162,7 @@ const PostDetail = () => {
   // 取得當前分類對應的 CTA 引流卡片配置
   const ctaConfig = useMemo(() => {
     const s = normalizedPost?.service || 'personal-growth';
-    return getCategoryCtaConfig(s, normalizedPost?.slug, { calculated });
+    return getCategoryCtaConfig(s, normalizedPost?.slug, { calculated, funnel: normalizedPost?.funnel || null });
   }, [normalizedPost, calculated]);
 
   // 計算「你可能也會想看」的 3 篇文章

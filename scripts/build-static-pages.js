@@ -173,7 +173,7 @@ for (const post of posts) {
 
   const body = `<article><h1>${esc(post.title)}</h1>${bodyHtml || `<p>${esc(description)}</p>`}${faqHtml}</article>`;
   const cta = post.service === 'life-number'
-    ? renderNasArticleCta(getCategoryCtaConfig(post.service, post.slug))
+    ? renderNasArticleCta(getCategoryCtaConfig(post.service, post.slug, { funnel: post.funnel || null }))
     : '';
   writePage(dist, route, renderPage(shell, { title, description, url, type: 'article', image, jsonld, body: body.replace('</article>', `${cta}</article>`) }));
 }

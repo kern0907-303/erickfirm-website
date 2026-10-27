@@ -47,13 +47,43 @@ export const NAS_NEXT_AFTER_CALCULATOR = {
   btn2Url: lineMessageUrl('168'),
 };
 
-export function getCategoryCtaConfig(service, slug = '', { calculated = false } = {}) {
+// 溫流量：讀者看過幾篇、已經有基本信任，這時候換名單才合理。
+// 冷流量（破圈，讀者不認識作者）不要一上來就要 email，先讓他免費算到東西。
+export const NAS_WARM_CTA = {
+  title: '要不要看完整版的你？',
+  desc: '計算器給的是雙軌結構，小測再往下一層：天賦、盲點，還有你現在走到的生命階段。留一個 email 就把完整解析寄給你。',
+  btn1Text: '做生命數字小測',
+  btn1Url: '/nas/quiz',
+  btn2Text: '加 LINE 輸入【168】',
+  btn2Url: lineMessageUrl('168'),
+};
+
+/**
+ * @param {string} service 文章分類
+ * @param {string} slug 文章代稱，用來做來源標記
+ * @param {{ calculated?: boolean, funnel?: 'cold'|'warm'|null }} options
+ *   calculated 讀者是否已經在計算器算過（瀏覽器記得生日）
+ *   funnel 這篇是冷流量還是溫流量，由儀表板依海巡標記寫進資料庫
+ *
+ * 優先順序：行為 > 文章標記。
+ * 已經算過的人不管文章是冷是暖，都往下一步（2027 年度導航）走，不再繞回計算器。
+ * 沒算過而且文章標為溫流量，才導去要 email 的小測。
+ * 其餘（冷流量或沒有標記）一律導免費計算器，零摩擦。
+ */
+export function getCategoryCtaConfig(service, slug = '', { calculated = false, funnel = null } = {}) {
   const config = CATEGORY_CTA_CONFIG[service] || CATEGORY_CTA_CONFIG['personal-growth'];
   if (service !== 'life-number') return config;
-  const source = slug ? new URLSearchParams({ source: `nas-article-${slug}` }).toString() : '';
+  // 來源標記帶上冷暖，後台才分得出造訪是哪一種流量帶來的
+  const params = new URLSearchParams();
+  if (slug) params.set('source', `nas-article-${slug}`);
+  if (funnel === 'cold' || funnel === 'warm') params.set('funnel', funnel);
+  const query = params.toString();
   if (calculated) {
-    return { ...NAS_NEXT_AFTER_CALCULATOR, btn1Url: source ? `/nas/2027?${source}` : '/nas/2027' };
+    return { ...NAS_NEXT_AFTER_CALCULATOR, btn1Url: query ? `/nas/2027?${query}` : '/nas/2027' };
   }
-  if (!slug) return config;
-  return { ...config, btn1Url: `/nas/calculator/?${source}` };
+  if (funnel === 'warm') {
+    return { ...NAS_WARM_CTA, btn1Url: query ? `/nas/quiz?${query}` : '/nas/quiz' };
+  }
+  if (!query) return config;
+  return { ...config, btn1Url: `/nas/calculator/?${query}` };
 }
