@@ -1,3 +1,4 @@
+/* global fbq */
 (function () {
   'use strict';
   var PIXEL_ID = '2190696845179895';
@@ -60,6 +61,20 @@
     if (pct >= 90) fireOnce('Scroll90');
   }
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  // 給頁面元件呼叫的關鍵事件（例如計算器看完結果）。同一頁只送一次。
+  // 不在正式網域或設了 notrack 時，這個函式不存在，頁面呼叫 window.efTrack?.() 會自動略過。
+  window.efTrack = function (name, params) {
+    if (typeof name !== 'string' || !/^[A-Za-z][A-Za-z0-9_]{0,39}$/.test(name)) return;
+    var key = 'ef:' + name;
+    if (state.fired[key]) return;
+    state.fired[key] = true;
+    var data = { path: state.path };
+    if (params && typeof params === 'object') {
+      for (var k in params) if (Object.prototype.hasOwnProperty.call(params, k)) data[k] = params[k];
+    }
+    fbq('trackCustom', name, data);
+  };
 
   function routeChanged() {
     if (normPath() !== state.path) pageStart();

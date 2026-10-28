@@ -165,6 +165,8 @@ const NASCalculator = () => {
       });
       setFlowResult({ target, numbers, solarFlows, lunarFlows, monthWindow, nextFlowMonth });
       setState('done');
+      // 廣告追蹤：看到計算結果（冷流量的關鍵事件）。不傳生日或任何個人資料。
+      try { window.efTrack?.('CalculatorResult', { brand: 'nas', has_lunar: Boolean(lunarBirth) }); } catch { /* 追蹤失敗不影響計算 */ }
     } catch (err) {
       setErrMsg(err.message || '出了點狀況，稍後再試一次');
       setState('error');
