@@ -29,7 +29,7 @@ const FEATURES = [
   { name: '今天的流日', free: true, paid: true },
   { name: '前一天晚上，LINE 傳來明天的提醒', free: false, paid: true },
   { name: '隨時在 LINE 問今天、這個月或今年的狀態', free: false, paid: true },
-  { name: '2027 年度導航報告（約 12 頁 PDF）', free: false, paid: true },
+  { name: '2027 年度導航報告（約 13 頁 PDF）', free: false, paid: true },
 ];
 
 const NASDashboard = () => {
