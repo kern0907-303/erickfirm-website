@@ -10,7 +10,7 @@ import { LEGAL_TAX_ID } from '../content/ablLegal';
 import { NAS_LEGAL_EMAIL } from '../content/nasLegal';
 import {
   NAS2027_CHECKOUT_URL, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, HERO_BY_TYPE, STRUGGLE, TURN, SOLUTION,
-  DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, BUY_STEPS, ABOUT, FAQS, ENDING,
+  DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, FAMILY_NOTE, BUY_STEPS, ABOUT, FAQS, ENDING,
   DISCLAIMER, LEGAL_SELLER_LINE_NAS,
 } from '../content/nas2027Content';
 
@@ -206,6 +206,10 @@ const Nas2027Page = () => {
               </div>
             </article>
           ))}
+        </div>
+        <div className="mb-14 rounded-2xl border border-[#E7DFC8] bg-[#FBF7EE] p-6">
+          <p className="font-bold text-[#1F1A2E]">{FAMILY_NOTE.title}</p>
+          <p className="mt-2 text-sm leading-relaxed text-[#55506B]">{FAMILY_NOTE.body}</p>
         </div>
         <h3 className="text-xl font-bold mb-6">怎麼買，四步就完成</h3>
         <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
