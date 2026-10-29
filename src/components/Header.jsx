@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { LINE_CONFIG } from '../lib/constants';
+import { lineAddUrlFor } from '../lib/constants';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { pathname } = useLocation();
-  const showLineCta = pathname.replace(/\/+$/, '') !== '/abl';
+  // /abl 與 /nas/2027 首屏不放加 LINE（2027 頁只在結尾出現一次）
+  const showLineCta = !['/abl', '/nas/2027'].includes(pathname.replace(/\/+$/, ''));
+  const lineUrl = lineAddUrlFor(pathname);
   const navigate = useNavigate();
 
   const handleNav = (path) => {
@@ -34,7 +36,7 @@ const Header = () => {
           <Link to="/about" className="text-sm font-bold text-slate-700 hover:text-slate-950 transition-colors">關於艾瑞克</Link>
           {showLineCta && (
             <a
-              href={LINE_CONFIG.LINE_ADD_URL}
+              href={lineUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-2 bg-slate-900 text-white text-sm font-bold hover:bg-slate-700 transition-colors"
@@ -58,7 +60,7 @@ const Header = () => {
           <button onClick={() => handleNav('/about')} className="text-left font-bold text-slate-700 hover:text-slate-900">關於艾瑞克</button>
           {showLineCta && (
             <a
-              href={LINE_CONFIG.LINE_ADD_URL}
+              href={lineUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsMenuOpen(false)}

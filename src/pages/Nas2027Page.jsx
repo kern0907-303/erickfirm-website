@@ -257,7 +257,7 @@ const Nas2027Page = () => {
           <a href="#plan" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition">
             {ENDING.action}<ArrowRight size={16} />
           </a>
-          <a href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-[#D4B86A] text-[#A8883F] hover:border-[#A8883F] hover:bg-[#FBF7EE] transition">
+          <a href={LINE_CONFIG.NAS_LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-[#D4B86A] text-[#A8883F] hover:border-[#A8883F] hover:bg-[#FBF7EE] transition">
             還有問題，先加官方 LINE 問我們
           </a>
         </div>

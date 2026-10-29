@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { LINE_CONFIG } from '../lib/constants';
+import { Link, useLocation } from 'react-router-dom';
+import { lineAddUrlFor } from '../lib/constants';
 
 const Footer = () => {
+  const { pathname } = useLocation();
   return (
     <footer className="bg-slate-900 pt-16 pb-20 md:pb-10">
       <div className="container mx-auto px-6 max-w-7xl">
@@ -16,7 +17,7 @@ const Footer = () => {
             <Link to="/i8" className="!text-slate-300 hover:!text-white transition-colors">初八企業顧問</Link>
             <Link to="/nas" className="!text-slate-300 hover:!text-white transition-colors">平衡空間</Link>
             <Link to="/abl" className="!text-slate-300 hover:!text-white transition-colors">艾伯林量子調頻</Link>
-            <a href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className="mt-3 !text-slate-300 hover:!text-white transition-colors">官方 LINE</a>
+            <a href={lineAddUrlFor(pathname)} target="_blank" rel="noopener noreferrer" className="mt-3 !text-slate-300 hover:!text-white transition-colors">官方 LINE</a>
           </div>
         </div>
         

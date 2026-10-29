@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { LINE_CONFIG } from '../lib/constants';
+import { lineAddUrlFor } from '../lib/constants';
 
 const MobileStickyBar = () => {
   const { pathname } = useLocation();
@@ -21,7 +21,7 @@ const MobileStickyBar = () => {
   }, []);
 
   const normalizedPath = pathname.replace(/\/+$/, '');
-  if (normalizedPath === '/about' || normalizedPath === '/three' || normalizedPath === '/abl' || normalizedPath === '/nas/quiz' || normalizedPath === '/nas/calculator') return null;
+  if (normalizedPath === '/about' || normalizedPath === '/three' || normalizedPath === '/abl' || normalizedPath === '/nas/quiz' || normalizedPath === '/nas/calculator' || normalizedPath === '/nas/2027') return null;
 
   return (
     <div
@@ -33,7 +33,7 @@ const MobileStickyBar = () => {
     >
       <div className="flex items-center h-11">
         <a
-          href={LINE_CONFIG.LINE_ADD_URL}
+          href={lineAddUrlFor(pathname)}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full h-full bg-slate-900 text-white font-bold text-xs sm:text-sm flex items-center justify-center active:scale-[0.98] transition-transform cursor-pointer font-sans"
