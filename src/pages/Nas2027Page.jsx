@@ -16,7 +16,7 @@ import {
 
 // 2026-10-26：改用平衡空間其他頁面同一套視覺（白底、紫金點綴、NAS 品牌標記），不再沿用艾伯林的銷售頁版型。
 // 自動產生與交付上線前維持 noindex，結帳按鈕在後台開放商品前顯示「即將開放」。
-const INDEXABLE = false;
+const INDEXABLE = true;
 
 const PART_ICONS = [MapIcon, CloudSun];
 const LIGHT_TONE = {

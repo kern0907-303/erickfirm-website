@@ -585,8 +585,8 @@ const SALES_PAGES = [
     title: N2027.NAS2027_TITLE,
     description: N2027.NAS2027_DESCRIPTION,
     body: nas2027Body(),
-    // 自動產生與交付上線前維持 noindex；上線時改為 false，並把 /nas/2027 加進 build-sitemap.js。
-    noindex: true,
+    // 2026-10-29 開放收錄，並已加進 build-sitemap.js。
+    noindex: false,
   },
   {
     route: '/abl/space',
