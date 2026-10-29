@@ -76,8 +76,8 @@ const NASQuiz = () => {
   return (
     <main className="bg-white text-[#1F1A2E] min-h-screen">
       <SEOHead
-        title="卡點五型自我檢查｜8 題，看見你一直卡住的結構"
-        description="卡住不是不夠努力，是原本的認知不夠用了。8 題自我檢查，看看你目前比較接近落差、斷線、過載、空缺、錯位哪一型。艾瑞克，二十年生命數字教學。"
+        title="卡點五型自我檢查｜8 題，看清楚你的生活卡在哪一種狀態"
+        description="生活一直卡住，不是因為不夠努力。8 題自我檢查，看清楚你現在卡在哪一種狀態。艾瑞克，二十年生命數字教學。"
       />
 
       <section className="pt-32 pb-20 px-6">
@@ -87,19 +87,11 @@ const NASQuiz = () => {
           {step === -1 && (
             <div>
               <HeroTextReveal
-                title="你一直卡住的，可能是這五種結構之一"
-                subtitle="8 題，大約 2 分鐘。卡住不是因為你不夠努力，是原本的認知已經不夠用了。先看見自己卡在哪一種結構，力氣才知道該往哪裡放。"
+                title="生活一直卡住，可能是這五種狀態之一"
+                subtitle="8 題，大約 2 分鐘。卡住不是因為你不夠努力，是原本的方法已經不夠用了。先看清楚自己卡在哪一種狀態，力氣才知道該往哪裡放。"
                 titleClassName="text-2xl md:text-4xl font-bold leading-snug mb-5"
-                subtitleClassName="text-[#55506B] leading-loose mb-9"
+                subtitleClassName="text-[#55506B] leading-loose mb-10"
               />
-              <div className="mb-10 grid gap-2">
-                {Object.entries(QUIZ_TYPES).map(([code, type]) => (
-                  <div key={code} className="grid gap-1 rounded-2xl bg-[#F8F6FC] px-5 py-3 sm:grid-cols-[6rem_1fr] sm:items-center">
-                    <p className="font-bold text-[#8B3FA8]">{type.name}</p>
-                    <p className="text-sm text-[#55506B]">{type.tagline}</p>
-                  </div>
-                ))}
-              </div>
               <button
                 type="button"
                 onClick={() => { setStep(0); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
@@ -107,7 +99,7 @@ const NASQuiz = () => {
               >
                 開始檢查 <ArrowRight size={18} />
               </button>
-              <p className="mt-4 text-xs leading-relaxed text-[#918BA6]">作答不用登入，選完就先看到結果。</p>
+              <p className="mt-4 text-xs leading-relaxed text-[#918BA6]">作答不用登入，選完馬上看到你的結果。</p>
             </div>
           )}
 
@@ -155,7 +147,7 @@ const NASQuiz = () => {
             <div>
               <p className="mb-3 text-xs tracking-[0.2em] text-[#A8883F]">你的檢查結果</p>
               <HeroTextReveal
-                title={`你目前比較接近${QUIZ_TYPES[resultType].name}`}
+                title={`你現在的卡點狀態：${QUIZ_TYPES[resultType].name}`}
                 subtitle={QUIZ_TYPES[resultType].tagline}
                 titleClassName="text-2xl md:text-4xl font-bold leading-snug mb-3 text-[#472D7D]"
                 subtitleClassName="text-[#A8883F] font-semibold mb-8"
@@ -163,19 +155,19 @@ const NASQuiz = () => {
               <p className="mb-10 leading-loose text-[#3A3450]">{QUIZ_SHORT_RESULTS[resultType]}</p>
 
               <div className="rounded-[28px] bg-[#F8F6FC] p-7 md:p-9">
-                <h2 className="mb-3 text-xl font-bold">完整解析還在後面</h2>
+                <h2 className="mb-3 text-xl font-bold">{QUIZ_TYPES[resultType].name}詳細解析</h2>
                 <p className="mb-6 leading-loose text-[#55506B]">
-                  這一型在生活裡最容易怎麼重演，對外和心裡怎麼拉扯，看見的時候可以先做哪一件事。用 LINE 登入就能看完整解析，結果也會幫你保存下來。
+                  接著看{QUIZ_TYPES[resultType].name}在你生活裡最容易怎麼重演、為什麼會一直重來，以及看見的時候可以先做哪一件事。免費，用 LINE 登入就能看，結果也會幫你保存下來。
                 </p>
                 <a
                   href={unlockHref(answers)}
                   onClick={() => track('QuizUnlockClick', { brand: 'nas', quiz_type: resultType })}
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#06C755] px-8 py-4 font-semibold text-white shadow-sm transition hover:brightness-95 hover:shadow-lg sm:w-auto"
                 >
-                  用 LINE 登入，看完整解析 <ArrowRight size={18} />
+                  LINE 登入，看詳細解析 <ArrowRight size={18} />
                 </a>
                 <p className="mt-4 text-xs leading-relaxed text-[#918BA6]">
-                  只會取得你的 LINE 顯示名稱與識別碼，不會用你的帳號發文。這是自我檢查，提示你目前比較接近的方向，不是正式的判型。
+                  不收費，只會取得你的 LINE 顯示名稱與識別碼，不會用你的帳號發文。
                 </p>
               </div>
 
