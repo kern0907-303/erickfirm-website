@@ -9,7 +9,7 @@ import NASMark from '../components/NASMark';
 import { LEGAL_TAX_ID } from '../content/ablLegal';
 import { NAS_LEGAL_EMAIL } from '../content/nasLegal';
 import {
-  NAS2027_CHECKOUT_URL, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, STRUGGLE, TURN, SOLUTION,
+  NAS2027_CHECKOUT_URL, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, HERO_BY_TYPE, STRUGGLE, TURN, SOLUTION,
   DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, BUY_STEPS, ABOUT, FAQS, ENDING,
   DISCLAIMER, LEGAL_SELLER_LINE_NAS,
 } from '../content/nas2027Content';
@@ -33,7 +33,28 @@ const Quote = ({ parts }) => (
   </>
 );
 
-const Nas2027Page = () => (
+const QUIZ_TYPE_PATTERN = /^[LDOKM]$/;
+
+// 做過卡點檢查的人：網址的 quiz_type 優先，其次是瀏覽器記得的類型。掛載後才讀，預渲染的 HTML 維持通用版。
+function useQuizType() {
+  const [type, setType] = React.useState(null);
+  React.useEffect(() => {
+    let value = '';
+    try { value = (new URLSearchParams(window.location.search).get('quiz_type') || '').toUpperCase(); } catch { value = ''; }
+    if (QUIZ_TYPE_PATTERN.test(value)) {
+      try { localStorage.setItem('nas.quizType', value); } catch { /* 存不了就算了 */ }
+    } else {
+      try { value = localStorage.getItem('nas.quizType') || ''; } catch { value = ''; }
+    }
+    if (QUIZ_TYPE_PATTERN.test(value)) setType(value);
+  }, []);
+  return type;
+}
+
+const Nas2027Page = () => {
+  const quizType = useQuizType();
+  const hero = (quizType && HERO_BY_TYPE[quizType]) || HERO;
+  return (
   <main className="bg-white text-[#1F1A2E]">
     <SEOHead title={NAS2027_TITLE} description={NAS2027_DESCRIPTION} exactTitle noindex={!INDEXABLE} />
 
@@ -42,8 +63,9 @@ const Nas2027Page = () => (
       <div className="max-w-4xl mx-auto">
         <NASMark label="2027 年度導航" />
         <HeroTextReveal
-          title={HERO.title}
-          subtitle={HERO.subtitle}
+          key={quizType || 'default'}
+          title={hero.title}
+          subtitle={hero.subtitle}
           titleClassName="text-3xl md:text-[2.6rem] font-bold leading-snug mb-8"
           subtitleClassName="text-base md:text-lg text-[#55506B] leading-loose mb-10 max-w-3xl"
         />
@@ -249,6 +271,7 @@ const Nas2027Page = () => (
       </div>
     </footer>
   </main>
-);
+  );
+};
 
 export default Nas2027Page;

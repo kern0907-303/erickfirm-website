@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sun, Moon } from 'lucide-react';
+import { ArrowRight, Sun, Moon, Lock } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import HeroTextReveal from '../components/HeroTextReveal';
 import NASMark from '../components/NASMark';
@@ -23,6 +23,20 @@ import {
 } from '../content/nasLifeNumberCopy';
 
 const API_URL = '/api/ai_reading';
+// 流月要用平衡空間 LINE 登入才看得到：先把生日換成一張短期票（網址只帶票號），再到 pay.erickfirm.com 登入。
+const FLOW_TICKET_URL = 'https://pay.erickfirm.com/api/nas/flow-ticket';
+const FLOW_UNLOCK_KEY = 'nas.flowUnlocked';
+
+function readFlowUnlocked() {
+  try { return localStorage.getItem(FLOW_UNLOCK_KEY) === '1'; } catch { return false; }
+}
+
+function trackSource() {
+  try {
+    const value = new URLSearchParams(window.location.search).get('source') || '';
+    return /^[\w-]{1,60}$/.test(value) ? value : '';
+  } catch { return ''; }
+}
 
 function taipeiDate() {
   const parts = new Intl.DateTimeFormat('en-CA', {
@@ -107,6 +121,9 @@ const NASCalculator = () => {
   const [result, setResult] = useState(null);
   const [flowResult, setFlowResult] = useState(null);
   const [errMsg, setErrMsg] = useState('');
+  const [flowUnlocked, setFlowUnlocked] = useState(false);
+  const [unlockState, setUnlockState] = useState('idle'); // idle | loading | error
+  const autoRan = React.useRef(false);
 
   React.useEffect(() => {
     let el = document.querySelector('#nas-calc-jsonld');
@@ -121,8 +138,12 @@ const NASCalculator = () => {
   }, []);
 
   const run = async (e) => {
-    e.preventDefault();
-    if (!birthdate.trim()) return;
+    e?.preventDefault?.();
+    await calculate(birthdate, lunarOverride);
+  };
+
+  const calculate = async (birthInput, lunarInput) => {
+    if (!String(birthInput || '').trim()) return;
     setState('loading');
     setErrMsg('');
     try {
@@ -131,15 +152,15 @@ const NASCalculator = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'report',
-          birthdate: birthdate.trim(),
-          lunarBirthdate: lunarOverride.trim(),
+          birthdate: birthInput.trim(),
+          lunarBirthdate: lunarInput.trim(),
         }),
       });
       if (!res.ok) throw new Error('連線失敗');
       const json = await res.json();
       if (!json.ok) throw new Error(json.error || '生日格式看起來不對，請用西元年月日');
-      const solarBirth = birthdate.trim();
-      const lunarBirth = lunarOverride.trim();
+      const solarBirth = birthInput.trim();
+      const lunarBirth = lunarInput.trim();
       const target = taipeiDate();
       const numbers = calculateBirthNumbers(solarBirth, lunarBirth);
       const solarFlows = calculateFlows(solarBirth, target);
@@ -170,6 +191,56 @@ const NASCalculator = () => {
     } catch (err) {
       setErrMsg(err.message || '出了點狀況，稍後再試一次');
       setState('error');
+    }
+  };
+
+  // 從 LINE 登入頁回來（?flow=1）：記住已解鎖，並用這台瀏覽器記得的生日直接算好，不用再輸入一次。
+  React.useEffect(() => {
+    let unlocked = readFlowUnlocked();
+    let fromLine = false;
+    try { fromLine = new URLSearchParams(window.location.search).get('flow') === '1'; } catch { fromLine = false; }
+    if (fromLine) {
+      unlocked = true;
+      try { localStorage.setItem(FLOW_UNLOCK_KEY, '1'); } catch { /* 存不了就只在這次顯示 */ }
+    }
+    setFlowUnlocked(unlocked);
+    if (!fromLine || autoRan.current) return;
+    autoRan.current = true;
+    let savedBirth = '';
+    let savedLunar = '';
+    try {
+      savedBirth = localStorage.getItem('nas.birthdate') || '';
+      savedLunar = localStorage.getItem('nas.lunar') || '';
+    } catch { /* 讀不到就讓使用者自己輸入 */ }
+    if (savedBirth) {
+      setBirthdate(savedBirth);
+      setLunarOverride(savedLunar);
+      calculate(savedBirth, savedLunar).then(() => {
+        window.setTimeout(() => document.getElementById('current-flow-month')?.scrollIntoView({ behavior: 'smooth' }), 300);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const unlockFlow = async () => {
+    if (!flowResult) return;
+    setUnlockState('loading');
+    try { window.efTrack?.('FlowUnlockClick', { brand: 'nas' }); } catch { /* 追蹤失敗不影響 */ }
+    try {
+      const res = await fetch(FLOW_TICKET_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          birthdate: birthdate.trim(),
+          lunar_birthdate: /^\d{4}-\d{2}-\d{2}$/.test(lunarOverride.trim()) ? lunarOverride.trim() : '',
+          source: trackSource(),
+        }),
+      });
+      const json = await res.json().catch(() => null);
+      if (!res.ok || !json?.unlock_url?.startsWith('https://pay.erickfirm.com/')) throw new Error('ticket');
+      window.location.href = json.unlock_url;
+    } catch {
+      setUnlockState('error');
     }
   };
 
@@ -450,21 +521,46 @@ const NASCalculator = () => {
                   )}
                 </article>
 
-                <article className="rounded-2xl bg-white p-5 md:p-6">
-                  <p className="text-xs font-semibold text-[#A8883F]">這個月｜流月</p>
-                  <div className="mt-2 flex flex-wrap gap-x-8 gap-y-2">
-                    <FlowNum label="陽曆" chain={flowChain(flowResult.solarFlows.flowMonth.path)} />
-                    {flowResult.lunarFlows && <FlowNum label="陰曆" chain={flowChain(flowResult.lunarFlows.flowMonth.path)} />}
-                  </div>
-                  <p className="mt-3 font-bold text-[#1F1A2E]">這個月的主題：{FLOW_MONTH[flowResult.solarFlows.flowMonth.num].label}</p>
-                  <p className="mt-2 text-sm leading-loose text-[#55506B]">做事上，這個月適合：{FLOW_MONTH[flowResult.solarFlows.flowMonth.num].outer}</p>
-                  {flowResult.lunarFlows && (
-                    <p className="mt-1 text-sm leading-loose text-[#55506B]">心裡，這個月適合：{FLOW_MONTH[flowResult.lunarFlows.flowMonth.num].inner}</p>
-                  )}
-                  <p className="mt-3 text-sm leading-relaxed text-[#6E6885]">
-                    陽曆這一段從 {dateLabel(flowResult.monthWindow.start)} 到 {dateLabel(flowResult.monthWindow.end)}。{dateLabel(flowResult.monthWindow.nextChange)} 起換成 <span className="font-semibold tabular-nums"><Chain chain={flowChain(flowResult.nextFlowMonth.path)} /></span>，主題是「{FLOW_MONTH[flowResult.nextFlowMonth.num].label}」。
-                  </p>
-                </article>
+                {flowUnlocked ? (
+                  <article className="rounded-2xl bg-white p-5 md:p-6">
+                    <p className="text-xs font-semibold text-[#A8883F]">這個月｜流月</p>
+                    <div className="mt-2 flex flex-wrap gap-x-8 gap-y-2">
+                      <FlowNum label="陽曆" chain={flowChain(flowResult.solarFlows.flowMonth.path)} />
+                      {flowResult.lunarFlows && <FlowNum label="陰曆" chain={flowChain(flowResult.lunarFlows.flowMonth.path)} />}
+                    </div>
+                    <p className="mt-3 font-bold text-[#1F1A2E]">這個月的主題：{FLOW_MONTH[flowResult.solarFlows.flowMonth.num].label}</p>
+                    <p className="mt-2 text-sm leading-loose text-[#55506B]">做事上，這個月適合：{FLOW_MONTH[flowResult.solarFlows.flowMonth.num].outer}</p>
+                    {flowResult.lunarFlows && (
+                      <p className="mt-1 text-sm leading-loose text-[#55506B]">心裡，這個月適合：{FLOW_MONTH[flowResult.lunarFlows.flowMonth.num].inner}</p>
+                    )}
+                    <p className="mt-3 text-sm leading-relaxed text-[#6E6885]">
+                      陽曆這一段從 {dateLabel(flowResult.monthWindow.start)} 到 {dateLabel(flowResult.monthWindow.end)}。{dateLabel(flowResult.monthWindow.nextChange)} 起換成 <span className="font-semibold tabular-nums"><Chain chain={flowChain(flowResult.nextFlowMonth.path)} /></span>，主題是「{FLOW_MONTH[flowResult.nextFlowMonth.num].label}」。
+                    </p>
+                  </article>
+                ) : (
+                  <article className="rounded-2xl bg-white p-5 md:p-6">
+                    <p className="text-xs font-semibold text-[#A8883F]">這個月｜流月</p>
+                    <div className="mt-3 flex items-center gap-3 text-[#5B3A9E]">
+                      <Lock size={20} />
+                      <p className="font-bold text-[#1F1A2E]">這個月的主題，用 LINE 登入免費看</p>
+                    </div>
+                    <p className="mt-3 text-sm leading-loose text-[#55506B]">
+                      流月在你的生日那一天換，不是每個月一號。登入後會記住你的生日，之後每個月打開平衡空間 LINE，點「本月流月」就能看，不限次數，也不用再輸入。
+                    </p>
+                    <button
+                      type="button"
+                      onClick={unlockFlow}
+                      disabled={unlockState === 'loading'}
+                      className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#06C755] px-7 py-4 font-semibold text-white shadow-sm transition hover:brightness-95 disabled:opacity-60 sm:w-auto"
+                    >
+                      {unlockState === 'loading' ? '準備中⋯' : 'LINE 登入，看這個月的流月'} <ArrowRight size={16} />
+                    </button>
+                    {unlockState === 'error' && (
+                      <p className="mt-3 text-sm text-red-700">暫時打不開，請稍後再試一次。</p>
+                    )}
+                    <p className="mt-3 text-xs leading-relaxed text-[#918BA6]">不收費，只會取得你的 LINE 顯示名稱與識別碼，不會用你的帳號發文。</p>
+                  </article>
+                )}
 
                 <article className="rounded-2xl bg-white p-5 md:p-6" aria-labelledby="today-reminder-title">
                   <p className="text-xs font-semibold text-[#A8883F]">今天｜流日</p>

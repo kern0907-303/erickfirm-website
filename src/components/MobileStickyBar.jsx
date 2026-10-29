@@ -21,7 +21,7 @@ const MobileStickyBar = () => {
   }, []);
 
   const normalizedPath = pathname.replace(/\/+$/, '');
-  if (normalizedPath === '/about' || normalizedPath === '/three' || normalizedPath === '/abl' || normalizedPath === '/nas/quiz') return null;
+  if (normalizedPath === '/about' || normalizedPath === '/three' || normalizedPath === '/abl' || normalizedPath === '/nas/quiz' || normalizedPath === '/nas/calculator') return null;
 
   return (
     <div

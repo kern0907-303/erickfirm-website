@@ -57,6 +57,8 @@ const NASQuiz = () => {
     if (step + 1 === questions.length) {
       const type = scoreQuiz(next);
       track('QuizResult', { brand: 'nas', quiz_type: type });
+      // 記住類型，2027 年度導航頁的開頭會依類型換一句（只存類型代碼，不存作答）
+      try { localStorage.setItem('nas.quizType', type); } catch { /* 存不了就算了 */ }
     }
     setStep(step + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });

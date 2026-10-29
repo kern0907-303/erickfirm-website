@@ -1,5 +1,9 @@
 import { lineMessageUrl } from '../lib/constants.js';
 
+// 平衡空間（生命數字）文章的 LINE 一律接平衡空間自己的官方帳號，不接 Erick Firm 帳號。
+const NAS_LINE_ADD_URL = 'https://line.me/R/ti/p/@xyx9843q';
+const NAS_LINE_TEXT = '加入平衡空間 LINE';
+
 // Shared by the React article page and the prerendered article output so copy
 // and source-tagged destinations stay in sync.
 export const CATEGORY_CTA_CONFIG = {
@@ -16,8 +20,8 @@ export const CATEGORY_CTA_CONFIG = {
     desc: '每個人的節奏、判斷方式與卡點位置本來就不同。硬套別人的方法會累，先看懂自己這一套比較快。',
     btn1Text: '先免費算一次',
     btn1Url: '/nas/calculator/',
-    btn2Text: '加 LINE 輸入【168】',
-    btn2Url: lineMessageUrl('168'),
+    btn2Text: NAS_LINE_TEXT,
+    btn2Url: NAS_LINE_ADD_URL,
   },
   'enterprise-doctor': {
     title: '如果你的公司也卡在同一個地方',
@@ -43,20 +47,22 @@ export const NAS_NEXT_AFTER_CALCULATOR = {
   desc: '雙軌說的是你這個人；2027 年度導航說的是你這一年。依你的生日寫成，十二個月什麼時候衝、什麼時候收，再加上 365 能量氣象台每天晚上的提醒。',
   btn1Text: '看 2027 年度導航',
   btn1Url: '/nas/2027',
-  btn2Text: '加 LINE 輸入【168】',
-  btn2Url: lineMessageUrl('168'),
+  btn2Text: NAS_LINE_TEXT,
+  btn2Url: NAS_LINE_ADD_URL,
 };
 
-// 溫流量：讀者看過幾篇、已經有基本信任，這時候換名單才合理。
-// 冷流量（破圈，讀者不認識作者）不要一上來就要 email，先讓他免費算到東西。
-export const NAS_WARM_CTA = {
-  title: '要不要看完整版的你？',
-  desc: '計算器給的是雙軌結構，小測再往下一層：天賦、盲點，還有你現在走到的生命階段。留一個 email 就把完整解析寄給你。',
-  btn1Text: '做生命數字小測',
+// 冷流量（2026-10-29 定）：卡點五型自我檢查是冷流量的入口，先看到自己的狀態，再用 LINE 登入看詳細解析。
+// 計算器是超冷流量的入口（沒有標記的文章），零摩擦先算到東西。
+export const NAS_QUIZ_CTA = {
+  title: '你的生活，卡在哪一種狀態？',
+  desc: '生活一直卡住，不是因為不夠努力。8 題，大約 2 分鐘，選完馬上知道自己卡在哪一種狀態，詳細解析用 LINE 登入免費看。',
+  btn1Text: '做卡點五型自我檢查',
   btn1Url: '/nas/quiz',
-  btn2Text: '加 LINE 輸入【168】',
-  btn2Url: lineMessageUrl('168'),
+  btn2Text: NAS_LINE_TEXT,
+  btn2Url: NAS_LINE_ADD_URL,
 };
+// 舊名稱保留給既有引用
+export const NAS_WARM_CTA = NAS_QUIZ_CTA;
 
 /**
  * @param {string} service 文章分類
@@ -67,8 +73,8 @@ export const NAS_WARM_CTA = {
  *
  * 優先順序：行為 > 文章標記。
  * 已經算過的人不管文章是冷是暖，都往下一步（2027 年度導航）走，不再繞回計算器。
- * 沒算過而且文章標為溫流量，才導去要 email 的小測。
- * 其餘（冷流量或沒有標記）一律導免費計算器，零摩擦。
+ * 沒算過而且文章標為冷流量或溫流量，導去卡點五型自我檢查（LINE 登入看詳細解析）。
+ * 沒有標記的文章（超冷流量）導免費計算器，零摩擦。
  */
 export function getCategoryCtaConfig(service, slug = '', { calculated = false, funnel = null } = {}) {
   const config = CATEGORY_CTA_CONFIG[service] || CATEGORY_CTA_CONFIG['personal-growth'];
@@ -81,8 +87,8 @@ export function getCategoryCtaConfig(service, slug = '', { calculated = false, f
   if (calculated) {
     return { ...NAS_NEXT_AFTER_CALCULATOR, btn1Url: query ? `/nas/2027?${query}` : '/nas/2027' };
   }
-  if (funnel === 'warm') {
-    return { ...NAS_WARM_CTA, btn1Url: query ? `/nas/quiz?${query}` : '/nas/quiz' };
+  if (funnel === 'warm' || funnel === 'cold') {
+    return { ...NAS_QUIZ_CTA, btn1Url: query ? `/nas/quiz?${query}` : '/nas/quiz' };
   }
   if (!query) return config;
   return { ...config, btn1Url: `/nas/calculator/?${query}` };
