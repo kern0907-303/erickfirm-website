@@ -18,6 +18,7 @@ import Insights from './pages/Insights';
 import PostDetail from './pages/PostDetail';
 import NAS from './pages/NAS';
 import NASCalculator from './pages/NASCalculator';
+import NASQuiz from './pages/NASQuiz';
 import NASCourse from './pages/NASCourse';
 import NASConsultant from './pages/NASConsultant';
 import NASDashboard from './pages/NASDashboard';
@@ -173,6 +174,7 @@ function App() {
           {/* 第二主頁 — 流量入口 */}
           <Route path="/nas" element={<NAS />} />
           <Route path="/nas/calculator" element={<NASCalculator />} />
+          <Route path="/nas/quiz" element={<NASQuiz />} />
           <Route path="/nas/365" element={<NASDashboard />} />
           <Route path="/nas/meili" element={<Navigate to="/nas/365" replace />} />
           <Route path="/nas/course" element={<NASCourse />} />
