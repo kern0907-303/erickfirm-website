@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, Map as MapIcon, CloudSun } from 'lucide-react';
+import { ArrowRight, ArrowDown, Check, Map as MapIcon, CloudSun } from 'lucide-react';
 import { LINE_CONFIG } from '../lib/constants';
 import HeroTextReveal from '../components/HeroTextReveal';
 import ProductCheckoutButton from '../components/ProductCheckoutButton';
@@ -10,7 +10,7 @@ import { LEGAL_TAX_ID } from '../content/ablLegal';
 import { NAS_LEGAL_EMAIL } from '../content/nasLegal';
 import {
   NAS2027_CHECKOUT_URL, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, HERO_BY_TYPE, STRUGGLE, TURN, SOLUTION,
-  DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, FAMILY_NOTE, BUY_STEPS, ABOUT, FAQS, ENDING,
+  LINK_SECTION, DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, FAMILY_NOTE, BUY_STEPS, ABOUT, FAQS, ENDING,
   DISCLAIMER, LEGAL_SELLER_LINE_NAS,
 } from '../content/nas2027Content';
 
@@ -124,6 +124,43 @@ const Nas2027Page = () => {
             );
           })}
         </div>
+      </div>
+    </section>
+
+    {/* 4-1. 報告和 365 怎麼接在一起 */}
+    <section id="link" className="py-20 px-6 border-t border-[#F0EDF7]">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">{LINK_SECTION.title}</h2>
+        <p className="text-[#55506B] leading-loose mb-3 max-w-3xl">{LINK_SECTION.intro}</p>
+        <p className="text-xs text-[#8A84A0] mb-10">{LINK_SECTION.note}</p>
+        <div className="space-y-6">
+          {LINK_SECTION.pairs.map((pair) => (
+            <article key={pair.moment} className="rounded-2xl border border-[#E7E3F0] p-5 md:p-6">
+              <p className="text-sm font-bold text-[#5B3A9E] mb-4">{pair.moment}</p>
+              <div className="grid md:grid-cols-[1fr_auto_1fr] gap-4 items-stretch">
+                <div className="rounded-xl bg-[#F8F6FC] border border-[#ECE6F5] p-5">
+                  <p className="text-[11px] font-semibold tracking-wide text-[#A8883F] mb-2">{LINK_SECTION.reportLabel}｜{pair.report.chapter}</p>
+                  <div className="flex items-center justify-between gap-3 mb-2">
+                    <p className="font-bold text-[#3B2D5C]">{pair.report.title}</p>
+                    {pair.report.tag && <span className="shrink-0 text-xs text-[#8A6D1F]">{pair.report.tag}</span>}
+                  </div>
+                  <p className="text-[15px] leading-relaxed text-[#463F5C]">{pair.report.text}</p>
+                </div>
+                <div className="flex items-center justify-center text-[#B9A9D6]">
+                  <ArrowRight size={22} className="hidden md:block" /><ArrowDown size={22} className="md:hidden" />
+                </div>
+                <div className="rounded-xl bg-[#E8EEF6] p-4">
+                  <p className="text-[11px] font-semibold tracking-wide text-[#5D6B82] mb-3">{LINK_SECTION.lineLabel}</p>
+                  <div className="flex gap-2.5 items-start">
+                    <span className="shrink-0 w-8 h-8 rounded-full bg-[#5B3A9E] text-white text-xs font-bold flex items-center justify-center">平</span>
+                    <p className="rounded-2xl rounded-tl-sm bg-white px-4 py-3 text-[15px] leading-relaxed text-[#1F1A2E] shadow-sm">{pair.line}</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+        <p className="mt-10 text-lg font-semibold leading-loose text-[#1F1A2E] border-l-2 border-[#D4B86A] pl-6 max-w-3xl">{LINK_SECTION.closing}</p>
       </div>
     </section>
 
