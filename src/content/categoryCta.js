@@ -52,7 +52,7 @@ export const NAS_NEXT_AFTER_CALCULATOR = {
 };
 
 // 冷流量（2026-10-29 定）：卡點五型自我檢查是冷流量的入口，先看到自己的狀態，再用 LINE 登入看詳細解析。
-// 計算器是超冷流量的入口（沒有標記的文章），零摩擦先算到東西。
+// 計算器是超冷流量（supercold，破圈文章）的入口，零摩擦先算到東西。
 export const NAS_QUIZ_CTA = {
   title: '你的生活，卡在哪一種狀態？',
   desc: '生活一直卡住，不是因為不夠努力。8 題，大約 2 分鐘，選完馬上知道自己卡在哪一種狀態，詳細解析用 LINE 登入免費看。',
@@ -65,30 +65,53 @@ export const NAS_QUIZ_CTA = {
 export const NAS_WARM_CTA = NAS_QUIZ_CTA;
 
 /**
+ * 把資料庫裡的值正規化成現在這兩層。
+ *
+ * 2026-10-30 改版：分層名稱改成 supercold（破圈，導計算器）與 cold（建立信任，導小測）。
+ * 只處理 warm 這一個舊值，它過去代表建立信任，就是現在的 cold；
+ * 舊的 cold（過去代表破圈）由資料庫一次性改成 supercold，不在這裡猜，
+ * 否則同一個字串 cold 會有兩種意思。
+ * @param {unknown} value
+ * @returns {'supercold'|'cold'|null}
+ */
+export function normalizeFunnel(value) {
+  const text = String(value || '').trim();
+  if (text === 'supercold') return 'supercold';
+  if (text === 'cold') return 'cold';
+  if (text === 'warm') return 'cold';
+  return null;
+}
+
+/**
  * @param {string} service 文章分類
  * @param {string} slug 文章代稱，用來做來源標記
- * @param {{ calculated?: boolean, funnel?: 'cold'|'warm'|null }} options
+ * @param {{ calculated?: boolean, funnel?: 'supercold'|'cold'|'warm'|null }} options
  *   calculated 讀者是否已經在計算器算過（瀏覽器記得生日）
- *   funnel 這篇是冷流量還是溫流量，由儀表板依海巡標記寫進資料庫
+ *   funnel 這篇屬於哪一層，由儀表板依海巡標記寫進資料庫
  *
  * 優先順序：行為 > 文章標記。
- * 已經算過的人不管文章是冷是暖，都往下一步（2027 年度導航）走，不再繞回計算器。
- * 沒算過而且文章標為冷流量或溫流量，導去卡點五型自我檢查（LINE 登入看詳細解析）。
- * 沒有標記的文章（超冷流量）導免費計算器，零摩擦。
+ * 已經算過的人不管文章哪一層，都往下一步（2027 年度導航）走，不再繞回計算器。
+ * supercold（破圈）導免費計算器，零摩擦，輸入生日直接看結果。
+ * cold（建立信任）導卡點五型自我檢查，8 題加 LINE 登入看詳細解析。
+ * 沒有標記的文章退回該分類的通用 CTA，不猜一層給它。
  */
 export function getCategoryCtaConfig(service, slug = '', { calculated = false, funnel = null } = {}) {
   const config = CATEGORY_CTA_CONFIG[service] || CATEGORY_CTA_CONFIG['personal-growth'];
   if (service !== 'life-number') return config;
-  // 來源標記帶上冷暖，後台才分得出造訪是哪一種流量帶來的
+  const tier = normalizeFunnel(funnel);
+  // 來源標記帶上分層，後台才分得出造訪是哪一層帶來的
   const params = new URLSearchParams();
   if (slug) params.set('source', `nas-article-${slug}`);
-  if (funnel === 'cold' || funnel === 'warm') params.set('funnel', funnel);
+  if (tier) params.set('funnel', tier);
   const query = params.toString();
   if (calculated) {
     return { ...NAS_NEXT_AFTER_CALCULATOR, btn1Url: query ? `/nas/2027?${query}` : '/nas/2027' };
   }
-  if (funnel === 'warm' || funnel === 'cold') {
+  if (tier === 'cold') {
     return { ...NAS_QUIZ_CTA, btn1Url: query ? `/nas/quiz?${query}` : '/nas/quiz' };
+  }
+  if (tier === 'supercold') {
+    return { ...config, btn1Url: query ? `/nas/calculator/?${query}` : '/nas/calculator/' };
   }
   if (!query) return config;
   return { ...config, btn1Url: `/nas/calculator/?${query}` };

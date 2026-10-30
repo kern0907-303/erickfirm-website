@@ -136,7 +136,7 @@ export function normalizePost(raw, locale = 'zh-TW') {
     format: raw.format || 'Article',
     blocks: Array.isArray(raw.blocks) ? raw.blocks : [],
     // 冷或溫，由儀表板依海巡標記寫進資料庫。舊文章與手動建立的文章沒有這個值。
-    funnel: raw.funnel === 'cold' || raw.funnel === 'warm' ? raw.funnel : null,
+    funnel: ['supercold', 'cold', 'warm'].includes(raw.funnel) ? raw.funnel : null,
   };
 }
 

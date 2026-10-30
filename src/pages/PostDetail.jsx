@@ -149,7 +149,7 @@ const PostDetail = () => {
       publishDate: post.publishDate || '',
       slug: post.slug || slug || '',
       // 冷或溫，決定頁尾 CTA 帶去計算器還是要 email 的小測。沒有值就用通用 CTA。
-      funnel: post.funnel === 'cold' || post.funnel === 'warm' ? post.funnel : null,
+      funnel: ['supercold', 'cold', 'warm'].includes(post.funnel) ? post.funnel : null,
     };
   }, [post, service, slug]);
 

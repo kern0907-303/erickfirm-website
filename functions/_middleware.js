@@ -287,7 +287,7 @@ function mapSupabaseArticleToPost(article, locale = DEFAULT_LOCALE) {
     aeoFaq: article.aeo_faq || "",
     coverImage: extractCoverImage(content),
     // 冷或溫，儀表板依海巡標記寫進資料庫，決定文章頁尾 CTA 帶去計算器還是小測。
-    funnel: article.funnel === "cold" || article.funnel === "warm" ? article.funnel : null,
+    funnel: ["supercold", "cold", "warm"].includes(article.funnel) ? article.funnel : null,
   };
 }
 
