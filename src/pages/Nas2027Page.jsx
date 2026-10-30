@@ -34,6 +34,9 @@ const Quote = ({ parts }) => (
 );
 
 const QUIZ_TYPE_PATTERN = /^[LDOKM]$/;
+const BODY_COPY_CLASS = 'text-lg font-normal';
+const BODY_COPY_RELAXED_CLASS = `${BODY_COPY_CLASS} leading-relaxed`;
+const BODY_SUBHEADING_CLASS = 'text-xl';
 
 // 做過卡點檢查的人：網址的 quiz_type 優先，其次是瀏覽器記得的類型。掛載後才讀，預渲染的 HTML 維持通用版。
 function useQuizType() {
@@ -115,7 +118,7 @@ const Nas2027Page = () => {
                 <p className="text-[#55506B] leading-loose mb-5">{part.body}</p>
                 <ul className="space-y-3">
                   {part.items.map((item) => (
-                    <li key={item} className="flex gap-3 text-sm leading-relaxed text-[#463F5C]">
+                    <li key={item} className={`flex gap-3 ${BODY_COPY_RELAXED_CLASS} text-[#463F5C]`}>
                       <Check size={16} className="shrink-0 mt-1 text-[#A8883F]" /><span>{item}</span>
                     </li>
                   ))}
@@ -132,11 +135,11 @@ const Nas2027Page = () => {
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">{LINK_SECTION.title}</h2>
         <p className="text-[#55506B] leading-loose mb-3 max-w-3xl">{LINK_SECTION.intro}</p>
-        <p className="text-xs text-[#8A84A0] mb-10">{LINK_SECTION.note}</p>
+        <p className={`${BODY_COPY_RELAXED_CLASS} text-[#8A84A0] mb-10`}>{LINK_SECTION.note}</p>
         <div className="space-y-6">
           {LINK_SECTION.pairs.map((pair) => (
             <article key={pair.moment} className="rounded-2xl border border-[#E7E3F0] p-5 md:p-6">
-              <p className="text-sm font-bold text-[#5B3A9E] mb-4">{pair.moment}</p>
+              <p className={`${BODY_SUBHEADING_CLASS} font-bold text-[#5B3A9E] mb-4`}>{pair.moment}</p>
               <div className="grid md:grid-cols-[1fr_auto_1fr] gap-4 items-stretch">
                 <div className="rounded-xl bg-[#F8F6FC] border border-[#ECE6F5] p-5">
                   <p className="text-[11px] font-semibold tracking-wide text-[#A8883F] mb-2">{LINK_SECTION.reportLabel}｜{pair.report.chapter}</p>
@@ -172,25 +175,25 @@ const Nas2027Page = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {EXCERPTS.map((item) => (
             <figure key={item.chapter} className="m-0 rounded-2xl border border-[#E7E3F0] bg-white p-6">
-              <figcaption className="text-xs font-semibold tracking-wide text-[#A8883F] mb-4">{item.chapter}</figcaption>
+              <figcaption className={`${BODY_SUBHEADING_CLASS} font-semibold tracking-wide text-[#A8883F] mb-4`}>{item.chapter}</figcaption>
               <blockquote className="m-0 text-lg md:text-xl font-medium leading-loose text-[#1F1A2E]"><Quote parts={item.quote} /></blockquote>
-              {item.dont && <p className="mt-4 pt-4 border-t border-dashed border-[#E7E3F0] text-sm text-[#55506B]">先別做：{item.dont}</p>}
+              {item.dont && <p className={`mt-4 pt-4 border-t border-dashed border-[#E7E3F0] ${BODY_COPY_RELAXED_CLASS} text-[#55506B]`}>先別做：{item.dont}</p>}
             </figure>
           ))}
           <figure className="m-0 rounded-2xl border border-[#E7E3F0] bg-white p-6 md:col-span-2 lg:col-span-3">
-            <figcaption className="text-xs font-semibold tracking-wide text-[#A8883F] mb-5">{EXCERPT_MONTHS.chapter}</figcaption>
+            <figcaption className={`${BODY_SUBHEADING_CLASS} font-semibold tracking-wide text-[#A8883F] mb-5`}>{EXCERPT_MONTHS.chapter}</figcaption>
             <ul className="space-y-4">
               {EXCERPT_MONTHS.rows.map(([tone, light, range, theme, side, text]) => (
                 <li key={range} className="flex gap-4 items-start">
                   <span className={`shrink-0 rounded-full px-3 py-1 text-sm font-bold text-white ${LIGHT_TONE[tone]}`}>{light}</span>
                   <div>
-                    <p className="text-sm text-[#6E6885]">{range}<span className="ml-2 font-semibold text-[#1F1A2E]">{theme}</span></p>
+                    <p className={`${BODY_COPY_RELAXED_CLASS} text-[#6E6885]`}>{range}<span className={`ml-2 ${BODY_SUBHEADING_CLASS} font-semibold text-[#1F1A2E]`}>{theme}</span></p>
                     <p className="text-lg font-medium leading-relaxed text-[#1F1A2E]">{side}｜{text}</p>
                   </div>
                 </li>
               ))}
             </ul>
-            <p className="mt-5 text-sm leading-relaxed text-[#6E6885]">{EXCERPT_MONTHS.note}</p>
+            <p className={`mt-5 ${BODY_COPY_RELAXED_CLASS} text-[#6E6885]`}>{EXCERPT_MONTHS.note}</p>
           </figure>
         </div>
       </div>
@@ -206,7 +209,7 @@ const Nas2027Page = () => {
               <Check size={18} className="shrink-0 mt-1 text-[#5B3A9E]" />
               <div>
                 <h3 className="font-bold mb-1">{name}</h3>
-                <p className="text-sm leading-relaxed text-[#55506B]">{body}</p>
+                <p className={`${BODY_COPY_RELAXED_CLASS} text-[#55506B]`}>{body}</p>
               </div>
             </div>
           ))}
@@ -222,17 +225,17 @@ const Nas2027Page = () => {
           {PLANS.map((plan) => (
             <article key={plan.code} className={`relative flex flex-col rounded-2xl bg-white p-7 ${plan.featured ? 'border-2 border-[#5B3A9E] shadow-[0_16px_40px_rgba(91,58,158,0.14)]' : 'border border-[#E7E3F0]'}`}>
               {plan.badge && <span className="absolute -top-3 left-7 text-xs px-3 py-1 rounded-full bg-[#5B3A9E] text-white">{plan.badge}</span>}
-              <p className="text-sm text-[#6E6885] mb-1">{plan.name}</p>
-              <p className="text-3xl font-bold tabular-nums mb-1">{plan.price}</p>
-              <p className="text-sm font-semibold text-[#A8883F] mb-5">{plan.tagline}</p>
+              <p className={`${BODY_COPY_CLASS} text-[#6E6885] mb-1`}>{plan.name}</p>
+              <p className="text-4xl font-bold tabular-nums mb-1">{plan.price}</p>
+              <p className={`${BODY_COPY_CLASS} text-[#A8883F] mb-5`}>{plan.tagline}</p>
               <ul className="space-y-3 mb-5">
                 {plan.items.map((item) => (
-                  <li key={item} className="flex gap-3 text-sm leading-relaxed text-[#463F5C]">
+                  <li key={item} className={`flex gap-3 ${BODY_COPY_RELAXED_CLASS} text-[#463F5C]`}>
                     <Check size={16} className="shrink-0 mt-1 text-[#5B3A9E]" /><span>{item}</span>
                   </li>
                 ))}
               </ul>
-              {plan.note && <p className="text-sm leading-relaxed text-[#55506B] mb-5">{plan.note}</p>}
+              {plan.note && <p className={`${BODY_COPY_RELAXED_CLASS} text-[#55506B] mb-5`}>{plan.note}</p>}
               <div className="mt-auto pt-2">
                 <ProductCheckoutButton
                   code={plan.code} label="前往結帳" closedText="即將開放"
@@ -246,7 +249,7 @@ const Nas2027Page = () => {
         </div>
         <div className="mb-14 rounded-2xl border border-[#E7DFC8] bg-[#FBF7EE] p-6">
           <p className="font-bold text-[#1F1A2E]">{FAMILY_NOTE.title}</p>
-          <p className="mt-2 text-sm leading-relaxed text-[#55506B]">{FAMILY_NOTE.body}</p>
+          <p className={`mt-2 ${BODY_COPY_RELAXED_CLASS} text-[#55506B]`}>{FAMILY_NOTE.body}</p>
         </div>
         <h3 className="text-xl font-bold mb-6">怎麼買，四步就完成</h3>
         <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -254,7 +257,7 @@ const Nas2027Page = () => {
             <li key={title} className="rounded-2xl border border-[#E7E3F0] bg-white p-5">
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#5B3A9E] text-sm font-bold text-white mb-3">{index + 1}</span>
               <h4 className="font-bold mb-2">{title}</h4>
-              <p className="text-sm leading-relaxed text-[#55506B]">{body}</p>
+              <p className={`${BODY_COPY_RELAXED_CLASS} text-[#55506B]`}>{body}</p>
             </li>
           ))}
         </ol>
@@ -277,8 +280,8 @@ const Nas2027Page = () => {
         <div className="divide-y divide-[#E7E3F0] border-y border-[#E7E3F0]">
           {FAQS.map(([question, answer]) => (
             <article key={question} className="py-6">
-              <h3 className="mb-3 font-bold">{question}</h3>
-              <p className="text-sm leading-loose text-[#55506B]">{answer}</p>
+              <h3 className="mb-3 text-xl font-bold">{question}</h3>
+              <p className={`${BODY_COPY_RELAXED_CLASS} text-[#55506B]`}>{answer}</p>
             </article>
           ))}
         </div>
