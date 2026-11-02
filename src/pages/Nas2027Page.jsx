@@ -119,7 +119,7 @@ const Nas2027Page = () => {
                 <ul className="space-y-3">
                   {part.items.map((item) => (
                     <li key={item} className={`flex gap-3 ${BODY_COPY_RELAXED_CLASS} text-[#463F5C]`}>
-                      <Check size={16} className="shrink-0 mt-1 text-[#A8883F]" /><span>{item}</span>
+                      <Check size={16} className="shrink-0 mt-1 text-[#85691F]" /><span>{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -135,14 +135,14 @@ const Nas2027Page = () => {
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">{LINK_SECTION.title}</h2>
         <p className="text-[#55506B] leading-loose mb-3 max-w-3xl">{LINK_SECTION.intro}</p>
-        <p className={`${BODY_COPY_RELAXED_CLASS} text-[#8A84A0] mb-10`}>{LINK_SECTION.note}</p>
+        <p className={`${BODY_COPY_RELAXED_CLASS} text-[#6B6584] mb-10`}>{LINK_SECTION.note}</p>
         <div className="space-y-6">
           {LINK_SECTION.pairs.map((pair) => (
             <article key={pair.moment} className="rounded-2xl border border-[#E7E3F0] p-5 md:p-6">
               <p className={`${BODY_SUBHEADING_CLASS} font-bold text-[#5B3A9E] mb-4`}>{pair.moment}</p>
               <div className="grid md:grid-cols-[1fr_auto_1fr] gap-4 items-stretch">
                 <div className="rounded-xl bg-[#F8F6FC] border border-[#ECE6F5] p-5">
-                  <p className="text-[11px] font-semibold tracking-wide text-[#A8883F] mb-2">{LINK_SECTION.reportLabel}｜{pair.report.chapter}</p>
+                  <p className="text-xs font-semibold tracking-wide text-[#85691F] mb-2">{LINK_SECTION.reportLabel}｜{pair.report.chapter}</p>
                   <div className="flex items-center justify-between gap-3 mb-2">
                     <p className="font-bold text-[#3B2D5C]">{pair.report.title}</p>
                     {pair.report.tag && <span className="shrink-0 text-xs text-[#8A6D1F]">{pair.report.tag}</span>}
@@ -153,7 +153,7 @@ const Nas2027Page = () => {
                   <ArrowRight size={22} className="hidden md:block" /><ArrowDown size={22} className="md:hidden" />
                 </div>
                 <div className="rounded-xl bg-[#E8EEF6] p-4">
-                  <p className="text-[11px] font-semibold tracking-wide text-[#5D6B82] mb-3">{LINK_SECTION.lineLabel}</p>
+                  <p className="text-xs font-semibold tracking-wide text-[#5D6B82] mb-3">{LINK_SECTION.lineLabel}</p>
                   <div className="flex gap-2.5 items-start">
                     <span className="shrink-0 w-8 h-8 rounded-full bg-[#5B3A9E] text-white text-xs font-bold flex items-center justify-center">平</span>
                     <p className="rounded-2xl rounded-tl-sm bg-white px-4 py-3 text-[15px] leading-relaxed text-[#1F1A2E] shadow-sm">{pair.line}</p>
@@ -175,13 +175,13 @@ const Nas2027Page = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {EXCERPTS.map((item) => (
             <figure key={item.chapter} className="m-0 rounded-2xl border border-[#E7E3F0] bg-white p-6">
-              <figcaption className={`${BODY_SUBHEADING_CLASS} font-semibold tracking-wide text-[#A8883F] mb-4`}>{item.chapter}</figcaption>
+              <figcaption className={`${BODY_SUBHEADING_CLASS} font-semibold tracking-wide text-[#85691F] mb-4`}>{item.chapter}</figcaption>
               <blockquote className="m-0 text-lg md:text-xl font-medium leading-loose text-[#1F1A2E]"><Quote parts={item.quote} /></blockquote>
               {item.dont && <p className={`mt-4 pt-4 border-t border-dashed border-[#E7E3F0] ${BODY_COPY_RELAXED_CLASS} text-[#55506B]`}>先別做：{item.dont}</p>}
             </figure>
           ))}
           <figure className="m-0 rounded-2xl border border-[#E7E3F0] bg-white p-6 md:col-span-2 lg:col-span-3">
-            <figcaption className={`${BODY_SUBHEADING_CLASS} font-semibold tracking-wide text-[#A8883F] mb-5`}>{EXCERPT_MONTHS.chapter}</figcaption>
+            <figcaption className={`${BODY_SUBHEADING_CLASS} font-semibold tracking-wide text-[#85691F] mb-5`}>{EXCERPT_MONTHS.chapter}</figcaption>
             <ul className="space-y-4">
               {EXCERPT_MONTHS.rows.map(([tone, light, range, theme, side, text]) => (
                 <li key={range} className="flex gap-4 items-start">
@@ -227,7 +227,7 @@ const Nas2027Page = () => {
               {plan.badge && <span className="absolute -top-3 left-7 text-xs px-3 py-1 rounded-full bg-[#5B3A9E] text-white">{plan.badge}</span>}
               <p className={`${BODY_COPY_CLASS} text-[#6E6885] mb-1`}>{plan.name}</p>
               <p className="text-4xl font-bold tabular-nums mb-1">{plan.price}</p>
-              <p className={`${BODY_COPY_CLASS} text-[#A8883F] mb-5`}>{plan.tagline}</p>
+              <p className={`${BODY_COPY_CLASS} text-[#85691F] mb-5`}>{plan.tagline}</p>
               <ul className="space-y-3 mb-5">
                 {plan.items.map((item) => (
                   <li key={item} className={`flex gap-3 ${BODY_COPY_RELAXED_CLASS} text-[#463F5C]`}>
@@ -241,7 +241,7 @@ const Nas2027Page = () => {
                   code={plan.code} label="前往結帳" closedText="即將開放"
                   checkoutUrl={NAS2027_CHECKOUT_URL + '?plan=' + plan.code}
                   className="inline-flex w-full items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition"
-                  closedClassName="w-full text-center px-6 py-3.5 rounded-full border border-[#DAD4E8] text-sm text-[#918BA6]"
+                  closedClassName="w-full text-center px-6 py-3.5 rounded-full border border-[#DAD4E8] text-sm text-[#6B6584]"
                 />
               </div>
             </article>
@@ -297,7 +297,7 @@ const Nas2027Page = () => {
           <a href="#plan" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition">
             {ENDING.action}<ArrowRight size={16} />
           </a>
-          <a href={LINE_CONFIG.NAS_LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-[#D4B86A] text-[#A8883F] hover:border-[#A8883F] hover:bg-[#FBF7EE] transition">
+          <a href={LINE_CONFIG.NAS_LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-[#D4B86A] text-[#85691F] hover:border-[#A8883F] hover:bg-[#FBF7EE] transition">
             還有問題，先加官方 LINE 問我們
           </a>
         </div>
@@ -305,7 +305,7 @@ const Nas2027Page = () => {
     </section>
 
     <footer className="px-6 pb-14">
-      <div className="max-w-4xl mx-auto border-t border-[#F0EDF7] pt-8 text-center text-xs leading-loose text-[#918BA6]">
+      <div className="max-w-4xl mx-auto border-t border-[#F0EDF7] pt-8 text-center text-[13px] leading-loose text-[#6B6584]">
         <p className="mb-3">{DISCLAIMER}</p>
         <p>{LEGAL_SELLER_LINE_NAS}　統一編號 {LEGAL_TAX_ID}　{NAS_LEGAL_EMAIL}</p>
         <nav aria-label="法務資訊" className="mt-2 flex justify-center gap-5">

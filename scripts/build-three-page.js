@@ -7,7 +7,7 @@ import { SITE, PERSON_ID, esc, loadShell, renderPage, writePage, breadcrumb } fr
 const dist = path.resolve('dist');
 const url = SITE + '/three';
 const title = '事情卡住的三種樣子｜艾瑞克';
-const description = '卡住不是你的問題，是一個訊號——你現在的看法已經不夠用了。十分鐘，把你卡住的地方拆開看一次。';
+const description = '卡住不是你的問題，是一個訊號：你現在的看法已經不夠用了。十分鐘，把你卡住的地方拆開看一次。';
 
 const paragraphs = (blocks) => blocks.map((block) => `<p>${esc(block)}</p>`).join('');
 const sections = stuckReport.sections.map((section) => [

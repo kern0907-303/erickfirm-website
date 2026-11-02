@@ -13,7 +13,7 @@ export const PhilosophySection = () => (
       <Reveal className="border-l border-slate-300 pl-6 text-xl leading-[1.9] text-slate-800 md:pl-10 md:text-3xl">
         <p>二十年來，<br />我在三個很不一樣的地方，做同一件事。</p>
         <p className="mt-8">一個人對自己的理解。<br />一個人的狀態。<br />一間公司的決策。</p>
-        <p className="mt-8">方法不同，<br />要找的東西是同一個——<br />那個一直在影響結果，卻一直沒被看見的因素。</p>
+        <p className="mt-8">方法不同，<br />要找的東西是同一個：<br />那個一直在影響結果，卻一直沒被看見的因素。</p>
       </Reveal>
     </div>
   </section>
@@ -43,7 +43,7 @@ export const WhyStuckSection = () => (
 const stuckTypes = [
   ['組織卡住', '你承擔一個團隊、部門或事業的結果。\n人越來越忙，事情卻越來越慢。\n你知道哪裡不對，只是說不出來是哪裡。'],
   ['定位卡住', '你很努力，也不是沒有能力。\n只是心裡一直有個聲音在問：這條路，真的是我的嗎？\n換過方向、換過工作，最後好像又回到同一個地方。'],
-  ['自己卡住', '你一直是那個撐住的人。\n撐著工作、撐著家人，也撐著所有人的情緒。\n等到終於有時間留給自己，卻發現——\n已經不知道怎麼回到自己了。'],
+  ['自己卡住', '你一直是那個撐住的人。\n撐著工作、撐著家人，也撐著所有人的情緒。\n等到終於有時間留給自己，卻發現，\n已經不知道怎麼回到自己了。'],
 ];
 
 export const StuckTypesSection = () => (
@@ -136,7 +136,7 @@ export const ClosingSection = () => (
         <p className="mt-7">不管你是一個人，還是一家公司，<br />我會先陪你看清楚：<br />眼前的問題是什麼，<br />背後反覆出現的模式又是什麼。</p>
         <p className="mt-7">把真正卡住的位置找出來，<br />才能給你現在最該做的下一步。</p>
       </div>
-      <p className="mt-10 text-base text-slate-600">— 艾瑞克 Erick</p>
+      <p className="mt-10 text-base text-slate-600">艾瑞克 Erick</p>
       <a href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer" className={`${lineButtonClass} mt-10`}>
         加 LINE，找到適合你的方向 →
       </a>

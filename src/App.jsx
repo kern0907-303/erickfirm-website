@@ -112,7 +112,7 @@ const buildHomeStructuredData = () => ({
         'https://www.youtube.com/@ageoldnew9449',
         'https://www.threads.net/@koi54889101',
       ],
-      description: '協助個人與企業看見影響結果的關鍵因素——從自我理解、狀態調和到經營決策。',
+      description: '協助個人與企業看見影響結果的關鍵因素，從自我理解、狀態調和到經營決策。',
     },
     { '@type': 'WebSite', '@id': 'https://erickfirm.com/#website', name: 'Erick Firm', url: 'https://erickfirm.com' },
     {
@@ -124,7 +124,7 @@ const buildHomeStructuredData = () => ({
       provider: { '@id': 'https://erickfirm.com/#org' },
       serviceType: 'Numerology-based self-understanding education',
       description:
-        '以生命數字為工具的自我理解教學。核心不是判斷準不準，而是更新看待自己的認知架構——同一個數字在四個認知層次會長成完全不同的樣子。',
+        '以生命數字為工具的自我理解教學。核心不是判斷準不準，而是更新看待自己的認知架構。同一個數字在四個認知層次會長成完全不同的樣子。',
     },
     {
       '@type': 'Service',

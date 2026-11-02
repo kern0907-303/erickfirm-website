@@ -4,7 +4,7 @@ import { stuckReport } from '../content/stuckReport';
 import { LINE_CONFIG } from '../lib/constants';
 
 const META_TITLE = '事情卡住的三種樣子｜艾瑞克';
-const META_DESCRIPTION = '卡住不是你的問題，是一個訊號——你現在的看法已經不夠用了。十分鐘，把你卡住的地方拆開看一次。';
+const META_DESCRIPTION = '卡住不是你的問題，是一個訊號：你現在的看法已經不夠用了。十分鐘，把你卡住的地方拆開看一次。';
 
 const Paragraphs = ({ blocks }) => (
   <div className="space-y-6 text-[17px] font-light leading-[1.95] text-slate-700 md:text-[18px]">

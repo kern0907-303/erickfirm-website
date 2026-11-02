@@ -97,7 +97,7 @@ const AblSpacePage = () => {
         <div className="abl-sales-inner">
           <h2 className="abl-heading">方案</h2>
           <article className="abl-card abl-sales-card abl-sales-space-plan">
-            <h3 className="abl-heading">空間調頻　NT$8,800 / 年 / 一個地址</h3>
+            <h3 className="abl-heading">空間調頻　<span className="whitespace-nowrap">NT$8,800 / 年 / 一個地址</span></h3>
             <div className="abl-sales-copy">
               <p>適用：居家、SOHO、個人工作室。</p>
               <p>一個方案對應一個地址。</p>

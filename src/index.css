@@ -126,3 +126,12 @@
     animation: none;
   }
 }
+
+/* 手機版：輸入框字級至少 16px，避免 iPhone Safari 點擊輸入時自動放大畫面 */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: max(16px, 1em);
+  }
+}

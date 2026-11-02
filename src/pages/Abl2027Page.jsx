@@ -12,10 +12,15 @@ const INDEXABLE = true;
 const TITLE = '艾伯林量子調頻｜2027 年度頻率支持';
 const DESCRIPTION = '2027 年度頻率支持，團體共享頻率，或個人單獨設定，一整年的背景支持，每季一則 LINE 檢視提醒。';
 
+// 手機版預設收合「頻率焦點與四季檢視」，避免六張主題卡全展開讓頁面過長；桌機維持展開。
+const SEASONS_OPEN_BY_DEFAULT = typeof window === 'undefined'
+  || !window.matchMedia
+  || window.matchMedia('(min-width: 768px)').matches;
+
 const FocusAndChecks = ({ item }) => (
   <>
     <p className="abl-sales-theme-goal">{item.goal}</p>
-    <details className="abl-sales-seasons-wrap" open>
+    <details className="abl-sales-seasons-wrap" open={SEASONS_OPEN_BY_DEFAULT}>
       <summary>頻率焦點與四季檢視</summary>
       <p className="abl-sales-subhead">{FOCUS_TITLE}<small>{FOCUS_HINT}</small></p>
       <ol className="abl-sales-focus">
