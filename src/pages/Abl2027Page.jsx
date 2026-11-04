@@ -202,7 +202,7 @@ const Abl2027Page = () => {
           <p>加官方 LINE，輸入 1，我們用兩個小問題幫你找到最適合的主題。</p>
           <div className="abl-sales-ending-actions">
             <a className="abl-cta abl-sales-scroll" href="#themes">回到選主題</a>
-            <a className="abl-cta abl-sales-line" href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer">加官方 LINE 問我們</a>
+            <a className="abl-cta abl-sales-line" href={LINE_CONFIG.ABL_LINE_ADD_URL} target="_blank" rel="noopener noreferrer">加官方 LINE 問我們</a>
           </div>
         </div>
       </section>

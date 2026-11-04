@@ -425,7 +425,7 @@ const ablBody = [
   h3('再決定調整什麼'),
   p('看清楚了，才知道哪裡值得調，哪裡先維持原樣。'),
   p('這樣的時刻，你也有過。先加 LINE，我們從你現在的狀態開始。'),
-  a('https://lin.ee/STdLXx4', '加 LINE', 'target="_blank" rel="noopener noreferrer" class="abl-cta"'),
+  a('https://line.me/R/ti/p/@336irske', '加 LINE', 'target="_blank" rel="noopener noreferrer" class="abl-cta"'),
   h2('持續更新的文章'),
   ablArticleLinks ? `<ul>${ablArticleLinks}</ul>` : '',
   a('/insights/personal-growth', '看全部文章'),
@@ -494,7 +494,7 @@ const salesFaqs = (items) => `<div class="abl-sales-faqs">${items.map(([question
   `<details class="abl-sales-faq" open><summary>${esc(question)}</summary>${salesP(answer)}</details>`).join('')}</div>`;
 const salesEnding = (text) => `
   <section class="abl-sales-ending"><div class="abl-sales-inner abl-sales-ending-inner">
-    ${salesP(text)}<a class="abl-cta abl-sales-line" href="https://lin.ee/STdLXx4" target="_blank" rel="noopener noreferrer">加 LINE，開放時通知我</a>
+    ${salesP(text)}<a class="abl-cta abl-sales-line" href="https://line.me/R/ti/p/@336irske" target="_blank" rel="noopener noreferrer">加 LINE，開放時通知我</a>
   </div></section>`;
 const salesDisclaimer = (text) => `<footer class="abl-sales-disclaimer">${esc(text)}</footer>`;
 
@@ -519,7 +519,7 @@ const sales2027Body = () => [
   ].map(([t, b]) => `<li><b>${esc(t)}</b><span>${esc(b)}</span></li>`).join('')}</ul>`),
   salesSection('怎麼購買，四步就完成', `<ol class="abl-sales-steps">${C2027.BUY_STEPS.map(([t, b], i) => `<li class="abl-sales-step"><span class="abl-sales-step-no">${i + 1}</span><h3>${esc(t)}</h3>${salesP(b)}</li>`).join('')}</ol>`, 'how-to-buy', 'abl-sales-section-muted'),
   salesSection('常見問題', salesFaqs(C2027.FAQS)),
-  `<section class="abl-sales-ending"><div class="abl-sales-inner abl-sales-ending-inner"><h2 class="abl-heading">還在猶豫選哪一個？</h2>${salesP('加官方 LINE，輸入 1，我們用兩個小問題幫你找到最適合的主題。')}<div class="abl-sales-ending-actions"><a class="abl-cta abl-sales-scroll" href="#themes">回到選主題</a><a class="abl-cta abl-sales-line" href="https://lin.ee/STdLXx4" target="_blank" rel="noopener noreferrer">加官方 LINE 問我們</a></div></div></section>`,
+  `<section class="abl-sales-ending"><div class="abl-sales-inner abl-sales-ending-inner"><h2 class="abl-heading">還在猶豫選哪一個？</h2>${salesP('加官方 LINE，輸入 1，我們用兩個小問題幫你找到最適合的主題。')}<div class="abl-sales-ending-actions"><a class="abl-cta abl-sales-scroll" href="#themes">回到選主題</a><a class="abl-cta abl-sales-line" href="https://line.me/R/ti/p/@336irske" target="_blank" rel="noopener noreferrer">加官方 LINE 問我們</a></div></div></section>`,
   salesDisclaimer('頻率支持不是醫療、診斷或療效保證。'),
   ablLegalFooter,
   '</div>',
@@ -572,7 +572,7 @@ const nas2027Body = () => [
   h2(N2027.ENDING.title),
   p(N2027.ENDING.body),
   a('#plan', N2027.ENDING.action),
-  a('https://lin.ee/STdLXx4', '還有問題，先加官方 LINE 問我們', 'target="_blank" rel="noopener noreferrer"'),
+  a('https://line.me/R/ti/p/@xyx9843q', '還有問題，先加官方 LINE 問我們', 'target="_blank" rel="noopener noreferrer"'),
   p(N2027.DISCLAIMER),
   p(N2027.LEGAL_SELLER_LINE_NAS + '　統一編號 ' + LEGAL_TAX_ID + '　' + NAS_LEGAL_EMAIL),
   nav([['/nas/terms', '服務條款'], ['/nas/privacy', '隱私權政策']]),

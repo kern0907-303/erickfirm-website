@@ -12,15 +12,20 @@ export const LINE_CONFIG = {
 
   // 平衡空間（NAS）官方 LINE @xyx9843q：銷售機器人、本月流月、365 都在這個帳號，/nas 底下的頁面一律連這裡。
   NAS_LINE_ADD_URL: 'https://line.me/R/ti/p/@xyx9843q',
+
+  // 艾伯林量子調頻（ABL）官方 LINE @336irske：銷售機器人、付款後通知、季度提醒都在這個帳號，/abl 底下的頁面一律連這裡。
+  ABL_LINE_ADD_URL: 'https://line.me/R/ti/p/@336irske',
 };
 
 /**
- * 依頁面路徑決定加好友連結：/nas 底下連平衡空間，其他連 Erick Firm。
+ * 依頁面路徑決定加好友連結：/nas 底下連平衡空間，/abl 底下連艾伯林量子調頻，其他連 Erick Firm。
  * @param {string} pathname
  * @returns {string}
  */
 export const lineAddUrlFor = (pathname = '') =>
-  /^\/nas(\/|$)/.test(pathname) ? LINE_CONFIG.NAS_LINE_ADD_URL : LINE_CONFIG.LINE_ADD_URL;
+  /^\/nas(\/|$)/.test(pathname) ? LINE_CONFIG.NAS_LINE_ADD_URL
+    : /^\/abl(\/|$)/.test(pathname) ? LINE_CONFIG.ABL_LINE_ADD_URL
+      : LINE_CONFIG.LINE_ADD_URL;
 
 /**
  * 產生帶預填訊息的 LINE 連結。

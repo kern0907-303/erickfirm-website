@@ -176,7 +176,7 @@ const ABLPage = () => {
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xl leading-loose text-slate-800 md:text-2xl">這樣的時刻，你也有過。先加 LINE，我們從你現在的狀態開始。</p>
           <a
-            href={LINE_CONFIG.LINE_ADD_URL}
+            href={LINE_CONFIG.ABL_LINE_ADD_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="abl-cta mt-8 inline-flex items-center justify-center px-7 py-4 text-sm font-bold transition-opacity hover:opacity-90"

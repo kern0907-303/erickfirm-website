@@ -134,7 +134,7 @@ const AblSpacePage = () => {
       <section className="abl-sales-ending">
         <div className="abl-sales-inner abl-sales-ending-inner">
           <p>想先確認你的空間適不適合，先加 LINE，我們一起看。</p>
-          <a className="abl-cta abl-sales-line" href={LINE_CONFIG.LINE_ADD_URL} target="_blank" rel="noopener noreferrer">加 LINE，開放時通知我</a>
+          <a className="abl-cta abl-sales-line" href={LINE_CONFIG.ABL_LINE_ADD_URL} target="_blank" rel="noopener noreferrer">加 LINE，開放時通知我</a>
         </div>
       </section>
 

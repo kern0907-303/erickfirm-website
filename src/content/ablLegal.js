@@ -3,7 +3,7 @@ export const LEGAL_BRAND = '艾伯林量子調頻';
 export const LEGAL_SELLER_LINE = '特有種商行（品牌：艾伯林量子調頻）';
 export const LEGAL_TAX_ID = '88134911';
 export const LEGAL_EMAIL = 'abliene358@gmail.com';
-export const LEGAL_LINE_URL = 'https://lin.ee/STdLXx4';
+export const LEGAL_LINE_URL = 'https://line.me/R/ti/p/@336irske';
 
 const contactCard = {
   type: 'card',
