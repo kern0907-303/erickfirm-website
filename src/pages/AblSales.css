@@ -584,3 +584,54 @@
 .theme-abl.abl-sales-page .abl-sales-theme {
   align-self: start;
 }
+
+/* 2026-11-04 主題多選與價格錨點（系統一：第一眼就知道選什麼、多少錢、怎麼買） */
+.theme-abl.abl-sales-page { padding-bottom: 6rem; }
+.theme-abl.abl-sales-page .abl-pick-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin: 1.5rem 0; }
+.theme-abl.abl-sales-page .abl-pick-tier { display: grid; gap: 0.3rem; align-content: start; padding: 1.2rem; border: 1px solid rgba(31, 214, 236, 0.45); border-radius: 18px; background: #fff; color: #1e293b; }
+.theme-abl.abl-sales-page .abl-pick-tier.is-anchor { border: 2px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(135deg, #3ae9de, #3b8cff) border-box; box-shadow: 0 12px 30px rgba(59, 140, 255, 0.15); }
+.theme-abl.abl-sales-page .abl-pick-tier-count { font-weight: 700; color: var(--abl-ink); }
+.theme-abl.abl-sales-page .abl-pick-tier strong { font-size: 1.7rem; color: var(--abl-ink); line-height: 1.2; }
+.theme-abl.abl-sales-page .abl-pick-tier strong small { margin-left: 0.25rem; font-size: 0.9rem; font-weight: 600; color: #475569; }
+.theme-abl.abl-sales-page .abl-pick-tier-note { font-size: 0.95rem; color: #475569; }
+.theme-abl.abl-sales-page .abl-pick-all { margin-top: 0.5rem; min-height: 2.75rem; border: 0; border-radius: 999px; background: linear-gradient(135deg, #3ae9de, #3b8cff); color: #fff; font-size: 1rem; font-weight: 800; cursor: pointer; transition: transform 0.12s ease, filter 0.12s ease; }
+.theme-abl.abl-sales-page .abl-pick-all:hover { filter: brightness(1.05); }
+.theme-abl.abl-sales-page .abl-pick-all:active { transform: scale(0.96); }
+.theme-abl.abl-sales-page .abl-pick-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.theme-abl.abl-sales-page .abl-pick-card { padding: 0.6rem 0.6rem 0.9rem; border: 2px solid rgba(31, 214, 236, 0.35); border-radius: 20px; background: #fff; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+.theme-abl.abl-sales-page .abl-pick-card.is-selected { border-color: #1fd6ec; background: linear-gradient(rgba(58, 233, 222, 0.08), rgba(58, 233, 222, 0.08)), #fff; box-shadow: 0 10px 26px rgba(31, 214, 236, 0.22); }
+.theme-abl.abl-sales-page .abl-pick-toggle { display: flex; width: 100%; align-items: flex-start; gap: 0.8rem; padding: 0.8rem; border: 0; border-radius: 14px; background: transparent; color: #1e293b; text-align: left; cursor: pointer; transition: transform 0.12s ease, background 0.12s ease; }
+.theme-abl.abl-sales-page .abl-pick-toggle:hover { background: rgba(58, 233, 222, 0.06); }
+.theme-abl.abl-sales-page .abl-pick-toggle:active { transform: scale(0.98); }
+.theme-abl.abl-sales-page .abl-pick-check { display: inline-flex; flex: 0 0 2rem; height: 2rem; align-items: center; justify-content: center; border: 2px solid #1fd6ec; border-radius: 50%; color: #1293a9; font-weight: 900; }
+.theme-abl.abl-sales-page .abl-pick-card.is-selected .abl-pick-check { border-color: transparent; background: linear-gradient(135deg, #3ae9de, #3b8cff); color: #fff; }
+.theme-abl.abl-sales-page .abl-pick-icon { font-size: 1.8rem; line-height: 1; }
+.theme-abl.abl-sales-page .abl-pick-text { display: grid; gap: 0.2rem; }
+.theme-abl.abl-sales-page .abl-pick-text b { color: var(--abl-ink); font-size: 1.2rem; }
+.theme-abl.abl-sales-page .abl-pick-text span { font-size: 1.05rem; }
+.theme-abl.abl-sales-page .abl-pick-text small { color: #475569; font-size: 0.95rem; }
+.theme-abl.abl-sales-page .abl-pick-card .abl-sales-seasons-wrap { margin: 0.2rem 0.8rem 0; }
+.theme-abl.abl-sales-page .abl-pick-portrait { display: block; width: 160px; height: 160px; margin: 1rem 0 0.5rem; border-radius: 50%; object-fit: cover; box-shadow: 0 10px 26px rgba(11, 31, 42, 0.12); }
+.theme-abl.abl-sales-page .abl-pick-timeline { display: grid; gap: 0.8rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+.theme-abl.abl-sales-page .abl-pick-timeline li { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding: 1rem 1.2rem; border-left: 4px solid #1fd6ec; border-radius: 12px; background: #fff; font-size: 1.1rem; line-height: 1.7; }
+.theme-abl.abl-sales-page .abl-pick-timeline b { color: var(--abl-ink); }
+.theme-abl.abl-sales-page .abl-pick-trust { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+.theme-abl.abl-sales-page .abl-pick-trust li { display: grid; gap: 0.2rem; padding: 1rem 1.2rem; border: 1px solid rgba(31, 214, 236, 0.45); border-radius: 16px; background: #fff; font-size: 1.05rem; }
+.theme-abl.abl-sales-page .abl-pick-trust b { color: var(--abl-ink); }
+.theme-abl.abl-sales-page .abl-pick-bar { position: fixed; z-index: 40; left: 50%; bottom: max(0.8rem, env(safe-area-inset-bottom)); display: flex; width: min(calc(100% - 1.6rem), 720px); align-items: center; justify-content: space-between; gap: 1rem; padding: 0.8rem 0.9rem 0.8rem 1.3rem; border: 1px solid rgba(31, 214, 236, 0.5); border-radius: 999px; background: rgba(255, 255, 255, 0.97); box-shadow: 0 14px 40px rgba(11, 31, 42, 0.18); transform: translateX(-50%); }
+.theme-abl.abl-sales-page .abl-pick-bar-info { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.8rem; color: #1e293b; font-size: 1rem; }
+.theme-abl.abl-sales-page .abl-pick-bar-info strong { color: var(--abl-ink); font-size: 1.35rem; }
+.theme-abl.abl-sales-page .abl-pick-bar-info strong small { font-size: 0.85rem; font-weight: 600; }
+.theme-abl.abl-sales-page .abl-pick-bar-info em { flex-basis: 100%; color: #1293a9; font-size: 0.9rem; font-style: normal; font-weight: 700; }
+.theme-abl.abl-sales-page .abl-pick-bar-cta { display: inline-flex; min-height: 3.2rem; align-items: center; padding: 0 1.6rem; border-radius: 999px; background: linear-gradient(135deg, #3ae9de, #3b8cff); color: #fff; font-size: 1.1rem; font-weight: 800; white-space: nowrap; transition: transform 0.12s ease, filter 0.12s ease; }
+.theme-abl.abl-sales-page .abl-pick-bar-cta:hover { filter: brightness(1.05); }
+.theme-abl.abl-sales-page .abl-pick-bar-cta:active { transform: scale(0.96); }
+.theme-abl.abl-sales-page .abl-pick-bar-soon { color: #475569; font-size: 0.95rem; font-weight: 700; white-space: nowrap; }
+@media (max-width: 760px) {
+  .theme-abl.abl-sales-page .abl-pick-tiers,
+  .theme-abl.abl-sales-page .abl-pick-grid,
+  .theme-abl.abl-sales-page .abl-pick-trust { grid-template-columns: 1fr; }
+  .theme-abl.abl-sales-page .abl-pick-tier.is-anchor { order: -1; }
+  .theme-abl.abl-sales-page .abl-pick-timeline li { grid-template-columns: 1fr; gap: 0.2rem; }
+  .theme-abl.abl-sales-page .abl-pick-bar { border-radius: 22px; }
+}

@@ -504,22 +504,22 @@ const focusBlock = (item) => `<p class="abl-sales-theme-goal">${esc(item.goal)}<
   <ol class="abl-sales-focus">${item.focus.map((t) => `<li>${esc(t)}</li>`).join('')}</ol>
   <p class="abl-sales-subhead">${esc(C2027.CHECK_TITLE)}<small>${esc(C2027.CHECK_HINT)}</small></p>
   <ul class="abl-sales-seasons">${item.checks.map(([season, title, question]) => `<li><b>${esc(season)}　${esc(title)}</b><span>${esc(question)}</span></li>`).join('')}</ul></details>`;
-const soon = '<p class="abl-sales-soon">十一月陸續開放</p>';
-const planCard = (name, price, lines) => salesCard(`<h3 class="abl-heading">${esc(name)}<span class="abl-sales-price">${esc(price)} <small>/ 年</small></span></h3><div class="abl-sales-copy">${lines.map(salesP).join('')}</div>${soon}`);
+// 2026-11-04：/abl/2027 改成點選主題、依主題數計價；預渲染版給搜尋引擎與無 JavaScript 的讀者，結構與頁面一致。
 const sales2027Body = () => [
   '<div class="theme-abl abl-sales-page">',
-  salesHero('今年，把狀態穩在你想要的地方', '艾伯林量子調頻 2027 年度頻率支持，一整年的背景支持，一季一季陪你往前走。', 'how-to-buy', '看怎麼購買'),
-  salesSection('買了會得到什麼', `<div class="abl-sales-copy">${salesP('一整年的背景支持，從付款確認當天起算，共 365 天。')}${C2027.INTRO.map(salesP).join('')}</div>`),
-  salesSection('怎麼購買，四步就完成', `<ol class="abl-sales-steps">${C2027.BUY_STEPS.map(([t, b], i) => `<li class="abl-sales-step"><span class="abl-sales-step-no">${i + 1}</span><h3>${esc(t)}</h3>${salesP(b)}</li>`).join('')}</ol>${salesP('結帳按鈕在下面每個方案的卡片裡。還沒開放的方案，卡片上會寫「十一月陸續開放」，開放後按鈕會自己出現在同一個位置。').replace('<p>', '<p class="abl-sales-note">')}`, 'how-to-buy', 'abl-sales-section-muted'),
-  salesSection('選哪一種', `<div class="abl-sales-diff"><ul>${C2027.PLAN_DIFF.map(([n, b]) => `<li><strong>${esc(n)}</strong><span>${esc(b)}</span></li>`).join('')}</ul>${salesP(C2027.PLAN_DIFF_NOTE)}</div>${salesGrid([
-    planCard('團體年度頻率', 'NT$990', ['一群人，共享同一個頻率。', '2027 共同主題：穩定承接。在變動裡穩住自己，讓真正適合你的關係、機會與資源，有空間進來。', '包含：共同年度主題，整合成一年的組合頻率，每季一則檢視提醒。']),
-    planCard('個人年度頻率　單一主題', 'NT$2,200', ['從下面六個主題選一個，頻率單獨為你設定、單獨發送。', '包含：一個年度主題，整合成一年的組合頻率，每季一則檢視提醒。']),
-    planCard('個人年度頻率　雙主題', 'NT$3,980', ['從下面六個主題選兩個，兩個頻率各自單獨為你設定、單獨發送。', '包含：兩個年度主題，各自整合成組合頻率，每季一則檢視提醒，涵蓋兩個主題。']),
-  ], 'abl-sales-grid-plans')}`, 'support-options'),
-  salesSection('團體 2027 年度頻率', salesCard(`<h3 class="abl-heading">${esc(C2027.GROUP.name)}</h3><p class="abl-sales-theme-line">${esc(C2027.GROUP.line)}</p>${focusBlock(C2027.GROUP)}`, 'abl-sales-theme'), '', 'abl-sales-section-muted'),
-  salesSection('個人六個年度主題', `<p class="abl-sales-lead">選一個，或選兩個。每個主題有四個焦點，整合成一年的組合頻率，再加上四個每季檢視點。</p>${salesGrid(C2027.THEMES.map((t) => salesCard(`<h3 class="abl-heading"><span class="abl-sales-theme-icon" aria-hidden="true">${t.icon}</span>${esc(t.name)}</h3><p class="abl-sales-theme-line">${esc(t.line)}</p><p class="abl-sales-theme-fit">${esc(t.fit)}</p>${focusBlock(t)}`, 'abl-sales-theme')), 'abl-sales-grid-two')}`),
-  salesSection('常見問題', salesFaqs(C2027.FAQS), '', 'abl-sales-section-muted'),
-  `<section class="abl-sales-ending"><div class="abl-sales-inner abl-sales-ending-inner"><h2 class="abl-heading">選好了，就從方案卡片開始</h2>${salesP('購買的入口是每個方案卡片裡的「前往結帳」。還沒開放的方案，開放時我們會在官方 LINE 通知你。也可以先加官方 LINE，問我們該選哪一種。')}<div class="abl-sales-ending-actions"><a class="abl-cta abl-sales-scroll" href="#support-options">回到選方案</a><a class="abl-cta abl-sales-line" href="https://lin.ee/STdLXx4" target="_blank" rel="noopener noreferrer">加官方 LINE，開放時通知我</a></div></div></section>`,
+  salesHero('這一年，你最想先顧好哪一件事？', '選好主題，頻率單獨為你設定、單獨發送，陪你走完 2027 一整年。', 'themes', '開始選主題'),
+  salesSection('點選你想顧好的主題', `<p class="abl-sales-lead">可以選好幾個，價格會自動算好。</p><div class="abl-pick-tiers">${C2027.PRICE_TIERS.map((t) => `<div class="abl-pick-tier${t.highlight ? ' is-anchor' : ''}"><span class="abl-pick-tier-count">${esc(t.count)}</span><strong>${esc(t.price)}<small>${esc(t.unit)}</small></strong><span class="abl-pick-tier-note">${esc(t.note)}</span></div>`).join('')}</div><div class="abl-pick-grid">${C2027.THEMES.map((t) => `<article class="abl-pick-card"><div class="abl-pick-toggle"><span class="abl-pick-icon" aria-hidden="true">${t.icon}</span><span class="abl-pick-text"><b>${esc(t.name)}</b><span>${esc(t.line)}</span><small>${esc(t.fit)}</small></span></div>${focusBlock(t)}</article>`).join('')}</div>${salesP(C2027.WHY_SINGLE).replace('<p>', '<p class="abl-sales-note">')}`, 'themes'),
+  salesSection('買了之後，會發生什麼', `<div class="abl-sales-copy">${C2027.INTRO.map(salesP).join('')}</div><ol class="abl-pick-timeline">${C2027.TIMELINE.map(([when, what]) => `<li><b>${esc(when)}</b><span>${esc(what)}</span></li>`).join('')}</ol>`, '', 'abl-sales-section-muted'),
+  salesSection('誰替你設定', `<img class="abl-pick-portrait" src="/erick-portrait-warm-v2.webp" alt="艾瑞克" width="160" height="160" loading="lazy"><div class="abl-sales-copy">${salesP('艾伯林量子調頻由艾瑞克負責。二十年身心領域的經驗，2018 年起投入頻率設備的調和工作。')}${salesP('每一位客人的頻率，都是收到你的資料後親自設定，設定好才通知你。')}</div><ul class="abl-pick-trust">${[
+    ['7 日內不問理由全額退款', '付款日起 7 日內，透過 LINE 或 Email 申請。'],
+    ['綠界科技信用卡付款', '我們看不到，也不會儲存你的卡號。'],
+    ['資料只用於設定', '照片與個人資料存放在不公開的空間，服務結束後 90 天刪除。'],
+    ['價格對每個人都一樣', '沒有折扣碼，也沒有限時漲價。'],
+    ['賣方資訊', LEGAL_SELLER_LINE + '，統一編號 ' + LEGAL_TAX_ID + '。'],
+  ].map(([t, b]) => `<li><b>${esc(t)}</b><span>${esc(b)}</span></li>`).join('')}</ul>`),
+  salesSection('怎麼購買，四步就完成', `<ol class="abl-sales-steps">${C2027.BUY_STEPS.map(([t, b], i) => `<li class="abl-sales-step"><span class="abl-sales-step-no">${i + 1}</span><h3>${esc(t)}</h3>${salesP(b)}</li>`).join('')}</ol>`, 'how-to-buy', 'abl-sales-section-muted'),
+  salesSection('常見問題', salesFaqs(C2027.FAQS)),
+  `<section class="abl-sales-ending"><div class="abl-sales-inner abl-sales-ending-inner"><h2 class="abl-heading">還在猶豫選哪一個？</h2>${salesP('加官方 LINE，輸入 1，我們用兩個小問題幫你找到最適合的主題。')}<div class="abl-sales-ending-actions"><a class="abl-cta abl-sales-scroll" href="#themes">回到選主題</a><a class="abl-cta abl-sales-line" href="https://lin.ee/STdLXx4" target="_blank" rel="noopener noreferrer">加官方 LINE 問我們</a></div></div></section>`,
   salesDisclaimer('頻率支持不是醫療、診斷或療效保證。'),
   ablLegalFooter,
   '</div>',
@@ -582,7 +582,7 @@ const SALES_PAGES = [
   {
     route: '/abl/2027',
     title: '艾伯林量子調頻｜2027 年度頻率支持',
-    description: '2027 年度頻率支持，團體共享頻率，或個人單獨設定，一整年的背景支持，每季一則 LINE 檢視提醒。',
+    description: '選你這一年最想顧好的主題，頻率單獨為你設定、單獨發送。選 1 個 NT$2,600，2 到 5 個每個 NT$2,200，6 個全選 NT$11,800。',
     body: sales2027Body(),
     noindex: false,
   },
@@ -597,11 +597,11 @@ const SALES_PAGES = [
   {
     route: '/abl/space',
     title: '艾伯林量子調頻｜空間調頻',
-    description: '空間調頻看的是一個地址的空間狀態，以及人在其中的使用方式，一年內分階段回看與調整。',
+    description: '空間調頻看的是一個地址的空間狀態，以及人在其中的使用方式，一年內分階段回看與調整。居家與 SOHO 每年 NT$8,800，工作室與辦公室每年 NT$16,800。',
     body: [
       '<div class="theme-abl abl-sales-page">',
       salesHero('把每天所在的空間，慢慢調成你需要的樣子', '艾伯林量子調頻 空間調頻，一個地址，一整年，分階段回看與調整。', 'space-year', '看一年怎麼走'),
-      salesSection('這是什麼', `<div class="abl-sales-copy">${salesP('空間調頻看的是一個地址的空間狀態，以及人在其中的使用方式。')}${salesP('第一輪適用居家、SOHO、個人工作室。大型商業空間目前不在第一輪範圍。')}</div>`),
+      salesSection('這是什麼', `<div class="abl-sales-copy">${salesP('空間調頻看的是一個地址的空間狀態，以及人在其中的使用方式。')}${salesP('居家與 SOHO，個人工作室、辦公室與小店面，都可以選擇。大型商業空間請先在 LINE 洽詢。')}</div>`),
       salesSection('一年怎麼走', `<ol class="abl-sales-timeline">${[
         '第 0 天　建立空間基準', '第 30 天　第一次回看', '第 60 天　第二次調整', '第 90 天　建立新的基準',
         '第 180 天　半年檢視', '第 270 天　再校準', '第 360 天　年度回顧',
@@ -609,10 +609,12 @@ const SALES_PAGES = [
       salesSection('每次回看，只回答四件事', `<ul class="abl-sales-four-items">${[
         '哪裡有改變', '哪裡維持住', '哪裡又偏掉', '下一階段調整什麼',
       ].map((item) => `<li class="abl-card abl-sales-card">${esc(item)}</li>`).join('')}</ul>`),
-      salesSection('方案', salesCard(`<h3 class="abl-heading">空間調頻　NT$8,800 / 年 / 一個地址</h3><div class="abl-sales-copy">${salesP('適用：居家、SOHO、個人工作室。')}${salesP('一個方案對應一個地址。')}</div>`, 'abl-sales-space-plan'), '', 'abl-sales-section-muted'),
+      salesSection('方案', salesCard(`<h3 class="abl-heading">居家方案　NT$8,800 / 年 / 一個地址</h3><div class="abl-sales-copy">${salesP('適用：居家、SOHO。')}${salesP('一個方案對應一個地址。')}</div>`, 'abl-sales-space-plan') + salesCard(`<h3 class="abl-heading">工作室方案　NT$16,800 / 年 / 一個地址</h3><div class="abl-sales-copy">${salesP('適用：個人工作室、辦公室、小店面。')}${salesP('一個方案對應一個地址。')}</div>`, 'abl-sales-space-plan'), '', 'abl-sales-section-muted'),
       salesSection('常見問題', salesFaqs([
-        ['哪些空間適用？', '第一輪適用居家、SOHO、個人工作室。大型商業空間目前不在第一輪範圍。'],
+        ['哪些空間適用？', '居家與 SOHO 選居家方案；個人工作室、辦公室、小店面選工作室方案。整層辦公室、餐廳、賣場等大型商業空間，請先在 LINE 洽詢。'],
         ['一個方案可以用在幾個地址？', '一個方案對應一個地址。'],
+        ['付款後要做什麼？', '付款完成後，LINE 會傳一個填資料的連結，請上傳空間照片（每個主要區域一張），並填寫主要使用者的姓名與生日。我們依照片建立空間基準，設定好會用 LINE 通知你。'],
+        ['照片和資料會保存多久？', '只用於這次服務，服務結束後 90 天刪除。'],
         ['空間調頻和個人年度頻率有什麼不同？', '個人年度頻率支持的是你自己的狀態，空間調頻看的是一個地址的空間。兩者可以分開選擇。'],
       ])),
       salesEnding('想先確認你的空間適不適合，先加 LINE，我們一起看。'),

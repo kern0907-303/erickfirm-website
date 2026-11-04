@@ -9,7 +9,7 @@ import './AblSales.css';
 
 const INDEXABLE = false;
 const TITLE = '艾伯林量子調頻｜空間調頻';
-const DESCRIPTION = '空間調頻看的是一個地址的空間狀態，以及人在其中的使用方式，一年內分階段回看與調整。';
+const DESCRIPTION = '空間調頻看的是一個地址的空間狀態，以及人在其中的使用方式，一年內分階段回看與調整。居家與 SOHO 每年 NT$8,800，工作室與辦公室每年 NT$16,800。';
 
 const TIMELINE = [
   '第 0 天　建立空間基準',
@@ -22,8 +22,10 @@ const TIMELINE = [
 ];
 
 const FAQS = [
-  ['哪些空間適用？', '第一輪適用居家、SOHO、個人工作室。大型商業空間目前不在第一輪範圍。'],
+  ['哪些空間適用？', '居家與 SOHO 選居家方案；個人工作室、辦公室、小店面選工作室方案。整層辦公室、餐廳、賣場等大型商業空間，請先在 LINE 洽詢。'],
   ['一個方案可以用在幾個地址？', '一個方案對應一個地址。'],
+  ['付款後要做什麼？', '付款完成後，LINE 會傳一個填資料的連結，請上傳空間照片（每個主要區域一張），並填寫主要使用者的姓名與生日。我們依照片建立空間基準，設定好會用 LINE 通知你。'],
+  ['照片和資料會保存多久？', '只用於這次服務，服務結束後 90 天刪除。'],
   ['空間調頻和個人年度頻率有什麼不同？', '個人年度頻率支持的是你自己的狀態，空間調頻看的是一個地址的空間。兩者可以分開選擇。'],
 ];
 
@@ -67,7 +69,7 @@ const AblSpacePage = () => {
           <h2 className="abl-heading">這是什麼</h2>
           <div className="abl-sales-copy">
             <p>空間調頻看的是一個地址的空間狀態，以及人在其中的使用方式。</p>
-            <p>第一輪適用居家、SOHO、個人工作室。大型商業空間目前不在第一輪範圍。</p>
+            <p>居家與 SOHO，個人工作室、辦公室與小店面，都可以選擇。大型商業空間請先在 LINE 洽詢。</p>
           </div>
         </div>
       </section>
@@ -97,12 +99,20 @@ const AblSpacePage = () => {
         <div className="abl-sales-inner">
           <h2 className="abl-heading">方案</h2>
           <article className="abl-card abl-sales-card abl-sales-space-plan">
-            <h3 className="abl-heading">空間調頻　<span className="whitespace-nowrap">NT$8,800 / 年 / 一個地址</span></h3>
+            <h3 className="abl-heading">居家方案　<span className="whitespace-nowrap">NT$8,800 / 年 / 一個地址</span></h3>
             <div className="abl-sales-copy">
-              <p>適用：居家、SOHO、個人工作室。</p>
+              <p>適用：居家、SOHO。</p>
               <p>一個方案對應一個地址。</p>
             </div>
             <ProductCheckoutButton code="space_reset_365" label="前往結帳" />
+          </article>
+          <article className="abl-card abl-sales-card abl-sales-space-plan">
+            <h3 className="abl-heading">工作室方案　<span className="whitespace-nowrap">NT$16,800 / 年 / 一個地址</span></h3>
+            <div className="abl-sales-copy">
+              <p>適用：個人工作室、辦公室、小店面。</p>
+              <p>一個方案對應一個地址。</p>
+            </div>
+            <ProductCheckoutButton code="space_reset_365_studio" label="前往結帳" />
           </article>
         </div>
       </section>
