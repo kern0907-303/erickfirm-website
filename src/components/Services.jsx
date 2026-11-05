@@ -32,10 +32,14 @@ const serviceRoutes = {
   '艾伯林量子調頻': { path: '/abl', key: 'abl' },
 };
 
-const Services = ({ linked = false, current = '' } = {}) => (
+const Services = ({ linked = false, current = '', only = false } = {}) => {
+  const visible = only && current
+    ? services.filter((service) => serviceRoutes[service.title]?.key === current)
+    : services;
+  return (
   <section id="services" className="bg-[#f3f4f1] py-20 md:py-28">
     <div className="container mx-auto max-w-7xl px-6">
-      {!linked && (
+      {!linked && !only && (
         <div className="mb-14 max-w-2xl">
           <Reveal>
             <p className="text-xs tracking-[0.22em] text-slate-500 mb-5">THREE WAYS</p>
@@ -50,14 +54,14 @@ const Services = ({ linked = false, current = '' } = {}) => (
           </Reveal>
         </div>
       )}
-      <CardRise className="grid gap-5 md:grid-cols-3">
-        {services.map((service) => {
+      <CardRise className={visible.length === 1 ? 'mx-auto max-w-3xl' : 'grid gap-5 md:grid-cols-3'}>
+        {visible.map((service) => {
           const route = serviceRoutes[service.title];
           const card = (
             <article className="card-soft h-full bg-white p-7 md:p-9">
               <p className="text-xl font-bold text-slate-900">{service.title}</p>
               <p className="mt-5 inline-block rounded-full bg-slate-100 px-3.5 py-1 text-xs text-slate-600">{service.label}</p>
-              {linked && current === route.key && (
+              {linked && !only && current === route.key && (
                 <span className="ml-2 inline-block text-xs text-slate-500">目前所在頁</span>
               )}
               <div className="mt-8 space-y-6 text-sm leading-loose text-slate-600">
@@ -80,6 +84,7 @@ const Services = ({ linked = false, current = '' } = {}) => (
       </CardRise>
     </div>
   </section>
-);
+  );
+};
 
 export default Services;

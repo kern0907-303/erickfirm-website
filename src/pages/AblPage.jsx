@@ -205,7 +205,7 @@ const ABLPage = () => {
         </div>
       </section>
 
-      <Services linked current="abl" />
+      <Services current="abl" only />
 
       <section className="bg-[#fbfaf7] px-6 py-14">
         <div className="mx-auto max-w-7xl">

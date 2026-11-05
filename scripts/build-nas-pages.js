@@ -429,7 +429,6 @@ const ablBody = [
   h2('持續更新的文章'),
   ablArticleLinks ? `<ul>${ablArticleLinks}</ul>` : '',
   a('/insights/personal-growth', '看全部文章'),
-  nav([['/i8', '初八企業顧問'], ['/nas', '平衡空間'], ['/abl', '艾伯林量子調頻，目前所在頁']]),
   p('年度頻率支持 即將開放'),
   p('空間調頻 即將開放'),
   a('/about', '認識艾瑞克'),
