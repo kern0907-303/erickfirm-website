@@ -25,6 +25,28 @@ const personalPrice = (count) => {
   if (count === 6) return 11800;
   return 2200 * count;
 };
+// 廣告與短影音來源：落地網址的 utm 與 fbclid 帶到結帳頁，訂單才知道從哪裡來
+const ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid'];
+const ATTRIBUTION_STORAGE_KEY = 'abl_2027_order_attribution';
+const readAttribution = () => {
+  if (typeof window === 'undefined') return {};
+  const query = new URLSearchParams(window.location.search);
+  const current = Object.fromEntries(ATTRIBUTION_KEYS
+    .filter((key) => query.has(key) && query.get(key) !== '')
+    .map((key) => [key, query.get(key)]));
+  let saved = {};
+  try {
+    const parsed = JSON.parse(localStorage.getItem(ATTRIBUTION_STORAGE_KEY) || 'null');
+    if (parsed && Date.now() - Number(parsed.captured_at) <= 90 * 86400000) saved = parsed;
+  } catch { /* optional */ }
+  const hasUtm = ATTRIBUTION_KEYS.slice(0, 4).some((key) => Object.hasOwn(current, key));
+  const next = hasUtm ? { ...current, captured_at: Date.now() }
+    : Object.keys(current).length ? { ...saved, ...current } : saved;
+  if (Object.keys(current).length) {
+    try { localStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(next)); } catch { /* optional */ }
+  }
+  return next;
+};
 const formatPrice = (value) => 'NT$' + new Intl.NumberFormat('zh-TW').format(value);
 const tierOf = (count) => (count === 6 ? 'all' : count >= 2 ? 'multi' : count === 1 ? 'one' : '');
 const priceBreakdown = (count) => {
@@ -81,7 +103,14 @@ const Abl2027Page = () => {
   const count = selected.length;
   const total = personalPrice(count);
   const currentTier = tierOf(count);
-  const checkoutHref = useMemo(() => CHECKOUT_URL + encodeURIComponent(selected.join(',')), [selected]);
+  const [attribution] = useState(readAttribution);
+  const checkoutHref = useMemo(() => {
+    let href = CHECKOUT_URL + encodeURIComponent(selected.join(','));
+    for (const key of ATTRIBUTION_KEYS) {
+      if (typeof attribution[key] === 'string' && attribution[key] !== '') href += '&' + key + '=' + encodeURIComponent(attribution[key]);
+    }
+    return href;
+  }, [selected, attribution]);
 
   const toggle = (code) => {
     if (mode === 'one') {
