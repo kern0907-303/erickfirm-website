@@ -5,11 +5,14 @@ import HeroTextReveal from '../components/HeroTextReveal';
 import ProductCheckoutButton from '../components/ProductCheckoutButton';
 import SEOHead from '../components/SEOHead';
 import AblLegalFooter from '../components/AblLegalFooter';
+import { readAblAttribution, withAblAttribution } from '../lib/ablAttribution';
 import './AblSales.css';
 
 const INDEXABLE = false;
 const TITLE = '艾伯林量子調頻｜空間調頻';
 const DESCRIPTION = '空間調頻看的是一個地址的空間狀態，以及人在其中的使用方式，一年內分階段回看與調整。居家與 SOHO 每年 NT$8,800，工作室與辦公室每年 NT$16,800。';
+
+const OPEN_DATE_TEXT = '11\u00a0月\u00a017\u00a0日開放購買';
 
 const TIMELINE = [
   '第 0 天　建立空間基準',
@@ -31,6 +34,8 @@ const FAQS = [
 
 const AblSpacePage = () => {
   const [logoFailed, setLogoFailed] = useState(false);
+  const [attribution] = useState(readAblAttribution);
+  const checkoutFor = (code) => withAblAttribution('https://pay.erickfirm.com/?product=' + code, attribution);
 
   return (
     <main className="theme-abl abl-sales-page">
@@ -60,7 +65,7 @@ const AblSpacePage = () => {
             titleClassName="abl-heading abl-sales-title"
             subtitleClassName="abl-sales-subtitle"
           />
-          <a className="abl-cta abl-sales-scroll" href="#space-year">看一年怎麼走</a>
+          <a className="abl-cta abl-sales-scroll" href="#space-plans">看方案與價格</a>
         </div>
       </section>
 
@@ -95,16 +100,17 @@ const AblSpacePage = () => {
         </div>
       </section>
 
-      <section className="abl-sales-section abl-sales-section-muted">
+      <section id="space-plans" className="abl-sales-section abl-sales-section-muted">
         <div className="abl-sales-inner">
           <h2 className="abl-heading">方案</h2>
+          <p className="abl-sales-lead">選一個方案按「前往結帳」，用 LINE 登入後信用卡付款。付款完成，LINE 會傳填資料的連結，照著填就好。</p>
           <article className="abl-card abl-sales-card abl-sales-space-plan">
             <h3 className="abl-heading">居家方案　<span className="whitespace-nowrap">NT$8,800 / 年 / 一個地址</span></h3>
             <div className="abl-sales-copy">
               <p>適用：居家、SOHO。</p>
               <p>一個方案對應一個地址。</p>
             </div>
-            <ProductCheckoutButton code="space_reset_365" label="前往結帳" />
+            <ProductCheckoutButton code="space_reset_365" label="前往結帳 NT$8,800" closedText={OPEN_DATE_TEXT} checkoutUrl={checkoutFor('space_reset_365')} />
           </article>
           <article className="abl-card abl-sales-card abl-sales-space-plan">
             <h3 className="abl-heading">工作室方案　<span className="whitespace-nowrap">NT$16,800 / 年 / 一個地址</span></h3>
@@ -112,7 +118,7 @@ const AblSpacePage = () => {
               <p>適用：個人工作室、辦公室、小店面。</p>
               <p>一個方案對應一個地址。</p>
             </div>
-            <ProductCheckoutButton code="space_reset_365_studio" label="前往結帳" />
+            <ProductCheckoutButton code="space_reset_365_studio" label="前往結帳 NT$16,800" closedText={OPEN_DATE_TEXT} checkoutUrl={checkoutFor('space_reset_365_studio')} />
           </article>
         </div>
       </section>
@@ -134,7 +140,10 @@ const AblSpacePage = () => {
       <section className="abl-sales-ending">
         <div className="abl-sales-inner abl-sales-ending-inner">
           <p>想先確認你的空間適不適合，先加 LINE，我們一起看。</p>
-          <a className="abl-cta abl-sales-line" href={LINE_CONFIG.ABL_LINE_ADD_URL} target="_blank" rel="noopener noreferrer">加 LINE，開放時通知我</a>
+          <div className="abl-sales-ending-actions">
+            <a className="abl-cta abl-sales-scroll" href="#space-plans">回到方案</a>
+            <a className="abl-cta abl-sales-line" href={LINE_CONFIG.ABL_LINE_ADD_URL} target="_blank" rel="noopener noreferrer">加官方 LINE 問我們</a>
+          </div>
         </div>
       </section>
 
