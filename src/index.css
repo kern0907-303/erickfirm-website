@@ -135,3 +135,8 @@
     font-size: max(16px, 1em);
   }
 }
+
+/* 全站避免最後一行只剩一個字：段落用 pretty，標題用 balance（瀏覽器依螢幕寬度自動調整） */
+body { text-wrap: pretty; }
+h1, h2, h3, h4, h5, h6, summary, .text-balance { text-wrap: balance; }
+.nowrap-tail { display: inline-block; white-space: nowrap; }

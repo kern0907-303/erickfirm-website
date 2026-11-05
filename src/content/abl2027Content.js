@@ -4,9 +4,9 @@ export const INTRO = [
 ];
 
 export const PRICE_TIERS = [
-  { count: '6 個全選', price: 'NT$11,800', unit: '/ 年', note: '每個主題約 NT$1,967，六個面向一次照顧', highlight: true },
-  { count: '選 2 到 5 個', price: 'NT$2,200', unit: '/ 個 / 年', note: '幾件事想一起顧，選幾個算幾個' },
-  { count: '只選 1 個', price: 'NT$2,600', unit: '/ 年', note: '先專心顧好一件事' },
+  { mode: 'all', count: '6 個全選', price: 'NT$11,800', unit: '/ 年', note: '每個主題約 NT$1,967，六個面向一次照顧', action: '一鍵全選六個', highlight: true },
+  { mode: 'multi', count: '選 2 到 5 個', price: 'NT$2,200', unit: '/ 個 / 年', note: '幾件事想一起顧，選幾個算幾個', action: '我要選 2 到 5 個' },
+  { mode: 'one', count: '只選 1 個', price: 'NT$2,600', unit: '/ 年', note: '先專心顧好一件事', action: '我只選 1 個' },
 ];
 
 export const TIMELINE = [

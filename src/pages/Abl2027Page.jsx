@@ -16,7 +16,7 @@ const TITLE = '艾伯林量子調頻｜2027 年度頻率支持';
 const DESCRIPTION = '選你這一年最想顧好的主題，頻率單獨為你設定、單獨發送。選 1 個 NT$2,600，2 到 5 個每個 NT$2,200，6 個全選 NT$11,800。';
 const PUBLIC_CONFIG_URL = 'https://pay.erickfirm.com/api/public-config';
 const CHECKOUT_URL = 'https://pay.erickfirm.com/?product=individual_single&focus=';
-const OPEN_DATE_TEXT = '11 月 10 日開放購買';
+const OPEN_DATE_TEXT = '11\u00a0月\u00a010\u00a0日開放購買';
 
 // 與收款後台 public/shared/catalogue.mjs 的 personalPrice 一致
 const personalPrice = (count) => {
@@ -26,6 +26,18 @@ const personalPrice = (count) => {
   return 2200 * count;
 };
 const formatPrice = (value) => 'NT$' + new Intl.NumberFormat('zh-TW').format(value);
+const tierOf = (count) => (count === 6 ? 'all' : count >= 2 ? 'multi' : count === 1 ? 'one' : '');
+const priceBreakdown = (count) => {
+  if (count === 6) return '6 個全選，比一個一個選省 NT$1,400';
+  if (count >= 2) return count + ' 個 × NT$2,200';
+  if (count === 1) return '1 個主題';
+  return '';
+};
+const scrollToId = (id) => {
+  window.setTimeout(() => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 30);
+};
 
 const FocusAndChecks = ({ item }) => (
   <details className="abl-sales-seasons-wrap">
@@ -64,17 +76,51 @@ const useCheckoutOpen = () => {
 const Abl2027Page = () => {
   const [logoFailed, setLogoFailed] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [mode, setMode] = useState('');
   const open = useCheckoutOpen();
-  const total = personalPrice(selected.length);
+  const count = selected.length;
+  const total = personalPrice(count);
+  const currentTier = tierOf(count);
   const checkoutHref = useMemo(() => CHECKOUT_URL + encodeURIComponent(selected.join(',')), [selected]);
 
   const toggle = (code) => {
+    if (mode === 'one') {
+      setSelected((current) => (current.includes(code) ? [] : [code]));
+      return;
+    }
     setSelected((current) => (current.includes(code) ? current.filter((item) => item !== code) : [...current, code]));
   };
-  const selectAll = () => {
-    setSelected(THEMES.map((theme) => theme.code));
-    document.getElementById('themes')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const chooseTier = (tierMode) => {
+    setMode(tierMode);
+    if (tierMode === 'all') {
+      setSelected(THEMES.map((theme) => theme.code));
+      scrollToId('abl-pick-summary');
+      return;
+    }
+    if (tierMode === 'one') setSelected((current) => current.slice(0, 1));
+    if (tierMode === 'multi' && count === 6) setSelected([]);
+    scrollToId('abl-pick-guide');
   };
+
+  let guideStep = 1;
+  let guideText = '在下方點選你想顧好的主題，點一下卡片就會打勾，可以選好幾個。';
+  if (mode === 'one' && count === 0) {
+    guideText = '請在下方點選 1 個主題，點一下卡片就會打勾。';
+  } else if (mode === 'multi' && count < 2) {
+    guideText = '請在下方點選 2 到 5 個主題。已選 ' + count + ' 個，再選 ' + (2 - count) + ' 個以上。';
+  } else if (count > 0) {
+    guideStep = 2;
+    guideText = open === false
+      ? '已選 ' + count + ' 個，金額 ' + formatPrice(total) + '。' + OPEN_DATE_TEXT + '，當天就能結帳。'
+      : '已選 ' + count + ' 個，金額 ' + formatPrice(total) + '。往下按「前往結帳」就完成選擇。';
+  }
+
+  const ctaLabel = '前往結帳 ' + formatPrice(total);
+  const renderCta = (className) => (open && count ? (
+    <a className={className} href={checkoutHref}>{ctaLabel}</a>
+  ) : (
+    <span className={className + ' is-disabled'}>{open === false ? OPEN_DATE_TEXT : count ? '確認中…' : '先點選上面的主題'}</span>
+  ));
 
   return (
     <main className="theme-abl abl-sales-page">
@@ -103,16 +149,21 @@ const Abl2027Page = () => {
       <section id="themes" className="abl-sales-section">
         <div className="abl-sales-inner">
           <h2 className="abl-heading">點選你想顧好的主題</h2>
-          <p className="abl-sales-lead">可以選好幾個，價格會自動算好。</p>
+          <p className="abl-sales-lead">先按一個方案，再到下方點選主題，金額會自動算好。</p>
           <div className="abl-pick-tiers" role="list">
             {PRICE_TIERS.map((tier) => (
-              <div className={'abl-pick-tier' + (tier.highlight ? ' is-anchor' : '')} role="listitem" key={tier.count}>
+              <div className={'abl-pick-tier' + (tier.highlight ? ' is-anchor' : '') + (currentTier === tier.mode ? ' is-current' : '')} role="listitem" key={tier.count}>
+                {currentTier === tier.mode ? <span className="abl-pick-tier-badge">目前的計價</span> : null}
                 <span className="abl-pick-tier-count">{tier.count}</span>
                 <strong>{tier.price}<small>{tier.unit}</small></strong>
                 <span className="abl-pick-tier-note">{tier.note}</span>
-                {tier.highlight ? <button type="button" className="abl-pick-all" onClick={selectAll}>一鍵全選六個</button> : null}
+                <button type="button" className={'abl-pick-all' + (tier.highlight ? '' : ' is-outline')} onClick={() => chooseTier(tier.mode)}>{tier.action}</button>
               </div>
             ))}
+          </div>
+          <div id="abl-pick-guide" className={'abl-pick-guide is-step-' + guideStep} aria-live="polite">
+            <span className="abl-pick-guide-step">第 {guideStep} 步</span>
+            <p>{guideText}</p>
           </div>
           <div className="abl-pick-grid">
             {THEMES.map((theme) => {
@@ -126,12 +177,30 @@ const Abl2027Page = () => {
                       <b>{theme.name}</b>
                       <span>{theme.line}</span>
                       <small>{theme.fit}</small>
+                      <span className="abl-pick-tap">{isOn ? '已選，再點一次可取消' : '點這裡選這個主題'}</span>
                     </span>
                   </button>
                   <FocusAndChecks item={theme} />
                 </article>
               );
             })}
+          </div>
+          <div id="abl-pick-summary" className={'abl-pick-summary' + (count ? ' is-active' : '')}>
+            {count ? (
+              <>
+                <span className="abl-pick-summary-label">第 2 步　確認金額後結帳</span>
+                <span className="abl-pick-summary-count">已選 {count} 個主題　{priceBreakdown(count)}</span>
+                <strong key={total} className="abl-pick-summary-total">{formatPrice(total)}<small> / 年</small></strong>
+                {count === 5 ? <em>再加 1 個只要多 NT$800，六個全拿</em> : null}
+                {renderCta('abl-pick-summary-cta')}
+                <span className="abl-pick-summary-next">按下後進入付款頁，用信用卡付款，付款完成 LINE 會通知你下一步。</span>
+              </>
+            ) : (
+              <>
+                <span className="abl-pick-summary-label">還沒選主題</span>
+                <span className="abl-pick-summary-count">往上點選主題，金額會在這裡自動算好。</span>
+              </>
+            )}
           </div>
           <p className="abl-sales-note">{WHY_SINGLE}</p>
         </div>
@@ -210,22 +279,19 @@ const Abl2027Page = () => {
       <footer className="abl-sales-disclaimer">頻率支持不是醫療、診斷或療效保證。</footer>
       <AblLegalFooter />
 
-      <div className={'abl-pick-bar' + (selected.length ? ' is-active' : '')} aria-live="polite">
+      <div className={'abl-pick-bar' + (count ? ' is-active' : '')}>
         <div className="abl-pick-bar-info">
-          {selected.length ? (
+          {count ? (
             <>
-              <span>已選 {selected.length} 個主題</span>
-              <strong>{formatPrice(total)}<small> / 年</small></strong>
-              {selected.length === 5 ? <em>再加 1 個只要多 NT$800，六個全拿</em> : null}
+              <span>已選 {count} 個主題</span>
+              <strong key={total}>{formatPrice(total)}<small> / 年</small></strong>
             </>
           ) : (
-            <span>先點選上面的主題</span>
+            <span>第 1 步：點選主題，金額自動算好</span>
           )}
         </div>
-        {open && selected.length ? (
-          <a className="abl-pick-bar-cta" href={checkoutHref}>前往結帳</a>
-        ) : (
-          <span className="abl-pick-bar-soon">{open === false ? OPEN_DATE_TEXT : selected.length ? '確認中…' : '選好就能結帳'}</span>
+        {count ? renderCta('abl-pick-bar-cta') : (
+          <a className="abl-pick-bar-cta is-ghost" href="#abl-pick-guide">去選主題</a>
         )}
       </div>
     </main>

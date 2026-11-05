@@ -10,6 +10,18 @@ const HeroTextReveal = ({ title, subtitle, titleClassName = '', subtitleClassNam
   const titleControls = useAnimationControls();
   const subtitleControls = useAnimationControls();
   const letters = Array.from(title);
+  // 把字分組：遇到標點就斷成一組，每組最後兩個字黏在一起，標題就不會有單獨一個字掉到下一行
+  const groups = [];
+  {
+    let buffer = [];
+    letters.forEach((letter, index) => {
+      buffer.push({ letter, index });
+      if (/[，。、！？：；,.!?]/.test(letter) || index === letters.length - 1) {
+        groups.push(buffer);
+        buffer = [];
+      }
+    });
+  }
   const subtitleDelay = LETTER_DURATION + Math.max(0, letters.length - 1) * LETTER_STAGGER;
 
   useEffect(() => {
@@ -50,7 +62,9 @@ const HeroTextReveal = ({ title, subtitle, titleClassName = '', subtitleClassNam
           initial="visible"
           animate={titleControls}
         >
-          {letters.map((letter, index) => (
+          {groups.map((group) => {
+            const tailStart = Math.max(0, group.length - 3);
+            const renderLetter = ({ letter, index }) => (
             <motion.span
               key={`${letter}-${index}`}
               className="hero-text-reveal__letter"
@@ -65,7 +79,14 @@ const HeroTextReveal = ({ title, subtitle, titleClassName = '', subtitleClassNam
             >
               {letter}
             </motion.span>
-          ))}
+            );
+            return (
+              <React.Fragment key={'g' + group[0].index}>
+                {group.slice(0, tailStart).map(renderLetter)}
+                <span className="nowrap-tail">{group.slice(tailStart).map(renderLetter)}</span>
+              </React.Fragment>
+            );
+          })}
         </motion.span>
       </h1>
       <motion.p
