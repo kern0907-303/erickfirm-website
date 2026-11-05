@@ -558,7 +558,7 @@ const NASCalculator = () => {
                     {unlockState === 'error' && (
                       <p className="mt-3 text-sm text-red-700">暫時打不開，請稍後再試一次。</p>
                     )}
-                    <p className="mt-3 text-xs leading-relaxed text-[#918BA6]">不收費，只會取得你的 LINE 顯示名稱與識別碼，不會用你的帳號發文。</p>
+                    <p className="mt-3 text-xs leading-relaxed text-[#918BA6]">不收費，只會取得你的 LINE 顯示名稱與識別碼，不會用你的帳號發文。登入畫面上的 Erick Firm 是艾瑞克的工作室，平衡空間的網站與結帳由它統一管理。</p>
                   </article>
                 )}
 

@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { withTrailingSlash } from '../src/lib/insights-adapter.js';
+import { brandFor } from '../src/lib/brand.js';
 
 export const SITE = 'https://erickfirm.com';
 export const PERSON_ID = `${SITE}/#erick`; // 與 index.html 的 Person @id 一致，AI 才會把各頁連到同一個人
@@ -67,6 +68,9 @@ export function renderPage(shell, { title, description, url: rawUrl, type = 'web
   html = setMeta(html, 'property', 'og:description', description);
   html = setMeta(html, 'property', 'og:url', url);
   html = setMeta(html, 'property', 'og:type', type);
+  // /nas、/abl、/i8 底下分享預覽的網站名稱用該品牌名
+  const brand = brandFor(new URL(url, SITE).pathname);
+  if (brand) html = setMeta(html, 'property', 'og:site_name', brand.name);
   if (image) html = setMeta(html, 'property', 'og:image', image);
   html = setMeta(html, 'name', 'twitter:title', title);
   html = setMeta(html, 'name', 'twitter:description', description);
