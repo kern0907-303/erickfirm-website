@@ -3,12 +3,53 @@
   'use strict';
   var PIXEL_ID = '2190696845179895';
   var host = location.hostname;
-  if (host !== 'erickfirm.com' && host !== 'www.erickfirm.com') return;
+  if (host !== 'erickfirm.com' && host !== 'www.erickfirm.com' && host !== 'pay.erickfirm.com') return;
   try {
     if (location.search.indexOf('notrack=1') !== -1) localStorage.setItem('ek_notrack', '1');
     if (location.search.indexOf('notrack=0') !== -1) localStorage.removeItem('ek_notrack');
     if (localStorage.getItem('ek_notrack') === '1') return;
   } catch (e) {}
+
+  var ATTRIBUTION_COOKIE_NAMES = {
+    utm_source: 'nas_utm_source',
+    utm_medium: 'nas_utm_medium',
+    utm_campaign: 'nas_utm_campaign',
+    utm_content: 'nas_utm_content',
+    fbclid: 'nas_fbclid'
+  };
+
+  function readCookie(name) {
+    var prefix = name + '=';
+    var parts = document.cookie.split(';');
+    for (var i = 0; i < parts.length; i += 1) {
+      var part = parts[i].trim();
+      if (part.indexOf(prefix) === 0) {
+        try { return decodeURIComponent(part.slice(prefix.length)); } catch (e) { return ''; }
+      }
+    }
+    return '';
+  }
+
+  function writeCookie(name, value) {
+    if (!value) return;
+    document.cookie = name + '=' + encodeURIComponent(value) + '; Max-Age=7776000; Path=/; Domain=.erickfirm.com; SameSite=Lax; Secure';
+  }
+
+  function captureAttribution() {
+    var params = new URLSearchParams(location.search);
+    Object.keys(ATTRIBUTION_COOKIE_NAMES).forEach(function (key) {
+      var value = params.get(key);
+      if (value) writeCookie(ATTRIBUTION_COOKIE_NAMES[key], value.slice(0, 500));
+    });
+    var fbclid = params.get('fbclid') || readCookie('nas_fbclid');
+    var existingFbc = readCookie('_fbc');
+    if (fbclid && !existingFbc && /^[A-Za-z0-9._-]{1,250}$/.test(fbclid)) {
+      writeCookie('_fbc', 'fb.1.' + Date.now() + '.' + fbclid);
+    } else if (existingFbc) {
+      writeCookie('_fbc', existingFbc);
+    }
+  }
+  captureAttribution();
 
   !function (f, b, e, v, n, t, s) {
     if (f.fbq) return;
@@ -32,6 +73,7 @@
     state.path = normPath();
     state.seconds = 0;
     state.fired = {};
+    captureAttribution();
     fbq('track', 'PageView');
     if (state.path === '/abl/2027') {
       fbq('track', 'ViewContent', { content_name: 'abl_2027', content_category: 'abl' });
@@ -76,8 +118,17 @@
     fbq('trackCustom', name, data);
   };
 
+  window.efMetaEvent = function (name, params, eventId) {
+    if (['Lead', 'InitiateCheckout', 'Purchase'].indexOf(name) === -1) return;
+    var data = params && typeof params === 'object' ? params : {};
+    var options = {};
+    if (typeof eventId === 'string' && /^[A-Za-z0-9_-]{1,100}$/.test(eventId)) options.eventID = eventId;
+    fbq('track', name, data, options);
+  };
+
   function routeChanged() {
     if (normPath() !== state.path) pageStart();
+    else captureAttribution();
   }
   ['pushState', 'replaceState'].forEach(function (m) {
     var orig = history[m];
@@ -93,9 +144,7 @@
     var a = ev.target && ev.target.closest ? ev.target.closest('a[href]') : null;
     if (!a) return;
     var href = a.getAttribute('href') || '';
-    if (href.indexOf('pay.erickfirm.com') !== -1) {
-      fbq('track', 'InitiateCheckout', { content_name: state.path });
-    } else if (href.indexOf('lin.ee') !== -1 || href.indexOf('line.me') !== -1) {
+    if (href.indexOf('lin.ee') !== -1 || href.indexOf('line.me') !== -1) {
       fbq('trackCustom', 'ClickLine', { path: state.path });
     }
   }, true);

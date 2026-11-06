@@ -38,6 +38,10 @@ function trackSource() {
   } catch { return ''; }
 }
 
+function newFlowEventId() {
+  try { return `nascalc_${crypto.randomUUID()}`; } catch { return `nascalc_${Date.now()}_${Math.random().toString(36).slice(2)}`; }
+}
+
 function taipeiDate() {
   const parts = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Asia/Taipei',
@@ -225,15 +229,19 @@ const NASCalculator = () => {
   const unlockFlow = async () => {
     if (!flowResult) return;
     setUnlockState('loading');
+    const eventId = newFlowEventId();
     try { window.efTrack?.('FlowUnlockClick', { brand: 'nas' }); } catch { /* 追蹤失敗不影響 */ }
     try {
       const res = await fetch(FLOW_TICKET_URL, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           birthdate: birthdate.trim(),
           lunar_birthdate: /^\d{4}-\d{2}-\d{2}$/.test(lunarOverride.trim()) ? lunarOverride.trim() : '',
           source: trackSource(),
+          event_id: eventId,
+          ...Object.fromEntries(['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid'].map((key) => [key, new URLSearchParams(window.location.search).get(key) || ''])),
         }),
       });
       const json = await res.json().catch(() => null);

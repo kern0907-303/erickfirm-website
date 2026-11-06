@@ -28,9 +28,14 @@ function track(name, params) {
   try { window.efTrack?.(name, params); } catch { /* 追蹤失敗不影響作答 */ }
 }
 
-function unlockHref(answers) {
+function newEventId() {
+  try { return `nasquiz_${crypto.randomUUID()}`; } catch { return `nasquiz_${Date.now()}_${Math.random().toString(36).slice(2)}`; }
+}
+
+function unlockHref(answers, eventId) {
   const url = new URL(QUIZ_UNLOCK_URL);
   url.searchParams.set('a', answers.join(''));
+  if (eventId) url.searchParams.set('event_id', eventId);
   try {
     const current = new URLSearchParams(window.location.search);
     ['source', 'funnel'].forEach((key) => {
@@ -48,6 +53,7 @@ const NASQuiz = () => {
   );
   const [step, setStep] = useState(-1); // -1 開場，0 到 7 作答，8 結果
   const [answers, setAnswers] = useState([]);
+  const [quizEventId, setQuizEventId] = useState('');
 
   const resultType = step === questions.length ? scoreQuiz(answers) : null;
 
@@ -56,6 +62,7 @@ const NASQuiz = () => {
     setAnswers(next);
     if (step + 1 === questions.length) {
       const type = scoreQuiz(next);
+      setQuizEventId(newEventId());
       track('QuizResult', { brand: 'nas', quiz_type: type });
       // 記住類型，2027 年度導航頁的開頭會依類型換一句（只存類型代碼，不存作答）
       try { localStorage.setItem('nas.quizType', type); } catch { /* 存不了就算了 */ }
@@ -162,7 +169,7 @@ const NASQuiz = () => {
                   接著看{QUIZ_TYPES[resultType].name}在你生活裡最容易怎麼重演、為什麼會一直重來，以及看見的時候可以先做哪一件事。免費，用 LINE 登入就能看，結果也會幫你保存下來。
                 </p>
                 <a
-                  href={unlockHref(answers)}
+                  href={unlockHref(answers, quizEventId)}
                   onClick={() => track('QuizUnlockClick', { brand: 'nas', quiz_type: resultType })}
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#06C755] px-8 py-4 font-semibold text-white shadow-sm transition hover:brightness-95 hover:shadow-lg sm:w-auto"
                 >
