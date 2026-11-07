@@ -10,7 +10,7 @@ import { LEGAL_TAX_ID } from '../content/ablLegal';
 import { NAS_LEGAL_EMAIL } from '../content/nasLegal';
 import {
   NAS2027_CHECKOUT_URL, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, HERO_BY_TYPE, STRUGGLE, TURN, SOLUTION,
-  LINK_SECTION, DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, FAMILY_NOTE, BUY_STEPS, ABOUT_TITLE, ABOUT, TESTIMONIALS_TITLE, TESTIMONIALS, GUARANTEE, FAQS, ENDING,
+  LINK_SECTION, DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, FAMILY_NOTE, BUY_STEPS_TITLE, BUY_STEPS, ABOUT_TITLE, ABOUT, TESTIMONIALS_TITLE, TESTIMONIALS, GUARANTEE, FAQS, ENDING,
   DISCLAIMER, LEGAL_SELLER_LINE_NAS,
 } from '../content/nas2027Content';
 
@@ -249,7 +249,7 @@ const Nas2027Page = () => {
       <div className="max-w-3xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">{ABOUT_TITLE}</h2>
         {ABOUT.map((text) => <p key={text} className="text-[#55506B] leading-loose mb-4">{text}</p>)}
-        <Link to="/about" className="inline-flex items-center gap-2 text-[#1F1A2E] font-medium hover:underline mt-2">認識艾瑞克<ArrowRight size={16} /></Link>
+        <Link to="/nas/about" className="inline-flex items-center gap-2 text-[#1F1A2E] font-medium hover:underline mt-2">認識艾瑞克<ArrowRight size={16} /></Link>
         {TESTIMONIALS.length > 0 && (
           <div className="mt-12">
             <h3 className="text-xl font-bold mb-6">{TESTIMONIALS_TITLE}</h3>
@@ -269,7 +269,7 @@ const Nas2027Page = () => {
     {/* 8. 方案 */}
     <section id="plan" className="py-20 px-6 bg-[#F7F5FC]">
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold mb-10">選一個方案</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-10">選一個適合你的方案</h2>
         <div className="grid md:grid-cols-3 gap-5 items-stretch mb-14">
           {PLANS.map((plan) => (
             <article key={plan.code} className={`relative flex flex-col rounded-2xl bg-white p-7 ${plan.featured ? 'border-2 border-[#5B3A9E] shadow-[0_16px_40px_rgba(91,58,158,0.14)]' : 'border border-[#E7E3F0]'}`}>
@@ -305,7 +305,7 @@ const Nas2027Page = () => {
           <p className="font-bold text-[#1F1A2E]">{FAMILY_NOTE.title}</p>
           <p className={`mt-2 ${BODY_COPY_RELAXED_CLASS} text-[#55506B]`}>{FAMILY_NOTE.body}</p>
         </div>
-        <h3 className="text-xl font-bold mb-6">怎麼買，四步就完成</h3>
+        <h3 className="text-xl font-bold mb-6">{BUY_STEPS_TITLE}</h3>
         <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {BUY_STEPS.map(([title, body], index) => (
             <li key={title} className="rounded-2xl border border-[#E7E3F0] bg-white p-5">

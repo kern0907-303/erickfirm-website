@@ -11,6 +11,7 @@ import { LEGAL_EMAIL, LEGAL_SELLER_LINE, LEGAL_TAX_ID } from '../src/content/abl
 import { NAS_LEGAL_EMAIL } from '../src/content/nasLegal.js';
 import * as C2027 from '../src/content/abl2027Content.js';
 import * as N2027 from '../src/content/nas2027Content.js';
+import * as NABOUT from '../src/content/nasAbout.js';
 import { NAS_LIFE_NUMBER_COPY as LIFE_NUMBER_COPY } from '../src/content/nasLifeNumberCopy.js';
 
 const dist = path.resolve('dist');
@@ -562,12 +563,13 @@ const nas2027Body = () => [
   ul(N2027.DIFFERENCES.map(([name, body]) => `${name}：${body}`)),
   h2(N2027.ABOUT_TITLE),
   ...N2027.ABOUT.map(p),
+  a('/nas/about', '認識艾瑞克'),
   ...(N2027.TESTIMONIALS.length ? [h3(N2027.TESTIMONIALS_TITLE), ...N2027.TESTIMONIALS.map((item) => p(`「${item.text}」${item.who ? `　${item.who}` : ''}`))] : []),
-  h2('選一個方案'),
+  h2('選一個適合你的方案'),
   ...N2027.PLANS.flatMap((plan) => [h3(`${plan.name}｜${plan.price}`), p(plan.tagline), ul(plan.items), plan.note ? p(plan.note) : '', plan.anchor ? p(plan.anchor) : '', p('即將開放')]),
   h3(N2027.GUARANTEE.title),
   ...N2027.GUARANTEE.body.map(p),
-  h3('怎麼買，四步就完成'),
+  h3(N2027.BUY_STEPS_TITLE),
   ul(N2027.BUY_STEPS.map(([title, body]) => `${title}：${body}`)),
   h2('常見問題'),
   ...N2027.FAQS.flatMap(([question, answer]) => [h3(question), p(answer)]),
@@ -595,6 +597,23 @@ const SALES_PAGES = [
     description: N2027.NAS2027_DESCRIPTION,
     body: nas2027Body(),
     // 2026-10-29 開放收錄，並已加進 build-sitemap.js。
+    noindex: false,
+  },
+  {
+    // 2026-11-07 平衡空間版「認識艾瑞克」，取代平衡空間頁面連到 Erick Firm 的 /about。
+    route: '/nas/about',
+    title: NABOUT.NAS_ABOUT_TITLE,
+    description: NABOUT.NAS_ABOUT_DESCRIPTION,
+    body: [
+      h1(NABOUT.NAS_ABOUT_HERO.title),
+      p(NABOUT.NAS_ABOUT_HERO.subtitle),
+      ...NABOUT.NAS_ABOUT_SECTIONS.flatMap((section) => [h2(section.title), ...section.paragraphs.map(p)]),
+      nav(NABOUT.NAS_ABOUT_ACTIONS.map((action) => [action.to, action.label])),
+      h2(NABOUT.NAS_ABOUT_CONTACT_TITLE),
+      p('平衡空間官方 LINE　' + NAS_LEGAL_EMAIL),
+      p(N2027.LEGAL_SELLER_LINE_NAS + '　統一編號 ' + LEGAL_TAX_ID + '　' + NAS_LEGAL_EMAIL),
+      nav([['/nas/terms', '服務條款'], ['/nas/privacy', '隱私權政策']]),
+    ].join(''),
     noindex: false,
   },
   {

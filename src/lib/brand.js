@@ -15,6 +15,7 @@ export const BRANDS = {
       { to: '/nas/calculator', label: '生命數字計算' },
       { to: '/nas/quiz', label: '卡點檢查' },
       { to: '/nas/2027', label: '2027 年度導航' },
+      { to: '/nas/about', label: '認識艾瑞克' },
     ],
     legal: [
       { to: '/nas/terms', label: '服務條款' },

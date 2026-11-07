@@ -25,6 +25,7 @@ import NASDashboard from './pages/NASDashboard';
 import AblPage from './pages/AblPage';
 import Abl2027Page from './pages/Abl2027Page';
 import Nas2027Page from './pages/Nas2027Page';
+import NasAboutPage from './pages/NasAboutPage';
 import AblSpacePage from './pages/AblSpacePage';
 import AblLegalPage from './pages/AblLegalPage';
 import NasLegalPage from './pages/NasLegalPage';
@@ -180,6 +181,7 @@ function App() {
           <Route path="/nas/course" element={<NASCourse />} />
           <Route path="/nas/consultant" element={<NASConsultant />} />
           <Route path="/nas/2027" element={<Nas2027Page />} />
+          <Route path="/nas/about" element={<NasAboutPage />} />
           <Route path="/nas/privacy" element={<NasLegalPage />} />
           <Route path="/nas/terms" element={<NasLegalPage />} />
           <Route path="/abl" element={<AblPage />} />

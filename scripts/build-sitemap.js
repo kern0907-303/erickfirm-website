@@ -51,6 +51,7 @@ async function generateSitemap() {
     { url: `${DOMAIN}/nas`, lastmod: today, changefreq: 'weekly', priority: '0.9' },
     { url: `${DOMAIN}/nas/calculator/`, lastmod: today, changefreq: 'monthly', priority: '0.9' },
     { url: `${DOMAIN}/nas/2027`, lastmod: today, changefreq: 'weekly', priority: '0.9' },
+    { url: `${DOMAIN}/nas/about`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
     { url: `${DOMAIN}/nas/quiz`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
     { url: `${DOMAIN}/nas/365`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
     { url: `${DOMAIN}/nas/course`, lastmod: today, changefreq: 'monthly', priority: '0.7' },
