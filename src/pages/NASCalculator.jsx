@@ -232,18 +232,21 @@ const NASCalculator = () => {
     const eventId = newFlowEventId();
     try { window.efTrack?.('FlowUnlockClick', { brand: 'nas' }); } catch { /* 追蹤失敗不影響 */ }
     try {
-      const res = await fetch(FLOW_TICKET_URL, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          birthdate: birthdate.trim(),
-          lunar_birthdate: /^\d{4}-\d{2}-\d{2}$/.test(lunarOverride.trim()) ? lunarOverride.trim() : '',
-          source: trackSource(),
-          event_id: eventId,
-          ...Object.fromEntries(['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid'].map((key) => [key, new URLSearchParams(window.location.search).get(key) || ''])),
-        }),
-      });
+      const payload = {
+        birthdate: birthdate.trim(),
+        lunar_birthdate: /^\d{4}-\d{2}-\d{2}$/.test(lunarOverride.trim()) ? lunarOverride.trim() : '',
+        source: trackSource() || 'calculator',
+        event_id: eventId,
+        ...Object.fromEntries(['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid'].map((key) => [key, new URLSearchParams(window.location.search).get(key) || ''])),
+      };
+      const res = window.NasTrack
+        ? await window.NasTrack.post(FLOW_TICKET_URL, payload)
+        : await fetch(FLOW_TICKET_URL, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
       const json = await res.json().catch(() => null);
       if (!res.ok || !json?.unlock_url?.startsWith('https://pay.erickfirm.com/')) throw new Error('ticket');
       window.location.href = json.unlock_url;
