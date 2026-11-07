@@ -41,6 +41,7 @@ async function generateSitemap() {
     { url: `${DOMAIN}/i8`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
     { url: `${DOMAIN}/abl`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
     { url: `${DOMAIN}/abl/2027`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
+    { url: `${DOMAIN}/abl/about`, lastmod: today, changefreq: 'monthly', priority: '0.7' },
     { url: `${DOMAIN}/abl/privacy`, lastmod: today, changefreq: 'monthly', priority: '0.6' },
     { url: `${DOMAIN}/abl/terms`, lastmod: today, changefreq: 'monthly', priority: '0.6' },
     { url: `${DOMAIN}/nas/privacy`, lastmod: today, changefreq: 'monthly', priority: '0.5' },

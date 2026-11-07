@@ -665,6 +665,9 @@
 .theme-abl.abl-sales-page .abl-pick-summary-cta:hover { filter: brightness(1.06); }
 .theme-abl.abl-sales-page .abl-pick-summary-cta:active { transform: scale(0.96); animation: none; }
 .theme-abl.abl-sales-page .abl-pick-summary-next { max-width: 26rem; font-size: 0.92rem; color: #475569; }
+.theme-abl.abl-sales-page .abl-pick-summary-refund { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.3rem 0.9rem; border-radius: 999px; background: #e6fbfd; color: #0b6f86; font-size: 0.98rem; font-weight: 800; }
+.theme-abl.abl-sales-page .abl-pick-summary-refund::before { content: '✓'; }
+.theme-abl.abl-sales-page .abl-pick-tiers-title { margin: 2.2rem 0 0; color: var(--abl-ink); font-size: 1.15rem; font-weight: 800; }
 
 .theme-abl.abl-sales-page .abl-pick-bar-info strong { font-size: 1.6rem; animation: abl-pop 0.35s ease; }
 .theme-abl.abl-sales-page .abl-pick-bar-cta { text-decoration: none; }

@@ -12,6 +12,7 @@ import { NAS_LEGAL_EMAIL } from '../src/content/nasLegal.js';
 import * as C2027 from '../src/content/abl2027Content.js';
 import * as N2027 from '../src/content/nas2027Content.js';
 import * as NABOUT from '../src/content/nasAbout.js';
+import * as AABOUT from '../src/content/ablAbout.js';
 import { NAS_LIFE_NUMBER_COPY as LIFE_NUMBER_COPY } from '../src/content/nasLifeNumberCopy.js';
 
 const dist = path.resolve('dist');
@@ -431,7 +432,7 @@ const ablBody = [
   a('/insights/personal-growth', '看全部文章'),
   p('年度頻率支持 即將開放'),
   p('空間調頻 即將開放'),
-  a('/about', '認識艾瑞克'),
+  a('/abl/about', '認識艾瑞克'),
   p('艾伯林量子調頻提供的是狀態理解與支持，不是醫療、診斷或療效保證。'),
   ablLegalFooter,
   '</div>',
@@ -507,7 +508,7 @@ const focusBlock = (item) => `<p class="abl-sales-theme-goal">${esc(item.goal)}<
 const sales2027Body = () => [
   '<div class="theme-abl abl-sales-page">',
   salesHero('這一年，你最想先顧好哪一件事？', '選好主題，頻率單獨為你設定、單獨發送，陪你走完 2027 一整年。', 'themes', '開始選主題'),
-  salesSection('點選你想顧好的主題', `<p class="abl-sales-lead">可以選好幾個，價格會自動算好。</p><div class="abl-pick-tiers">${C2027.PRICE_TIERS.map((t) => `<div class="abl-pick-tier${t.highlight ? ' is-anchor' : ''}"><span class="abl-pick-tier-count">${esc(t.count)}</span><strong>${esc(t.price)}<small>${esc(t.unit)}</small></strong><span class="abl-pick-tier-note">${esc(t.note)}</span></div>`).join('')}</div><div class="abl-pick-grid">${C2027.THEMES.map((t) => `<article class="abl-pick-card"><div class="abl-pick-toggle"><span class="abl-pick-icon" aria-hidden="true">${t.icon}</span><span class="abl-pick-text"><b>${esc(t.name)}</b><span>${esc(t.line)}</span><small>${esc(t.fit)}</small></span></div>${focusBlock(t)}</article>`).join('')}</div>${salesP(C2027.WHY_SINGLE).replace('<p>', '<p class="abl-sales-note">')}`, 'themes'),
+  salesSection('點選你想顧好的主題', `<p class="abl-sales-lead">點一下卡片就會打勾，可以選好幾個，金額會在下方自動算好。</p><div class="abl-pick-grid">${C2027.THEMES.map((t) => `<article class="abl-pick-card"><div class="abl-pick-toggle"><span class="abl-pick-icon" aria-hidden="true">${t.icon}</span><span class="abl-pick-text"><b>${esc(t.name)}</b><span>${esc(t.line)}</span><small>${esc(t.fit)}</small></span></div>${focusBlock(t)}</article>`).join('')}</div><h3 class="abl-pick-tiers-title">價格怎麼算</h3><div class="abl-pick-tiers">${C2027.PRICE_TIERS.map((t) => `<div class="abl-pick-tier${t.highlight ? ' is-anchor' : ''}"><span class="abl-pick-tier-count">${esc(t.count)}</span><strong>${esc(t.price)}<small>${esc(t.unit)}</small></strong><span class="abl-pick-tier-note">${esc(t.note)}</span></div>`).join('')}</div>`, 'themes'),
   salesSection('買了之後，會發生什麼', `<div class="abl-sales-copy">${C2027.INTRO.map(salesP).join('')}</div><ol class="abl-pick-timeline">${C2027.TIMELINE.map(([when, what]) => `<li><b>${esc(when)}</b><span>${esc(what)}</span></li>`).join('')}</ol>`, '', 'abl-sales-section-muted'),
   salesSection('誰替你設定', `<img class="abl-pick-portrait" src="/erick-portrait-warm-v2.webp" alt="艾瑞克" width="160" height="160" loading="lazy"><div class="abl-sales-copy">${salesP('艾伯林量子調頻由艾瑞克負責。二十年身心領域的經驗，2018 年起投入頻率設備的調和工作。')}${salesP('每一位客人的頻率，都是收到你的資料後親自設定，設定好才通知你。')}</div><ul class="abl-pick-trust">${[
     ['7 日內不問理由全額退款', '付款日起 7 日內，透過 LINE 或 Email 申請。'],
@@ -612,6 +613,24 @@ const SALES_PAGES = [
       p('平衡空間官方 LINE　' + NAS_LEGAL_EMAIL),
       p(N2027.LEGAL_SELLER_LINE_NAS + '　統一編號 ' + LEGAL_TAX_ID + '　' + NAS_LEGAL_EMAIL),
       nav([['/nas/terms', '服務條款'], ['/nas/privacy', '隱私權政策']]),
+    ].join(''),
+    noindex: false,
+  },
+  {
+    // 2026-11-07 艾伯林量子調頻版「認識艾瑞克」，取代艾伯林頁面連到 Erick Firm 的 /about。
+    route: '/abl/about',
+    title: AABOUT.ABL_ABOUT_TITLE,
+    description: AABOUT.ABL_ABOUT_DESCRIPTION,
+    body: [
+      h1(AABOUT.ABL_ABOUT_HERO.title),
+      p(AABOUT.ABL_ABOUT_HERO.subtitle),
+      ...AABOUT.ABL_ABOUT_SECTIONS.flatMap((section) => [h2(section.title), ...section.paragraphs.map(p)]),
+      nav(AABOUT.ABL_ABOUT_ACTIONS.map((action) => [action.to, action.label])),
+      h2(AABOUT.ABL_ABOUT_CONTACT_TITLE),
+      p('艾伯林量子調頻官方 LINE　' + LEGAL_EMAIL),
+      p(AABOUT.ABL_ABOUT_DISCLAIMER),
+      p(LEGAL_SELLER_LINE + '　統一編號 ' + LEGAL_TAX_ID + '　' + LEGAL_EMAIL),
+      nav([['/abl/terms', '服務條款'], ['/abl/privacy', '隱私權政策']]),
     ].join(''),
     noindex: false,
   },

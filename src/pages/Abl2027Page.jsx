@@ -5,7 +5,7 @@ import HeroTextReveal from '../components/HeroTextReveal';
 import SEOHead from '../components/SEOHead';
 import AblLegalFooter from '../components/AblLegalFooter';
 import {
-  INTRO, PRICE_TIERS, TIMELINE, BUY_STEPS, WHY_SINGLE,
+  INTRO, PRICE_TIERS, TIMELINE, BUY_STEPS,
   FOCUS_TITLE, FOCUS_HINT, CHECK_TITLE, CHECK_HINT, THEMES, FAQS,
 } from '../content/abl2027Content';
 import { LEGAL_SELLER_LINE, LEGAL_TAX_ID } from '../content/ablLegal';
@@ -42,7 +42,7 @@ const scrollToId = (id) => {
 
 const FocusAndChecks = ({ item }) => (
   <details className="abl-sales-seasons-wrap">
-    <summary>看四句焦點與四季檢視</summary>
+    <summary>看這個主題一整年的內容</summary>
     <p className="abl-sales-subhead">{FOCUS_TITLE}<small>{FOCUS_HINT}</small></p>
     <ol className="abl-sales-focus">
       {item.focus.map((sentence) => <li key={sentence}>{sentence}</li>)}
@@ -154,18 +154,6 @@ const Abl2027Page = () => {
       <section id="themes" className="abl-sales-section">
         <div className="abl-sales-inner">
           <h2 className="abl-heading">點選你想顧好的主題</h2>
-          <p className="abl-sales-lead">先按一個方案，再到下方點選主題，金額會自動算好。</p>
-          <div className="abl-pick-tiers" role="list">
-            {PRICE_TIERS.map((tier) => (
-              <div className={'abl-pick-tier' + (tier.highlight ? ' is-anchor' : '') + (currentTier === tier.mode ? ' is-current' : '')} role="listitem" key={tier.count}>
-                {currentTier === tier.mode ? <span className="abl-pick-tier-badge">目前的計價</span> : null}
-                <span className="abl-pick-tier-count">{tier.count}</span>
-                <strong>{tier.price}<small>{tier.unit}</small></strong>
-                <span className="abl-pick-tier-note">{tier.note}</span>
-                <button type="button" className={'abl-pick-all' + (tier.highlight ? '' : ' is-outline')} onClick={() => chooseTier(tier.mode)}>{tier.action}</button>
-              </div>
-            ))}
-          </div>
           <div id="abl-pick-guide" className={'abl-pick-guide is-step-' + guideStep} aria-live="polite">
             <span className="abl-pick-guide-step">第 {guideStep} 步</span>
             <p>{guideText}</p>
@@ -198,7 +186,8 @@ const Abl2027Page = () => {
                 <strong key={total} className="abl-pick-summary-total">{formatPrice(total)}<small> / 年</small></strong>
                 {count === 5 ? <em>再加 1 個只要多 NT$800，六個全拿</em> : null}
                 {renderCta('abl-pick-summary-cta')}
-                <span className="abl-pick-summary-next">按下後進入付款頁，用信用卡付款，付款完成 LINE 會通知你下一步。</span>
+                <span className="abl-pick-summary-refund">7 天內不滿意，全額退款，不問理由</span>
+                <span className="abl-pick-summary-next">按下後填姓名與 Email，用信用卡付款。付款完成，畫面會帶你填寫設定資料。</span>
               </>
             ) : (
               <>
@@ -207,7 +196,18 @@ const Abl2027Page = () => {
               </>
             )}
           </div>
-          <p className="abl-sales-note">{WHY_SINGLE}</p>
+          <h3 className="abl-pick-tiers-title">價格怎麼算</h3>
+          <div className="abl-pick-tiers" role="list">
+            {PRICE_TIERS.map((tier) => (
+              <div className={'abl-pick-tier' + (tier.highlight ? ' is-anchor' : '') + (currentTier === tier.mode ? ' is-current' : '')} role="listitem" key={tier.count}>
+                {currentTier === tier.mode ? <span className="abl-pick-tier-badge">目前的計價</span> : null}
+                <span className="abl-pick-tier-count">{tier.count}</span>
+                <strong>{tier.price}<small>{tier.unit}</small></strong>
+                <span className="abl-pick-tier-note">{tier.note}</span>
+                <button type="button" className={'abl-pick-all' + (tier.highlight ? '' : ' is-outline')} onClick={() => chooseTier(tier.mode)}>{tier.action}</button>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -230,6 +230,7 @@ const Abl2027Page = () => {
           <div className="abl-sales-copy">
             <p>艾伯林量子調頻由艾瑞克負責。二十年身心領域的經驗，2018 年起投入頻率設備的調和工作。</p>
             <p>每一位客人的頻率，都是收到你的資料後親自設定，設定好才通知你。</p>
+            <p><Link to="/abl/about" className="underline underline-offset-4">認識艾瑞克，看他怎麼看信息場與頻率</Link></p>
           </div>
           <ul className="abl-pick-trust">
             <li><b>7 日內不問理由全額退款</b><span>付款日起 7 日內，透過 LINE 或 Email 申請。</span></li>

@@ -32,6 +32,7 @@ export const BRANDS = {
       { to: '/abl', label: '艾伯林量子調頻' },
       { to: '/abl/2027', label: '2027 年度頻率' },
       { to: '/abl/space', label: '空間調頻' },
+      { to: '/abl/about', label: '認識艾瑞克' },
     ],
     legal: [
       { to: '/abl/terms', label: '服務條款' },
