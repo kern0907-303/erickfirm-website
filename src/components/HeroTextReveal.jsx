@@ -3,6 +3,8 @@ import { motion, useAnimationControls, useReducedMotion } from 'framer-motion';
 import './HeroTextReveal.css';
 
 const LETTER_STAGGER = 0.04;
+// 這些詞在標題裡固定不拆成兩行（例如「平衡空間」不會斷成「平衡空」和「間」）
+const KEEP_TOGETHER = ['艾伯林量子調頻', '初八企業顧問', '平衡空間', '生命數字', '艾瑞克'];
 const LETTER_DURATION = 0.6;
 
 const HeroTextReveal = ({ title, subtitle, titleClassName = '', subtitleClassName = '' }) => {
@@ -22,6 +24,21 @@ const HeroTextReveal = ({ title, subtitle, titleClassName = '', subtitleClassNam
       }
     });
   }
+  // 不可在 i 和 i+1 之間換行的位置：受保護的詞內部，以及每組最後三個字之間
+  const noBreakAfter = new Set();
+  KEEP_TOGETHER.forEach((word) => {
+    let from = title.indexOf(word);
+    while (from !== -1) {
+      const start = Array.from(title.slice(0, from)).length;
+      const length = Array.from(word).length;
+      for (let k = start; k < start + length - 1; k += 1) noBreakAfter.add(k);
+      from = title.indexOf(word, from + word.length);
+    }
+  });
+  groups.forEach((group) => {
+    const tailStart = Math.max(0, group.length - 3);
+    for (let k = tailStart; k < group.length - 1; k += 1) noBreakAfter.add(group[k].index);
+  });
   const subtitleDelay = LETTER_DURATION + Math.max(0, letters.length - 1) * LETTER_STAGGER;
 
   useEffect(() => {
@@ -63,7 +80,6 @@ const HeroTextReveal = ({ title, subtitle, titleClassName = '', subtitleClassNam
           animate={titleControls}
         >
           {groups.map((group) => {
-            const tailStart = Math.max(0, group.length - 3);
             const renderLetter = ({ letter, index }) => (
             <motion.span
               key={`${letter}-${index}`}
@@ -80,10 +96,22 @@ const HeroTextReveal = ({ title, subtitle, titleClassName = '', subtitleClassNam
               {letter}
             </motion.span>
             );
+            // 依可換行的位置切成小段；超過一個字的段落整段不換行
+            const chunks = [];
+            let chunk = [];
+            group.forEach((item) => {
+              chunk.push(item);
+              if (!noBreakAfter.has(item.index)) {
+                chunks.push(chunk);
+                chunk = [];
+              }
+            });
+            if (chunk.length) chunks.push(chunk);
             return (
               <React.Fragment key={'g' + group[0].index}>
-                {group.slice(0, tailStart).map(renderLetter)}
-                <span className="nowrap-tail">{group.slice(tailStart).map(renderLetter)}</span>
+                {chunks.map((part) => (part.length > 1
+                  ? <span key={'c' + part[0].index} className="nowrap-tail">{part.map(renderLetter)}</span>
+                  : renderLetter(part[0])))}
               </React.Fragment>
             );
           })}
