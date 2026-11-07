@@ -10,7 +10,7 @@ import { LEGAL_TAX_ID } from '../content/ablLegal';
 import { NAS_LEGAL_EMAIL } from '../content/nasLegal';
 import {
   NAS2027_CHECKOUT_URL, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, HERO_BY_TYPE, STRUGGLE, TURN, SOLUTION,
-  LINK_SECTION, DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, FAMILY_NOTE, BUY_STEPS, ABOUT, FAQS, ENDING,
+  LINK_SECTION, DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, FAMILY_NOTE, BUY_STEPS, ABOUT_TITLE, ABOUT, TESTIMONIALS_TITLE, TESTIMONIALS, GUARANTEE, FAQS, ENDING,
   DISCLAIMER, LEGAL_SELLER_LINE_NAS,
 } from '../content/nas2027Content';
 
@@ -37,6 +37,33 @@ const QUIZ_TYPE_PATTERN = /^[LDOKM]$/;
 const BODY_COPY_CLASS = 'text-lg font-normal';
 const BODY_COPY_RELAXED_CLASS = `${BODY_COPY_CLASS} leading-relaxed`;
 const BODY_SUBHEADING_CLASS = 'text-xl';
+const NAS_ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid'];
+const NAS_ATTRIBUTION_STORAGE_KEY = 'nas_2027_order_attribution';
+
+function nasCheckoutHref(planCode) {
+  const url = new URL(NAS2027_CHECKOUT_URL);
+  url.searchParams.set('plan', planCode);
+  if (typeof window === 'undefined') return url.toString();
+  let attribution = {};
+  const query = new URLSearchParams(window.location.search);
+  const current = Object.fromEntries(NAS_ATTRIBUTION_KEYS
+    .filter((key) => query.has(key) && query.get(key) !== '')
+    .map((key) => [key, query.get(key)]));
+  const hasUtm = NAS_ATTRIBUTION_KEYS.slice(0, 4).some((key) => Object.hasOwn(current, key));
+  try {
+    const saved = JSON.parse(localStorage.getItem(NAS_ATTRIBUTION_STORAGE_KEY) || 'null');
+    if (saved && Date.now() - Number(saved.captured_at) <= 90 * 86400000) attribution = saved;
+  } catch { /* attribution is optional */ }
+  if (hasUtm) attribution = { ...current, captured_at: Date.now() };
+  else if (Object.keys(current).length) attribution = { ...attribution, ...current };
+  if (Object.keys(current).length) {
+    try { localStorage.setItem(NAS_ATTRIBUTION_STORAGE_KEY, JSON.stringify(attribution)); } catch { /* attribution is optional */ }
+  }
+  for (const key of NAS_ATTRIBUTION_KEYS) {
+    if (typeof attribution[key] === 'string' && attribution[key] !== '') url.searchParams.set(key, attribution[key]);
+  }
+  return url.toString();
+}
 
 // 做過卡點檢查的人：網址的 quiz_type 優先，其次是瀏覽器記得的類型。掛載後才讀，預渲染的 HTML 維持通用版。
 function useQuizType() {
@@ -217,7 +244,29 @@ const Nas2027Page = () => {
       </div>
     </section>
 
-    {/* 7. 方案 */}
+    {/* 7. 寫的人（放在方案之前：先建立信任，再看價格） */}
+    <section className="py-20 px-6 border-t border-[#F0EDF7]">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">{ABOUT_TITLE}</h2>
+        {ABOUT.map((text) => <p key={text} className="text-[#55506B] leading-loose mb-4">{text}</p>)}
+        <Link to="/about" className="inline-flex items-center gap-2 text-[#1F1A2E] font-medium hover:underline mt-2">認識艾瑞克<ArrowRight size={16} /></Link>
+        {TESTIMONIALS.length > 0 && (
+          <div className="mt-12">
+            <h3 className="text-xl font-bold mb-6">{TESTIMONIALS_TITLE}</h3>
+            <div className="grid gap-4">
+              {TESTIMONIALS.map((item) => (
+                <blockquote key={item.text} className="rounded-2xl border border-[#E7E3F0] bg-white p-6">
+                  <p className={`${BODY_COPY_RELAXED_CLASS} text-[#463F5C]`}>「{item.text}」</p>
+                  {item.who && <p className="mt-3 text-sm text-[#6E6885]">{item.who}</p>}
+                </blockquote>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
+    {/* 8. 方案 */}
     <section id="plan" className="py-20 px-6 bg-[#F7F5FC]">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold mb-10">選一個方案</h2>
@@ -236,16 +285,21 @@ const Nas2027Page = () => {
                 ))}
               </ul>
               {plan.note && <p className={`${BODY_COPY_RELAXED_CLASS} text-[#55506B] mb-5`}>{plan.note}</p>}
+              {plan.anchor && <p className={`${BODY_COPY_RELAXED_CLASS} text-[#85691F] font-medium mb-5`}>{plan.anchor}</p>}
               <div className="mt-auto pt-2">
                 <ProductCheckoutButton
                   code={plan.code} label="前往結帳" closedText="即將開放"
-                  checkoutUrl={NAS2027_CHECKOUT_URL + '?plan=' + plan.code}
+                  checkoutUrl={nasCheckoutHref(plan.code)}
                   className="inline-flex w-full items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition"
                   closedClassName="w-full text-center px-6 py-3.5 rounded-full border border-[#DAD4E8] text-sm text-[#6B6584]"
                 />
               </div>
             </article>
           ))}
+        </div>
+        <div className="mb-6 rounded-2xl border-2 border-[#5B3A9E] bg-white p-6">
+          <p className="text-lg font-bold text-[#1F1A2E]">{GUARANTEE.title}</p>
+          {GUARANTEE.body.map((text) => <p key={text} className={`mt-2 ${BODY_COPY_RELAXED_CLASS} text-[#55506B]`}>{text}</p>)}
         </div>
         <div className="mb-14 rounded-2xl border border-[#E7DFC8] bg-[#FBF7EE] p-6">
           <p className="font-bold text-[#1F1A2E]">{FAMILY_NOTE.title}</p>
@@ -261,15 +315,6 @@ const Nas2027Page = () => {
             </li>
           ))}
         </ol>
-      </div>
-    </section>
-
-    {/* 8. 寫的人 */}
-    <section className="py-20 px-6">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">寫這份導航的人</h2>
-        {ABOUT.map((text) => <p key={text} className="text-[#55506B] leading-loose mb-4">{text}</p>)}
-        <Link to="/about" className="inline-flex items-center gap-2 text-[#1F1A2E] font-medium hover:underline mt-2">認識艾瑞克<ArrowRight size={16} /></Link>
       </div>
     </section>
 
@@ -292,7 +337,8 @@ const Nas2027Page = () => {
     <section className="py-24 px-6">
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-5">{ENDING.title}</h2>
-        <p className="text-lg text-[#55506B] leading-loose mb-10">{ENDING.body}</p>
+        <p className="text-lg text-[#55506B] leading-loose mb-4">{ENDING.body}</p>
+        <p className="text-lg font-medium text-[#85691F] leading-loose mb-10">{ENDING.nudge}</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a href="#plan" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition">
             {ENDING.action}<ArrowRight size={16} />
