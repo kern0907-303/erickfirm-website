@@ -696,3 +696,20 @@
   .theme-abl.abl-sales-page .abl-pick-summary-total,
   .theme-abl.abl-sales-page .abl-pick-bar-info strong { animation: none !important; }
 }
+
+/* 2027 冷流量改版：共鳴、重新定義、誠實區 */
+.theme-abl.abl-sales-page .abl-pain-list { display: grid; gap: 0.75rem; margin: 1.4rem 0 0; padding: 0; list-style: none; }
+.theme-abl.abl-sales-page .abl-pain-list li { padding: 0.95rem 1.2rem 0.95rem 2.6rem; border: 1px solid rgba(31, 214, 236, 0.35); border-radius: 14px; background: #fff; font-size: 1.1rem; line-height: 1.7; color: var(--abl-ink); position: relative; text-align: left; }
+.theme-abl.abl-sales-page .abl-pain-list li::before { content: '✓'; position: absolute; left: 1rem; top: 0.95rem; color: #0ea5b7; font-weight: 700; }
+.theme-abl.abl-sales-page .abl-pain-closing { margin: 1.3rem 0 0; font-size: 1.15rem; font-weight: 700; color: var(--abl-ink); }
+.theme-abl.abl-sales-page .abl-reframe-punch { margin: 1.5rem auto 0; max-width: 34em; font-size: 1.35rem; font-weight: 800; line-height: 1.6; color: var(--abl-ink); }
+.theme-abl.abl-sales-page .abl-reframe-after { margin: 0.9rem auto 0; max-width: 34em; font-size: 1.1rem; line-height: 1.8; color: var(--abl-ink-soft, #335); }
+.theme-abl.abl-sales-page .abl-honest { margin: 1.8rem auto 0; max-width: 40em; padding: 1.3rem 1.4rem; border: 1.5px dashed rgba(14, 165, 183, 0.6); border-radius: 16px; background: rgba(31, 214, 236, 0.06); text-align: left; }
+.theme-abl.abl-sales-page .abl-honest h3 { margin: 0 0 0.6rem; font-size: 1.1rem; color: var(--abl-ink); }
+.theme-abl.abl-sales-page .abl-honest p { margin: 0 0 0.6rem; font-size: 1.02rem; line-height: 1.8; color: var(--abl-ink); }
+.theme-abl.abl-sales-page .abl-honest p:last-child { margin-bottom: 0; }
+.theme-abl.abl-sales-page .abl-pick-bar.is-hidden { display: none; }
+@media (max-width: 640px) {
+  .theme-abl.abl-sales-page .abl-pain-list li { font-size: 1.02rem; }
+  .theme-abl.abl-sales-page .abl-reframe-punch { font-size: 1.2rem; }
+}

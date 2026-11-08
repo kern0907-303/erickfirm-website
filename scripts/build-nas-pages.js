@@ -507,17 +507,19 @@ const focusBlock = (item) => `<p class="abl-sales-theme-goal">${esc(item.goal)}<
 // 2026-11-04：/abl/2027 改成點選主題、依主題數計價；預渲染版給搜尋引擎與無 JavaScript 的讀者，結構與頁面一致。
 const sales2027Body = () => [
   '<div class="theme-abl abl-sales-page">',
-  salesHero('這一年，你最想先顧好哪一件事？', '選好主題，頻率單獨為你設定、單獨發送，陪你走完 2027 一整年。', 'themes', '開始選主題'),
-  salesSection('點選你想顧好的主題', `<p class="abl-sales-lead">點一下卡片就會打勾，可以選好幾個，金額會在下方自動算好。</p><div class="abl-pick-grid">${C2027.THEMES.map((t) => `<article class="abl-pick-card"><div class="abl-pick-toggle"><span class="abl-pick-icon" aria-hidden="true">${t.icon}</span><span class="abl-pick-text"><b>${esc(t.name)}</b><span>${esc(t.line)}</span><small>${esc(t.fit)}</small></span></div>${focusBlock(t)}</article>`).join('')}</div><h3 class="abl-pick-tiers-title">價格怎麼算</h3><div class="abl-pick-tiers">${C2027.PRICE_TIERS.map((t) => `<div class="abl-pick-tier${t.highlight ? ' is-anchor' : ''}"><span class="abl-pick-tier-count">${esc(t.count)}</span><strong>${esc(t.price)}<small>${esc(t.unit)}</small></strong><span class="abl-pick-tier-note">${esc(t.note)}</span></div>`).join('')}</div>`, 'themes'),
-  salesSection('買了之後，會發生什麼', `<div class="abl-sales-copy">${C2027.INTRO.map(salesP).join('')}</div><ol class="abl-pick-timeline">${C2027.TIMELINE.map(([when, what]) => `<li><b>${esc(when)}</b><span>${esc(what)}</span></li>`).join('')}</ol>`, '', 'abl-sales-section-muted'),
+  salesHero(C2027.HERO.title, C2027.HERO.subtitle, 'abl-pains', C2027.HERO.action),
+  salesSection(C2027.PAIN.title, `<ul class="abl-pain-list">${C2027.PAIN.items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul><p class="abl-pain-closing">${esc(C2027.PAIN.closing)}</p>`, 'abl-pains'),
+  salesSection(C2027.REFRAME.title, `<div class="abl-sales-copy">${C2027.REFRAME.paras.map(salesP).join('')}</div><p class="abl-reframe-punch">${esc(C2027.REFRAME.punch)}</p><p class="abl-reframe-after">${esc(C2027.REFRAME.after)}</p>`, '', 'abl-sales-section-muted'),
+  salesSection(C2027.HOW.title, `<div class="abl-sales-copy">${C2027.HOW.paras.map(salesP).join('')}</div><div class="abl-honest"><h3>${esc(C2027.HOW.honestTitle)}</h3>${C2027.HOW.honest.map(salesP).join('')}</div>`),
   salesSection('誰替你設定', `<img class="abl-pick-portrait" src="/erick-portrait-warm-v2.webp" alt="艾瑞克" width="160" height="160" loading="lazy"><div class="abl-sales-copy">${salesP('艾伯林量子調頻由艾瑞克負責。二十年身心領域的經驗，2018 年起投入頻率設備的調和工作。')}${salesP('每一位客人的頻率，都是收到你的資料後親自設定，設定好才通知你。')}</div><ul class="abl-pick-trust">${[
     ['7 日內不問理由全額退款', '付款日起 7 日內，透過 LINE 或 Email 申請。'],
     ['綠界科技信用卡付款', '我們看不到，也不會儲存你的卡號。'],
     ['資料只用於設定', '照片與個人資料存放在不公開的空間，服務結束後 90 天刪除。'],
     ['價格對每個人都一樣', '沒有折扣碼，也沒有限時漲價。'],
     ['賣方資訊', LEGAL_SELLER_LINE + '，統一編號 ' + LEGAL_TAX_ID + '。'],
-  ].map(([t, b]) => `<li><b>${esc(t)}</b><span>${esc(b)}</span></li>`).join('')}</ul>`),
-  salesSection('怎麼購買，四步就完成', `<ol class="abl-sales-steps">${C2027.BUY_STEPS.map(([t, b], i) => `<li class="abl-sales-step"><span class="abl-sales-step-no">${i + 1}</span><h3>${esc(t)}</h3>${salesP(b)}</li>`).join('')}</ol>`, 'how-to-buy', 'abl-sales-section-muted'),
+  ].map(([t, b]) => `<li><b>${esc(t)}</b><span>${esc(b)}</span></li>`).join('')}</ul>`, '', 'abl-sales-section-muted'),
+  salesSection('買了之後，會發生什麼', `<div class="abl-sales-copy">${C2027.INTRO.map(salesP).join('')}</div><ol class="abl-pick-timeline">${C2027.TIMELINE.map(([when, what]) => `<li><b>${esc(when)}</b><span>${esc(what)}</span></li>`).join('')}</ol>`),
+  salesSection('選你這一年最想顧好的主題', `<p class="abl-sales-lead">點一下卡片就會打勾，可以選好幾個，金額會在下方自動算好。</p><div class="abl-pick-grid">${C2027.THEMES.map((t) => `<article class="abl-pick-card"><div class="abl-pick-toggle"><span class="abl-pick-icon" aria-hidden="true">${t.icon}</span><span class="abl-pick-text"><b>${esc(t.name)}</b><span>${esc(t.line)}</span><small>${esc(t.fit)}</small></span></div>${focusBlock(t)}</article>`).join('')}</div><h3 class="abl-pick-tiers-title">價格怎麼算</h3><div class="abl-pick-tiers">${C2027.PRICE_TIERS.map((t) => `<div class="abl-pick-tier${t.highlight ? ' is-anchor' : ''}"><span class="abl-pick-tier-count">${esc(t.count)}</span><strong>${esc(t.price)}<small>${esc(t.unit)}</small></strong><span class="abl-pick-tier-note">${esc(t.note)}</span></div>`).join('')}</div>`, 'themes', 'abl-sales-section-muted'),
   salesSection('常見問題', salesFaqs(C2027.FAQS)),
   `<section class="abl-sales-ending"><div class="abl-sales-inner abl-sales-ending-inner"><h2 class="abl-heading">還在猶豫選哪一個？</h2>${salesP('加官方 LINE，輸入 1，我們用兩個小問題幫你找到最適合的主題。')}<div class="abl-sales-ending-actions"><a class="abl-cta abl-sales-scroll" href="#themes">回到選主題</a><a class="abl-cta abl-sales-line" href="https://line.me/R/ti/p/@336irske" target="_blank" rel="noopener noreferrer">加官方 LINE 問我們</a></div></div></section>`,
   salesDisclaimer('頻率支持不是醫療、診斷或療效保證。'),
@@ -587,7 +589,7 @@ const SALES_PAGES = [
   {
     route: '/abl/2027',
     title: '艾伯林量子調頻｜2027 年度頻率支持',
-    description: '選你這一年最想顧好的主題，頻率單獨為你設定、單獨發送。選 1 個 NT$2,600，2 到 5 個每個 NT$2,200，6 個全選 NT$11,800。',
+    description: '休息了，卻還是回不到自己的狀態？選你這一年最想顧好的主題，頻率單獨為你設定、單獨發送，陪你一整年。',
     body: sales2027Body(),
     noindex: false,
   },

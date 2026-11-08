@@ -5,7 +5,7 @@ import HeroTextReveal from '../components/HeroTextReveal';
 import SEOHead from '../components/SEOHead';
 import AblLegalFooter from '../components/AblLegalFooter';
 import {
-  INTRO, PRICE_TIERS, TIMELINE, BUY_STEPS,
+  INTRO, PRICE_TIERS, TIMELINE, HERO, PAIN, REFRAME, HOW,
   FOCUS_TITLE, FOCUS_HINT, CHECK_TITLE, CHECK_HINT, THEMES, FAQS,
 } from '../content/abl2027Content';
 import { LEGAL_SELLER_LINE, LEGAL_TAX_ID } from '../content/ablLegal';
@@ -14,7 +14,7 @@ import './AblSales.css';
 
 const INDEXABLE = true;
 const TITLE = '艾伯林量子調頻｜2027 年度頻率支持';
-const DESCRIPTION = '選你這一年最想顧好的主題，頻率單獨為你設定、單獨發送。選 1 個 NT$2,600，2 到 5 個每個 NT$2,200，6 個全選 NT$11,800。';
+const DESCRIPTION = '休息了，卻還是回不到自己的狀態？選你這一年最想顧好的主題，頻率單獨為你設定、單獨發送，陪你一整年。';
 const PUBLIC_CONFIG_URL = 'https://pay.erickfirm.com/api/public-config';
 const CHECKOUT_URL = 'https://pay.erickfirm.com/?product=individual_single&focus=';
 const OPEN_DATE_TEXT = '11\u00a0月\u00a010\u00a0日開放購買';
@@ -83,6 +83,17 @@ const Abl2027Page = () => {
   const total = personalPrice(count);
   const currentTier = tierOf(count);
   const [attribution] = useState(readAblAttribution);
+  const [showBar, setShowBar] = useState(() => typeof IntersectionObserver === 'undefined');
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return undefined;
+    const el = document.getElementById('themes');
+    if (!el) return undefined;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { if (entry.isIntersecting) setShowBar(true); });
+    }, { rootMargin: '0px 0px -30% 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const checkoutHref = useMemo(
     () => withAblAttribution(CHECKOUT_URL + encodeURIComponent(selected.join(',')), attribution),
     [selected, attribution],
@@ -142,18 +153,85 @@ const Abl2027Page = () => {
             )}
           </div>
           <HeroTextReveal
-            title="這一年，你最想先顧好哪一件事？"
-            subtitle="選好主題，頻率單獨為你設定、單獨發送，陪你走完 2027 一整年。"
+            title={HERO.title}
+            subtitle={HERO.subtitle}
             titleClassName="abl-heading abl-sales-title"
             subtitleClassName="abl-sales-subtitle"
           />
-          <a className="abl-cta abl-sales-scroll" href="#themes">開始選主題</a>
+          <a className="abl-cta abl-sales-scroll" href="#abl-pains">{HERO.action}</a>
         </div>
       </section>
 
-      <section id="themes" className="abl-sales-section">
+      <section id="abl-pains" className="abl-sales-section">
         <div className="abl-sales-inner">
-          <h2 className="abl-heading">點選你想顧好的主題</h2>
+          <h2 className="abl-heading">{PAIN.title}</h2>
+          <ul className="abl-pain-list">
+            {PAIN.items.map((text) => <li key={text}>{text}</li>)}
+          </ul>
+          <p className="abl-pain-closing">{PAIN.closing}</p>
+        </div>
+      </section>
+
+      <section className="abl-sales-section abl-sales-section-muted">
+        <div className="abl-sales-inner">
+          <h2 className="abl-heading">{REFRAME.title}</h2>
+          <div className="abl-sales-copy">
+            {REFRAME.paras.map((text) => <p key={text}>{text}</p>)}
+          </div>
+          <p className="abl-reframe-punch">{REFRAME.punch}</p>
+          <p className="abl-reframe-after">{REFRAME.after}</p>
+        </div>
+      </section>
+
+      <section className="abl-sales-section">
+        <div className="abl-sales-inner">
+          <h2 className="abl-heading">{HOW.title}</h2>
+          <div className="abl-sales-copy">
+            {HOW.paras.map((text) => <p key={text}>{text}</p>)}
+          </div>
+          <div className="abl-honest">
+            <h3>{HOW.honestTitle}</h3>
+            {HOW.honest.map((text) => <p key={text}>{text}</p>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="abl-sales-section abl-sales-section-muted">
+        <div className="abl-sales-inner">
+          <h2 className="abl-heading">誰替你設定</h2>
+          <img className="abl-pick-portrait" src="/erick-portrait-warm-v2.webp" alt="艾瑞克" width="160" height="160" loading="lazy" />
+          <div className="abl-sales-copy">
+            <p>艾伯林量子調頻由艾瑞克負責。二十年身心領域的經驗，2018 年起投入頻率設備的調和工作。</p>
+            <p>每一位客人的頻率，都是收到你的資料後親自設定，設定好才通知你。</p>
+            <p><Link to="/abl/about" className="underline underline-offset-4">認識艾瑞克，看他怎麼看信息場與頻率</Link></p>
+          </div>
+          <ul className="abl-pick-trust">
+            <li><b>7 日內不問理由全額退款</b><span>付款日起 7 日內，透過 LINE 或 Email 申請。</span></li>
+            <li><b>綠界科技信用卡付款</b><span>我們看不到，也不會儲存你的卡號。</span></li>
+            <li><b>資料只用於設定</b><span>照片與個人資料存放在不公開的空間，服務結束後 90 天刪除。</span></li>
+            <li><b>價格對每個人都一樣</b><span>沒有折扣碼，也沒有限時漲價。</span></li>
+            <li><b>賣方資訊</b><span>{LEGAL_SELLER_LINE}，統一編號 {LEGAL_TAX_ID}。</span></li>
+          </ul>
+        </div>
+      </section>
+
+
+      <section className="abl-sales-section">
+        <div className="abl-sales-inner">
+          <h2 className="abl-heading">買了之後，會發生什麼</h2>
+          <div className="abl-sales-copy">{INTRO.map((text) => <p key={text}>{text}</p>)}</div>
+          <ol className="abl-pick-timeline">
+            {TIMELINE.map(([when, what]) => (
+              <li key={when}><b>{when}</b><span>{what}</span></li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+
+      <section id="themes" className="abl-sales-section abl-sales-section-muted">
+        <div className="abl-sales-inner">
+          <h2 className="abl-heading">選你這一年最想顧好的主題</h2>
           <div id="abl-pick-guide" className={'abl-pick-guide is-step-' + guideStep} aria-live="polite">
             <span className="abl-pick-guide-step">第 {guideStep} 步</span>
             <p>{guideText}</p>
@@ -211,52 +289,6 @@ const Abl2027Page = () => {
         </div>
       </section>
 
-      <section className="abl-sales-section abl-sales-section-muted">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">買了之後，會發生什麼</h2>
-          <div className="abl-sales-copy">{INTRO.map((text) => <p key={text}>{text}</p>)}</div>
-          <ol className="abl-pick-timeline">
-            {TIMELINE.map(([when, what]) => (
-              <li key={when}><b>{when}</b><span>{what}</span></li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="abl-sales-section">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">誰替你設定</h2>
-          <img className="abl-pick-portrait" src="/erick-portrait-warm-v2.webp" alt="艾瑞克" width="160" height="160" loading="lazy" />
-          <div className="abl-sales-copy">
-            <p>艾伯林量子調頻由艾瑞克負責。二十年身心領域的經驗，2018 年起投入頻率設備的調和工作。</p>
-            <p>每一位客人的頻率，都是收到你的資料後親自設定，設定好才通知你。</p>
-            <p><Link to="/abl/about" className="underline underline-offset-4">認識艾瑞克，看他怎麼看信息場與頻率</Link></p>
-          </div>
-          <ul className="abl-pick-trust">
-            <li><b>7 日內不問理由全額退款</b><span>付款日起 7 日內，透過 LINE 或 Email 申請。</span></li>
-            <li><b>綠界科技信用卡付款</b><span>我們看不到，也不會儲存你的卡號。</span></li>
-            <li><b>資料只用於設定</b><span>照片與個人資料存放在不公開的空間，服務結束後 90 天刪除。</span></li>
-            <li><b>價格對每個人都一樣</b><span>沒有折扣碼，也沒有限時漲價。</span></li>
-            <li><b>賣方資訊</b><span>{LEGAL_SELLER_LINE}，統一編號 {LEGAL_TAX_ID}。</span></li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="how-to-buy" className="abl-sales-section abl-sales-section-muted">
-        <div className="abl-sales-inner">
-          <h2 className="abl-heading">怎麼購買，四步就完成</h2>
-          <ol className="abl-sales-steps">
-            {BUY_STEPS.map(([title, body], index) => (
-              <li className="abl-sales-step" key={title}>
-                <span className="abl-sales-step-no">{index + 1}</span>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
       <section className="abl-sales-section">
         <div className="abl-sales-inner">
           <h2 className="abl-heading">常見問題</h2>
@@ -285,7 +317,7 @@ const Abl2027Page = () => {
       <footer className="abl-sales-disclaimer">頻率支持不是醫療、診斷或療效保證。</footer>
       <AblLegalFooter />
 
-      <div className={'abl-pick-bar' + (count ? ' is-active' : '')}>
+      <div className={'abl-pick-bar' + (count ? ' is-active' : '') + (showBar ? '' : ' is-hidden')}>
         <div className="abl-pick-bar-info">
           {count ? (
             <>
