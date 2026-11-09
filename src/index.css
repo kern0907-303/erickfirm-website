@@ -53,9 +53,9 @@
     --i8-bg: #f6f8fb;
     --i8-card: #f0f4f9;
     --i8-soft: #c5d4e8;
-    --i8-glow-navy: rgba(31, 79, 134, 0.42);
-    --i8-glow-sky: rgba(141, 172, 214, 0.62);
-    --i8-glow-ice: rgba(196, 214, 238, 0.85);
+    --i8-glow-navy: rgba(126, 168, 226, 0.34);
+    --i8-glow-sky: rgba(176, 205, 243, 0.5);
+    --i8-glow-ice: rgba(222, 234, 250, 0.9);
   }
   html,
   body {
