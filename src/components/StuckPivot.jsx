@@ -23,13 +23,12 @@ function useIsDesktop() {
   return isDesktop;
 }
 
-const Eyebrow = () => <p className="mb-6 text-xs tracking-[0.22em] text-slate-500">WHY WE GET STUCK</p>;
 
 // 劃掉的細線：寬度由 progress 決定
 const StrikeLine = ({ progress }) => (
   <motion.span
     aria-hidden="true"
-    className="absolute left-0 right-0 top-[58%] h-[2px] origin-left bg-slate-900"
+    className="absolute left-0 right-0 top-[58%] h-[2px] origin-left bg-ef-ink"
     style={{ scaleX: progress }}
   />
 );
@@ -37,14 +36,13 @@ const StrikeLine = ({ progress }) => (
 // 減少動態效果：完整靜態版
 const StaticVersion = () => (
   <div className="max-w-3xl">
-    <Eyebrow />
-    <p className="text-2xl leading-[1.7] text-slate-400 md:text-4xl">
+    <p className="text-ef-statement text-ef-muted">
       {OLD_LINES.map((line) => <span key={line} className="mr-3 inline-block line-through">{line}</span>)}
     </p>
-    <p className="mt-8 text-base leading-loose text-slate-600 md:text-lg">
+    <p className="mt-8 text-ef-lead text-ef-muted">
       {EXPLAIN[0]}<br />{EXPLAIN[1]}
     </p>
-    <p className="mt-7 text-2xl font-bold leading-[1.6] text-slate-900 md:text-4xl">{CONCLUSION}</p>
+    <p className="mt-7 text-ef-section font-bold text-ef-ink">{CONCLUSION}</p>
   </div>
 );
 
@@ -62,25 +60,24 @@ const MobileVersion = () => {
       viewport={{ once: true, amount: 0.35 }}
       variants={{ hidden: {}, visible: {} }}
     >
-      <Eyebrow />
-      <div className="space-y-2 text-2xl leading-[1.5] text-slate-900">
+      <div className="space-y-2 text-ef-statement text-ef-ink">
         {OLD_LINES.map((line, i) => (
           <p key={line} className="relative inline-block w-full">
             <span className="relative inline-block">
               {line}
-              <motion.span aria-hidden="true" variants={strike(i)} className="absolute left-0 right-0 top-[58%] h-[2px] origin-left bg-slate-900" />
+              <motion.span aria-hidden="true" variants={strike(i)} className="absolute left-0 right-0 top-[58%] h-[2px] origin-left bg-ef-ink" />
             </span>
           </p>
         ))}
       </div>
       <motion.p
-        className="mt-8 text-base leading-loose text-slate-600"
+        className="mt-8 text-ef-lead text-ef-muted"
         variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EXPO, delay: 1.7 } } }}
       >
         {EXPLAIN[0]}<br />{EXPLAIN[1]}
       </motion.p>
       <motion.p
-        className="mt-7 text-2xl font-bold leading-[1.6] text-slate-900"
+        className="mt-7 text-ef-section font-bold text-ef-ink"
         variants={{ hidden: { opacity: 0, y: 48 }, visible: { opacity: 1, y: 0, transition: { duration: 1.1, ease: EXPO, delay: 2.2 } } }}
       >
         {CONCLUSION}
@@ -109,11 +106,10 @@ const DesktopVersion = () => {
   return (
     <div ref={ref} className="relative h-[250vh]">
       <div className="sticky top-[88px] h-[calc(100vh-112px)] min-h-[480px]">
-        <div className="relative grid h-full place-content-center gap-3 overflow-hidden rounded-[28px] bg-[#e5eae7] px-8 text-center">
-          <Eyebrow />
+        <div className="relative grid h-full place-content-center gap-3 overflow-hidden rounded-ef-card bg-ef-mint px-8 text-center">
           <motion.div style={{ opacity: oldOpacity }} className="grid gap-2">
             {OLD_LINES.map((line, i) => (
-              <p key={line} className="text-3xl leading-[1.5] text-slate-900 md:text-5xl">
+              <p key={line} className="text-ef-section text-ef-ink">
                 <span className="relative inline-block">
                   {line}
                   <StrikeLine progress={strikes[i]} />
@@ -121,17 +117,17 @@ const DesktopVersion = () => {
               </p>
             ))}
           </motion.div>
-          <motion.p style={{ opacity: explainOpacity, y: explainY }} className="mx-auto mt-6 max-w-2xl text-base leading-loose text-slate-600 md:text-lg">
+          <motion.p style={{ opacity: explainOpacity, y: explainY }} className="mx-auto mt-6 max-w-2xl text-ef-lead text-ef-muted">
             {EXPLAIN[0]}<br />{EXPLAIN[1]}
           </motion.p>
           <motion.p
             style={{ opacity: conclusionOpacity, y: conclusionY, filter: conclusionBlur }}
-            className="mt-4 text-3xl font-bold leading-[1.5] text-slate-900 md:text-5xl"
+            className="mt-4 text-ef-section font-bold text-ef-ink"
           >
             {CONCLUSION}
           </motion.p>
-          <div className="absolute bottom-6 left-8 right-8 h-[3px] overflow-hidden rounded-full bg-slate-300/70">
-            <motion.i className="block h-full origin-left bg-slate-900" style={{ scaleX: progressBar }} />
+          <div className="absolute bottom-6 left-8 right-8 h-[3px] overflow-hidden rounded-full bg-ef-line">
+            <motion.i className="block h-full origin-left bg-ef-ink" style={{ scaleX: progressBar }} />
           </div>
         </div>
       </div>

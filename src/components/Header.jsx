@@ -14,8 +14,8 @@ const FIRM_NAV = [
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { pathname } = useLocation();
-  // /abl 與 /nas/2027 首屏不放加 LINE（2027 頁只在結尾出現一次）
-  const showLineCta = !['/abl', '/nas/2027'].includes(pathname.replace(/\/+$/, ''));
+  // 首屏不放加 LINE：/abl、/nas/2027、首頁與 /i8 的加 LINE 只放在頁面後段，一頁只出現一次
+  const showLineCta = !['/abl', '/nas/2027', '', '/i8'].includes(pathname.replace(/\/+$/, ''));
   const lineUrl = lineAddUrlFor(pathname);
   const navigate = useNavigate();
   // /nas、/abl、/i8 底下只出現該品牌的 logo、名稱與選單，不出現 Erick Firm
@@ -56,7 +56,7 @@ const Header = () => {
               href={lineUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2 bg-slate-900 text-white text-sm font-bold hover:bg-slate-700 active:scale-[0.97] transition-all"
+              className="px-5 py-2 bg-slate-900 text-white text-sm font-bold hover:bg-slate-700 active:scale-[0.97] transition-[background-color,transform]"
             >
               加 LINE
             </a>
@@ -81,7 +81,7 @@ const Header = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsMenuOpen(false)}
-              className="bg-slate-900 text-white text-center py-3 font-bold active:scale-[0.98] transition-all cursor-pointer"
+              className="bg-slate-900 text-white text-center py-3 font-bold active:scale-[0.98] transition-transform cursor-pointer"
             >
               加 LINE
             </a>

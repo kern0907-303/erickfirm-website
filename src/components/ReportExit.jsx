@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default function ReportExit({ question }) {
   return (
     <section className="px-6 py-10" aria-label="免費報告">
-      <div className="mx-auto max-w-3xl border-t border-slate-300 pt-7 text-sm leading-relaxed text-slate-500">
+      <div className="mx-auto max-w-3xl border-t border-ef-line pt-7 text-sm leading-relaxed text-ef-muted">
         <p>{question}</p>
         <p className="mt-2">
           先花十分鐘看這個：

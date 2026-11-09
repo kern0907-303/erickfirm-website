@@ -4,6 +4,7 @@ import { getPostPath } from '../lib/insights-adapter';
 import fallbackData from '../data/insights.fallback.json';
 import { getPreferredLocale, i18n, onLocaleChange } from '../lib/i18n';
 import { getServiceNameFromSlug, normalizePosts } from '../lib/insights-adapter';
+import { ArrowRight } from 'lucide-react';
 import { CardRise, CardRiseItem, MaskHeading } from './Motion';
 
 // 首頁專欄規則：取最新 6 篇，每個品牌最多 2 篇，讓四個品牌輪流露出，不被單一系列洗版。
@@ -75,17 +76,16 @@ const HomeInsightsSection = () => {
   }, [locale]);
 
   return (
-    <div id="insights-preview" className="py-20 bg-[#f7f6f2] font-sans md:py-28">
+    <div id="insights-preview" className="py-ef-section bg-ef-warm font-sans">
       <div className="container mx-auto px-6 max-w-7xl">
         {/* 標題與說明 */}
         <div className="max-w-3xl mb-16">
-          <p className="mb-5 text-xs tracking-[0.22em] text-slate-500">SELECTED WRITING</p>
           <MaskHeading
             lines={['不是給你答案，', '是先讓你看見問題長什麼樣']}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-5 font-display tracking-tight leading-tight"
+            className="text-ef-section font-bold text-ef-ink font-display"
             rule
           />
-          <p className="mt-7 text-slate-600 text-base md:text-lg font-light leading-relaxed">
+          <p className="mt-7 text-ef-muted text-ef-lead font-light">
             這些是我平常在想的事。挑一篇跟你現在最像的看看。
           </p>
         </div>
@@ -94,7 +94,7 @@ const HomeInsightsSection = () => {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-pulse">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-56 bg-slate-200/60 rounded-2xl" />
+              <div key={i} className="h-56 bg-ef-tag rounded-ef-card" />
             ))}
           </div>
         ) : (
@@ -103,26 +103,27 @@ const HomeInsightsSection = () => {
               <CardRiseItem key={post.id || post.slug} className="h-full">
               <Link
                 to={getPostPath(post)}
-                className="card-soft group bg-white p-7 flex flex-col justify-between h-full"
+                className="card-soft group bg-ef-paper p-7 flex flex-col justify-between h-full"
               >
                 <div>
                   {/* 分類標籤與發佈日期 */}
                   <div className="flex items-center justify-between mb-5">
-                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 font-sans">
+                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-ef-tag text-ef-text font-sans">
                       {getServiceNameFromSlug(post.service, locale, i18n)}
                     </span>
-                    <span className="text-xs text-slate-400 font-sans">{post.publishDate}</span>
+                    <span className="text-xs text-ef-muted font-sans tabular-nums">{post.publishDate}</span>
                   </div>
 
                   {/* 完整不截斷的文章標題 */}
-                  <h3 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-slate-600 transition-colors font-display leading-snug">
+                  <h3 className="text-ef-title font-bold text-ef-ink group-hover:text-ef-text transition-colors font-display">
                     {post.title}
                   </h3>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-900 group-hover:translate-x-1 transition-transform">
-                    閱讀完整文章 →
+                <div className="pt-6 mt-6 border-t border-ef-tag flex items-center justify-between">
+                  <span className="inline-flex items-center gap-2 text-ef-small font-bold text-ef-ink">
+                    閱讀完整文章
+                    <ArrowRight size={15} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
                   </span>
                 </div>
               </Link>
@@ -135,9 +136,10 @@ const HomeInsightsSection = () => {
         <div className="mt-16 text-center">
           <Link
             to="/insights"
-            className="inline-flex items-center gap-2 text-slate-900 hover:text-slate-600 font-bold text-base md:text-lg tracking-wide transition-all group font-display"
+            className="ef-btn ef-btn--ghost group font-display"
           >
-            看全部文章 <span className="group-hover:translate-x-1 transition-transform">→</span>
+            看全部文章
+            <ArrowRight size={18} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </div>

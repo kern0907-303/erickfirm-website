@@ -37,20 +37,17 @@ const Services = ({ linked = false, current = '', only = false } = {}) => {
     ? services.filter((service) => serviceRoutes[service.title]?.key === current)
     : services;
   return (
-  <section id="services" className="bg-[#f3f4f1] py-20 md:py-28">
+  <section id="services" className="bg-ef-stone py-ef-section">
     <div className="container mx-auto max-w-7xl px-6">
       {!linked && !only && (
         <div className="mb-14 max-w-2xl">
-          <Reveal>
-            <p className="text-xs tracking-[0.22em] text-slate-500 mb-5">THREE WAYS</p>
-          </Reveal>
           <MaskHeading
             lines={['三條路，', '看的是同一件事']}
-            className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight"
+            className="text-ef-section font-bold text-ef-ink"
             rule
           />
           <Reveal delay={0.1}>
-            <p className="mt-7 text-base md:text-lg leading-loose text-slate-600">我把這二十年的方法，整理成三條路。<br />你不需要全部走，只需要先走對的那一條。</p>
+            <p className="mt-7 text-ef-lead text-ef-muted">我把這二十年的方法，整理成三條路。<br />你不需要全部走，只需要先走對的那一條。</p>
           </Reveal>
         </div>
       )}
@@ -58,16 +55,16 @@ const Services = ({ linked = false, current = '', only = false } = {}) => {
         {visible.map((service) => {
           const route = serviceRoutes[service.title];
           const card = (
-            <article className="card-soft h-full bg-white p-7 md:p-9">
-              <p className="text-xl font-bold text-slate-900">{service.title}</p>
-              <p className="mt-5 inline-block rounded-full bg-slate-100 px-3.5 py-1 text-xs text-slate-600">{service.label}</p>
+            <article className="card-soft h-full bg-ef-paper p-7 md:p-9">
+              <p className="text-ef-title font-bold text-ef-ink">{service.title}</p>
+              <p className="mt-4 inline-block rounded-full bg-ef-tag px-3.5 py-1 text-ef-small text-ef-text">{service.label}</p>
               {linked && !only && current === route.key && (
-                <span className="ml-2 inline-block text-xs text-slate-500">目前所在頁</span>
+                <span className="ml-2 inline-block text-ef-small text-ef-muted">目前所在頁</span>
               )}
-              <div className="mt-8 space-y-6 text-sm leading-loose text-slate-600">
-                <p><span className="block mb-1 font-bold text-slate-900">你會有的感覺</span>{service.feeling}</p>
-                <p><span className="block mb-1 font-bold text-slate-900">我怎麼看</span>{service.perspective}</p>
-                <p><span className="block mb-1 font-bold text-slate-900">大概怎麼進行</span>{service.process}</p>
+              <div className="mt-8 space-y-6 text-ef-small text-ef-muted">
+                <p><span className="block mb-1 font-bold text-ef-ink">你會有的感覺</span>{service.feeling}</p>
+                <p><span className="block mb-1 font-bold text-ef-ink">我怎麼看</span>{service.perspective}</p>
+                <p><span className="block mb-1 font-bold text-ef-ink">大概怎麼進行</span>{service.process}</p>
               </div>
             </article>
           );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, ClipboardCheck, Route, ShieldCheck, UsersRound } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { lineMessageUrl } from '../lib/constants';
@@ -32,6 +33,13 @@ const steps = [
 ];
 
 const I8Page = () => {
+  const reduceMotion = useReducedMotion();
+  // 首屏標題逐行浮現；開啟「減少動態效果」的人直接看到完整標題
+  const enter = (delay) => ({
+    initial: reduceMotion ? false : { opacity: 0, y: 22 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.85, delay: reduceMotion ? 0 : delay, ease: [0.22, 1, 0.36, 1] },
+  });
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -57,40 +65,43 @@ const I8Page = () => {
   };
 
   return (
-    <div className="bg-[#F7FAFB] text-slate-900 pt-24 pb-20">
+    <div className="bg-i8-bg text-ef-ink pb-20">
       <SEOHead
         title="企業醫生診斷｜人力與組織協作卡點 - 初八企業顧問"
         description="當團隊越來越忙、協作卻越來越慢，問題未必在人不夠。初八企業顧問陪企業主、高階主管與承擔組織結果的人，從組織協作、決策節奏與經營流程找出最該先處理的結構。"
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
-      <section className="px-6 pt-12 pb-20">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#9FDCE2] bg-white px-4 py-2 text-sm font-bold text-[#217987]">
+      <section className="i8-hero relative overflow-hidden px-6 pt-36 pb-ef-section">
+        <div className="erick-hero__glow i8-hero__glow--one" aria-hidden="true" />
+        <div className="erick-hero__glow i8-hero__glow--two" aria-hidden="true" />
+        <div className="erick-hero__glow i8-hero__glow--three" aria-hidden="true" />
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 rounded-full bg-ef-paper px-4 py-2 text-sm font-bold text-i8-accent shadow-[inset_0_0_0_1px_var(--i8-soft)]">
             <img src="/logo-i8.png" alt="" className="h-5 w-5 object-contain" />
             初八企業顧問｜企業醫生診斷
           </div>
-          <h1 className="mt-7 max-w-3xl text-4xl md:text-6xl font-bold leading-tight tracking-tight">
-            企業最怕的不是問題出現，
-            <br className="hidden md:block" />
-            是一直處理錯問題。
+          {/* 斷行保護：詞組用 nowrap-tail 整組換行，手機不會把「一直」拆開 */}
+          <h1 className="mt-7 max-w-3xl text-ef-display font-bold text-primary">
+            <motion.span {...enter(0.12)} className="block">
+              <span className="nowrap-tail">企業最怕的</span><span className="nowrap-tail">不是問題出現，</span>
+            </motion.span>
+            <motion.span {...enter(0.36)} className="block">
+              <span className="nowrap-tail">是一直處理錯問題。</span>
+            </motion.span>
           </h1>
-          <p className="mt-7 max-w-2xl text-lg leading-loose text-slate-600">
+          <p className="mt-7 max-w-2xl text-ef-lead text-ef-muted">
             當你承擔的不只是自己的工作，而是一個團隊、一個部門、一項產品，甚至整家公司，卡住時不一定是誰做得不夠好。企業醫生診斷陪你回到角色、決策、流程與節奏，先找出此刻最值得處理的關鍵因素。
           </p>
-          <p className="mt-4 max-w-2xl leading-relaxed text-slate-600">不論你是企業主、高階主管、部門主管，或在高科技與專業組織中承擔關鍵結果的人，都可以從這裡開始。</p>
+          <p className="mt-4 max-w-2xl text-ef-copy text-ef-muted">不論你是企業主、高階主管、部門主管，或在高科技與專業組織中承擔關鍵結果的人，都可以從這裡開始。</p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <a
-              href={I8_LINE_DIAGNOSTIC_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#143C47] px-6 py-4 font-bold text-white transition hover:bg-[#217987]"
-            >
-              先說說目前的卡點 <ArrowRight size={18} />
+            {/* 首屏不放 LINE：主按鈕先帶到下方的診斷流程，LINE 只在頁面最後出現一次 */}
+            <a href="#i8-how" className="ef-btn ef-btn--i8">
+              看診斷怎麼進行 <ArrowRight size={18} aria-hidden="true" />
             </a>
             <Link
               to="/insights/enterprise-doctor"
-              className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-4 font-bold text-slate-700 transition hover:border-[#217987] hover:text-[#217987]"
+              className="ef-btn ef-btn--ghost ef-btn--ghost-i8"
             >
               先看企業醫生文章
             </Link>
@@ -98,41 +109,41 @@ const I8Page = () => {
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-white px-6 py-16">
+      <section className="bg-ef-paper px-6 py-ef-section">
         <div className="max-w-5xl mx-auto">
-          <p className="text-sm font-bold tracking-[0.24em] text-[#217987]">WHAT WE LOOK AT</p>
-          <h2 className="mt-3 text-3xl font-bold">不是替組織貼標籤，而是把結構看清楚</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <h2 className="text-ef-section font-bold text-primary"><span className="nowrap-tail">不是替組織貼標籤，</span><span className="nowrap-tail">而是把結構看清楚</span></h2>
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
             {lenses.map(({ icon: Icon, title, text }) => (
-              <article key={title} className="card-soft bg-[#F4F7F8] p-6">
-                <Icon className="text-[#217987]" size={28} />
-                <h3 className="mt-5 text-xl font-bold">{title}</h3>
-                <p className="mt-3 leading-relaxed text-slate-600">{text}</p>
+              <article key={title} className="card-flat bg-i8-card p-7">
+                <h3 className="flex items-center gap-3 text-ef-title font-bold text-primary">
+                  <Icon className="shrink-0 text-i8-accent" size={22} aria-hidden="true" />
+                  {title}
+                </h3>
+                <p className="mt-4 text-ef-copy text-ef-muted">{text}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="px-6 py-20">
+      <section id="i8-how" className="scroll-mt-24 px-6 py-ef-section">
         <div className="max-w-4xl mx-auto">
-          <p className="text-sm font-bold tracking-[0.24em] text-[#217987]">HOW A DIAGNOSIS STARTS</p>
-          <h2 className="mt-3 text-3xl font-bold">從一個真正想處理的問題開始</h2>
-          <div className="mt-10 space-y-5">
+          <h2 className="text-ef-section font-bold text-primary"><span className="nowrap-tail">從一個真正</span><span className="nowrap-tail">想處理的問題開始</span></h2>
+          <div className="mt-12 space-y-4">
             {steps.map(([title, text], index) => (
-              <div key={title} className="flex gap-5 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D9F1F4] font-bold text-[#217987]">{index + 1}</span>
+              <div key={title} className="card-flat flex gap-5 bg-ef-paper p-6 md:p-7">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-i8-mist font-bold text-i8-accent tabular-nums">{index + 1}</span>
                 <div>
-                  <h3 className="font-bold">{title}</h3>
-                  <p className="mt-2 leading-relaxed text-slate-600">{text}</p>
+                  <h3 className="text-ef-title font-bold text-primary">{title}</h3>
+                  <p className="mt-2 text-ef-copy text-ef-muted">{text}</p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="mt-10 rounded-2xl border border-[#9FDCE2] bg-[#ECF8F9] p-6 text-slate-700">
+          <div className="card-flat mt-10 bg-i8-tint p-6 md:p-7 text-ef-text">
             <div className="flex gap-3">
-              <ShieldCheck className="mt-0.5 shrink-0 text-[#217987]" size={22} />
-              <p className="leading-relaxed">
+              <ShieldCheck className="mt-1 shrink-0 text-i8-accent" size={22} aria-hidden="true" />
+              <p className="text-ef-copy">
                 這不是自動評分工具，也不會用一份表單替你下結論。每個組織的背景不同，診斷以實際經營情境為準，先確認資訊與優先順序，再討論是否需要後續支持。
               </p>
             </div>
@@ -140,19 +151,19 @@ const I8Page = () => {
         </div>
       </section>
 
-      <section className="px-6 pb-8">
-        <div className="max-w-4xl mx-auto rounded-3xl bg-[#143C47] px-7 py-12 text-center text-white md:px-12">
-          <h2 className="text-3xl font-bold text-white">先把最困擾的問題說清楚。</h2>
-          <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-slate-200">
+      <section className="px-6 pb-16">
+        <div className="ef-on-dark max-w-4xl mx-auto rounded-ef-card bg-i8-deep px-7 py-14 text-center text-ef-paper md:px-12 md:py-16">
+          <h2 className="text-ef-section font-bold text-ef-paper">先把最困擾的問題說清楚。</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-ef-copy text-i8-mist">
             如果你正面對人力、組織協作、決策反覆或經營流程的卡點，先透過 LINE 說明目前情境。我們會從最需要被看清的地方開始。
           </p>
           <a
             href={I8_LINE_DIAGNOSTIC_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-4 font-bold text-[#143C47] transition hover:bg-[#D9F1F4]"
+            className="ef-btn ef-btn--paper mt-9"
           >
-            進入企業醫生診斷 <ArrowRight size={18} />
+            進入企業醫生診斷 <ArrowRight size={18} aria-hidden="true" />
           </a>
         </div>
       </section>

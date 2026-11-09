@@ -15,7 +15,7 @@ export const MaskHeading = ({ as: Tag = 'h2', lines, className = '', rule = fals
         <Tag className={className}>
           {lines.map((line) => <span key={line} className="block">{line}</span>)}
         </Tag>
-        {rule && <div className="mt-6 h-0.5 w-[72px] bg-slate-900" />}
+        {rule && <div className="mt-6 h-0.5 w-[72px] bg-ef-ink" />}
       </div>
     );
   }
@@ -33,7 +33,7 @@ export const MaskHeading = ({ as: Tag = 'h2', lines, className = '', rule = fals
           </span>
         ))}
       </Tag>
-      {rule && <motion.div variants={ruleVariant} className="mt-6 h-0.5 w-[72px] origin-left bg-slate-900" />}
+      {rule && <motion.div variants={ruleVariant} className="mt-6 h-0.5 w-[72px] origin-left bg-ef-ink" />}
     </motion.div>
   );
 };

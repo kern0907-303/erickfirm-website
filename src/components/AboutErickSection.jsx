@@ -6,7 +6,7 @@ const AboutErickSection = () => {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div id="about" className="py-20 bg-white font-sans md:py-28">
+    <div id="about" className="py-ef-section bg-ef-paper font-sans">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* 左欄：直式圓角人物照片預留位置 */}
@@ -23,7 +23,7 @@ const AboutErickSection = () => {
                   visible: { clipPath: 'inset(0% 0 0 0)' },
                 }}
                 transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
-                className="group h-full w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-surface shadow-md transition-colors duration-300 hover:border-accent/40"
+                className="h-full w-full overflow-hidden rounded-ef-card bg-ef-card shadow-[var(--ef-shadow-lift)]"
               >
                 <motion.img
                   src="/erick-portrait-warm-v2.webp"
@@ -42,12 +42,11 @@ const AboutErickSection = () => {
           {/* 右欄：文字內容 */}
           <div className="lg:col-span-7">
             <Reveal direction="right">
-            <p className="mb-5 text-xs tracking-[0.22em] text-slate-500">ABOUT ERICK</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-8 font-display tracking-tight leading-tight">
+            <h2 className="text-ef-section font-bold text-ef-ink mb-8 font-display">
               我不是來給你答案的人
             </h2>
 
-            <div className="space-y-6 text-slate-700 text-base md:text-lg leading-relaxed font-light">
+            <div className="space-y-6 text-ef-text text-ef-lead font-light">
               <p>
                 最早接觸的是生命數字。那時候我想弄懂一件事：為什麼有些人怎麼做都順，有些人怎麼做都卡？後來才明白，每個人都有自己的初始設定：你的思考慣性、你的行動節奏、你在關係裡會反覆出現的模式。
               </p>
