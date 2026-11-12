@@ -94,7 +94,7 @@ const NASDashboard = () => {
   <main className="bg-white text-[#1F1A2E]">
     <SEOHead
       title="365 能量氣象台｜每天晚上，提醒你明天的天氣"
-      description="主命數是氣候，是你的底層設定；流年、流月、流日是天氣，每天都不一樣。先免費看今天的流日；365 能量氣象台每天晚上用 LINE 提醒你明天，跟 2027 年度導航一起提供。付款當天開通，一整年再多送 30 天，共 395 天。"
+      description="主命數是氣候，是你的底層設定；流年、流月、流日是天氣，每天都不一樣。先免費看今天的流日；365 能量氣象台每天晚上用 LINE 提醒你明天，跟 2027 年度導航一起提供。付款當天開通，12 月 31 日前開通一路用到 2028 年 1 月 20 日，越早開通，越早享受。"
     />
 
     <section className="pt-32 pb-16 px-6">
@@ -295,12 +295,12 @@ const NASDashboard = () => {
         <h2 className="text-xl md:text-2xl font-bold mb-4">怎麼開始</h2>
         <p className="text-[#55506B] leading-loose mb-6">
           365 能量氣象台不單獨販售，它跟 2027 年度導航一起提供：報告是這一年的地圖，365 是每天的路況。
-          付款當天開通，一整年再多送 30 天，共 395 天。
+          付款當天開通，12 月 31 日前開通一路用到 2028 年 1 月 20 日，越早開通，越早享受。
         </p>
         <div className="p-7 rounded-2xl border-2 border-[#5B3A9E] bg-white">
           <p className="text-sm text-[#6E6885] mb-1">2027 年度導航＋全年陪跑</p>
           <p className="text-3xl font-bold tabular-nums mb-1">NT$1,280</p>
-          <p className="text-sm font-semibold text-[#A8883F] mb-5">付款當天開通，一整年再多送 30 天，共 395 天的每日提醒。</p>
+          <p className="text-sm font-semibold text-[#A8883F] mb-5">12 月 31 日前開通，每日提醒一路用到 2028 年 1 月 20 日。</p>
           <Link to="/nas/2027" className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition">
             看 2027 年度導航<ArrowRight size={16} />
           </Link>
