@@ -4,7 +4,7 @@ import './HeroTextReveal.css';
 
 const LETTER_STAGGER = 0.04;
 // 這些詞在標題裡固定不拆成兩行（例如「平衡空間」不會斷成「平衡空」和「間」）
-const KEEP_TOGETHER = ['艾伯林量子調頻', '初八企業顧問', '平衡空間', '生命數字', '艾瑞克'];
+const KEEP_TOGETHER = ['艾伯林量子調頻', '初八企業顧問', '平衡空間', '生命數字', '艾瑞克', '這個月'];
 const LETTER_DURATION = 0.6;
 
 const HeroTextReveal = ({ title, subtitle, titleClassName = '', subtitleClassName = '' }) => {

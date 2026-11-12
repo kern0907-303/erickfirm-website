@@ -319,17 +319,16 @@ const NASCalculator = () => {
       />
 
       {/* 輸入 */}
-      <section className="pt-32 pb-14 px-6">
+      {/* 第一眼就是輸入框：標題一句、期待一句，說明全部移到結果下面 */}
+      <section className="pt-24 md:pt-32 pb-14 px-6">
         <div className="max-w-2xl mx-auto">
           <NASMark label="生命數字計算" />
-          <p className="text-sm font-semibold text-[#A8883F] mb-3">{FLOW_COPY.hook}</p>
           <HeroTextReveal
-            title="輸入生日，看你的雙軌結構"
-            subtitle="免費計算，不需註冊或提交 Email。生日會送往計算服務，並保存在這台瀏覽器，換到 365 能量氣象台頁面看今天時不用再輸入。陽曆看你對外做事的樣子，陰曆看你心裡的感受，多數人的卡點，就落在這兩者不一致的地方。"
-            titleClassName="text-2xl md:text-4xl font-bold leading-snug mb-5"
-            subtitleClassName="text-[#55506B] leading-loose mb-9"
+            title="輸入生日，看你這個月該衝還是該收"
+            subtitle="30 秒，免費，不用註冊。"
+            titleClassName="text-2xl md:text-4xl font-bold leading-snug mb-3"
+            subtitleClassName="text-[#55506B] leading-loose mb-6"
           />
-          <p className="text-sm text-[#6E6885] leading-loose mb-8">{FLOW_COPY.heroSupport}</p>
 
           <form onSubmit={run} className="space-y-4">
             <div>
@@ -369,6 +368,7 @@ const NASCalculator = () => {
             >
               {state === 'loading' ? '計算中⋯' : '開始計算'}
             </button>
+            <p className="text-xs leading-relaxed text-[#918BA6]">艾瑞克，二十年生命數字教學。不嚇人，只說這段時間適合做什麼、先別做什麼。生日只用來計算，並存在這台瀏覽器，下次不用再輸入。</p>
           </form>
 
           {state === 'error' && (
@@ -601,7 +601,9 @@ const NASCalculator = () => {
           className="py-16 px-6 bg-[#F7F5FC]"
         >
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold mb-5">算完了，然後呢？</h2>
+            <p className="text-sm font-semibold text-[#A8883F] mb-3">{FLOW_COPY.hook}</p>
+            <p className="text-[#55506B] leading-loose mb-4">{FLOW_COPY.heroSupport}多數人的卡點，就落在這兩者不一致的地方。</p>
+            <h2 className="text-xl md:text-2xl font-bold mb-5 mt-10">算完了，然後呢？</h2>
             <p className="text-[#55506B] leading-loose mb-4">
               你剛才拿到的是一組數字。網路上查得到它的標準描述，但如果你看了覺得
               <strong className="text-[#1F1A2E]">「有點準，又不太像我」</strong>，

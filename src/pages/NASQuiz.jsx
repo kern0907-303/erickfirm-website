@@ -51,7 +51,7 @@ const NASQuiz = () => {
     () => QUIZ_QUESTIONS.map((item) => ({ ...item, options: shuffled(item.options) })),
     [],
   );
-  const [step, setStep] = useState(-1); // -1 開場，0 到 7 作答，8 結果
+  const [step, setStep] = useState(0); // 0 到 7 作答，8 結果；第一眼就是第一題，不再有開場頁
   const [answers, setAnswers] = useState([]);
   const [quizEventId, setQuizEventId] = useState('');
 
@@ -72,7 +72,7 @@ const NASQuiz = () => {
   };
 
   const back = () => {
-    if (step <= 0) { setStep(-1); return; }
+    if (step <= 0) return;
     setStep(step - 1);
   };
 
@@ -89,35 +89,26 @@ const NASQuiz = () => {
         description="生活一直卡住，不是因為不夠努力。8 題自我檢查，看清楚你現在卡在哪一種狀態。艾瑞克，二十年生命數字教學。"
       />
 
-      <section className="pt-32 pb-20 px-6">
+      <section className="pt-24 md:pt-32 pb-20 px-6">
         <div className="max-w-2xl mx-auto">
           <NASMark label="卡點五型自我檢查" />
 
-          {step === -1 && (
-            <div>
-              <HeroTextReveal
-                title="生活一直卡住，可能是這五種狀態之一"
-                subtitle="8 題，大約 2 分鐘。卡住不是因為你不夠努力，是原本的方法已經不夠用了。先看清楚自己卡在哪一種狀態，力氣才知道該往哪裡放。"
-                titleClassName="text-2xl md:text-4xl font-bold leading-snug mb-5"
-                subtitleClassName="text-[#55506B] leading-loose mb-10"
-              />
-              <button
-                type="button"
-                onClick={() => { setStep(0); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-8 py-4 font-semibold text-white shadow-sm transition hover:bg-[#472D7D] hover:shadow-lg sm:w-auto"
-              >
-                開始檢查 <ArrowRight size={18} />
-              </button>
-              <p className="mt-4 text-xs leading-relaxed text-[#918BA6]">作答不用登入，選完馬上看到你的結果。</p>
-            </div>
-          )}
-
           {step >= 0 && step < questions.length && (
             <div>
+              {step === 0 && (
+                <HeroTextReveal
+                  title="8 題，看你的生活卡在哪一種狀態"
+                  subtitle="大約 2 分鐘，不用登入，選完馬上看到結果。"
+                  titleClassName="text-2xl md:text-4xl font-bold leading-snug mb-3"
+                  subtitleClassName="text-[#55506B] leading-loose mb-6"
+                />
+              )}
               <div className="mb-6 flex items-center justify-between text-sm text-[#6E6885]">
-                <button type="button" onClick={back} className="inline-flex items-center gap-1 transition hover:text-[#5B3A9E]">
-                  <ArrowLeft size={16} /> 上一題
-                </button>
+                {step > 0 ? (
+                  <button type="button" onClick={back} className="inline-flex items-center gap-1 transition hover:text-[#5B3A9E] active:scale-95">
+                    <ArrowLeft size={16} /> 上一題
+                  </button>
+                ) : <span />}
                 <span>{step + 1} / {questions.length}</span>
               </div>
               <div className="mb-8 h-1.5 w-full overflow-hidden rounded-full bg-[#EEE9F7]">
