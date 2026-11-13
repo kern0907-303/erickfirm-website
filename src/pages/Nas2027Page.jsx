@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowDown, Check, Map as MapIcon, CloudSun } from 'lucide-react';
+import { ArrowRight, ArrowDown, Check, Minus, Map as MapIcon, CloudSun } from 'lucide-react';
 import { LINE_CONFIG } from '../lib/constants';
 import HeroTextReveal from '../components/HeroTextReveal';
 import ProductCheckoutButton from '../components/ProductCheckoutButton';
@@ -10,7 +10,7 @@ import { LEGAL_TAX_ID } from '../content/ablLegal';
 import { NAS_LEGAL_EMAIL } from '../content/nasLegal';
 import {
   NAS2027_CHECKOUT_URL, NAS2027_TITLE, NAS2027_DESCRIPTION, HERO, HERO_BY_TYPE, STRUGGLE, TURN, SOLUTION,
-  LINK_SECTION, DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, FAMILY_NOTE, BUY_STEPS_TITLE, BUY_STEPS, ABOUT_TITLE, ABOUT, TESTIMONIALS_TITLE, TESTIMONIALS, GUARANTEE, FAQS, ENDING,
+  LINK_SECTION, DIFFERENCES, EXCERPTS_TITLE, EXCERPTS_INTRO, EXCERPTS, EXCERPT_MONTHS, PLANS, PLAN_INCLUDES, PLANS_LEAD, PLAN_GUARANTEE_LINE, FAMILY_NOTE, BUY_STEPS_TITLE, BUY_STEPS, ABOUT_TITLE, ABOUT, TESTIMONIALS_TITLE, TESTIMONIALS, GUARANTEE, FAQS, ENDING,
   DISCLAIMER, LEGAL_SELLER_LINE_NAS,
 } from '../content/nas2027Content';
 
@@ -269,13 +269,25 @@ const Nas2027Page = () => {
     {/* 8. 方案 */}
     <section id="plan" className="py-20 px-6 bg-[#F7F5FC]">
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold mb-10">選一個適合你的方案</h2>
-        <div className="grid md:grid-cols-3 gap-5 items-stretch mb-14">
+        <h2 className="text-2xl md:text-3xl font-bold mb-3">選一個適合你的方案</h2>
+        <p className={`${BODY_COPY_RELAXED_CLASS} text-[#5B3A9E] font-medium mb-10`}>{PLANS_LEAD}</p>
+        <div className="grid md:grid-cols-3 gap-5 gap-y-9 items-stretch mb-14">
           {PLANS.map((plan) => (
-            <article key={plan.code} className={`relative flex flex-col rounded-2xl bg-white p-7 ${plan.featured ? 'border-2 border-[#5B3A9E] shadow-[0_16px_40px_rgba(91,58,158,0.14)]' : 'border border-[#E7E3F0]'}`}>
-              {plan.badge && <span className="absolute -top-3 left-7 text-xs px-3 py-1 rounded-full bg-[#5B3A9E] text-white">{plan.badge}</span>}
-              <p className={`${BODY_COPY_CLASS} text-[#6E6885] mb-1`}>{plan.name}</p>
-              <p className="text-4xl font-bold tabular-nums mb-1">{plan.price}</p>
+            <article key={plan.code} className={`relative flex flex-col rounded-2xl p-7 ${plan.featured ? 'order-first md:order-none bg-[#FBF9FF] border-[3px] border-[#5B3A9E] shadow-[0_20px_48px_rgba(91,58,158,0.22)] md:-my-3 md:py-10' : 'bg-white border border-[#E7E3F0]'}`}>
+              {plan.badge && <span className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap text-sm font-bold px-4 py-1.5 rounded-full bg-[#5B3A9E] text-white shadow">{plan.badge}</span>}
+              <p className={`${BODY_COPY_CLASS} font-bold text-[#1F1A2E] mb-1`}>{plan.name}</p>
+              <p className="text-4xl font-bold tabular-nums mb-2">{plan.price}</p>
+              <p className={`text-lg font-bold mb-4 ${plan.featured ? 'text-[#5B3A9E]' : 'text-[#463F5C]'}`}>{plan.who}</p>
+              <ul className="mb-5 space-y-2 rounded-xl bg-white/70 border border-[#EEEAF6] p-4">
+                {PLAN_INCLUDES.map((name, index) => (
+                  <li key={name} className={`flex gap-2 items-center ${BODY_COPY_CLASS} ${plan.includes[index] ? 'text-[#1F1A2E] font-medium' : 'text-[#B3AEC2] line-through'}`}>
+                    {plan.includes[index]
+                      ? <Check size={18} className="shrink-0 text-[#2E9E5B]" />
+                      : <Minus size={18} className="shrink-0 text-[#C9C4D6]" />}
+                    <span>{name}</span>
+                  </li>
+                ))}
+              </ul>
               <p className={`${BODY_COPY_CLASS} text-[#85691F] mb-5`}>{plan.tagline}</p>
               <ul className="space-y-3 mb-5">
                 {plan.items.map((item) => (
@@ -290,9 +302,10 @@ const Nas2027Page = () => {
                 <ProductCheckoutButton
                   code={plan.code} label="前往結帳" closedText="即將開放"
                   checkoutUrl={nasCheckoutHref(plan.code)}
-                  className="inline-flex w-full items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#5B3A9E] text-white font-medium hover:bg-[#472D7D] transition"
+                  className={`inline-flex w-full items-center justify-center gap-2 px-6 py-3.5 rounded-full font-medium transition active:scale-[0.98] ${plan.featured ? 'bg-[#5B3A9E] text-white hover:bg-[#472D7D]' : 'bg-white text-[#5B3A9E] border-2 border-[#5B3A9E] hover:bg-[#F3EFFA]'}`}
                   closedClassName="w-full text-center px-6 py-3.5 rounded-full border border-[#DAD4E8] text-sm text-[#6B6584]"
                 />
+                <p className="mt-3 text-center text-sm text-[#6E6885]">{PLAN_GUARANTEE_LINE}</p>
               </div>
             </article>
           ))}
