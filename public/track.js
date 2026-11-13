@@ -51,6 +51,19 @@
   }
   captureAttribution();
 
+  // 2026-11-13：Microsoft Clarity 熱力圖與錄影（專案「erickfirm 全站」）。三個品牌共用一個專案，
+  // 用 brand 標籤分開篩選；輸入框內容由 Clarity 預設遮蔽，不記錄生日、姓名、Email。
+  (function (c, l, a, r, i, t, y) {
+    c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+    t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+    y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+  })(window, document, 'clarity', 'script', 'zcv7v4nfdm');
+  try {
+    var brandPath = location.pathname || '/';
+    var brand = brandPath.indexOf('/nas') === 0 ? 'nas' : brandPath.indexOf('/abl') === 0 ? 'abl' : brandPath.indexOf('/i8') === 0 ? 'i8' : 'erick';
+    window.clarity('set', 'brand', brand);
+  } catch (e) {}
+
   !function (f, b, e, v, n, t, s) {
     if (f.fbq) return;
     n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
