@@ -132,12 +132,21 @@ const YEAR_2027 = {
 };
 
 export function year2027Of(birth) {
-  const m = /^(\d{4})-?(\d{2})-?(\d{2})$/.exec(String(birth || '').trim().replace(/[/.]/g, '-'));
-  if (!m) return null;
-  const month = Number(m[2]);
-  const day = Number(m[3]);
-  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
-  let n = `${m[2]}${m[3]}2027`.split('').reduce((sum, d) => sum + Number(d), 0);
+  // 可以收 calculateBirthNumbers 的 { year, month, day }，也可以收 1985-03-12、19850312、1985/3/12 這類字串
+  let month;
+  let day;
+  if (birth && typeof birth === 'object') {
+    month = Number(birth.month);
+    day = Number(birth.day);
+  } else {
+    const text = String(birth || '').trim();
+    const m = /^(\d{4})(\d{2})(\d{2})$/.exec(text) || /^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/.exec(text);
+    if (!m) return null;
+    month = Number(m[2]);
+    day = Number(m[3]);
+  }
+  if (!(month >= 1 && month <= 12 && day >= 1 && day <= 31)) return null;
+  let n = `${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}2027`.split('').reduce((sum, d) => sum + Number(d), 0);
   while (n > 9) n = String(n).split('').reduce((sum, d) => sum + Number(d), 0);
   return { ...YEAR_2027[n], num: n, start: `${month} 月 ${day} 日` };
 }
