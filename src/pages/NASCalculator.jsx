@@ -117,6 +117,31 @@ const STRUCTURED = {
   description: '輸入西元生日，計算陽曆與陰曆雙軌主命數、生命功課等級、流年、流月與今日流日。',
 };
 
+// 2027 是哪一種年：依陽曆生日的月、日加上 2027 收成個位數（從 2027 年生日那天起算）。
+// 2026-11-15 艾瑞克選定 A 版：算完第一眼先回答廣告的問題，再邀 LINE 看這個月。
+const YEAR_2027 = {
+  1: { name: '開局年', lean: '偏衝', line: '適合開新的頭，先動手的人，先拿到位置。' },
+  2: { name: '貴人年', lean: '穩著走', line: '機會從人來，合作比單打獨鬥走得遠。' },
+  3: { name: '改變年', lean: '偏衝', line: '想法變多、做法換新，敢試的人拿得到新路。' },
+  4: { name: '打底年', lean: '穩著走', line: '不求快，把基礎打牢，這一年踩的每一步都算數。' },
+  5: { name: '打開年', lean: '偏衝', line: '人脈與曝光變多，適合往外走，讓更多人看見你。' },
+  6: { name: '修補年', lean: '穩著走', line: '把鬆掉的關係與合作補起來，顧好身邊的人就是前進。' },
+  7: { name: '沉潛年', lean: '偏收', line: '慢下來、學東西、想清楚，這一年的功課在裡面。' },
+  8: { name: '收成年', lean: '偏衝', line: '成果與資源集中浮現，該談的條件要開口談。' },
+  9: { name: '收尾年', lean: '偏收', line: '一個階段走到尾聲，先把手上的事收好，不急著開新局。' },
+};
+
+export function year2027Of(birth) {
+  const m = /^(\d{4})-?(\d{2})-?(\d{2})$/.exec(String(birth || '').trim().replace(/[/.]/g, '-'));
+  if (!m) return null;
+  const month = Number(m[2]);
+  const day = Number(m[3]);
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+  let n = `${m[2]}${m[3]}2027`.split('').reduce((sum, d) => sum + Number(d), 0);
+  while (n > 9) n = String(n).split('').reduce((sum, d) => sum + Number(d), 0);
+  return { ...YEAR_2027[n], num: n, start: `${month} 月 ${day} 日` };
+}
+
 const NASCalculator = () => {
   const [birthdate, setBirthdate] = useState('');
   const [lunarOverride, setLunarOverride] = useState('');
@@ -270,6 +295,13 @@ const NASCalculator = () => {
     : null;
 
   const p = result?.parsed;
+  const year2027 = React.useMemo(() => (flowResult ? year2027Of(flowResult.numbers.solarBirth || birthdate) : null), [flowResult, birthdate]);
+
+  React.useEffect(() => {
+    if (!year2027) return;
+    // 廣告追蹤：看到 2027 的答案。不傳生日或任何個人資料。
+    try { window.efTrack?.('Year2027Shown', { brand: 'nas', year_type: year2027.num }); } catch { /* 追蹤失敗不影響 */ }
+  }, [year2027]);
 
   // 兩軌的落差：這一塊是免費計算器真正要交付的東西，要讓她看懂對自己的影響。
   const reading = React.useMemo(() => {
@@ -324,8 +356,8 @@ const NASCalculator = () => {
         <div className="max-w-2xl mx-auto">
           <NASMark label="生命數字計算" />
           <HeroTextReveal
-            title="輸入生日，看你這個月該衝還是該收"
-            subtitle="30 秒，免費，不用註冊。"
+            title="你的 2027 是哪一種年"
+            subtitle="有人開局，有人收尾。輸入生日，30 秒算出你自己的那一年。"
             titleClassName="text-2xl md:text-4xl font-bold leading-snug mb-3"
             subtitleClassName="text-[#55506B] leading-loose mb-6"
           />
@@ -376,6 +408,63 @@ const NASCalculator = () => {
           )}
         </div>
       </section>
+
+      {/* 2027 是哪一種年：廣告問的問題，算完第一眼就回答，接著才邀 LINE 看這個月 */}
+      {state === 'done' && flowResult && year2027 && (
+        <motion.section
+          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+          className="pb-10 px-6"
+          id="year-2027"
+        >
+          <div className="max-w-2xl mx-auto space-y-4">
+            <div className="rounded-3xl bg-[#2A1F4A] p-6 md:p-8 text-white">
+              <p className="text-sm text-[#CFC4EE]">你的 2027</p>
+              <div className="mt-2 flex flex-wrap items-baseline gap-3">
+                <p className="text-4xl md:text-5xl font-bold leading-tight">{year2027.name}</p>
+                <span className="rounded-full bg-[#E9C46A] px-3 py-1 text-sm font-bold text-[#2A1F4A]">{year2027.lean}</span>
+              </div>
+              <p className="mt-4 text-base md:text-lg leading-loose" style={{ textWrap: 'pretty' }}>{year2027.line}</p>
+              <p className="mt-3 text-sm text-[#CFC4EE]">從 2027 年 {year2027.start}你生日那天起，走進這一年。</p>
+            </div>
+
+            <div className="rounded-3xl border-2 border-[#5B3A9E] p-6 md:p-7">
+              {flowUnlocked ? (
+                <>
+                  <p className="text-lg font-bold">你現在這個月，該推還是該等</p>
+                  <a href="#current-flow-month" className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#5B3A9E] px-7 py-4 font-semibold text-white transition hover:bg-[#472D7D] active:scale-95 sm:w-auto">
+                    看這個月的流月 <ArrowRight size={16} />
+                  </a>
+                </>
+              ) : (
+                <>
+                  <p className="text-lg font-bold">先看你現在這個月，該推還是該等</p>
+                  <button
+                    type="button"
+                    onClick={unlockFlow}
+                    disabled={unlockState === 'loading'}
+                    className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#06C755] px-7 py-4 font-semibold text-white shadow-sm transition hover:brightness-95 active:scale-95 disabled:opacity-60 sm:w-auto"
+                  >
+                    {unlockState === 'loading' ? '準備中⋯' : '用 LINE 看這個月'} <ArrowRight size={16} />
+                  </button>
+                  {unlockState === 'error' && (
+                    <p className="mt-3 text-sm text-red-700">暫時打不開，請稍後再試一次。</p>
+                  )}
+                  <p className="mt-3 text-sm text-[#6E6885]">30 秒，用 LINE 登入就好，不收費。</p>
+                </>
+              )}
+            </div>
+
+            <div className="rounded-3xl bg-[#F7F5FC] p-6">
+              <p className="leading-loose text-[#463F5C]">2027 一整年，哪幾段該推、哪幾段該收，寫在「2027 年度導航」裡，需要購買。</p>
+              <Link to="/nas/2027" className="mt-2 inline-flex items-center gap-1 font-bold text-[#5B3A9E] hover:text-[#472D7D]">
+                看 2027 年度導航介紹 <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            <p className="pt-4 text-sm text-[#918BA6]">往下是你的生命數字細節：兩軌數字、人生五個階段、今年與今天。</p>
+          </div>
+        </motion.section>
+      )}
 
       {/* 結果：先讓她看懂這組數字對自己的影響，計算方式不在這裡講。 */}
       {state === 'done' && p && reading && (
