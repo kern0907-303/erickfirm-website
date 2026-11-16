@@ -210,7 +210,7 @@ const ABLPage = () => {
       <section className="bg-[#fbfaf7] px-6 py-14">
         <div className="mx-auto max-w-7xl">
           <h2 className="abl-heading text-2xl font-bold text-slate-900">2027 年度頻率支持</h2>
-          <p className="mt-3 text-sm leading-loose text-slate-600">選你今年最想顧好的主題，頻率單獨為你設定，11 月 10 日開放購買</p>
+          <p className="mt-3 text-sm leading-loose text-slate-600">選你今年最想顧好的主題，頻率單獨為你設定，已開放購買</p>
           <Link to="/abl/2027" className="abl-cta mt-6 inline-flex items-center justify-center px-7 py-4 text-sm font-bold transition-opacity hover:opacity-90">
             了解方案內容
           </Link>
@@ -219,7 +219,7 @@ const ABLPage = () => {
 
       <section className="bg-white px-6 py-10">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-7 gap-y-3 text-sm text-slate-600">
-          <span>年度頻率支持 即將開放</span>
+          <span>年度頻率支持 已開放</span>
           <span>空間調頻 即將開放</span>
           <Link to="/abl/about" className="underline decoration-slate-300 underline-offset-4 hover:text-slate-950">認識艾瑞克</Link>
         </div>

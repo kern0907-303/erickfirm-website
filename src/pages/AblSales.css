@@ -713,3 +713,12 @@
   .theme-abl.abl-sales-page .abl-pain-list li { font-size: 1.02rem; }
   .theme-abl.abl-sales-page .abl-reframe-punch { font-size: 1.2rem; }
 }
+
+/* 2026-11-16：共同主軸、推薦標示、保證與加贈提示 */
+.theme-abl.abl-sales-page .abl-common-line { margin: 0.4rem auto 0; max-width: 36em; font-size: 1.08rem; line-height: 1.8; color: var(--abl-ink); }
+.theme-abl.abl-sales-page .abl-tiers-reco { margin: 0.5rem auto 1rem; max-width: 34em; font-size: 1.02rem; font-weight: 700; color: #0b6f86; }
+.theme-abl.abl-sales-page .abl-pick-tier-badge.is-reco { background: linear-gradient(90deg, #1fd6ec, #3b82f6); color: #fff; }
+.theme-abl.abl-sales-page .abl-pick-summary-refund { text-wrap: balance; }
+.theme-abl.abl-sales-page .abl-pick-summary-bonus { display: block; margin-top: 0.3rem; font-size: 0.95rem; font-weight: 700; color: #0b6f86; }
+.theme-abl.abl-sales-page .abl-pick-bar { flex-wrap: wrap; }
+.theme-abl.abl-sales-page .abl-pick-bar-refund { flex: 1 0 100%; order: 3; text-align: center; font-size: 0.8rem; color: rgba(255, 255, 255, 0.85); margin-top: 0.15rem; }

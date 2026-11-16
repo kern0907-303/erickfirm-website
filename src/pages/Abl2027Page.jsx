@@ -5,7 +5,7 @@ import HeroTextReveal from '../components/HeroTextReveal';
 import SEOHead from '../components/SEOHead';
 import AblLegalFooter from '../components/AblLegalFooter';
 import {
-  INTRO, PRICE_TIERS, TIMELINE, HERO, PAIN, REFRAME, HOW,
+  INTRO, PRICE_TIERS, TIMELINE, HERO, PAIN, REFRAME, HOW, COMMON_LINE, TIER_RECO,
   FOCUS_TITLE, FOCUS_HINT, CHECK_TITLE, CHECK_HINT, THEMES, FAQS,
 } from '../content/abl2027Content';
 import { LEGAL_SELLER_LINE, LEGAL_TAX_ID } from '../content/ablLegal';
@@ -31,7 +31,7 @@ const tierOf = (count) => (count === 6 ? 'all' : count >= 2 ? 'multi' : count ==
 const priceBreakdown = (count) => {
   if (count === 6) return '6 個全選，比一個一個選省 NT$1,400';
   if (count >= 2) return count + ' 個 × NT$2,200';
-  if (count === 1) return '1 個主題';
+  if (count === 1) return '';
   return '';
 };
 const scrollToId = (id) => {
@@ -83,6 +83,7 @@ const Abl2027Page = () => {
   const total = personalPrice(count);
   const currentTier = tierOf(count);
   const [attribution] = useState(readAblAttribution);
+  const [bonusActive] = useState(() => Date.now() < new Date('2026-12-15T00:00:00+08:00').getTime());
   const [showBar, setShowBar] = useState(() => typeof IntersectionObserver === 'undefined');
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return undefined;
@@ -232,6 +233,7 @@ const Abl2027Page = () => {
       <section id="themes" className="abl-sales-section abl-sales-section-muted">
         <div className="abl-sales-inner">
           <h2 className="abl-heading">選你這一年最想顧好的主題</h2>
+          <p className="abl-common-line">{COMMON_LINE}</p>
           <div id="abl-pick-guide" className={'abl-pick-guide is-step-' + guideStep} aria-live="polite">
             <span className="abl-pick-guide-step">第 {guideStep} 步</span>
             <p>{guideText}</p>
@@ -260,11 +262,12 @@ const Abl2027Page = () => {
             {count ? (
               <>
                 <span className="abl-pick-summary-label">第 2 步　確認金額後結帳</span>
-                <span className="abl-pick-summary-count">已選 {count} 個主題　{priceBreakdown(count)}</span>
+                <span className="abl-pick-summary-count">已選 {count} 個主題{priceBreakdown(count) ? '　' + priceBreakdown(count) : ''}</span>
                 <strong key={total} className="abl-pick-summary-total">{formatPrice(total)}<small> / 年</small></strong>
                 {count === 5 ? <em>再加 1 個只要多 NT$800，六個全拿</em> : null}
                 {renderCta('abl-pick-summary-cta')}
                 <span className="abl-pick-summary-refund">7 天內不滿意，全額退款，不問理由</span>
+                {bonusActive ? <span className="abl-pick-summary-bonus">12 月 15 日前購買，多送 30 天</span> : null}
                 <span className="abl-pick-summary-next">按下後填姓名與 Email，用信用卡付款。付款完成，畫面會帶你填寫設定資料。</span>
               </>
             ) : (
@@ -275,10 +278,11 @@ const Abl2027Page = () => {
             )}
           </div>
           <h3 className="abl-pick-tiers-title">價格怎麼算</h3>
+          <p className="abl-tiers-reco">{TIER_RECO}</p>
           <div className="abl-pick-tiers" role="list">
             {PRICE_TIERS.map((tier) => (
               <div className={'abl-pick-tier' + (tier.highlight ? ' is-anchor' : '') + (currentTier === tier.mode ? ' is-current' : '')} role="listitem" key={tier.count}>
-                {currentTier === tier.mode ? <span className="abl-pick-tier-badge">目前的計價</span> : null}
+                {currentTier === tier.mode ? <span className="abl-pick-tier-badge">目前的計價</span> : tier.highlight ? <span className="abl-pick-tier-badge is-reco">最推薦｜性價比最高</span> : null}
                 <span className="abl-pick-tier-count">{tier.count}</span>
                 <strong>{tier.price}<small>{tier.unit}</small></strong>
                 <span className="abl-pick-tier-note">{tier.note}</span>
@@ -331,6 +335,7 @@ const Abl2027Page = () => {
         {count ? renderCta('abl-pick-bar-cta') : (
           <a className="abl-pick-bar-cta is-ghost" href="#abl-pick-guide">去選主題</a>
         )}
+        <span className="abl-pick-bar-refund">7 天不滿意，全額退款</span>
       </div>
     </main>
   );
