@@ -1,0 +1,122 @@
+/* 艾伯林量子調頻線上體驗會「當機會來敲門」：沿用 AblSales.css，只補這一頁用到的元件 */
+.abl-live-page h2,
+.abl-live-page p,
+.abl-live-page li { text-wrap: pretty; }
+.abl-live-page .abl-sales-title,
+.abl-live-page .abl-heading,
+.abl-live-page .abl-live-close,
+.abl-live-page .abl-live-note { text-wrap: balance; }
+
+.abl-live-badge {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0 auto 1.2rem;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid rgba(31, 214, 236, 0.55);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #0b1f2a;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-align: center;
+}
+.abl-live-badge span { color: #1293a9; font-size: 0.9rem; font-weight: 700; white-space: nowrap; }
+.abl-live-badge span + span { color: #475569; font-size: 0.85rem; }
+
+.abl-live-themes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.abl-live-themes li {
+  padding: 0.9rem 0.6rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(58, 233, 222, 0.18), rgba(59, 140, 255, 0.18));
+  color: #0b1f2a;
+  font-size: 1.05rem;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.abl-live-gains {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1.2rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: live-gain;
+}
+.abl-live-gains li {
+  position: relative;
+  padding: 1rem 1.2rem 1rem 3.4rem;
+  border: 1px solid rgba(31, 214, 236, 0.45);
+  border-radius: 16px;
+  background: #fff;
+  font-size: 1.08rem;
+  line-height: 1.75;
+  counter-increment: live-gain;
+}
+.abl-live-gains li::before {
+  content: counter(live-gain);
+  position: absolute;
+  top: 1rem;
+  left: 1.1rem;
+  display: grid;
+  width: 1.7rem;
+  height: 1.7rem;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3ae9de, #3b8cff);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.abl-live-when {
+  margin: 0 0 1rem;
+  color: #0b1f2a;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.abl-live-signup { display: grid; justify-items: center; gap: 0.8rem; text-align: center; }
+.abl-live-seats {
+  margin: 0;
+  padding: 0.3rem 1rem;
+  border-radius: 999px;
+  background: #dff9f5;
+  color: #0b6f86;
+  font-size: 1rem;
+  font-weight: 800;
+}
+.abl-live-seats.is-low { background: #fff1e0; color: #8a3b00; }
+.abl-live-price { margin: 0; color: #0b1f2a; font-size: 2rem; font-weight: 800; }
+.abl-live-close { margin: 0; color: #0b1f2a; font-size: 1.2rem; font-weight: 700; }
+.abl-live-cta {
+  display: inline-flex;
+  min-width: min(100%, 320px);
+  min-height: 3.6rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #3ae9de, #3b8cff);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+.abl-live-cta:hover { filter: brightness(1.05); }
+.abl-live-cta:active { transform: scale(0.96); }
+.abl-live-cta.is-disabled { background: #cbd5e1; color: #334155; pointer-events: none; }
+.abl-live-note { margin: 0; color: #475569; font-size: 0.95rem; }
+
+@media (max-width: 480px) {
+  .abl-live-themes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .abl-live-badge { font-size: 1.1rem; }
+}

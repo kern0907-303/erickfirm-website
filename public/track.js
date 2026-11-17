@@ -91,6 +91,9 @@
     if (state.path === '/abl/2027') {
       fbq('track', 'ViewContent', { content_name: 'abl_2027', content_category: 'abl' });
     }
+    if (state.path === '/abl/live') {
+      fbq('track', 'ViewContent', { content_name: 'abl_live', content_category: 'abl' });
+    }
   }
 
   function fireOnce(name) {
