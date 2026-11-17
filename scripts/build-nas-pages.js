@@ -13,6 +13,7 @@ import * as C2027 from '../src/content/abl2027Content.js';
 import * as N2027 from '../src/content/nas2027Content.js';
 import * as NABOUT from '../src/content/nasAbout.js';
 import * as AABOUT from '../src/content/ablAbout.js';
+import * as LIVE from '../src/content/ablLiveContent.js';
 import { NAS_LIFE_NUMBER_COPY as LIFE_NUMBER_COPY } from '../src/content/nasLifeNumberCopy.js';
 
 const dist = path.resolve('dist');
@@ -586,7 +587,39 @@ const nas2027Body = () => [
   nav([['/nas/terms', '服務條款'], ['/nas/privacy', '隱私權政策']]),
 ].join('');
 
+// 2026-11-17：線上體驗會「當機會來敲門」預渲染版，讓分享預覽與頁面載入前都只出現艾伯林量子調頻。
+const liveBody = () => [
+  '<div class="theme-abl abl-sales-page abl-live-page">',
+  `<section class="abl-hero abl-sales-hero"><div class="abl-sales-container">
+    <a class="abl-sales-top-link" href="/abl">艾伯林量子調頻</a>
+    <div class="abl-logo-card">${SALES_LOGO}</div>
+    <p class="abl-live-badge">${esc(LIVE.LIVE_NAME)}${LIVE.LIVE_SUBTITLE.split('｜').map((part) => `<span>${esc(part)}</span>`).join('')}</p>
+    <h1 class="abl-heading abl-sales-title">${esc(LIVE.LIVE_HERO.title)}</h1>
+    <p class="abl-sales-subtitle">${esc(LIVE.LIVE_HERO.subtitle)}</p>
+    <a class="abl-cta abl-sales-scroll" href="#live-pains">${esc(LIVE.LIVE_HERO.action)}</a>
+  </div></section>`,
+  salesSection(LIVE.LIVE_PAIN.title, `<ul class="abl-pain-list">${LIVE.LIVE_PAIN.items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul><p class="abl-pain-closing">${esc(LIVE.LIVE_PAIN.closing)}</p>`, 'live-pains'),
+  salesSection(LIVE.LIVE_REFRAME.title, `<div class="abl-sales-copy">${LIVE.LIVE_REFRAME.paras.map(salesP).join('')}</div><ul class="abl-live-themes">${LIVE.LIVE_REFRAME.themes.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`, '', 'abl-sales-section-muted'),
+  salesSection(LIVE.LIVE_GAINS.title, `<ol class="abl-live-gains">${LIVE.LIVE_GAINS.items.map((t) => `<li>${esc(t)}</li>`).join('')}</ol>`, 'live-gains'),
+  salesSection(LIVE.LIVE_LOSS.title, `<div class="abl-sales-copy">${LIVE.LIVE_LOSS.paras.map(salesP).join('')}</div>`, '', 'abl-sales-section-muted'),
+  salesSection(LIVE.LIVE_HOST.title, `<img class="abl-pick-portrait" src="/erick-portrait-warm-v2.webp" alt="艾瑞克" width="160" height="160" loading="lazy"><div class="abl-sales-copy">${LIVE.LIVE_HOST.paras.map(salesP).join('')}</div>`),
+  salesSection(LIVE.LIVE_HOW.title, `<p class="abl-live-when">📅 ${esc(LIVE.LIVE_FALLBACK_WHEN)}</p><div class="abl-sales-copy">${LIVE.LIVE_HOW.paras.map(salesP).join('')}</div>`, '', 'abl-sales-section-muted'),
+  salesSection(LIVE.LIVE_RISK.title, `<div class="abl-sales-copy">${salesP(LIVE.LIVE_RISK.text)}</div>`),
+  salesSection('報名', `<div class="abl-live-signup"><p class="abl-live-seats">每場限 ${LIVE.LIVE_CAPACITY} 位，額滿就關閉報名</p><p class="abl-live-price">報名費 NT$${LIVE.LIVE_PRICE}</p><p class="abl-live-close">${esc(LIVE.LIVE_CLOSE.line)}</p><a class="abl-cta abl-live-cta" href="https://pay.erickfirm.com/abl/live/">我要報名</a></div>`, 'live-signup', 'abl-sales-section-muted'),
+  salesDisclaimer('頻率支持不是醫療、診斷或療效保證。'),
+  ablLegalFooter,
+  '</div>',
+].join('');
+
 const SALES_PAGES = [
+  {
+    route: '/abl/live',
+    title: `${LIVE.LIVE_NAME}｜艾伯林量子調頻線上體驗會`,
+    description: '你在等一個翻身的機會，只是不知道它什麼時候來。線上 80 分鐘，看清楚六個年度頻率裡，哪一個是你現在最需要的。',
+    body: liveBody(),
+    image: `${SITE}/brand/abl-logo.png`,
+    noindex: false,
+  },
   {
     route: '/abl/2027',
     title: '艾伯林量子調頻｜2027 年度頻率支持',
@@ -670,7 +703,7 @@ const SALES_PAGES = [
 ];
 
 for (const page of SALES_PAGES) {
-  const html = renderPage(shell, { ...page, url: `${SITE}${page.route}`, image: IMG });
+  const html = renderPage(shell, { ...page, url: `${SITE}${page.route}`, image: page.image || IMG });
   writePage(dist, page.route, html);
   console.log(`Generated static ABL sales page: ${page.route}`);
 }
