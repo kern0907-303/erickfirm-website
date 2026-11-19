@@ -6,6 +6,7 @@ export const LIVE_CAPACITY = 50;
 export const LIVE_PRICE = 199;
 
 export const LIVE_HERO = {
+  lead: '同一個你，兩個 2027。',
   title: '你心裡其實一直有個感覺。',
   subtitle: '你在等一個翻身的機會，只是不知道它什麼時候來。',
   action: '往下看',

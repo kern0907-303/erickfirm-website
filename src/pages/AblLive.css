@@ -120,3 +120,19 @@
   .abl-live-themes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .abl-live-badge { font-size: 1.1rem; }
 }
+
+/* 2026-11-19：頁首接廣告的一句話「同一個你，兩個 2027。」 */
+.abl-live-lead {
+  margin: 0.4rem auto 0.9rem;
+  color: #0b7f86;
+  font-size: clamp(1.25rem, 5.6vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  animation: abl-live-lead-in 0.9s ease-out both;
+}
+@keyframes abl-live-lead-in {
+  from { opacity: 0; transform: translateY(10px); letter-spacing: 0.18em; }
+  to { opacity: 1; transform: translateY(0); letter-spacing: 0.04em; }
+}
+@media (prefers-reduced-motion: reduce) { .abl-live-lead { animation: none; } }

@@ -85,6 +85,7 @@ const AblLivePage = () => {
             )}
           </div>
           <p className="abl-live-badge">{LIVE_NAME}{LIVE_SUBTITLE.split('｜').map((part) => <span key={part}>{part}</span>)}</p>
+          <p className="abl-live-lead">{LIVE_HERO.lead}</p>
           <HeroTextReveal
             title={LIVE_HERO.title}
             subtitle={LIVE_HERO.subtitle}
