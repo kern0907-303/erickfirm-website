@@ -594,6 +594,7 @@ const liveBody = () => [
     <a class="abl-sales-top-link" href="/abl">艾伯林量子調頻</a>
     <div class="abl-logo-card">${SALES_LOGO}</div>
     <p class="abl-live-badge">${esc(LIVE.LIVE_NAME)}${LIVE.LIVE_SUBTITLE.split('｜').map((part) => `<span>${esc(part)}</span>`).join('')}</p>
+    <p class="abl-live-lead">${esc(LIVE.LIVE_HERO.lead)}</p>
     <h1 class="abl-heading abl-sales-title">${esc(LIVE.LIVE_HERO.title)}</h1>
     <p class="abl-sales-subtitle">${esc(LIVE.LIVE_HERO.subtitle)}</p>
     <a class="abl-cta abl-sales-scroll" href="#live-pains">${esc(LIVE.LIVE_HERO.action)}</a>
