@@ -2,13 +2,20 @@
 export const LIVE_NAME = '當機會來敲門';
 export const LIVE_SUBTITLE = '2027 年度頻率揭曉夜｜艾伯林量子調頻線上體驗會';
 export const LIVE_FALLBACK_WHEN = '12 月 3 日（四）晚上 8:00';
+// 2026-11-21：開放三個晚上讓客人選，報名頁讀不到即時資料時顯示這三場
+export const LIVE_FALLBACK_SESSIONS = [
+  { code: 'abl_live_20261203', starts_at: '2026-12-03T20:00:00+08:00', starts_text: '12 月 3 日（四）晚上 8:00' },
+  { code: 'abl_live_20261205', starts_at: '2026-12-05T20:00:00+08:00', starts_text: '12 月 5 日（六）晚上 8:00' },
+  { code: 'abl_live_20261208', starts_at: '2026-12-08T20:00:00+08:00', starts_text: '12 月 8 日（二）晚上 8:00' },
+];
+export const LIVE_SESSIONS_NOTE = '三個晚上，內容一樣，選一個你能參加的。';
 export const LIVE_CAPACITY = 50;
 export const LIVE_PRICE = 199;
 
 export const LIVE_HERO = {
   lead: '同一個你，兩個 2027。',
   title: '你心裡其實一直有個感覺。',
-  subtitle: '你在等一個翻身的機會，只是不知道它什麼時候來。',
+  subtitle: '你在等一個讓日子好起來的機會，只是不知道它什麼時候來。',
   action: '往下看',
 };
 
@@ -47,7 +54,7 @@ export const LIVE_GAINS = {
 };
 
 export const LIVE_LOSS = {
-  title: '不來，會怎樣',
+  title: '不來，損失是什麼',
   paras: [
     '2027 年就要開始了。',
     '如果不知道自己卡在哪，明年機會再來敲門，你還是會用同樣的方式接。',

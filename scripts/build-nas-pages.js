@@ -598,7 +598,7 @@ const liveBody = () => [
   `<section class="abl-hero abl-sales-hero"><div class="abl-sales-container">
     <a class="abl-sales-top-link" href="/abl">艾伯林量子調頻</a>
     <div class="abl-logo-card">${SALES_LOGO}</div>
-    <p class="abl-live-badge">${esc(LIVE.LIVE_NAME)}${LIVE.LIVE_SUBTITLE.split('｜').map((part) => `<span>${esc(part)}</span>`).join('')}</p>
+    <p class="abl-live-badge"><strong>${esc(LIVE.LIVE_NAME)}</strong>${LIVE.LIVE_SUBTITLE.split('｜').map((part) => `<span>${esc(part)}</span>`).join('')}</p>
     <p class="abl-live-lead">${esc(LIVE.LIVE_HERO.lead)}</p>
     <h1 class="abl-heading abl-sales-title">${esc(LIVE.LIVE_HERO.title)}</h1>
     <p class="abl-sales-subtitle">${esc(LIVE.LIVE_HERO.subtitle)}</p>
@@ -609,7 +609,7 @@ const liveBody = () => [
   salesSection(LIVE.LIVE_GAINS.title, `<ol class="abl-live-gains">${LIVE.LIVE_GAINS.items.map((t) => `<li>${esc(t)}</li>`).join('')}</ol>`, 'live-gains'),
   salesSection(LIVE.LIVE_LOSS.title, `<div class="abl-sales-copy">${LIVE.LIVE_LOSS.paras.map(salesP).join('')}</div>`, '', 'abl-sales-section-muted'),
   salesSection(LIVE.LIVE_HOST.title, `<img class="abl-pick-portrait" src="/erick-portrait-warm-v2.webp" alt="艾瑞克" width="160" height="160" loading="lazy"><div class="abl-sales-copy">${LIVE.LIVE_HOST.paras.map(salesP).join('')}</div>`),
-  salesSection(LIVE.LIVE_HOW.title, `<p class="abl-live-when">📅 ${esc(LIVE.LIVE_FALLBACK_WHEN)}</p><div class="abl-sales-copy">${LIVE.LIVE_HOW.paras.map(salesP).join('')}</div>`, '', 'abl-sales-section-muted'),
+  salesSection(LIVE.LIVE_HOW.title, `<p class="abl-live-sessions-note">${esc(LIVE.LIVE_SESSIONS_NOTE)}</p><ul class="abl-live-sessions">${LIVE.LIVE_FALLBACK_SESSIONS.map((x) => `<li><span>📅 ${esc(x.starts_text)}</span></li>`).join('')}</ul><div class="abl-sales-copy">${LIVE.LIVE_HOW.paras.map(salesP).join('')}</div>`, '', 'abl-sales-section-muted'),
   salesSection(LIVE.LIVE_RISK.title, `<div class="abl-sales-copy">${salesP(LIVE.LIVE_RISK.text)}</div>`),
   salesSection('報名', `<div class="abl-live-signup"><p class="abl-live-seats">每場限 ${LIVE.LIVE_CAPACITY} 位，額滿就關閉報名</p><p class="abl-live-price">報名費 NT$${LIVE.LIVE_PRICE}</p><p class="abl-live-close">${esc(LIVE.LIVE_CLOSE.line)}</p><a class="abl-cta abl-live-cta" href="https://pay.erickfirm.com/abl/live/">我要報名</a></div>`, 'live-signup', 'abl-sales-section-muted'),
   salesDisclaimer('頻率支持不是醫療、診斷或療效保證。'),
@@ -621,7 +621,7 @@ const SALES_PAGES = [
   {
     route: '/abl/live',
     title: `${LIVE.LIVE_NAME}｜艾伯林量子調頻線上體驗會`,
-    description: '你在等一個翻身的機會，只是不知道它什麼時候來。線上 80 分鐘，看清楚六個年度頻率裡，哪一個是你現在最需要的。',
+    description: '你在等一個讓日子好起來的機會，只是不知道它什麼時候來。線上 80 分鐘，看清楚六個年度頻率裡，哪一個是你現在最需要的。',
     body: liveBody(),
     image: `${SITE}/brand/abl-logo.png`,
     noindex: false,

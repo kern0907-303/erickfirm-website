@@ -8,21 +8,33 @@
 .abl-live-page .abl-live-note { text-wrap: balance; }
 
 .abl-live-badge {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  box-sizing: border-box;
   margin: 0 auto 1.2rem;
-  padding: 0.7rem 1.4rem;
+  padding: 1.1rem 1rem 1.2rem;
   border: 1px solid rgba(31, 214, 236, 0.55);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
   color: #0b1f2a;
-  font-size: 1.25rem;
-  font-weight: 800;
   text-align: center;
 }
-.abl-live-badge span { color: #1293a9; font-size: 0.9rem; font-weight: 700; white-space: nowrap; }
-.abl-live-badge span + span { color: #475569; font-size: 0.85rem; }
+/* 2026-11-21：活動名稱與副標放大成滿版，手機上一眼看得到 */
+.abl-live-badge strong {
+  font-size: clamp(2rem, 9vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  background: linear-gradient(90deg, #14b3a3, #1e88e5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.abl-live-badge span { color: #1293a9; font-size: clamp(1.1rem, 4.6vw, 1.35rem); font-weight: 800; white-space: nowrap; }
+.abl-live-badge span + span { color: #334155; font-size: clamp(1rem, 4.2vw, 1.2rem); font-weight: 700; }
 
 .abl-live-themes {
   display: grid;
@@ -118,7 +130,6 @@
 
 @media (max-width: 480px) {
   .abl-live-themes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .abl-live-badge { font-size: 1.1rem; }
 }
 
 /* 2026-11-19：頁首接廣告的一句話「同一個你，兩個 2027。」 */
@@ -136,3 +147,22 @@
   to { opacity: 1; transform: translateY(0); letter-spacing: 0.04em; }
 }
 @media (prefers-reduced-motion: reduce) { .abl-live-lead { animation: none; } }
+
+/* 2026-11-21：三個晚上可選 */
+.abl-live-sessions-note { margin: 0 0 0.6rem; color: #0b1f2a; font-size: 1.1rem; font-weight: 700; }
+.abl-live-sessions { display: grid; gap: 0.6rem; margin: 0 0 1.1rem; padding: 0; list-style: none; }
+.abl-live-sessions li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.3rem 0.8rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid rgba(31, 214, 236, 0.45);
+  border-radius: 14px;
+  background: #fff;
+}
+.abl-live-sessions li span { color: #0b1f2a; font-size: 1.2rem; font-weight: 800; white-space: nowrap; }
+.abl-live-sessions li em { color: #8a3b00; font-size: 0.95rem; font-style: normal; font-weight: 800; white-space: nowrap; }
+.abl-live-sessions li.is-off { opacity: 0.5; }
+.abl-live-sessions li.is-off em { color: #475569; }

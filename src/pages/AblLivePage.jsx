@@ -5,7 +5,7 @@ import HeroTextReveal from '../components/HeroTextReveal';
 import SEOHead from '../components/SEOHead';
 import AblLegalFooter from '../components/AblLegalFooter';
 import {
-  LIVE_NAME, LIVE_SUBTITLE, LIVE_FALLBACK_WHEN, LIVE_CAPACITY, LIVE_PRICE,
+  LIVE_NAME, LIVE_SUBTITLE, LIVE_FALLBACK_SESSIONS, LIVE_SESSIONS_NOTE, LIVE_CAPACITY, LIVE_PRICE,
   LIVE_HERO, LIVE_PAIN, LIVE_REFRAME, LIVE_GAINS, LIVE_LOSS, LIVE_HOST, LIVE_HOW, LIVE_RISK, LIVE_CLOSE,
 } from '../content/ablLiveContent';
 import { readAblAttribution, withAblAttribution } from '../lib/ablAttribution';
@@ -13,7 +13,7 @@ import './AblSales.css';
 import './AblLive.css';
 
 const TITLE = `${LIVE_NAME}｜艾伯林量子調頻線上體驗會`;
-const DESCRIPTION = '你在等一個翻身的機會，只是不知道它什麼時候來。線上 80 分鐘，看清楚六個年度頻率裡，哪一個是你現在最需要的。';
+const DESCRIPTION = '你在等一個讓日子好起來的機會，只是不知道它什麼時候來。線上 80 分鐘，看清楚六個年度頻率裡，哪一個是你現在最需要的。';
 const STATUS_URL = 'https://pay.erickfirm.com/api/abl-live/status';
 const CHECKOUT_URL = 'https://pay.erickfirm.com/abl/live/';
 
@@ -29,6 +29,23 @@ const useLiveStatus = () => {
     return () => controller.abort();
   }, []);
   return status;
+};
+
+// 「12/3（四）」這種短日期，給底部報名列用
+const shortDate = (startsAt) => {
+  const date = new Date(startsAt);
+  if (Number.isNaN(date.getTime())) return '';
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Taipei', month: 'numeric', day: 'numeric', weekday: 'short' })
+    .formatToParts(date).map(({ type, value }) => [type, value]));
+  const weekday = { Sun: '日', Mon: '一', Tue: '二', Wed: '三', Thu: '四', Fri: '五', Sat: '六' }[parts.weekday] ?? '';
+  return `${parts.month}/${parts.day}（${weekday}）`;
+};
+
+const sessionSeats = (session) => {
+  if (session.full) return '已額滿';
+  if (session.closed || session.open === false) return '已截止';
+  if (Number.isFinite(session.seats_left) && session.seats_left <= 10) return `只剩 ${session.seats_left} 位`;
+  return '';
 };
 
 const AblLivePage = () => {
@@ -49,15 +66,20 @@ const AblLivePage = () => {
   }, []);
 
   const checkoutHref = useMemo(() => withAblAttribution(CHECKOUT_URL, attribution), [attribution]);
-  const when = status?.starts_text || LIVE_FALLBACK_WHEN;
+  // 還沒開場的每一場；讀不到即時資料時用預設三場，已經過了的那場自動不顯示
+  const [fallbackSessions] = useState(() => LIVE_FALLBACK_SESSIONS.filter((session) => Date.parse(session.starts_at) > Date.now()));
+  const sessions = Array.isArray(status?.sessions) && status.sessions.length ? status.sessions : fallbackSessions;
+  const shortDates = sessions.map((session) => shortDate(session.starts_at)).filter(Boolean);
+  const when = shortDates.length ? `${shortDates.join('、')} 晚上 8:00` : (status?.starts_text || '');
   const price = status?.price_twd || LIVE_PRICE;
   const capacity = status?.capacity || LIVE_CAPACITY;
   const full = status?.full === true;
   const closed = status?.closed === true;
   const seatsLeft = Number.isFinite(status?.seats_left) ? status.seats_left : null;
-  const seatsText = full ? '這一場已經額滿'
-    : closed ? '這一場已經截止報名'
-      : seatsLeft !== null && seatsLeft <= 10 ? `只剩 ${seatsLeft} 位`
+  const many = sessions.length > 1;
+  const seatsText = full ? (many ? '每一場都已經額滿' : '這一場已經額滿')
+    : closed ? '報名已經截止'
+      : !many && seatsLeft !== null && seatsLeft <= 10 ? `只剩 ${seatsLeft} 位`
         : `每場限 ${capacity} 位，額滿就關閉報名`;
 
   const onCheckout = () => {
@@ -84,7 +106,7 @@ const AblLivePage = () => {
               <span className="abl-logo-text">艾伯林量子調頻</span>
             )}
           </div>
-          <p className="abl-live-badge">{LIVE_NAME}{LIVE_SUBTITLE.split('｜').map((part) => <span key={part}>{part}</span>)}</p>
+          <p className="abl-live-badge"><strong>{LIVE_NAME}</strong>{LIVE_SUBTITLE.split('｜').map((part) => <span key={part}>{part}</span>)}</p>
           <p className="abl-live-lead">{LIVE_HERO.lead}</p>
           <HeroTextReveal
             title={LIVE_HERO.title}
@@ -150,7 +172,18 @@ const AblLivePage = () => {
       <section className="abl-sales-section abl-sales-section-muted">
         <div className="abl-sales-inner">
           <h2 className="abl-heading">{LIVE_HOW.title}</h2>
-          <p className="abl-live-when">📅 {when}</p>
+          {many ? <p className="abl-live-sessions-note">{LIVE_SESSIONS_NOTE}</p> : null}
+          <ul className="abl-live-sessions">
+            {sessions.map((session) => {
+              const note = sessionSeats(session);
+              return (
+                <li key={session.code} className={note === '已額滿' || note === '已截止' ? 'is-off' : ''}>
+                  <span>📅 {session.starts_text}</span>
+                  {note ? <em>{note}</em> : null}
+                </li>
+              );
+            })}
+          </ul>
           <div className="abl-sales-copy">
             {LIVE_HOW.paras.map((text) => <p key={text}>{text}</p>)}
           </div>
@@ -167,7 +200,7 @@ const AblLivePage = () => {
       <section id="live-signup" className="abl-sales-section abl-sales-section-muted">
         <div className="abl-sales-inner abl-live-signup">
           <h2 className="abl-heading">報名</h2>
-          <p className={'abl-live-seats' + (seatsLeft !== null && seatsLeft <= 10 ? ' is-low' : '')}>{seatsText}</p>
+          <p className={'abl-live-seats' + (!many && seatsLeft !== null && seatsLeft <= 10 ? ' is-low' : '')}>{seatsText}</p>
           <p className="abl-live-price">報名費 NT${price}</p>
           <p className="abl-live-close">{LIVE_CLOSE.line}</p>
           {renderCta('abl-cta abl-live-cta', '我要報名')}
