@@ -63,6 +63,9 @@ button:disabled{opacity:.55;cursor:default;transform:none}
 .msg{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;padding:14px;border-radius:12px;background:#F4F6FA}
 .msg p{margin:2px 0 0;white-space:pre-line;font-size:14px}
 .flag{background:#FFF4DE;border-radius:12px;padding:12px 14px;font-size:14px;display:flex;flex-direction:column;gap:8px}
+.sup{padding:14px;border-radius:12px;background:#F4F6FA;display:flex;flex-direction:column;gap:8px}
+.sup p{margin:0;font-size:14px;line-height:1.8}.sup .alt{display:flex;flex-direction:column;gap:6px}
+.sup .alt button{text-align:left;font-size:13px;font-weight:500;padding:10px 12px;line-height:1.6}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14213D;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
 section{display:flex;flex-direction:column;gap:22px}
@@ -145,6 +148,7 @@ section{display:flex;flex-direction:column;gap:22px}
         </div>
         <div class="card" id="c-flags"><h2>讀取需要你確認</h2><div id="d-flags" style="display:flex;flex-direction:column;gap:10px"></div></div>
         <div class="card"><h2>三個關鍵點</h2><div id="d-kps" style="display:flex;flex-direction:column;gap:10px"></div></div>
+        <div class="card" id="c-support"><h2>書籍引用（每個關鍵點一段，可以換）</h2><div id="d-support" style="display:flex;flex-direction:column;gap:12px"></div></div>
         <div class="card"><label class="f" style="font-size:16px;font-weight:700;color:#14213D">艾瑞克的洞見（直接改這裡）<textarea id="e-insight" rows="9"></textarea></label>
           <div class="muted">重新排版時，AI 會對照清單，把和資料出入太大的句子標出來給你看。</div></div>
         <div class="card"><label class="f" style="font-size:16px;font-weight:700;color:#14213D">其他要修改的地方<textarea id="e-extra" rows="3" placeholder="例如：第二個關鍵點改成⋯⋯、家庭的部分不要寫"></textarea></label></div>
@@ -179,6 +183,7 @@ section{display:flex;flex-direction:column;gap:22px}
   let detail = null;         // 正在看的 session
   let detailBrand = "auto";
   let flagChoice = {};
+  let supportPick = {};
   let timer = null;
 
   function toast(text) { const t = $("toast"); t.textContent = text; t.classList.add("on"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("on"), 2200); }
@@ -305,6 +310,17 @@ section{display:flex;flex-direction:column;gap:22px}
       document.querySelectorAll(`[data-flag="${CSS.escape(b.dataset.flag)}"]`).forEach((x) => x.classList.toggle("sel", x === b));
     });
     $("d-kps").innerHTML = (d.keypoints || []).map((k, i) => `<div class="kp"><i style="background:${KP_COL[i % 3]}">${i + 1}</i><div><b>${esc(k.title)}</b><div class="muted">${esc(k.ev || k.sub || "")}</div></div></div>`).join("") || `<div class="muted">草稿完成後顯示</div>`;
+    supportPick = { ...(ed.support || {}) };
+    const sup = d.support || [];
+    $("c-support").classList.toggle("hidden", !sup.length);
+    $("d-support").innerHTML = sup.map((x, i) => {
+      const alts = (x.candidates || []).map((c) => `<button type="button" class="btn${(supportPick[i] || x.id) === c.id ? " sel" : ""}" data-sup="${i}" data-id="${esc(c.id)}"><b>${esc(c.book)}</b>｜${esc(c.principle)}${c.story ? "<br>故事：" + esc(c.story) : ""}</button>`).join("");
+      return `<div class="sup"><b>${i + 1}　${esc(x.kp)}</b><p>${esc(x.cite)}</p>${x.story ? `<p>${esc(x.story)}</p>` : ""}<p><b>${esc((x.step || [])[0] || "")}</b>　${esc((x.step || [])[1] || "")}</p>${alts ? `<div class="muted">想換一段，點下面的候選，再按「套用修改，重新排版」</div><div class="alt">${alts}</div>` : ""}</div>`;
+    }).join("");
+    document.querySelectorAll("[data-sup]").forEach((b) => b.onclick = () => {
+      supportPick[b.dataset.sup] = b.dataset.id;
+      document.querySelectorAll(`[data-sup="${b.dataset.sup}"]`).forEach((x) => x.classList.toggle("sel", x === b));
+    });
     $("e-insight").value = ed.insight ?? (Array.isArray(d.insight) ? d.insight.join("\n\n") : (d.insight || ""));
     $("e-extra").value = ed.extra || "";
     $("d-msgs").innerHTML = (d.notifications || []).map((n, i) => `<div class="msg"><div><b>${esc(n.when)}</b><p>${esc(n.text)}</p></div><button class="btn" type="button" data-copy="${i}">複製</button></div>`).join("") || `<div class="muted">草稿完成後顯示</div>`;
@@ -322,7 +338,7 @@ section{display:flex;flex-direction:column;gap:22px}
     try { renderDetail((await api("/session?id=" + id)).session); } catch (e) { toast(e.message); }
   }
   function editsPayload(action) {
-    return { id: detail.id, action, brand: detailBrand, client_name: $("e-client").value, call_name: $("e-call").value, session_date: $("e-date").value, ...planFields($("e-plan").value), edits: { flags: flagChoice, insight: $("e-insight").value, extra: $("e-extra").value } };
+    return { id: detail.id, action, brand: detailBrand, client_name: $("e-client").value, call_name: $("e-call").value, session_date: $("e-date").value, ...planFields($("e-plan").value), edits: { flags: flagChoice, support: supportPick, insight: $("e-insight").value, extra: $("e-extra").value } };
   }
   async function send(action) {
     const r = await api("/session", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(editsPayload(action)) });
