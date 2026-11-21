@@ -431,6 +431,9 @@ const ablBody = [
   h2('持續更新的文章'),
   ablArticleLinks ? `<ul>${ablArticleLinks}</ul>` : '',
   a('/insights/personal-growth', '看全部文章'),
+  h2('2027 年度頻率支持'),
+  p('選你今年最想顧好的主題，頻率單獨為你設定，已開放購買'),
+  a('/abl/2027/', '了解方案內容', 'class="abl-cta"'),
   p('年度頻率支持 已開放'),
   p('空間調頻 即將開放'),
   a('/abl/about', '認識艾瑞克'),
@@ -537,7 +540,9 @@ const nasSalesHero = () => `
     <a class="abl-cta abl-sales-scroll" href="#struggle">${esc(N2027.HERO.action)}</a>
   </div></section>`;
 const nasCheckList = (items) => `<ul class="nas-check-list">${items.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>`;
-const nasPlanCard = (plan) => `<article class="abl-card abl-sales-card nas-plan${plan.featured ? ' is-featured' : ''}">${plan.badge ? `<span class="nas-plan-badge">${esc(plan.badge)}</span>` : ''}<h3 class="abl-heading">${esc(plan.name)}</h3><p class="nas-plan-tagline">${esc(plan.tagline)}</p><p class="nas-plan-price">${esc(plan.price)}</p>${nasCheckList(plan.items)}${plan.note ? `<p class="nas-plan-note">${esc(plan.note)}</p>` : ''}<p class="abl-sales-soon">即將開放</p></article>`;
+// 2026-11-21：底稿原本寫「即將開放」，商品早已開賣，搜尋引擎與連結預覽會讀到錯的狀態，改成與實際頁面一致的結帳連結。
+const nasPlanCheckoutHref = (plan) => `${N2027.NAS2027_CHECKOUT_URL}?plan=${encodeURIComponent(plan.code)}`;
+const nasPlanCard = (plan) => `<article class="abl-card abl-sales-card nas-plan${plan.featured ? ' is-featured' : ''}">${plan.badge ? `<span class="nas-plan-badge">${esc(plan.badge)}</span>` : ''}<h3 class="abl-heading">${esc(plan.name)}</h3><p class="nas-plan-tagline">${esc(plan.tagline)}</p><p class="nas-plan-price">${esc(plan.price)}</p>${nasCheckList(plan.items)}${plan.note ? `<p class="nas-plan-note">${esc(plan.note)}</p>` : ''}<a class="abl-cta" href="${nasPlanCheckoutHref(plan)}">前往結帳</a></article>`;
 // 2026-10-26：/nas/2027 改用平衡空間其他頁面的版型，預渲染也改成和其他 NAS 頁一樣的語意結構。
 const nas2027Body = () => [
   h1(N2027.HERO.title),
@@ -570,7 +575,7 @@ const nas2027Body = () => [
   ...(N2027.TESTIMONIALS.length ? [h3(N2027.TESTIMONIALS_TITLE), ...N2027.TESTIMONIALS.map((item) => p(`「${item.text}」${item.who ? `　${item.who}` : ''}`))] : []),
   h2('選一個適合你的方案'),
   p(N2027.PLANS_LEAD),
-  ...N2027.PLANS.flatMap((plan) => [h3(`${plan.name}｜${plan.price}${plan.badge ? `｜${plan.badge}` : ''}`), p(plan.who), ul(N2027.PLAN_INCLUDES.map((name, index) => `${plan.includes[index] ? '有' : '沒有'}：${name}`)), p(plan.tagline), ul(plan.items), plan.note ? p(plan.note) : '', plan.anchor ? p(plan.anchor) : '', p('即將開放')]),
+  ...N2027.PLANS.flatMap((plan) => [h3(`${plan.name}｜${plan.price}${plan.badge ? `｜${plan.badge}` : ''}`), p(plan.who), ul(N2027.PLAN_INCLUDES.map((name, index) => `${plan.includes[index] ? '有' : '沒有'}：${name}`)), p(plan.tagline), ul(plan.items), plan.note ? p(plan.note) : '', plan.anchor ? p(plan.anchor) : '', a(nasPlanCheckoutHref(plan), '前往結帳')]),
   h3(N2027.GUARANTEE.title),
   ...N2027.GUARANTEE.body.map(p),
   h3(N2027.BUY_STEPS_TITLE),

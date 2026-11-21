@@ -168,7 +168,8 @@ export const EXCERPT_MONTHS = {
 // 價格錨點：中間方案為主推。code 對應收款後台的商品代碼。
 // 2026-11-13：每張卡先用 who 一句話講差別，再用 includes 三列（有／沒有）讓人一眼比較，主推那張標「最推薦｜性價比最高」。
 export const PLAN_INCLUDES = ['2027 年度導航報告', '365 每天晚上的提醒', '艾瑞克一對一解讀'];
-export const PLANS_LEAD = '推薦你選中間的「全年陪跑」：地圖加上每天提醒，一天不到 1 元。';
+// 2026-11-21：原句「地圖加上每天提醒，一天不到 1 元」算式不對（1,280 除以 365 約 3.5 元），不到 1 元的是多出的 300 元。
+export const PLANS_LEAD = '推薦你選中間的「全年陪跑」：比只買報告多 300 元，一天不到 1 元。';
 export const PLAN_GUARANTEE_LINE = '不像你就重算，還是不像全額退款。';
 export const PLANS = [
   {
