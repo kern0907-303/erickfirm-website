@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>報告產生器</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F4F6FA;font-family:"Noto Sans TC",sans-serif;color:#14213D;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere;text-wrap:pretty}
+a{color:#1F5FBF}
+.wrap{max-width:1040px;margin:0 auto;padding:40px 20px 72px;display:flex;flex-direction:column;gap:22px}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.brandline{font-size:14px;letter-spacing:.2em;color:#5D6B82;font-weight:700}
+.tabs{display:flex;gap:8px}
+.tab{padding:10px 16px;border-radius:10px;background:#fff;color:#14213D;text-decoration:none;font-weight:700;font-size:14px;transition:background .15s,transform .08s}
+.tab:hover{background:#E6ECF5}.tab:active{transform:scale(.97)}.tab.on{background:#14213D;color:#fff}
+h1{margin:6px 0 0;font-size:clamp(28px,4.5vw,40px);line-height:1.3;font-weight:900;text-wrap:balance}
+h1 .c{display:inline-block;opacity:0;transform:translateY(14px);animation:up .45s ease forwards}
+@keyframes up{to{opacity:1;transform:none}}
+.lead{margin:0;font-size:16px;color:#5D6B82}
+.card{background:#fff;border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:16px;transition:box-shadow .2s}
+.card:hover{box-shadow:0 10px 28px rgba(20,33,61,.08)}
+.card h2{margin:0;font-size:18px}
+.drop{border:2px dashed #B9C5DA;border-radius:14px;padding:30px;display:flex;flex-direction:column;align-items:center;gap:6px;background:#F8FAFD;cursor:pointer;text-align:center;transition:background .15s,border-color .15s}
+.drop.over{background:#E7EFFB;border-color:#1F5FBF}
+.drop b{font-size:16px}.drop span{font-size:13px;color:#5D6B82}
+.file{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 14px;border-radius:12px;background:#F4F6FA}
+.file .ic{width:44px;height:44px;border-radius:10px;background:#14213D;color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.file .t{font-size:15px;font-weight:700}.file .m{font-size:13px;color:#5D6B82}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:640px){.grid2{grid-template-columns:1fr}}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:13px;color:#5D6B82}
+input,textarea{font-family:inherit;font-size:16px;padding:12px 14px;border:1.5px solid #D5DDEA;border-radius:10px;color:#14213D;background:#fff;width:100%}
+textarea{line-height:1.8;resize:vertical}
+input:focus,textarea:focus{outline:none;border-color:#1F5FBF}
+button{font-family:inherit;cursor:pointer;transition:transform .08s,box-shadow .15s,background .15s,opacity .15s}
+button:active{transform:scale(.96)}
+button:disabled{opacity:.55;cursor:default;transform:none}
+.btn{font-size:15px;font-weight:700;padding:12px 18px;min-height:46px;border-radius:12px;border:1.5px solid #D5DDEA;background:#fff;color:#14213D}
+.btn:hover{background:#E6ECF5}
+.btn.sel{background:#14213D;color:#fff;border-color:#14213D}
+.go{font-size:17px;font-weight:800;color:#fff;background:#1F5FBF;border:0;border-radius:14px;padding:16px 32px;min-height:56px}
+.go:hover{box-shadow:0 8px 22px rgba(31,95,191,.35)}
+.danger{color:#B42318}
+.pills{display:flex;gap:10px;flex-wrap:wrap}
+.note{font-size:13px;padding:10px 14px;border-radius:10px;background:#FFF4DE;color:#8A5A00}
+.muted{font-size:13px;color:#5D6B82}
+.row{background:#fff;border-radius:16px;padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;transition:box-shadow .2s;text-decoration:none;color:inherit}
+.row:hover{box-shadow:0 10px 28px rgba(20,33,61,.08)}
+.row .n{font-size:18px;font-weight:800}.row .n small{font-size:13px;color:#5D6B82;font-weight:700;margin-left:8px}
+.badge{font-size:13px;font-weight:700;padding:7px 13px;border-radius:20px;white-space:nowrap}
+.b-uploading{background:#EEF1F6;color:#5D6B82}.b-queued,.b-processing{background:#E7EFFB;color:#1F5FBF}
+.b-draft{background:#FFF4DE;color:#8A5A00}.b-final{background:#E3F4EA;color:#1E7A4F}.b-failed{background:#FDECEA;color:#B42318}
+.bar{height:8px;background:#E3E8F0;border-radius:6px;overflow:hidden;max-width:420px}.bar i{display:block;height:100%;background:#1F5FBF;transition:width .4s}
+.split{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.split .l{flex:1 1 380px;min-width:0}.split .r{flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:16px}
+.pdf{width:100%;aspect-ratio:210/297;border:0;border-radius:10px;background:#EEF2F8}
+.kp{display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;padding:12px;border-radius:12px;background:#F4F6FA}
+.kp i{font-style:normal;width:30px;height:30px;border-radius:50%;color:#fff;display:grid;place-items:center;font-weight:800}
+.msg{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;padding:14px;border-radius:12px;background:#F4F6FA}
+.msg p{margin:2px 0 0;white-space:pre-line;font-size:14px}
+.flag{background:#FFF4DE;border-radius:12px;padding:12px 14px;font-size:14px;display:flex;flex-direction:column;gap:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14213D;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+section{display:flex;flex-direction:column;gap:22px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brandline">ERICK 工作室｜報告產生器</div>
+    <nav class="tabs"><a class="tab" id="tab-new" href="#new">新增一次調和</a><a class="tab" id="tab-list" href="#list">處理清單</a></nav>
+  </div>
+
+  <section id="v-login" class="hidden">
+    <h1 data-anim>輸入管理 Token</h1>
+    <div class="card">
+      <label class="f">管理 Token（和收款後台同一組，只要輸入一次）<input id="token" type="password" autocomplete="current-password"></label>
+      <div><button class="go" id="save-token" type="button">進入</button></div>
+    </div>
+  </section>
+
+  <section id="v-new" class="hidden">
+    <h1 data-anim>上傳這次調和的分析清單</h1>
+    <p class="lead">一次調和做了幾份分析，就丟幾份統一清單 PDF。客人名稱、日期、焦點與品牌，Mac mini 讀完會自動帶入，你可以先空著。</p>
+    <div class="card">
+      <h2>1　統一清單 PDF（1 到 6 份）</h2>
+      <label class="drop" id="drop-list"><b>拖拉 PDF 到這裡，或點一下選檔</b><span>可一次選多份，同一次調和的分析放在一起</span><input id="pick-list" type="file" accept="application/pdf" multiple class="hidden"></label>
+      <div id="files-list" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+    <div class="card">
+      <h2>2　基本資料（可空著，讀取後自動帶入）</h2>
+      <div class="grid2">
+        <label class="f">客人名稱<input id="f-client"></label>
+        <label class="f">稱呼（通知文案用，只叫名字）<input id="f-call"></label>
+        <label class="f">調和日期<input id="f-date" placeholder="例如 2026/11/8"></label>
+        <label class="f">頻率支持期間<input id="f-plan" placeholder="例如 2026/11/8 至 2026/12/6"></label>
+      </div>
+      <div class="f" style="display:flex;flex-direction:column;gap:8px"><span class="muted">報告品牌</span>
+        <div class="pills" id="brand-pills"></div>
+        <div class="muted">選「自動判斷」時：個人用艾伯林量子調頻，企業用初八企業顧問，清單是簡體字就用上海和頻共振股份有限公司。</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>3　選填資料</h2>
+      <label class="drop" id="drop-tx"><b>這次調和的逐字稿</b><span>PDF 或文字檔，用來對照，不直接引用客人的話</span><input id="pick-tx" type="file" accept="application/pdf,text/plain" class="hidden"></label>
+      <div id="files-tx" style="display:flex;flex-direction:column;gap:10px"></div>
+      <label class="f">補充說明給 AI（例如這次的調和菜單、想特別看的方向）<textarea id="f-note" rows="3"></textarea></label>
+    </div>
+    <div class="top">
+      <div class="muted">按下後才會叫醒 Mac mini 處理，草稿好了 Telegram 會通知你。</div>
+      <button class="go" id="submit" type="button" disabled>開始產生草稿</button>
+    </div>
+  </section>
+
+  <section id="v-list" class="hidden">
+    <div class="top"><h1 data-anim>處理清單</h1><button class="btn" id="refresh" type="button">重新整理</button></div>
+    <div id="svc" class="note hidden">Mac mini 的連線還沒設定，送出的資料會先排隊，設定好後按「再叫一次 Mac mini」。</div>
+    <div id="list" style="display:flex;flex-direction:column;gap:12px"></div>
+  </section>
+
+  <section id="v-detail" class="hidden">
+    <div class="top"><h1 data-anim id="d-title">草稿</h1><span class="badge" id="d-badge"></span></div>
+    <div class="card" id="d-progress">
+      <div style="font-weight:700" id="d-step"></div>
+      <div class="bar"><i id="d-bar" style="width:0"></i></div>
+      <div class="muted">處理步驟：1 讀取與核對　2 分類　3 拼圖與三個關鍵點　4 洞見草稿　5 排版成 PDF</div>
+      <div class="pills"><button class="btn hidden" id="d-redispatch" type="button">再叫一次 Mac mini</button></div>
+    </div>
+    <div class="split" id="d-body">
+      <div class="l card"><h2>PDF 預覽</h2><iframe class="pdf" id="d-pdf" title="報告預覽"></iframe><a id="d-pdf-open" target="_blank" rel="noopener" class="muted">另開視窗看 PDF</a></div>
+      <div class="r">
+        <div class="card"><h2>基本資料</h2>
+          <div class="grid2">
+            <label class="f">客人名稱<input id="e-client"></label>
+            <label class="f">稱呼<input id="e-call"></label>
+            <label class="f">調和日期<input id="e-date"></label>
+            <label class="f">頻率支持期間<input id="e-plan"></label>
+          </div>
+          <div class="pills" id="e-brand"></div>
+        </div>
+        <div class="card" id="c-flags"><h2>讀取需要你確認</h2><div id="d-flags" style="display:flex;flex-direction:column;gap:10px"></div></div>
+        <div class="card"><h2>三個關鍵點</h2><div id="d-kps" style="display:flex;flex-direction:column;gap:10px"></div></div>
+        <div class="card"><label class="f" style="font-size:16px;font-weight:700;color:#14213D">艾瑞克的洞見（直接改這裡）<textarea id="e-insight" rows="9"></textarea></label>
+          <div class="muted">重新排版時，AI 會對照清單，把和資料出入太大的句子標出來給你看。</div></div>
+        <div class="card"><label class="f" style="font-size:16px;font-weight:700;color:#14213D">其他要修改的地方<textarea id="e-extra" rows="3" placeholder="例如：第二個關鍵點改成⋯⋯、家庭的部分不要寫"></textarea></label></div>
+        <div class="card"><h2>要傳給客人的通知</h2><div class="muted">開始時你通知我，我才排進行事曆。</div><div id="d-msgs" style="display:flex;flex-direction:column;gap:10px"></div></div>
+        <div class="card hidden" id="d-drive"><h2>已存入雲端硬碟</h2><a id="d-drive-link" target="_blank" rel="noopener">打開雲端硬碟裡的報告</a></div>
+        <div class="top">
+          <button class="btn danger" id="d-delete" type="button">刪除這筆</button>
+          <div class="pills"><button class="btn" id="d-rebuild" type="button">套用修改，重新排版</button><button class="go" id="d-final" type="button">定稿並存入雲端硬碟</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const API = "https://pay.erickfirm.com/api/tw";
+  const BRANDS = [["auto", "自動判斷"], ["abl", "艾伯林量子調頻（個人）"], ["i8", "初八企業顧問（企業）"], ["sh", "上海和頻共振股份有限公司"]];
+  const BRAND_NAME = { auto: "自動判斷", abl: "艾伯林量子調頻", i8: "初八企業顧問", sh: "上海和頻" };
+  const STATUS = { uploading: "上傳中", queued: "排隊中", processing: "處理中", draft: "草稿完成", final: "已定稿", failed: "處理失敗" };
+  const KP_COL = ["#E8634A", "#F2A93B", "#7A5CC9"];
+  const $ = (id) => document.getElementById(id);
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+    del(k) { try { localStorage.removeItem(k); } catch {} }
+  };
+  let token = store.get("tw_token") || "";
+  let current = null;        // 新增中的 session
+  let newBrand = "auto";
+  let detail = null;         // 正在看的 session
+  let detailBrand = "auto";
+  let flagChoice = {};
+  let timer = null;
+
+  function toast(text) { const t = $("toast"); t.textContent = text; t.classList.add("on"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("on"), 2200); }
+  function esc(s) { return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+  function animate(el) {
+    if (!el || el.dataset.done === el.textContent) return;
+    const txt = el.textContent; el.innerHTML = "";
+    [...txt].forEach((ch, i) => { const s = document.createElement("span"); s.className = "c"; s.textContent = ch; s.style.animationDelay = (i * 0.035) + "s"; el.appendChild(s); });
+    el.dataset.done = txt;
+  }
+  async function api(path, opts = {}) {
+    const r = await fetch(API + path, { ...opts, headers: { authorization: "Bearer " + token, ...(opts.headers || {}) } });
+    if (r.status === 401) { store.del("tw_token"); token = ""; show("login"); throw new Error("請重新輸入管理 Token"); }
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(data.error || "連線失敗");
+    return data;
+  }
+  async function busy(btn, label, fn) {
+    const old = btn.textContent; btn.disabled = true; btn.textContent = label;
+    try { await fn(); } catch (e) { toast(e.message || "發生錯誤"); } finally { btn.disabled = false; if (btn.textContent === label) btn.textContent = old; }
+  }
+  function pills(box, selected, onPick) {
+    box.innerHTML = "";
+    BRANDS.forEach(([id, label]) => {
+      const b = document.createElement("button"); b.type = "button"; b.className = "btn" + (id === selected ? " sel" : ""); b.textContent = label;
+      b.onclick = () => onPick(id); box.appendChild(b);
+    });
+  }
+  function show(view) {
+    ["login", "new", "list", "detail"].forEach((v) => $("v-" + v).classList.toggle("hidden", v !== view));
+    $("tab-new").classList.toggle("on", view === "new"); $("tab-list").classList.toggle("on", view === "list" || view === "detail");
+    document.querySelectorAll("#v-" + view + " [data-anim]").forEach(animate);
+  }
+  function planFields(text) {
+    const m = String(text || "").split(/\s*至\s*/);
+    return { plan_start: m[0] || null, plan_end: m[1] || null };
+  }
+
+  // ---------- 新增 ----------
+  function renderNewFiles() {
+    const files = current?.files || [];
+    const row = (f) => `<div class="file"><div class="ic">${f.kind === "list" ? "PDF" : "稿"}</div><div style="min-width:0"><div class="t">${esc(f.name)}</div><div class="m">${(f.bytes / 1024 / 1024).toFixed(1)} MB</div></div><button class="btn" type="button" data-rm="${esc(f.path)}">移除</button></div>`;
+    $("files-list").innerHTML = files.filter((f) => f.kind === "list").map(row).join("");
+    $("files-tx").innerHTML = files.filter((f) => f.kind === "transcript").map(row).join("");
+    document.querySelectorAll("[data-rm]").forEach((b) => b.onclick = () => busy(b, "移除中", async () => {
+      current = (await api("/session", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ id: current.id, action: "remove_file", path: b.dataset.rm }) })).session;
+      renderNewFiles();
+    }));
+    $("submit").disabled = !files.some((f) => f.kind === "list");
+  }
+  async function uploadFiles(list, kind) {
+    for (const file of list) {
+      if (kind === "list" && file.type !== "application/pdf") { toast(file.name + " 不是 PDF"); continue; }
+      const holder = $(kind === "list" ? "files-list" : "files-tx");
+      const temp = document.createElement("div"); temp.className = "file";
+      temp.innerHTML = `<div class="ic">⋯</div><div><div class="t">${esc(file.name)}</div><div class="m">上傳中</div></div><span></span>`;
+      holder.appendChild(temp);
+      try {
+        const headers = { "x-file-kind": kind, "x-file-name": encodeURIComponent(file.name) };
+        if (current?.id) headers["x-session-id"] = current.id;
+        current = (await api("/upload", { method: "POST", headers, body: file })).session;
+        store.set("tw_current", current.id);
+      } catch (e) { toast(file.name + "：" + e.message); }
+      temp.remove();
+    }
+    renderNewFiles();
+  }
+  function wireDrop(labelId, inputId, kind) {
+    const el = $(labelId), input = $(inputId);
+    input.onchange = () => { uploadFiles([...input.files], kind); input.value = ""; };
+    el.addEventListener("dragover", (e) => { e.preventDefault(); el.classList.add("over"); });
+    el.addEventListener("dragleave", () => el.classList.remove("over"));
+    el.addEventListener("drop", (e) => { e.preventDefault(); el.classList.remove("over"); uploadFiles([...e.dataTransfer.files], kind); });
+  }
+  async function openNew() {
+    show("new");
+    const id = store.get("tw_current");
+    if (id && !current) {
+      try { const s = (await api("/session?id=" + id)).session; if (s.status === "uploading") current = s; else store.del("tw_current"); } catch {}
+    }
+    pills($("brand-pills"), newBrand, function pick(b) { newBrand = b; pills($("brand-pills"), newBrand, pick); });
+    renderNewFiles();
+  }
+  $("submit").onclick = () => busy($("submit"), "送出中", async () => {
+    const body = { id: current.id, action: "submit", client_name: $("f-client").value, call_name: $("f-call").value, session_date: $("f-date").value, note: $("f-note").value, brand: newBrand, ...planFields($("f-plan").value) };
+    const r = await api("/session", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    store.del("tw_current"); current = null;
+    ["f-client", "f-call", "f-date", "f-plan", "f-note"].forEach((k) => $(k).value = "");
+    toast(r.dispatched?.accepted ? "已交給 Mac mini" : "已排隊，Mac mini 目前沒有回應");
+    location.hash = "#s=" + r.session.id;
+  });
+
+  // ---------- 清單 ----------
+  async function openList() {
+    show("list");
+    const data = await api("/sessions");
+    $("svc").classList.toggle("hidden", data.service_configured);
+    $("list").innerHTML = data.items.length ? data.items.map((s) => `<a class="row" href="#s=${s.id}"><div><div class="n">${esc(s.client_name || "（讀取後帶入名稱）")}<small>${BRAND_NAME[s.brand] || ""}｜${s.file_count} 份分析</small></div><div class="muted">${esc(s.step_label || "")}　${new Date(s.updated_at).toLocaleString("zh-TW", { hour12: false })}</div></div><span class="badge b-${s.status}">${STATUS[s.status]}</span></a>`).join("") : `<div class="muted">還沒有資料，先到「新增一次調和」上傳。</div>`;
+  }
+  $("refresh").onclick = () => busy($("refresh"), "整理中", openList);
+
+  // ---------- 單筆 ----------
+  function renderDetail(s) {
+    detail = s; detailBrand = s.brand;
+    const t = $("d-title"); t.textContent = (s.client_name || "這次調和") + "　" + (s.status === "final" ? "定稿" : "草稿"); t.dataset.done = ""; animate(t);
+    const badge = $("d-badge"); badge.className = "badge b-" + s.status; badge.textContent = STATUS[s.status];
+    const working = ["queued", "processing"].includes(s.status);
+    $("d-progress").classList.toggle("hidden", !working && s.status !== "failed");
+    $("d-step").textContent = s.step_label || STATUS[s.status];
+    $("d-bar").style.width = Math.min(100, (s.step || 0) * 20) + "%";
+    $("d-redispatch").classList.toggle("hidden", s.status !== "queued" || !s.error);
+    $("d-body").classList.toggle("hidden", !s.draft && !s.pdf_url);
+    if (s.pdf_url) { $("d-pdf").src = s.pdf_url; $("d-pdf-open").href = s.pdf_url; }
+    $("e-client").value = s.client_name || ""; $("e-call").value = s.call_name || ""; $("e-date").value = s.session_date || "";
+    $("e-plan").value = [s.plan_start, s.plan_end].filter(Boolean).join(" 至 ");
+    pills($("e-brand"), detailBrand, function pick(b) { detailBrand = b; pills($("e-brand"), detailBrand, pick); });
+    const d = s.draft || {}; const ed = s.edits || {};
+    flagChoice = { ...(ed.flags || {}) };
+    const flags = d.flags || [];
+    $("c-flags").classList.toggle("hidden", !flags.length);
+    $("d-flags").innerHTML = flags.map((f) => `<div class="flag"><div>${esc(f.text)}</div><div class="pills">${(f.options || []).map((o) => `<button type="button" class="btn${flagChoice[f.id] === o ? " sel" : ""}" data-flag="${esc(f.id)}" data-opt="${esc(o)}">${esc(o)}</button>`).join("")}</div></div>`).join("");
+    document.querySelectorAll("[data-flag]").forEach((b) => b.onclick = () => {
+      flagChoice[b.dataset.flag] = b.dataset.opt;
+      document.querySelectorAll(`[data-flag="${CSS.escape(b.dataset.flag)}"]`).forEach((x) => x.classList.toggle("sel", x === b));
+    });
+    $("d-kps").innerHTML = (d.keypoints || []).map((k, i) => `<div class="kp"><i style="background:${KP_COL[i % 3]}">${i + 1}</i><div><b>${esc(k.title)}</b><div class="muted">${esc(k.ev || k.sub || "")}</div></div></div>`).join("") || `<div class="muted">草稿完成後顯示</div>`;
+    $("e-insight").value = ed.insight ?? (Array.isArray(d.insight) ? d.insight.join("\n\n") : (d.insight || ""));
+    $("e-extra").value = ed.extra || "";
+    $("d-msgs").innerHTML = (d.notifications || []).map((n, i) => `<div class="msg"><div><b>${esc(n.when)}</b><p>${esc(n.text)}</p></div><button class="btn" type="button" data-copy="${i}">複製</button></div>`).join("") || `<div class="muted">草稿完成後顯示</div>`;
+    document.querySelectorAll("[data-copy]").forEach((b) => b.onclick = async () => {
+      try { await navigator.clipboard.writeText(d.notifications[+b.dataset.copy].text); b.textContent = "已複製"; setTimeout(() => b.textContent = "複製", 1800); } catch { toast("複製失敗，請手動選取"); }
+    });
+    $("d-drive").classList.toggle("hidden", !s.drive_url); if (s.drive_url) $("d-drive-link").href = s.drive_url;
+    const locked = working;
+    ["d-rebuild", "d-final"].forEach((k) => $(k).disabled = locked || !["draft", "final"].includes(s.status));
+    clearTimeout(timer);
+    if (working) timer = setTimeout(() => openDetail(s.id, true), 20000);
+  }
+  async function openDetail(id, silent) {
+    if (!silent) show("detail");
+    try { renderDetail((await api("/session?id=" + id)).session); } catch (e) { toast(e.message); }
+  }
+  function editsPayload(action) {
+    return { id: detail.id, action, brand: detailBrand, client_name: $("e-client").value, call_name: $("e-call").value, session_date: $("e-date").value, ...planFields($("e-plan").value), edits: { flags: flagChoice, insight: $("e-insight").value, extra: $("e-extra").value } };
+  }
+  async function send(action) {
+    const r = await api("/session", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(editsPayload(action)) });
+    toast(r.dispatched?.accepted ? "已交給 Mac mini" : "已排隊，Mac mini 目前沒有回應");
+    renderDetail(r.session);
+  }
+  $("d-rebuild").onclick = () => busy($("d-rebuild"), "送出中", () => send("rebuild"));
+  $("d-final").onclick = () => busy($("d-final"), "送出中", () => send("finalize"));
+  $("d-redispatch").onclick = () => busy($("d-redispatch"), "呼叫中", async () => {
+    const r = await api("/session", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ id: detail.id, action: "redispatch" }) });
+    toast(r.dispatched?.accepted ? "已交給 Mac mini" : "Mac mini 還是沒有回應"); renderDetail(r.session);
+  });
+  $("d-delete").onclick = () => {
+    if (!confirm("確定刪除這筆？上傳的清單和報告都會一起刪掉，無法復原。")) return;
+    busy($("d-delete"), "刪除中", async () => {
+      await api("/session", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ id: detail.id, action: "delete" }) });
+      toast("已刪除"); location.hash = "#list";
+    });
+  };
+
+  // ---------- 登入與路由 ----------
+  $("save-token").onclick = () => { token = $("token").value.trim(); if (!token) return; store.set("tw_token", token); route(); };
+  function route() {
+    clearTimeout(timer);
+    if (!token) return show("login");
+    const h = location.hash || "#list";
+    if (h === "#new") return openNew().catch((e) => toast(e.message));
+    if (h.startsWith("#s=")) return openDetail(h.slice(3));
+    return openList().catch((e) => toast(e.message));
+  }
+  wireDrop("drop-list", "pick-list", "list");
+  wireDrop("drop-tx", "pick-tx", "transcript");
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+</body>
+</html>
